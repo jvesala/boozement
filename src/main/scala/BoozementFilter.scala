@@ -9,7 +9,7 @@ class BoozementFilter extends ScalatraFilter {
     <html>
       <body>
         <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello</a>.
+        Say hello!
       </body>
     </html>
   }
