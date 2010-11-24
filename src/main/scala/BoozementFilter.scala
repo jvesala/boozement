@@ -3,8 +3,12 @@
 import org.scalatra._
 import java.net.URL
 
-class BoozementFilter extends ScalatraFilter {
-  
+class BoozementServlet extends ScalatraServlet {
+
+  before {
+    contentType = "text/html"
+  }
+
   get("/") {
     <html>
       <body>
@@ -14,7 +18,16 @@ class BoozementFilter extends ScalatraFilter {
     </html>
   }
 
+  get("/insert-page/") {
+    <div>insertpage</div>
+  }
+
+
   notFound {
     <html><body>notfound</body></html>
+  }
+
+  error {
+    <html><body>we have error here now</body></html>
   }
 }
