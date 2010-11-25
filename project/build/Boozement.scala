@@ -10,6 +10,6 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val servlet = "javax.servlet" % "servlet-api" % "2.5" % "provided->default"
 
   val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
-
+  val mysql = "mysql" % "mysql-connector-java" % "5.1.13" % "test->default"
 }
 
