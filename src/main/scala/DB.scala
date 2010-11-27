@@ -1,43 +1,30 @@
-import org.scalaquery.ql.extended.MySQLDriver
 import org.scalaquery._
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
 import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable}
 import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.ql.basic.BasicDriver
-import org.scalaquery.ql.basic.BasicDriver.Implicit._
-import org.scalaquery.ql.basic.{BasicTable => Table}
 import org.scalaquery.util.NamingContext
+import org.scalaquery.ql.extended.MySQLDriver
+import org.scalaquery.ql.extended.MySQLDriver.Implicit._
+import org.scalaquery.ql.basic.{BasicTable => Table}
 
 object InitDatabase {
-	
-  def main(args: Array[String]) {
+  def apply() {
     println("Init database")
     DB.db withSession {
-      (Users.ddl).createStatements.foreach(println)
+	    import org.scalaquery.simple.StaticQuery.updateNA
+	    updateNA("DROP TABLE IF EXISTS users").execute
+			(Users.ddl) create
     }
   }
-//    val sf = new DriverManagerSessionFactory(DatabaseSettings.dbUrl, DatabaseSettings.dbDriver)
-//    val dropTable = updateNA("DROP TABLE IF EXISTS tracks")
-//    val createTable = updateNA("CREATE TABLE tracks (id INTEGER NOT NULL AUTO_INCREMENT,filename VARCHAR(1024) NOT NULL,length INTEGER NOT NULL,artist VARCHAR(1024) NOT NULL,album VARCHAR(1024) NOT NULL,title VARCHAR(1024) NOT NULL,trackNumber VARCHAR(1024) NOT NULL, PRIMARY KEY(ID))")
-//    sf withSession {
-//      getThreadSession.withTransaction {
-//        println("Dropping existing table" + dropTable())
-//        println("Creating user table: " + createTable())
-//      }
-//    }
-//  }
 }
-
 
 object DB {
   val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
- 
-
 }
 
 object Users extends Table[(Int, String, String, String)]("users") {
-  def id = column[Int]("id")
+  def id = column[Int]("id", O PrimaryKey)
 
   def username = column[String]("username")
 
@@ -50,8 +37,8 @@ object Users extends Table[(Int, String, String, String)]("users") {
 
 
 /**
-drop database moozement;
-create database moozement;
+drop database boozement;
+create database boozement;
 grant all on boozement.* to 'boozement'@'%' identified by 'boozement';
 grant all on boozement.* to 'boozement'@'localhost' identified by 'boozement';
 **/
