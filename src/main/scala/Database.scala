@@ -1,4 +1,5 @@
 import org.scalaquery.ql.extended.MySQLDriver
+import org.scalaquery._
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
 import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable}
@@ -8,14 +9,11 @@ import org.scalaquery.ql.basic.BasicDriver.Implicit._
 import org.scalaquery.ql.basic.{BasicTable => Table}
 import org.scalaquery.util.NamingContext
 
-
-
 object InitDatabase {
+	
   def main(args: Array[String]) {
-    println("Init")
-    val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "MySQLDriver")
-
-    db withSession {
+    println("Init database")
+    DB.db withSession {
       (Users.ddl).createStatements.foreach(println)
     }
   }
@@ -32,10 +30,9 @@ object InitDatabase {
 }
 
 
-class Database {
-
- // val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "MySQLDriver")
-
+object DB {
+  val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
+ 
 
 }
 
