@@ -25,13 +25,9 @@ object DB {
 
 object Users extends Table[(Int, String, String, String)]("users") {
   def id = column[Int]("id", O PrimaryKey)
-
   def username = column[String]("username")
-
   def first = column[String]("first")
-
   def last = column[String]("last")
-
   def * = id ~ username ~ first ~ last
 }
 

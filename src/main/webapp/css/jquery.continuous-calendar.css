@@ -1,0 +1,191 @@
+/* ==============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+/*
+ * @author Karri-Pekka Laakso (kplaakso)
+ * @author Eero Anttila (eeroan)
+ */
+
+.continuousCalendar {
+  clear: both;
+  background: white;
+}
+
+a.calendarIcon span {
+  display: none;
+}
+
+a.calendarIcon {
+  display: block;
+  background: url("calendar.gif") no-repeat 0 0;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+
+.popup {
+  position: absolute;
+  z-index: 99;
+}
+
+.continuousCalendar table {
+  font-family: Arial, Verdana, sans-serif;
+  font-size: 8pt;
+  color: black;
+  background-color: white;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 200px;
+}
+
+.continuousCalendar .calendarHeader {
+  border: 1px solid #999999;
+  border-bottom: none;
+  text-align: center;
+  position: relative;
+  width: 202px;
+}
+
+.popup .calendarHeader {
+  width: 220px;
+}
+
+.continuousCalendar .calendarHeader a {
+  background: url("close.gif") no-repeat 0 0;
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.continuousCalendar .calendarHeader a span {
+  display: none;
+}
+
+.continuousCalendar .calendarHeader .weekDay,
+.continuousCalendar .calendarBody td {
+  text-align: right;
+  padding: 1px;
+  padding-right: 3px;
+}
+
+.calendarScrollContent {
+  overflow-y: auto;
+  width: 218px;
+  height: 100px;
+  border: 1px solid #999999;
+  position: relative;
+}
+
+.continuousCalendar .calendarBody td {
+  cursor: pointer;
+}
+
+.continuousCalendar .month {
+  width: 53px;
+}
+
+.continuousCalendar .week {
+  border-right: 1px solid #888888;
+  width: 15px;
+  font-size: 7pt;
+}
+
+.continuousCalendar .range .week,
+.continuousCalendar .range .month {
+  cursor: pointer;
+}
+
+.continuousCalendar .range .selected:hover {
+  cursor: move;
+}
+
+.continuousCalendar .calendarHeader .month {
+  text-align: center;
+}
+
+.continuousCalendar .calendarBody th {
+  font-weight: normal;
+}
+
+.continuousCalendar .calendarBody .month {
+  text-align: left;
+}
+
+.continuousCalendar td:hover {
+  font-weight: bold;
+  color: blue;
+}
+
+.continuousCalendar table .odd {
+  background-color: #e8e8e8;
+}
+
+.continuousCalendar td.today {
+  border: 1px solid red;
+}
+
+.continuousCalendar td.selected {
+  background: #0041c4;
+  color: white;
+}
+
+.continuousCalendar .range td.rangeStart {
+  /*background-image:url("start.gif");
+  background-repeat:no-repeat;
+  background-position:left top;
+  */
+}
+
+.continuousCalendar .range td {
+  cursor: w-resize;
+  cursor: ew-resize;
+}
+
+.continuousCalendar .range td.rangeStart:hover {
+  cursor: w-resize;
+  cursor: ew-resize;
+}
+
+.continuousCalendar .range  td.rangeEnd {
+  /*background-image:url("end.gif");
+  background-repeat:no-repeat;
+  background-position:0 1px;
+  */
+}
+
+.continuousCalendar .range  td.rangeEnd:hover {
+  cursor: e-resize;
+  cursor: ew-resize;
+}
+
+input.endDate,
+input.startDate {
+  display: none;
+}
+
+.continuousCalendar td.disabled {
+  color: gray;
+}
+
+div.label {
+  height: 1em;
+  margin-left: 5pt;
+  margin-bottom: 2pt;
+  float: left;
+
+}
+
+div.label span {
+  font-size: 10pt;
+}

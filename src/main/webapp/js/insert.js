@@ -6,7 +6,7 @@ function openInsertPage() {
       $('#content').html(html);
     },
     error: function(data) {
-      $('#content').html("error!");
+      $('#content').html("Insert page error!");
     }
   })
 }
