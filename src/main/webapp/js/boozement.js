@@ -12,5 +12,5 @@ function openInsertPage() {
 }
 
 $(function () {
-  openInsertPage();
+  //openInsertPage();
 });

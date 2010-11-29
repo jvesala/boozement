@@ -17,18 +17,6 @@ class BoozementServlet extends ScalatraServlet {
   }
 
   get("/insert-page/") {
-    <div id="insertpage">
-      <div id="dateRange1">
-		    <input type="hidden" class="startDate" name="5/15/2009" />
-		  </div>
-		  <script type="text/javascript" language="JavaScript">
-		    alert("ready2");
-		    $(function () &#123;
-		    
-          $("#dateRange1").continuousCalendar(&#123;weeksBefore: 60,weeksAfter: 1&#125;); 
-        (&#125;);
-      </script>
-    </div>
   }
 
   notFound {
