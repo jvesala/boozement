@@ -1,16 +1,22 @@
-function openInsertPage() {
-  $.ajax({
-    url: "/api/insert-page/",
-    cache: false,
-    success: function(html) {
-      $('#content').html(html);
-    },
-    error: function(data) {
-      $('#content').html("Insert page error!");
-    }
-  })
+function showInsertTab() {
+  $('#tab-history').hide();
+  $('.tab-header-history').removeClass("selected");
+  $('#tab-insert').fadeIn();
+  $('.tab-header-insert').addClass("selected");
+}
+
+function showHistoryTab() {
+  $('#tab-insert').hide();
+  $('.tab-header-insert').removeClass("selected");
+  $('#tab-history').fadeIn();
+  $('.tab-header-history').addClass("selected");
 }
 
 $(function () {
-  //openInsertPage();
+  function initTabs() {
+    $('.tab-header-insert').click(function() { showInsertTab(); });
+    $('.tab-header-history').click(function() { showHistoryTab(); });
+  }
+  initTabs();
+  showInsertTab();
 });

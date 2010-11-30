@@ -14,10 +14,13 @@
 </head>
 <body>
   <div id="page">
-    <div id="page-header" />
+    <div id="page-header" />    
+    <div class="tab tab-header-insert">Syötä</div>
+    <div class="tab tab-header-history">Historia</div>
     <div id="page-content">
-      aaaa
-      <div id="insertpage">
+      <div id="tab-insert" class="hidden">
+        insert-tab
+<!--      
         <div id="date">
           <input type="hidden" class="startDate" name="5/15/2009" />
         </div>
@@ -26,8 +29,11 @@
           $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1});
         });
         </script>
+        -->              
       </div>
-
+      <div id="tab-history" class="hidden">
+        history-tab
+      </div>
     </div>
 
   </div>
