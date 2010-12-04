@@ -6,6 +6,8 @@
   <title>Boozement</title>
   <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="/js/date-functions.js"></script>
+  <script type="text/javascript" src="/js/date-locales.js"></script>
+  <script type="text/javascript" src="/js/date-range.js"></script>
   <script type="text/javascript" src="/js/jquery.continuous-calendar.js"></script>
   <script type="text/javascript" src="/js/boozement.js"></script>
   <link rel="stylesheet" href="/css/jquery.continuous-calendar.css" type="text/css" media="screen" />
@@ -18,19 +20,19 @@
     <div class="tab-header tab-header-insert">Syötä</div>
     <div class="tab-header tab-header-history">Historia</div>
     <div id="page-content">
+
       <div id="tab-insert" class="tab hidden">
-        insert-tab
-<!--      
         <div id="date">
-          <input type="hidden" class="startDate" name="5/15/2009" />
+          <input type="hidden" class="startDate" />
         </div>
         <script type="text/javascript" language="JavaScript">
         $(function () {
-          $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1});
+          $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
         });
         </script>
-        -->              
+
       </div>
+
       <div id="tab-history" class="tab hidden">
         history-tab
       </div>

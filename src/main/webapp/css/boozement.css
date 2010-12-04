@@ -12,13 +12,12 @@ body { width: 100%; height: 100%; }
 }
 
 #page-content {
-  background-color: red;
   border: 1px solid black;
   position: absolute;
   top: 50px;
   left: 0;
   width: 800px;
-  height: 50px;
+  height: 400px;
   overflow: auto;
   -moz-border-radius: 0px 3px 3px 3px;
 }
@@ -41,5 +40,14 @@ body { width: 100%; height: 100%; }
 .tab-header.selected { background: green; }
 
 .hidden { display: none; }
-.calendarScrollContent { height: 150px; }
+
+
+a.calendarIcon {
+    background: url("/img/calendar.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 16px;
+    width: 16px;
+}
+
 
