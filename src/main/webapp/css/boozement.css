@@ -23,7 +23,7 @@ body { width: 100%; height: 100%; }
   -moz-border-radius: 0px 3px 3px 3px;
 }
 
-.tab {
+.tab-header {
   font-size: 12px;  
   position: absolute;
   top: 20px;
@@ -38,7 +38,7 @@ body { width: 100%; height: 100%; }
 }
 .tab-header-insert { left: 0; width: 40px; }
 .tab-header-history { left: 60px; width: 55px; }
-.tab.selected { background: green; }
+.tab-header.selected { background: green; }
 
 .hidden { display: none; }
 .calendarScrollContent { height: 150px; }

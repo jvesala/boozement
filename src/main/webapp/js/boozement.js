@@ -1,13 +1,16 @@
+function hideTabs() { $('.tab').each(function() { $(this).hide() }); }
+function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
+
 function showInsertTab() {
-  $('#tab-history').hide();
-  $('.tab-header-history').removeClass("selected");
+  hideTabs();
+  deSelectTabHeader();
   $('#tab-insert').fadeIn();
   $('.tab-header-insert').addClass("selected");
 }
 
 function showHistoryTab() {
-  $('#tab-insert').hide();
-  $('.tab-header-insert').removeClass("selected");
+  hideTabs();
+  deSelectTabHeader();
   $('#tab-history').fadeIn();
   $('.tab-header-history').addClass("selected");
 }
