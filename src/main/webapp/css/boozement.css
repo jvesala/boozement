@@ -41,13 +41,13 @@ body { width: 100%; height: 100%; }
 
 .hidden { display: none; }
 
-
-a.calendarIcon {
-    background: url("/img/calendar.gif") no-repeat scroll 0 0 transparent;
-    display: block;
-    float: left;
-    height: 16px;
-    width: 16px;
-}
+#form-insert { border: 1px solid black; padding: 5px 0 0 5px; margin: 10px 0 0 10px; width: 300px; }
+#form-insert a.calendarIcon { background: url("/img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
+#form-insert #date {  }
+#form-insert #time { width: 60px; margin-left: 10px; }
+#form-insert label { padding-top: 10px; }
+#form-insert #type { padding-left: 10px; width: 100px; }
+#form-insert #amount { padding-left: 10px; width: 30px; }
+#form-insert #submit { margin-left: 90px; }
 
 

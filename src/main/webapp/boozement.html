@@ -22,15 +22,25 @@
     <div id="page-content">
 
       <div id="tab-insert" class="tab hidden">
-        <div id="date">
-          <input type="hidden" class="startDate" />
-        </div>
-        <script type="text/javascript" language="JavaScript">
-        $(function () {
-          $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
-        });
-        </script>
-
+        <form id="form-insert" action="/insert" method="post">
+          <div id="date">
+            <input type="hidden" class="startDate"/>
+          </div>
+          <script type="text/javascript" language="JavaScript">
+            $(function () {
+              $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
+            });
+          </script>
+          <input id="time" name="time" maxlength="5" />
+          <br/>
+          <label for="type">Mitä joit</label>
+          <input id="type" name="type" />
+          <br/>
+          <label for="amount">Annosmäärä</label>
+          <input id="amount" name="amount" />
+          <br/>
+          <input type="submit" id="submit" value="Lisää annos" />
+        </form>
       </div>
 
       <div id="tab-history" class="tab hidden">
