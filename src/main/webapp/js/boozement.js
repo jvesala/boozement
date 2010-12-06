@@ -25,8 +25,8 @@ function showHistoryTab() {
   $('.tab-header-history').addClass("selected");
 }
 
-function showBusy() { $('busy').show(); }
-function hideBusy() { $('busy').hide(); }
+function showBusy() { $('.busy').show(); }
+function hideBusy() { $('.busy').hide(); }
 function enableSubmitButton() { $('input[type=submit]').removeAttr("disabled") }
 function disableSubmitButton() { $('input[type=submit]').attr("disabled", "disabled") }
 
