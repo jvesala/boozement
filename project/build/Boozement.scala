@@ -8,6 +8,7 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val scalatra = "org.scalatra" %% "scalatra" % "2.0.0.M2"
   val scalatest = "org.scalatra" %% "scalatra-scalatest" % "2.0.0.M2" % "test"
   val servlet = "javax.servlet" % "servlet-api" % "2.5" % "provided->default"
+  val liftJson = "net.liftweb" % "lift-json_2.8.0" % "2.1"
 
   val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
   val mysql = "mysql" % "mysql-connector-java" % "5.1.13"

@@ -1,11 +1,10 @@
 import org.scalatra._
-import java.net.URL
+import net.liftweb.json.JsonAST._
+import net.liftweb.json.JsonDSL._
+
+
 
 class BoozementServlet extends ScalatraServlet {
-
-  before {
-    contentType = "text/html"
-  }
 
   get("/") {
     <html>
@@ -16,7 +15,14 @@ class BoozementServlet extends ScalatraServlet {
     </html>
   }
 
-  get("/insert-page/") {
+  before {
+    Thread.sleep(1000)
+  }
+
+  post("/insert") {
+    contentType = "applications/json"
+    val json =  ("status" -> "ok")
+    compact(render(json))
   }
 
   notFound {

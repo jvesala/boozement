@@ -11,7 +11,9 @@ function getCurrentTime() {
 function showInsertTab() {
   hideTabs();
   deSelectTabHeader();
+  resetSubmitStatus();
   $('#time').val(getCurrentTime());
+  $('#result').html("");
   $('#tab-insert').fadeIn();
   $('.tab-header-insert').addClass("selected");
 }
@@ -23,11 +25,39 @@ function showHistoryTab() {
   $('.tab-header-history').addClass("selected");
 }
 
+function showBusy() { $('busy').show(); }
+function hideBusy() { $('busy').hide(); }
+function enableSubmitButton() { $('input[type=submit]').removeAttr("disabled") }
+function disableSubmitButton() { $('input[type=submit]').attr("disabled", "disabled") }
+
+function preSubmit() {
+  disableSubmitButton();
+  showBusy();
+}
+function resetSubmitStatus() {
+  hideBusy();
+  enableSubmitButton();
+}
+
 $(function () {
   function initTabs() {
     $('.tab-header-insert').click(function() { showInsertTab(); });
     $('.tab-header-history').click(function() { showHistoryTab(); });
   }
+  function initInsertForm() {
+    $('#form-insert').submit(function() {
+      $(this).ajaxSubmit({
+        beforeSubmit: preSubmit,
+        dataType: 'json',
+        success: function(json) {
+          resetSubmitStatus();
+          $('#result').html(json.status);
+        }
+      });
+      return false;
+    });
+  }
   initTabs();
+  initInsertForm();
   showInsertTab();
 });

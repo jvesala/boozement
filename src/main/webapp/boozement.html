@@ -9,6 +9,7 @@
   <script type="text/javascript" src="/js/date-locales.js"></script>
   <script type="text/javascript" src="/js/date-range.js"></script>
   <script type="text/javascript" src="/js/jquery.continuous-calendar.js"></script>
+  <script type="text/javascript" src="/js/jquery.form.js"></script>
   <script type="text/javascript" src="/js/boozement.js"></script>
   <link rel="stylesheet" href="/css/jquery.continuous-calendar.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" />
@@ -22,9 +23,9 @@
     <div id="page-content">
 
       <div id="tab-insert" class="tab hidden">
-        <form id="form-insert" action="/insert" method="post">
+        <form id="form-insert" action="/api/insert" method="post">
           <div id="date">
-            <input type="hidden" class="startDate"/>
+            <input type="hidden" name="startDate" class="startDate"/>
           </div>
           <script type="text/javascript" language="JavaScript">
             $(function () {
@@ -41,6 +42,7 @@
           <br/>
           <input type="submit" id="submit" value="Lisää annos" />
         </form>
+        <div id="result"></div>
       </div>
 
       <div id="tab-history" class="tab hidden">
