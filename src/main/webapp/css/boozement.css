@@ -42,13 +42,14 @@ body { width: 100%; height: 100%; }
 .hidden { display: none; }
 .busy { background: url("/img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 
-#form-insert { border: 1px solid black; padding: 5px 0 0 5px; margin: 10px 0 0 10px; width: 300px; }
+#form-insert { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 250px; overflow: auto;  }
 #form-insert a.calendarIcon { background: url("/img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
-#form-insert #date {  }
-#form-insert #time { width: 60px; margin-left: 10px; }
-#form-insert label { padding-top: 10px; }
-#form-insert #type { padding-left: 10px; width: 100px; }
-#form-insert #amount { padding-left: 10px; width: 30px; }
-#form-insert #submit { margin-left: 90px; }
+#form-insert #time { float: right; width: 50px; margin-right: 80px; }
+#form-insert label { float: left; width: 100px;  padding-top: 10px; }
+#form-insert #type { float: right; width: 130px; }
+#form-insert #amount { float: right; width: 30px; margin-right: 100px; }
+#form-insert #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
+#form-insert .busy { float: right; margin-top: 15px; margin-right: 5px; }
+#result { clear: left; }
 
 
