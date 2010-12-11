@@ -4,15 +4,21 @@
 <html>
 <head>
   <title>Boozement</title>
-  <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="/js/date-functions.js"></script>
-  <script type="text/javascript" src="/js/date-locales.js"></script>
-  <script type="text/javascript" src="/js/date-range.js"></script>
-  <script type="text/javascript" src="/js/jquery.continuous-calendar.js"></script>
-  <script type="text/javascript" src="/js/jquery.form.js"></script>
-  <script type="text/javascript" src="/js/boozement.js"></script>
-  <link rel="stylesheet" href="/css/jquery.continuous-calendar.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="js/rx.js"></script>
+  <script type="text/javascript" src="js/rx.jQuery.js"></script>
+  <script type="text/javascript" src="js/rx.html.js"></script>
+  <script type="text/javascript" src="js/rx.aggregates.js"></script>
+  <script type="text/javascript" src="js/date-functions.js"></script>
+  <script type="text/javascript" src="js/date-locales.js"></script>
+  <script type="text/javascript" src="js/date-range.js"></script>
+  <script type="text/javascript" src="js/jquery.continuous-calendar.js"></script>
+  <script type="text/javascript" src="js/jquery.form.js"></script>
+  <script type="text/javascript" src="js/validation.js"></script>
+  <script type="text/javascript" src="js/boozement.js"></script>
+  <script type="text/javascript" src="js/boozement-validation.js"></script>
   <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/css/jquery.continuous-calendar.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/css/boozement.css" type="text/css" media="screen" />
 </head>
 <body>
@@ -21,8 +27,7 @@
     <div class="tab-header tab-header-insert">Syötä</div>
     <div class="tab-header tab-header-history">Historia</div>
     <div id="page-content">
-
-      <div id="tab-insert" class="tab hidden">
+      <div id="tab-insert" class="tab">
         <form id="form-insert" action="/api/insert" method="post">
           <div id="date">
             <input type="hidden" name="startDate" class="startDate"/>
@@ -33,6 +38,7 @@
             });
           </script>
           <input id="time" name="time" maxlength="5" />
+          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
           <label for="type">Mitä joit</label>
           <input id="type" name="type" />
           <label for="amount">Annosmäärä</label>
@@ -44,7 +50,7 @@
         <div id="result"></div>
       </div>
 
-      <div id="tab-history" class="tab hidden">
+      <div id="tab-history" class="tab">
         history-tab
       </div>
     </div>

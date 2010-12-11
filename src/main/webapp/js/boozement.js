@@ -59,5 +59,5 @@ $(function () {
   }
   initTabs();
   initInsertForm();
-  showInsertTab();
+  //showInsertTab();
 });

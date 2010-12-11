@@ -5,7 +5,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
-
   <servlet>
     <servlet-name>scalatra</servlet-name>
     <servlet-class>BoozementServlet</servlet-class>
@@ -16,11 +15,9 @@
     <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
 
+  <!--
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/*</url-pattern>
-    <url-pattern>/images/*</url-pattern>
-    <url-pattern>/css/*</url-pattern>
-    <url-pattern>/js/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
 </web-app>
