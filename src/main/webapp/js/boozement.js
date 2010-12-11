@@ -1,6 +1,5 @@
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
-function setPageContent() { return function(content) { $('#page-content').html(content); } }
-function debugPrint() { return function(content) { console.log(content); } }
+function setPageContent() { return function(content) { $('#page-content div').detach(); $('#page-content').append(content); } }
 
 function getUrlAsObservable(url) {
   return $.ajaxAsObservable({ url: url, cache: false})
