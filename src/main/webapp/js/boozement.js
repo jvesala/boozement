@@ -1,28 +1,17 @@
-function hideTabs() { $('.tab').each(function() { $(this).hide() }); }
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
+function setPageContent() { return function(content) { $('#page-content').html(content); } }
+function debugPrint() { return function(content) { console.log(content); } }
 
-function getCurrentTime() {
-  var now = new Date();
-  var hours = (now.getHours() > 10) ? now.getHours() : "0"  + now.getHours();
-  var minutes = (now.getMinutes() > 10) ? now.getMinutes() : "0"  + now.getMinutes();
-  return hours + ":" + minutes;
+function getUrlAsObservable(url) {
+  return $.ajaxAsObservable({ url: url, cache: false})
+      .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
+      .Select(function(d) { return d.data; });
 }
-
-function showInsertTab() {
-  hideTabs();
+function showTab(tabHeader, url) {
   deSelectTabHeader();
-  resetSubmitStatus();
-  $('#time').val(getCurrentTime());
-  $('#result').html("");
-  $('#tab-insert').fadeIn();
-  $('.tab-header-insert').addClass("selected");
-}
-
-function showHistoryTab() {
-  hideTabs();
-  deSelectTabHeader();
-  $('#tab-history').fadeIn();
-  $('.tab-header-history').addClass("selected");
+  tabHeader.addClass("selected");
+  var source = getUrlAsObservable(url);
+  source.Subscribe(setPageContent());
 }
 
 function showBusy() { $('.busy').show(); }
@@ -41,23 +30,9 @@ function resetSubmitStatus() {
 
 $(function () {
   function initTabs() {
-    $('.tab-header-insert').click(function() { showInsertTab(); });
-    $('.tab-header-history').click(function() { showHistoryTab(); });
-  }
-  function initInsertForm() {
-    $('#form-insert').submit(function() {
-      $(this).ajaxSubmit({
-        beforeSubmit: preSubmit,
-        dataType: 'json',
-        success: function(json) {
-          resetSubmitStatus();
-          $('#result').html(json.status);
-        }
-      });
-      return false;
-    });
+    $('.tab-header-insert').click(function() { showTab($(this), "insert.html"); });
+    $('.tab-header-history').click(function() { showTab($(this), "history.html"); });
   }
   initTabs();
-  initInsertForm();
   //showInsertTab();
 });

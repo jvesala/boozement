@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Boozement</title>
+  <script type="text/javascript" src="js/insert.js"></script>
+  <script type="text/javascript" src="js/validation-insert.js"></script>
+</head>
+<body>
+      <div id="tab-insert" class="tab">
+        <form id="form-insert" action="/api/insert" method="post">
+          <div id="date">
+            <input type="hidden" name="startDate" class="startDate"/>
+          </div>
+          <script type="text/javascript" language="JavaScript">
+            $(function () {
+              $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
+            });
+          </script>
+          <input id="time" name="time" maxlength="5" />
+          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
+          <label for="type">Mitä joit</label>
+          <input id="type" name="type" />
+          <label for="amount">Annosmäärä</label>
+          <input id="amount" name="amount" />
+          <input type="submit" id="submit" value="Lisää annos" />
+          <div class="busy hidden"></div>
+        </form>
+        <br/>
+        <div id="result"></div>
+      </div>
+</body>
+</html>

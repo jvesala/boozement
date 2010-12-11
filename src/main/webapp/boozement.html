@@ -16,7 +16,6 @@
   <script type="text/javascript" src="js/jquery.form.js"></script>
   <script type="text/javascript" src="js/validation.js"></script>
   <script type="text/javascript" src="js/boozement.js"></script>
-  <script type="text/javascript" src="js/boozement-validation.js"></script>
   <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/css/jquery.continuous-calendar.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/css/boozement.css" type="text/css" media="screen" />
@@ -27,34 +26,8 @@
     <div class="tab-header tab-header-insert">Syötä</div>
     <div class="tab-header tab-header-history">Historia</div>
     <div id="page-content">
-      <div id="tab-insert" class="tab">
-        <form id="form-insert" action="/api/insert" method="post">
-          <div id="date">
-            <input type="hidden" name="startDate" class="startDate"/>
-          </div>
-          <script type="text/javascript" language="JavaScript">
-            $(function () {
-              $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
-            });
-          </script>
-          <input id="time" name="time" maxlength="5" />
-          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
-          <label for="type">Mitä joit</label>
-          <input id="type" name="type" />
-          <label for="amount">Annosmäärä</label>
-          <input id="amount" name="amount" />
-          <input type="submit" id="submit" value="Lisää annos" />
-          <div class="busy"></div>
-        </form>
-        <br/>
-        <div id="result"></div>
-      </div>
-
-      <div id="tab-history" class="tab">
-        history-tab
-      </div>
+      Tervetuloa.
     </div>
-
   </div>
 </body>
 </html>
