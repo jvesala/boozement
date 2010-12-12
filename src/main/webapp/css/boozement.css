@@ -52,7 +52,7 @@ body { width: 100%; height: 100%; }
 #form-insert #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
 #form-insert .busy { float: right; margin-top: 15px; margin-right: 5px; }
 #form-insert em { float: right;}
-#form-insert .invalid { border: 1px solid red; }
+#form-insert .invalid { color: red; }
 #form-insert .error { color: red; }
 #result { clear: left; }
 
