@@ -55,6 +55,6 @@ body { width: 100%; height: 100%; }
 #form-insert em { float: right;}
 #form-insert .invalid { color: red; }
 #form-insert .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
-#result { clear: left; }
+#form-insert #result { clear: left; color: green; padding-top: 15px; }
 
 
