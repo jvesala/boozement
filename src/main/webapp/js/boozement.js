@@ -2,7 +2,7 @@ function deSelectTabHeader() { $('.tab-header').each(function() { $(this).remove
 function setPageContent() { return function(content) { $('#page-content div').detach(); $('#page-content').append(content); } }
 
 function getUrlAsObservable(url) {
-  return $.ajaxAsObservable({ url: url, cache: false})
+  return $.ajaxAsObservable({ url: url})
       .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
       .Select(function(d) { return d.data; });
 }

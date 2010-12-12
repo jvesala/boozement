@@ -48,13 +48,13 @@ body { width: 100%; height: 100%; }
 #form-insert #time { float: left; width: 50px;  }
 #form-insert label { float: left; width: 120px;  padding-top: 8px; clear: left; }
 #form-insert #type { float: left; width: 150px; }
-#form-insert #amount { float: left; width: 30px; }
+#form-insert #amount { float: left; width: 40px; }
 #form-insert .unit { float: left; margin-top: 5px; }
 #form-insert #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
 #form-insert .busy { float: right; margin-top: 15px; margin-right: 5px; }
 #form-insert em { float: right;}
 #form-insert .invalid { color: red; }
-#form-insert .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; }
+#form-insert .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
 #result { clear: left; }
 
 
