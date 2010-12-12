@@ -4,14 +4,12 @@ function timeValidator() {
   }
 }
 
-
 $(function() {
+  var time = $('#time').changes();
+  var timeValidation = mkValidation(time, timeValidator());
 
-  //var time = $('#time').changes();
-  //var timeValidation = mkValidation(time, timeValidator());
+  timeValidation.Subscribe(toggleEffect($('.time-error')));
+  timeValidation.Subscribe(toggleClassEffect($('#time'), 'invalid'));
 
-  //timeValidation.Subscribe(toggleEffect($('.time-error')));
-  //timeValidation.Subscribe(toggleClassEffect($('#time'), 'invalid'));
-
-  //timeValidation.Subscribe(function(x) { console.log("we got: " + x) });
+  timeValidation.Subscribe(function(x) { console.log("we got: " + x) });
 });

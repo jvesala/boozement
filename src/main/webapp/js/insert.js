@@ -19,7 +19,7 @@ function initInsertForm() {
 }
 
 $(function() {
-  //initInsertForm();
-  //$('#time').val(getCurrentTime());
-  //$('#result').html("");
+  initInsertForm();
+  $('#time').val(getCurrentTime());
+  $('#result').html("");
 });
