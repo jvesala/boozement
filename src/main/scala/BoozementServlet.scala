@@ -21,7 +21,8 @@ class BoozementServlet extends ScalatraServlet {
 
   post("/insert") {
     contentType = "applications/json"
-    val json =  ("status" -> "ok")
+    val message: JValue = "Juotu " + params("type") + " kello " + params("time") + "." 
+    val json =  ("status" -> "ok") ~ ("message" -> message)
     compact(render(json))
   }
 

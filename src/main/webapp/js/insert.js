@@ -11,7 +11,7 @@ function initInsertForm() {
       dataType: 'json',
       success: function(json) {
         resetSubmitStatus();
-        $('#result').html(json.status);
+        $('#result').html(json.message);
       }
     });
     return false;
