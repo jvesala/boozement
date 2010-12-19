@@ -35,7 +35,7 @@ object DB {
 }
 
 object ServingsTable extends Table[Servings]("servings") {
-  def id = column[Option[Int]]("id", O.NotNull, O.AutoInc)
+  def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def date = column[Timestamp]("date")
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
