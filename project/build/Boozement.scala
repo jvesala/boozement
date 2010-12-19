@@ -11,8 +11,7 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val liftJson = "net.liftweb" % "lift-json_2.8.0" % "2.1"
 
   val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
-  val mysql = "mysql" % "mysql-connector-java" % "5.1.13"
-
+  val mysql = "mysql" % "mysql-connector-java" % "5.1.13"  
   override val jettyPort = 8081
 }
 

@@ -6,8 +6,9 @@ import org.scalaquery.ql.TypeMapper._
 import org.scalaquery.util.NamingContext
 import org.scalaquery.ql.extended.MySQLDriver
 import org.scalaquery.ql.extended.MySQLDriver.Implicit._
-import org.scalaquery.ql.basic.{BasicTable => Table}
-import java.sql.Date
+import org.scalaquery.ql.extended.{ExtendedTable => Table}
+import java.sql.Timestamp
+import org.scala_tools.time.Imports._
 
 object InitDatabase {
   def apply() {
@@ -23,16 +24,24 @@ object InitDatabase {
 
 object DB {
   val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
+  implicit def dateTimeToTimestamp(x: DateTime) = new Timestamp(x.getMillis)
+  
+  
+  def insertServing(date: DateTime, servingType: String, amount: Int) {
+    db withSession {
+      ServingsTable.insert(Servings(None, date, servingType, amount))
+    }
+  }
 }
 
 object ServingsTable extends Table[Servings]("servings") {
-  def id = column[Int]("id", O PrimaryKey)
-  def date = column[Date]("date")
+  def id = column[Option[Int]]("id", O.NotNull, O.AutoInc)
+  def date = column[Timestamp]("date")
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount <> (Servings, Servings.unapply _)
 }
-case class Servings(id: Int, date: Date, servingType: String, amount: Int)
+case class Servings(id: Option[Int], date: Timestamp, servingType: String, amount: Int)
 
 object Users extends Table[(Int, String, String, String)]("users") {
   def id = column[Int]("id", O PrimaryKey)
@@ -41,6 +50,7 @@ object Users extends Table[(Int, String, String, String)]("users") {
   def last = column[String]("last")
   def * = id ~ username ~ first ~ last
 }
+
 
 
 /**
