@@ -22,26 +22,38 @@ object InitDatabase {
   }
 }
 
-object DB {
+trait Implicits {
+  implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
+  implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
+  implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
+}
+
+object DB extends Implicits {
   val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
-  implicit def dateTimeToTimestamp(x: DateTime) = new Timestamp(x.getMillis)
   
-  
-  def insertServing(date: DateTime, servingType: String, amount: Int) {
+  def insertServing(date: DateTime, servingType: String, amount: Int) = {
     db withSession {
-      ServingsTable.insert(Servings(None, date, servingType, amount))
+      ServingsTable.insert(Serving(None, date, servingType, amount))
+    }
+  }
+  
+  def servings: List[Serving] = { 
+    db withSession  {
+      ServingsTable.servings
     }
   }
 }
 
-object ServingsTable extends Table[Servings]("servings") {
+object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def date = column[Timestamp]("date")
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
-  def * = id ~ date ~ servingType ~ amount <> (Servings, Servings.unapply _)
+  def * = id ~ date ~ servingType ~ amount
+  def toServing(x: (Option[Int], Timestamp, String, Int)): Serving = Serving(x._1, x._2, x._3, x._4)  
+  def servings  =  (for(s <- ServingsTable) yield s).mapResult(toServing).list   
 }
-case class Servings(id: Option[Int], date: Timestamp, servingType: String, amount: Int)
+case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) 
 
 object Users extends Table[(Int, String, String, String)]("users") {
   def id = column[Int]("id", O PrimaryKey)
@@ -50,7 +62,6 @@ object Users extends Table[(Int, String, String, String)]("users") {
   def last = column[String]("last")
   def * = id ~ username ~ first ~ last
 }
-
 
 
 /**

@@ -15,9 +15,7 @@ class DBSuite extends FunSuite with BeforeAndAfterAll {
     assert(servings.size == 1)
     assert(servings.head.id == Some(1))
     assert(servings.head.amount == 33)
-    
-    println("we got " + servings.head.date.getClass)
-    assert(servings.head.date == drinkingTime)
-    
+    assert(servings.head.servingType == "Olut")
+    assert(servings.head.date == drinkingTime)   
   }
 }
