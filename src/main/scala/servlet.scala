@@ -1,27 +1,19 @@
 import org.scalatra._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
-
-
+import org.scala_tools.time.Imports._
 
 class BoozementServlet extends ScalatraServlet {
-
-  get("/") {
-    <html>
-      <body>
-        <h1>Hello, world!</h1>
-        Say hello!
-      </body>
-    </html>
-  }
-
-  before {
-    Thread.sleep(1000)
-  }
+  val database = new DB with Env
 
   post("/insert") {
     contentType = "applications/json"
-    val message: JValue = "Juotu " + params("type") + " kello " + params("time") + "." 
+    val time = params("time")
+    val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
+    val servingType = params("type")
+    val amount = params("amount").toInt
+    database.insertServing(date, servingType, amount)
+    val message: JValue = "Juotu " + servingType + " kello " + time + "." 
     val json =  ("status" -> "ok") ~ ("message" -> message)
     compact(render(json))
   }
