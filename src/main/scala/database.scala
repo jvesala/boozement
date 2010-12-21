@@ -10,26 +10,26 @@ import org.scalaquery.ql.extended.{ExtendedTable => Table}
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
 
-object InitDatabase {
-  def apply() {
-    println("Init database")
-    DB.db withSession {
+trait Env {
+  def connectDb = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver") 
+}
+
+trait TestEnv {
+  def connectDb = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
+}
+
+abstract class DB extends Implicits {
+  def connectDb: Database  
+  lazy val db = connectDb
+  
+  def init() {
+    db withSession {
 	    import org.scalaquery.simple.StaticQuery.updateNA
 	    updateNA("DROP TABLE IF EXISTS users").execute
 	    updateNA("DROP TABLE IF EXISTS servings").execute
 			(Users.ddl ++ ServingsTable.ddl) create
-    }
+    }    
   }
-}
-
-trait Implicits {
-  implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
-  implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
-  implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
-}
-
-object DB extends Implicits {
-  val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
   
   def insertServing(date: DateTime, servingType: String, amount: Int) = {
     db withSession {
@@ -63,10 +63,20 @@ object Users extends Table[(Int, String, String, String)]("users") {
   def * = id ~ username ~ first ~ last
 }
 
+trait Implicits {
+  implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
+  implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
+  implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
+}
 
 /**
 drop database boozement;
 create database boozement;
 grant all on boozement.* to 'boozement'@'%' identified by 'boozement';
 grant all on boozement.* to 'boozement'@'localhost' identified by 'boozement';
+
+drop database boozement_test;
+create database boozement_test;
+grant all on boozement_test.* to 'boozement'@'%' identified by 'boozement';
+grant all on boozement_test.* to 'boozement'@'localhost' identified by 'boozement';
 **/
