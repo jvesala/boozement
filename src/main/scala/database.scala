@@ -22,7 +22,7 @@ abstract class DB extends Implicits {
   def connectDb: Database  
   lazy val db = connectDb
   
-  def init() {
+  def init {
     db withSession {
 	    import org.scalaquery.simple.StaticQuery.updateNA
 	    updateNA("DROP TABLE IF EXISTS users").execute
@@ -50,8 +50,8 @@ object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servi
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
-  def toServing(x: (Option[Int], Timestamp, String, Int)): Serving = Serving(x._1, x._2, x._3, x._4)  
-  def servings  =  (for(s <- ServingsTable) yield s).mapResult(toServing).list   
+  def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
+  def servings = (for(s <- ServingsTable) yield s).mapResult(toServing).list   
 }
 case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) 
 
