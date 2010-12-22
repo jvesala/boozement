@@ -1,5 +1,5 @@
-
 import sbt._
+
 class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProject {
   val sonatypeNexusSnapshots = "Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   val sonatypeNexusReleases = "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
@@ -11,7 +11,7 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val liftJson = "net.liftweb" % "lift-json_2.8.0" % "2.1"
 
   val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
-  val mysql = "mysql" % "mysql-connector-java" % "5.1.13"  
+  val mysql = "mysql" % "mysql-connector-java" % "5.1.13"
+  val jbCrypt = "org.mindrot" % "jbcrypt" % "0.3m"
   override val jettyPort = 8081
 }
-
