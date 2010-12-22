@@ -17,12 +17,18 @@ class BoozementServlet extends ScalatraServlet {
     val json =  ("status" -> "ok") ~ ("message" -> message)
     compact(render(json))
   }
+  
+  get("/servings") {
+    val servings = database.servings.map(x => x.toJson)
+    val json = ("servings" -> servings)
+    compact(render(json))
+  }
 
   notFound {
     <html><body>notfound</body></html>
   }
 
-  error {
-    <html><body>we have error here now</body></html>
-  }
+  //error {
+  //  <html><body>we have error here now</body></html>
+  //}
 }

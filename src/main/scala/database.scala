@@ -9,6 +9,8 @@ import org.scalaquery.ql.extended.MySQLDriver.Implicit._
 import org.scalaquery.ql.extended.{ExtendedTable => Table}
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
+import net.liftweb.json.JsonAST._
+import net.liftweb.json.JsonDSL._
 
 trait Env {
   def connectDb = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver") 
@@ -53,7 +55,14 @@ object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servi
   def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
   def servings = (for(s <- ServingsTable) yield s).mapResult(toServing).list   
 }
-case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) 
+case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
+  def toJson = {
+    val json =  ("id" -> id.getOrElse(0)) ~ 
+      ("date" -> DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").print(date)) ~ 
+      ("type" -> servingType) ~ ("amount" -> amount)
+    compact(render(json))
+  }
+}
 
 object Users extends Table[(Int, String, String, String)]("users") {
   def id = column[Int]("id", O PrimaryKey)
