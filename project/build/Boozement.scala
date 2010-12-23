@@ -13,5 +13,8 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
   val mysql = "mysql" % "mysql-connector-java" % "5.1.13"
   val jbCrypt = "org.mindrot" % "jbcrypt" % "0.3m"
+  val jodaTime = "joda-time" % "joda-time" % "1.6"
+  val scalaTime = "org.scala-tools.time" % "time_2.8.0" % "0.2"
+  
   override val jettyPort = 8081
 }
