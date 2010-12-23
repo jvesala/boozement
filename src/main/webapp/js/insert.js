@@ -21,5 +21,5 @@ function initInsertForm() {
 $(function() {
   initInsertForm();
   $('#time').val(getCurrentTime());
-  $('#result').html("");
+  $('#result').empty();
 });
