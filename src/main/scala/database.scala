@@ -48,7 +48,7 @@ abstract class DB extends Implicits {
 
 object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
-  def date = column[Timestamp]("date")
+  def date = column[Timestamp]("date", O.Default(new Timestamp(1000)))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
