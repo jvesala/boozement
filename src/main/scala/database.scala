@@ -13,7 +13,8 @@ import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 
 trait Env {
-  def connectDb = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver") 
+  def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")
+  def connectDb = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
 }
 
 trait TestEnv {
@@ -23,13 +24,13 @@ trait TestEnv {
 abstract class DB extends Implicits {
   def connectDb: Database  
   lazy val db = connectDb
-  
+
   def init {
     db withSession {
-	    import org.scalaquery.simple.StaticQuery.updateNA
-	    updateNA("DROP TABLE IF EXISTS users").execute
-	    updateNA("DROP TABLE IF EXISTS servings").execute
-			(Users.ddl ++ ServingsTable.ddl) create
+      import org.scalaquery.simple.StaticQuery.updateNA
+      updateNA("DROP TABLE IF EXISTS users").execute
+      updateNA("DROP TABLE IF EXISTS servings").execute
+      (Users.ddl ++ ServingsTable.ddl) create
     }    
   }
   

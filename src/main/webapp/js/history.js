@@ -4,7 +4,7 @@ function addServingToTable() { return function(serving) {
 }}
 
 function getServings() {
-  var servings = getUrlAsObservable("http://localhost:8081/api/servings")
+  var servings = getUrlAsObservable("api/servings")
     .Select(function(data) { return $.parseJSON(data).servings })
     .SelectMany(function(data) { return Rx.Observable.FromArray(data) })
     .Select(function(data) { return $.parseJSON(data)});
