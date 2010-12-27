@@ -7,6 +7,7 @@ import org.scalaquery.util.NamingContext
 import org.scalaquery.ql.extended.MySQLDriver
 import org.scalaquery.ql.extended.MySQLDriver.Implicit._
 import org.scalaquery.ql.extended.{ExtendedTable => Table}
+import org.scalaquery.simple.StaticQuery._
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
 import net.liftweb.json.JsonAST._
@@ -27,7 +28,6 @@ abstract class DB extends Implicits {
 
   def init {
     db withSession {
-      import org.scalaquery.simple.StaticQuery.updateNA
       updateNA("DROP TABLE IF EXISTS users").execute
       updateNA("DROP TABLE IF EXISTS servings").execute
       (Users.ddl ++ ServingsTable.ddl) create
@@ -37,6 +37,14 @@ abstract class DB extends Implicits {
   def insertServing(date: DateTime, servingType: String, amount: Int) = {
     db withSession {
       ServingsTable.insert(Serving(None, date, servingType, amount))
+      queryNA[Int]("select last_insert_id()").list.head
+    }
+  }
+  
+  def deleteServing(id: Option[Int]) {
+    db withSession {
+      val q = for(u <- ServingsTable where {_.id is id }) yield u
+      q.delete
     }
   }
   
@@ -54,7 +62,7 @@ object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servi
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
   def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
-  def servings = (for(s <- ServingsTable) yield s).mapResult(toServing).list   
+  def servings = (for(s <- ServingsTable) yield s).mapResult(toServing).list
 }
 case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
