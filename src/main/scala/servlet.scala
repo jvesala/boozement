@@ -3,8 +3,8 @@ import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 import org.scala_tools.time.Imports._
 
-class BoozementServlet extends ScalatraServlet {
-  val database = new DB with Env
+class BoozementServlet(database: DB) extends ScalatraServlet {
+  def this() = this(new DB with Env)
 
   post("/insert") {
     contentType = "applications/json"
