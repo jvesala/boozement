@@ -4,11 +4,11 @@ function addServingToTable() { return function(serving) {
 }}
 
 function getServings() {
-  var servings = getUrlAsObservable("api/servings")
-    .Select(function(data) { return $.parseJSON(data).servings })
-    .SelectMany(function(data) { return Rx.Observable.FromArray(data) })
-    .Select(function(data) { return $.parseJSON(data)});
-  servings.Subscribe(addServingToTable());
+  var servings = $.ajaxAsObservable({ url: "api/servings"})
+    .Catch(Rx.Observable.Return({"data": {"servings":[]}}))
+    .SelectMany(function(data) { return Rx.Observable.FromArray(data.data.servings) })
+    .Select(function(data) { return $.parseJSON(data)})
+   servings.Subscribe(addServingToTable());
 }
 
 $(function() {

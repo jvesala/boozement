@@ -6,8 +6,11 @@ import org.scala_tools.time.Imports._
 class BoozementServlet(database: DB) extends ScalatraServlet {
   def this() = this(new DB with Env)
 
+  before {
+    contentType = "applications/json"    
+  }
+
   post("/insert") {
-    contentType = "applications/json"
     val time = params("time")
     val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
     val servingType = params("type")
@@ -24,10 +27,9 @@ class BoozementServlet(database: DB) extends ScalatraServlet {
     compact(render(json))
   }
 
-  notFound {
-    <html><body>notfound</body></html>
-  }
-
+  //notFound {
+  //  <html><body>notfound</body></html>
+  //}
   //error {
   //  <html><body>we have error here now</body></html>
   //}
