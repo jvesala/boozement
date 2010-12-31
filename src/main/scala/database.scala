@@ -40,7 +40,7 @@ abstract class DB extends Implicits {
       queryNA[Int]("select last_insert_id()").list.head
     }
   }
-  
+
   def deleteServing(id: Option[Int]) {
     db withSession {
       val q = for(u <- ServingsTable where {_.id is id }) yield u
@@ -62,7 +62,7 @@ object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servi
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
   def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
-  def servings = (for(s <- ServingsTable) yield s).mapResult(toServing).list
+  def servings = (for(s <- ServingsTable; _ <- Query orderBy s.date) yield s).mapResult(toServing).list
 }
 case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
