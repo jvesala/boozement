@@ -39,12 +39,18 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   }
   
   post("/login")  {
-    cookies.set("userid", "1")
-    val json =  ("message" -> "Tervetuloa.")
-    compact(render(json))
+    val user = database.userByEmail(params("email"))
+    user match {
+      case user: Some[User] => { 
+        if (user.get.password != params("password")) halt(401, "Unauthorized")
+        cookies.set("userid", user.get.id.get.toString)
+        val json =  ("message" -> "Tervetuloa.")
+        compact(render(json))        
+      }
+      case _ => halt(401, "Unauthorized")
+    }
   }
   
-
   //notFound {
   //  <html><body>notfound</body></html>
   //}
