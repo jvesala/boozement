@@ -1,7 +1,7 @@
 function getCurrentTime() {
   var now = new Date();
-  var hours = (now.getHours() > 10) ? now.getHours() : "0"  + now.getHours();
-  var minutes = (now.getMinutes() > 10) ? now.getMinutes() : "0"  + now.getMinutes();
+  var hours = (now.getHours() > 9) ? now.getHours() : "0"  + now.getHours();
+  var minutes = (now.getMinutes() > 9) ? now.getMinutes() : "0"  + now.getMinutes();
   return hours + ":" + minutes;
 }
 function initInsertForm() {
