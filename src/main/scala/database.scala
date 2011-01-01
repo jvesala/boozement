@@ -55,11 +55,18 @@ abstract class DB extends Implicits {
     queryNA[Int]("select last_insert_id()").list.head
   }}
   def user(id: Int): Option[User] = { db withSession { 
-    val q = Users.getUser(id)
+    val q = Users.where(_.id is id)
     q.list.length match {
       case 0 => None
       case _ => Some(q.first)
     }   
+  }}
+  def userByEmail(email: String): Option[User] = { db withSession {
+    val q = Users.where(_.email is email)
+    q.list.length match {
+      case 0 => None
+      case _ => Some(q.first)
+    }       
   }}
   def deleteUser(id: Int) = { db withSession {
     val q = for(u <- Users where {_.id is id }) yield u
@@ -90,8 +97,6 @@ object Users extends Table[User]("users") {
   def email = column[String]("email")
   def password = column[String]("password")
   def * = id ~ email ~ password <> (User, User.unapply _)
-  
-  def getUser(id: Int) = Users.where(_.id is id)
 }
 case class User(id: Option[Int], email: String, password: String)
 
