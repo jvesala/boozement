@@ -29,10 +29,3 @@ class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database
     }
   }
 }
-
-trait AutoLogger extends CookieSupport { self: ScalatraServlet =>
-  before {
-    println("Setting cookie...")
-    cookies.set("userid", "1")
-  }
-}
