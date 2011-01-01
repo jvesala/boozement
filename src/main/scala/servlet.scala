@@ -3,10 +3,11 @@ import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 import org.scala_tools.time.Imports._
 
-class BoozementServlet(database: DB) extends ScalatraServlet {
+class BoozementServlet(database: DB) extends ScalatraServlet with AutoLogger with AuthenticationSupport {
   def this() = this(new DB with Env)
 
   before {
+    //println("setting contentype")
     contentType = "applications/json"    
   }
 

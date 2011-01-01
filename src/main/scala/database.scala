@@ -73,13 +73,15 @@ case class Serving(id: Option[Int], date: DateTime, servingType: String, amount:
   }
 }
 
-object Users extends Table[(Int, String, String, String)]("users") {
-  def id = column[Int]("id", O PrimaryKey)
-  def username = column[String]("username")
-  def first = column[String]("first")
-  def last = column[String]("last")
-  def * = id ~ username ~ first ~ last
+object Users extends Table[User]("users") {
+  def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey)
+  def email = column[String]("email")
+  def password = column[String]("password")
+  def * = id ~ email ~ password <> (User, User.unapply _)
+  
+  def getUser(id: Int): User = Users.where(_.id is id).first
 }
+case class User(id: Option[Int], email: String, password: String)
 
 trait Implicits {
   implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
