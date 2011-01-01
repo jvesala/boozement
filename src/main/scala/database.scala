@@ -41,7 +41,7 @@ abstract class DB extends Implicits {
     }
   }
 
-  def deleteServing(id: Option[Int]) {
+  def deleteServing(id: Option[Int]) = {
     db withSession {
       val q = for(u <- ServingsTable where {_.id is id }) yield u
       q.delete

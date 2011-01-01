@@ -3,7 +3,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.scalatest.FunSuite
 import org.scala_tools.time.Imports._
  
-class DBSuite extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
+class DatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
   val database = new DB with TestEnv
   override def afterAll = database.init
   override def beforeEach = database.init

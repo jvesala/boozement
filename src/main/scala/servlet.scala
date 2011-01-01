@@ -21,6 +21,14 @@ class BoozementServlet(database: DB) extends ScalatraServlet {
     compact(render(json))
   }
   
+  post("/delete") {
+    val id = params("id").toInt
+    val count = database.deleteServing(Some(id))
+    println("count:" + count)
+    val json =  ("status" -> "ok")
+    compact(render(json))
+  }  
+  
   get("/servings") {
     val servings = database.servings.map(x => x.toJson)
     val json = ("servings" -> servings)

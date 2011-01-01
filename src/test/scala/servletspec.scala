@@ -6,7 +6,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.scala_tools.time.Imports._
 import org.easymock._
 
-class BoozementServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSugar with BeforeAndAfterEach {
+class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSugar with BeforeAndAfterEach {
   val database = mock[DB]
   val boozement = new BoozementServlet(database)  
   addServlet(boozement, "/*")
@@ -22,6 +22,19 @@ class BoozementServletSpec extends ScalatraFunSuite with ShouldMatchers with Eas
       post("/insert?date=20.01.2010&time=14:45&type=Siideri&amount=50"){
         status should equal(200)
         body should include("Juotu Siideri kello 14:45")
+      }
+    }
+  }
+
+  test("delete serving") {
+    expecting {
+      database.deleteServing(Some(1)).andReturn(1)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      post("/delete?id=1"){
+        status should equal(200)
+        body should include("""{"status":"ok"}""")
       }
     }
   }
