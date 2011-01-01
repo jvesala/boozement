@@ -13,10 +13,13 @@ trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport wi
   protected def fromSession = { case id: String => User(Some(1), "jussi.vesala@iki.fi", "foobar") }
   protected def toSession = { case usr: User => usr.id.getOrElse("").toString }
 
-  before { 
+  def auth = {
     scentry.authenticate('SessionCookie) 
     println("user?" + user)  
-    
+    user match {
+      case user: User => 
+      case _ => halt(401, "Unauthorized")
+    }    
   }
 }
 
@@ -30,9 +33,8 @@ class CookieSessionStrategy(protected val app: ScalatraKernelProxy) extends Scen
 }
 
 trait AutoLogger extends CookieSupport { self: ScalatraServlet =>
-
   before {
     println("Setting cookie...")
-    cookies.set("userid", "1")
+    //cookies.set("userid", "1")
   }
 }

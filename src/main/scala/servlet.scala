@@ -12,6 +12,7 @@ class BoozementServlet(database: DB) extends ScalatraServlet with AutoLogger wit
   }
 
   post("/insert") {
+    auth
     val time = params("time")
     val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
     val servingType = params("type")
@@ -23,6 +24,7 @@ class BoozementServlet(database: DB) extends ScalatraServlet with AutoLogger wit
   }
   
   post("/delete") {
+    auth
     val id = params("id").toInt
     val count = database.deleteServing(Some(id))
     println("count:" + count)
@@ -31,10 +33,16 @@ class BoozementServlet(database: DB) extends ScalatraServlet with AutoLogger wit
   }  
   
   get("/servings") {
+    auth
     val servings = database.servings.map(x => x.toJson)
     val json = ("servings" -> servings)
     compact(render(json))
   }
+  
+  post("/login")  {
+    println("we got login post!")    
+  }
+  
 
   //notFound {
   //  <html><body>notfound</body></html>
