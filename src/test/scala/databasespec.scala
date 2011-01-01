@@ -3,7 +3,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.scalatest.FunSuite
 import org.scala_tools.time.Imports._
  
-class DatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
+class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
   val database = new DB with TestEnv
   override def afterAll = database.init
   override def beforeEach = database.init
@@ -36,5 +36,22 @@ class DatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEa
     assert(servings2.size == 1)
     assert(servings2.head.id == Some(id2))
   }
+}
+
+class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
+  val database = new DB with TestEnv
+  override def afterAll = database.init
+  override def beforeEach = database.init
+
+  test("user is inserted into db") {  
+    val res = database.insertUser("test@test.com", "mypassword")
+    assert(res == 1)
+    assert(database.user(1).get.email == "test@test.com")
+  }
   
+  test("user is deleted from db") {
+    val res = database.insertUser("test@test.com", "mypassword")
+    database.deleteUser(1)
+    assert(database.user(1) == None)    
+  }
 }

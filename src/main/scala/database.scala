@@ -25,7 +25,6 @@ trait TestEnv {
 abstract class DB extends Implicits {
   def connectDb: Database  
   lazy val db = connectDb
-
   def init {
     db withSession {
       updateNA("DROP TABLE IF EXISTS users").execute
@@ -33,26 +32,39 @@ abstract class DB extends Implicits {
       (Users.ddl ++ ServingsTable.ddl) create
     }    
   }
-  
   def insertServing(date: DateTime, servingType: String, amount: Int) = {
     db withSession {
       ServingsTable.insert(Serving(None, date, servingType, amount))
       queryNA[Int]("select last_insert_id()").list.head
     }
   }
-
   def deleteServing(id: Option[Int]) = {
     db withSession {
       val q = for(u <- ServingsTable where {_.id is id }) yield u
       q.delete
     }
-  }
-  
+  } 
   def servings: List[Serving] = { 
     db withSession  {
       ServingsTable.servings
     }
   }
+  
+  def insertUser(email: String, password: String) = { db withSession {
+    Users.insert(User(None, email, password))
+    queryNA[Int]("select last_insert_id()").list.head
+  }}
+  def user(id: Int): Option[User] = { db withSession { 
+    val q = Users.getUser(id)
+    q.list.length match {
+      case 0 => None
+      case _ => Some(q.first)
+    }   
+  }}
+  def deleteUser(id: Int) = { db withSession {
+    val q = for(u <- Users where {_.id is id }) yield u
+    q.delete
+  }}  
 }
 
 object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
@@ -74,12 +86,12 @@ case class Serving(id: Option[Int], date: DateTime, servingType: String, amount:
 }
 
 object Users extends Table[User]("users") {
-  def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey)
+  def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def email = column[String]("email")
   def password = column[String]("password")
   def * = id ~ email ~ password <> (User, User.unapply _)
   
-  def getUser(id: Int): User = Users.where(_.id is id).first
+  def getUser(id: Int) = Users.where(_.id is id)
 }
 case class User(id: Option[Int], email: String, password: String)
 
