@@ -40,7 +40,9 @@ class BoozementServlet(database: DB) extends ScalatraServlet with AutoLogger wit
   }
   
   post("/login")  {
-    println("we got login post!")    
+    cookies.set("userid", "1")
+    val json =  ("message" -> "Tervetuloa.")
+    compact(render(json))
   }
   
 

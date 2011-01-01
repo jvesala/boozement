@@ -1,7 +1,9 @@
-<div class="login">
-  <form action="login" method="post">
+<div id="tab-login" class="tab">
+  <form action="api/login" method="post">
     <label for="email">Email</label><input type="text" name="email" />
     <label for="password">Salasana</label><input type="text" name="password" type="password" />
     <input type="submit" name="submit" value="Kirjaudu" />
+    <div class="busy hidden"></div>    
   </form>
 </div>
+<script type="text/javascript" src="js/login.js"></script>
