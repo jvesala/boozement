@@ -5,10 +5,11 @@ function doLogin() {
   login.Subscribe(skip, function(error) {
     if(error.xmlHttpRequest.status == "401") { updateResult("Väärä kirjautumistunnus tai salasana.") }
   }, skip);
-  login.Select(function(d) { return '<div id="tab-welcome" class="tab">' + d.data.message + '</div>'; })
-    .Catch(Rx.Observable.Never())
-    .Subscribe(setPageContent());
+  var loginContent = login.Select(function(d) { return d.data; }).Catch(Rx.Observable.Never()).Publish();
+  loginContent.Subscribe(setPageContent());
+  loginContent.Subscribe(function(x) { showTabHeaders() });
   login.Connect();
+  loginContent.Connect();
 }
 
 $(function() {

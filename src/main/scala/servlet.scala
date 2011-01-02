@@ -6,12 +6,9 @@ import org.scala_tools.time.Imports._
 class BoozementServlet(protected val database: DB) extends ScalatraServlet with AuthenticationSupport {
   def this() = this(new DB with Env)
 
-  before {
-    contentType = "applications/json"
-  }
-
   post("/insert") {
     auth
+    contentType = "applications/json"
     val time = params("time")
     val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
     val servingType = params("type")
@@ -24,6 +21,7 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   
   post("/delete") {
     auth
+    contentType = "applications/json"
     val id = params("id").toInt
     val count = database.deleteServing(Some(id))
     println("count:" + count)
@@ -33,19 +31,28 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   
   get("/servings") {
     auth
+    contentType = "applications/json"
     val servings = database.servings.map(x => x.toJson)
     val json = ("servings" -> servings)
     compact(render(json))
   }
   
+  def welcomePage = """<div id="tab-welcome" class="tab">Tervetuloa</div>"""
+  
+  get("/welcome") {
+    auth
+    contentType = "text/html"
+    welcomePage
+  }
+  
   post("/login")  {
+    contentType = "text/html"    
     val user = database.userByEmail(params("email"))
     user match {
       case user: Some[User] => { 
         if (user.get.password != params("password")) halt(401, "Unauthorized")
         cookies.set("userid", user.get.id.get.toString)
-        val json =  ("message" -> "Tervetuloa.")
-        compact(render(json))        
+        welcomePage
       }
       case _ => halt(401, "Unauthorized")
     }
