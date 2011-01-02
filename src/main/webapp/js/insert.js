@@ -1,3 +1,8 @@
+function insertParams() {
+  var fields = ["date", "time", "type", "amount"];
+  return jQuery.map(fields, function(f, i) { return f + "=" + $('#' + f).val();} ).join("&");
+}
+
 function getCurrentTime() {
   var now = new Date();
   var hours = (now.getHours() > 9) ? now.getHours() : "0"  + now.getHours();
@@ -5,22 +10,16 @@ function getCurrentTime() {
   return hours + ":" + minutes;
 }
 
-function initInsertForm() {
-  $('#form-insert').submit(function() {
-    $(this).ajaxSubmit({
-      beforeSubmit: preSubmit,
-      dataType: 'json',
-      success: function(json) {
-        resetSubmitStatus();
-        updateResult(json.message);
-      }
-    });
-    return false;
-  });
+function doInsert() {
+  preSubmit();
+  var insert = $.postAsObservable("api/insert", insertParams()).Publish();
+  handleUnauthorized(insert);
+  insert.Select(function(d) { return d.data.message; }).Catch(Rx.Observable.Never())
+    .Subscribe(function(x) { updateResult(x); resetSubmitStatus(); });
+  insert.Connect();
 }
 
 $(function() {
-  initInsertForm();
+  $('#submit').click(function (x) { doInsert(); return false; });
   $('#time').val(getCurrentTime());
-  $('#result').empty();
 });

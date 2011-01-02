@@ -1,10 +1,10 @@
       <div id="tab-insert" class="tab">
         <form id="form-insert" action="api/insert" method="post">
-          <div id="date">
-            <input type="hidden" name="date" class="startDate"/>
+          <div id="dateElement">
+            <input type="hidden" name="date" id="date" class="startDate"/>
           </div>
           <script type="text/javascript" language="JavaScript">
-              $("#date").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
+              $("#dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true});
           </script>
           <input id="time" name="time" maxlength="5" />
           <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
