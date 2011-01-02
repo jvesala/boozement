@@ -1,6 +1,7 @@
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
 function setPageContent() { return function(content) { setElementContent($('#page-content'), content); }}
 function setElementContent(element, content) { element.children().detach(); element.append(content);}
+function updateResult(html) { $('#result').html(html); }
 
 function getUrlAsObservable(url) {
   return $.ajaxAsObservable({ url: url})

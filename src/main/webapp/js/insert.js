@@ -4,6 +4,7 @@ function getCurrentTime() {
   var minutes = (now.getMinutes() > 9) ? now.getMinutes() : "0"  + now.getMinutes();
   return hours + ":" + minutes;
 }
+
 function initInsertForm() {
   $('#form-insert').submit(function() {
     $(this).ajaxSubmit({
@@ -11,7 +12,7 @@ function initInsertForm() {
       dataType: 'json',
       success: function(json) {
         resetSubmitStatus();
-        $('#result').html(json.message);
+        updateResult(json.message);
       }
     });
     return false;

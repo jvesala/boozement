@@ -16,7 +16,7 @@ function getServings() {
     }
   }, skip);
   var servingsData = servings
-    .Catch(Rx.Observable.Return({"data": {"servings":[]}}))
+    .Catch(Rx.Observable.Never())
     .SelectMany(function(data) { return Rx.Observable.FromArray(data.data.servings) })
     .Select(function(data) { return $.parseJSON(data)});
   servingsData.Subscribe(addServingToTable());

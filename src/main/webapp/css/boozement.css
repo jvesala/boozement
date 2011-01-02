@@ -50,6 +50,9 @@ body { width: 100%; height: 100%; }
 #form-login input { float: left; clear: right; }
 #form-login #submit { float: right; clear: both; }
 #form-login .busy { float: right; margin-top: 3px; margin-right: 3px; }
+#form-login #result { clear: both; color: red; padding-top: 5px; }
+
+#tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
 #form-insert { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 550px; overflow: auto;  }
 #form-insert a.calendarIcon { background: url("calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
