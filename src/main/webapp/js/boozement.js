@@ -13,6 +13,12 @@ function handleUnauthorized(sourceObservable) {
   }, skip);
 }
 
+function logOut() {
+  $.postAsObservable("api/logout").Select(function(d) { return d.data; })
+    .Catch(Rx.Observable.Return("Virhetilanne"))
+    .Subscribe(setPageContent());
+}
+
 function getUrlAsObservable(url) {
   return $.ajaxAsObservable({ url: url})
       .Catch(Rx.Observable.Return({data: "Virhetilanne"}))

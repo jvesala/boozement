@@ -57,6 +57,12 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
       case _ => halt(401, "Unauthorized")
     }
   }
+
+  post("/logout") {
+    cookies.delete("userid")
+    contentType = "text/html"    
+    """<div>Olet kirjautunut ulos.</div>"""
+  }
   
   //notFound {
   //  <html><body>notfound</body></html>
