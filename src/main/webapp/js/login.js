@@ -5,8 +5,8 @@ function initLoginForm() {
       dataType: 'json',
       success: function(json) {
         resetSubmitStatus();
-        setElementContent($('#page-content'), json.message);
-      }
+        setElementContent($('#page-content'), "<div>" + json.message + "</div>");
+      },
     });
     return false;
   });

@@ -44,6 +44,13 @@ body { width: 100%; height: 100%; }
 .hidden { display: none; }
 .busy { background: url("ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 
+#form-login { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 250px; overflow: auto; }
+#form-login h3 { float: left; clear: both; margin-bottom: 5px; }
+#form-login label { float: left; clear: left; width: 120px;}
+#form-login input { float: left; clear: right; }
+#form-login #submit { float: right; clear: both; }
+#form-login .busy { float: right; margin-top: 3px; margin-right: 3px; }
+
 #form-insert { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 550px; overflow: auto;  }
 #form-insert a.calendarIcon { background: url("calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 #form-insert #date { float: left; width: 120px;  }

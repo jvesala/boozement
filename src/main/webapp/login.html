@@ -1,8 +1,9 @@
 <div id="tab-login" class="tab">
-  <form action="api/login" method="post">
+  <form id="form-login" action="api/login" method="post">
+    <h3>Kirjaudu sisään</h3>
     <label for="email">Email</label><input type="text" name="email" />
-    <label for="password">Salasana</label><input type="text" name="password" type="password" />
-    <input type="submit" name="submit" value="Kirjaudu" />
+    <label for="password">Salasana</label><input type="password" name="password" />
+    <input type="submit" name="submit" id="submit" value="Kirjaudu" />
     <div class="busy hidden"></div>
     <div id="result"></div>
   </form>
