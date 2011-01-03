@@ -105,15 +105,3 @@ trait Implicits {
   implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
   implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
 }
-
-/**
-drop database boozement;
-create database boozement;
-grant all on boozement.* to 'boozement'@'%' identified by 'boozement';
-grant all on boozement.* to 'boozement'@'localhost' identified by 'boozement';
-
-drop database boozement_test;
-create database boozement_test;
-grant all on boozement_test.* to 'boozement'@'%' identified by 'boozement';
-grant all on boozement_test.* to 'boozement'@'localhost' identified by 'boozement';
-**/
