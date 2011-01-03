@@ -28,7 +28,7 @@ a.calendarIcon span {
 
 a.calendarIcon {
   display: block;
-  background: url("calendar.gif") no-repeat 0 0;
+  background: url("../img/calendar.gif") no-repeat 0 0;
   width: 16px;
   height: 16px;
   float: left;
@@ -62,7 +62,7 @@ a.calendarIcon {
 }
 
 .continuousCalendar .calendarHeader a {
-  background: url("close.gif") no-repeat 0 0;
+  background: url("../img/close.gif") no-repeat 0 0;
   width: 14px;
   height: 14px;
   display: block;
