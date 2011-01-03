@@ -28,7 +28,6 @@ function updateLoggedIn() {
     .Subscribe(function(d) { if(d.data == "") {showLoggedOut()} else {showLoggedIn(d.data)}});
 }
 
-
 function getUrlAsObservable(url) {
   return $.ajaxAsObservable({ url: url})
       .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
@@ -47,15 +46,8 @@ function showTabHeaders() { $('.tab-header').show(); }
 function hideTabHeaders() { $('.tab-header').hide(); }
 function enableSubmitButton() { $('input[type=submit]').removeAttr("disabled") }
 function disableSubmitButton() { $('input[type=submit]').attr("disabled", "disabled") }
-
-function preSubmit() {
-  disableSubmitButton();
-  showBusy();
-}
-function resetSubmitStatus() {
-  hideBusy();
-  enableSubmitButton();
-}
+function preSubmit() { disableSubmitButton(); showBusy(); }
+function resetSubmitStatus() { hideBusy(); enableSubmitButton(); }
 
 function showWelcomeTab() {
   var welcome = $.ajaxAsObservable({url: "api/welcome"}).Publish();
