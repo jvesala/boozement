@@ -12,12 +12,22 @@ function handleUnauthorized(sourceObservable) {
     }
   }, skip);
 }
-
+function showLoggedIn(email) { $('.session.invalid').hide();$('.session-busy').hide(); $('.session span').html(email); $('.session.valid').show(); }
+function showLoggedOut() { $('.session.valid').hide(); $('.session-busy').hide(); $('.session.invalid').show(); }
 function logOut() {
-  $.postAsObservable("api/logout").Select(function(d) { return d.data; })
-    .Catch(Rx.Observable.Return("Virhetilanne"))
-    .Subscribe(setPageContent());
+  var logOut = $.postAsObservable("api/logout").Select(function(d) { return d.data; })
+    .Catch(Rx.Observable.Return("Virhetilanne")).Publish();
+  logOut.Subscribe(setPageContent());
+  logOut.Subscribe(function(x) {  showLoggedOut(); });
+  logOut.Connect();
 }
+function updateLoggedIn() {
+  $('.session-busy').show();
+  $.ajaxAsObservable({ url: "api/whoami"} )
+    .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
+    .Subscribe(function(d) { if(d.data == "") {showLoggedOut()} else {showLoggedIn(d.data)}});
+}
+
 
 function getUrlAsObservable(url) {
   return $.ajaxAsObservable({ url: url})
@@ -64,4 +74,5 @@ $(function () {
   }
   initTabs();
   showWelcomeTab();
+  updateLoggedIn();
 });

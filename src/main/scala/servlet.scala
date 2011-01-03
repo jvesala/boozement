@@ -45,10 +45,17 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
     welcomePage
   }
   
+  get("/whoami") {
+    user match {
+      case user: User => user.email
+      case _ => ""
+    }
+  }
+  
   post("/login")  {
     contentType = "text/html"    
-    val user = database.userByEmail(params("email"))
-    user match {
+    val userCandidate = database.userByEmail(params("email"))
+    userCandidate match {
       case user: Some[User] => { 
         if (user.get.password != params("password")) halt(401, "Unauthorized")
         cookies.set("userid", user.get.id.get.toString)

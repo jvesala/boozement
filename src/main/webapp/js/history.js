@@ -18,4 +18,5 @@ function getServings() {
 $(function() {
   showBusy();
   getServings();
+  updateLoggedIn();  
 });

@@ -22,4 +22,5 @@ function doInsert() {
 $(function() {
   $('#submit').click(function (x) { doInsert(); return false; });
   $('#time').val(getCurrentTime());
+  updateLoggedIn();  
 });

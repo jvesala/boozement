@@ -8,7 +8,7 @@ function doLogin() {
   }, skip);
   var loginContent = login.Select(function(d) { return d.data; }).Catch(Rx.Observable.Never()).Publish();
   loginContent.Subscribe(setPageContent());
-  loginContent.Subscribe(function(x) { showTabHeaders() });
+  loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn(); });
   login.Connect();
   loginContent.Connect();
 }

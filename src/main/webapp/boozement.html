@@ -21,7 +21,11 @@
 </head>
 <body>
   <div id="page">
-    <div id="page-header"></div>
+    <div id="page-header">
+      <div class="session valid hidden">Kirjautuneena <span></span> | <a href="#" onClick="logOut();">Kirjaudu ulos</a></div>
+      <div class="session invalid hidden">Et ole kirjautuneena</div>
+      <div class="session session-busy hidden"></div>
+    </div>
     <div class="tab-header tab-header-insert">Syötä</div>
     <div class="tab-header tab-header-history">Historia</div>
     <div id="page-content">
