@@ -20,24 +20,24 @@ class BoozementDatabase extends Implicits {
     db withSession {
       updateNA("DROP TABLE IF EXISTS users").execute
       updateNA("DROP TABLE IF EXISTS servings").execute
-      (Users.ddl ++ ServingsTable.ddl) create
+      (Users.ddl ++ Servings.ddl) create
     }    
   }
   def insertServing(date: DateTime, servingType: String, amount: Int) = {
     db withSession {
-      ServingsTable.insert(Serving(None, date, servingType, amount))
+      Servings.insert(Serving(None, date, servingType, amount))
       queryNA[Int]("select last_insert_id()").list.head
     }
   }
   def deleteServing(id: Option[Int]) = {
     db withSession {
-      val q = for(u <- ServingsTable where {_.id is id }) yield u
+      val q = for(u <- Servings where {_.id is id }) yield u
       q.delete
     }
   } 
   def servings: List[Serving] = { 
     db withSession  {
-      ServingsTable.servings
+      Servings.servings
     }
   }
   
@@ -65,14 +65,14 @@ class BoozementDatabase extends Implicits {
   }}  
 }
 
-object ServingsTable extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
+object Servings extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def date = column[Timestamp]("date", O.Default(new Timestamp(1000)))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
   def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
-  def servings = (for(s <- ServingsTable; _ <- Query orderBy s.date) yield s).mapResult(toServing).list
+  def servings = (for(s <- Servings; _ <- Query orderBy s.date) yield s).mapResult(toServing).list
 }
 case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
