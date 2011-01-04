@@ -6,24 +6,33 @@ import org.scalatest.BeforeAndAfterEach
 import org.scala_tools.time.Imports._
 import org.easymock._
 
-trait DummyAuthentication { self: AuthenticationSupport => override def auth = {} }
-
 class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSugar with BeforeAndAfterEach {
   val database = mock[DB]
-  val boozement = new BoozementServlet(database) with DummyAuthentication
+  val boozement = new BoozementServlet(database)
   addServlet(boozement, "/*")
- 
-  override def beforeEach = EasyMock.reset(database)
-    
+
+  val testUser = Some(User(Some(1), "foo", "bar"))
+  override def beforeEach = { 
+    EasyMock.reset(database)
+    database.userByEmail("foo").andReturn(testUser)
+    lastCall.times(1)
+    database.user(1).andReturn(testUser)
+    lastCall.times(1)  
+    None          
+  }
+  
   test("insert serving") {
     expecting {
       database.insertServing(new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
       lastCall.times(1)
     }
     whenExecuting(database) {
-      post("/insert?date=20.01.2010&time=14:45&type=Siideri&amount=50"){
-        status should equal(200)
-        body should include("Juotu Siideri kello 14:45")
+      session {
+        post("/login?email=foo&password=bar") { status should equal(200) }
+        post("/insert?date=20.01.2010&time=14:45&type=Siideri&amount=50"){
+          status should equal(200)
+          body should include("Juotu Siideri kello 14:45")
+        }
       }
     }
   }
@@ -34,9 +43,12 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
       lastCall.times(1)
     }
     whenExecuting(database) {
-      post("/delete?id=1"){
-        status should equal(200)
-        body should include("""{"status":"ok"}""")
+      session {
+        post("/login?email=foo&password=bar") { status should equal(200) }
+        post("/delete?id=1") {
+          status should equal(200)
+          body should include("""{"status":"ok"}""")
+        }
       }
     }
   }
@@ -47,10 +59,20 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
       lastCall.times(1)
     }
     whenExecuting(database) {
-      get("/servings"){
-        status should equal(200)
-        body should include("""{"servings":["{\"id\":1,""")
+      session {
+        post("/login?email=foo&password=bar") { status should equal(200) }
+        get("/servings") {
+          status should equal(200)
+          body should include("""{"servings":["{\"id\":1,""")
+        }
       }
+    }
+  }
+  
+  test("whoami") {
+    get("/whoami") {
+      status should equal(200)
+      body should equal("")
     }
   }
 }

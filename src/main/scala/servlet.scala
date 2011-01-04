@@ -65,10 +65,4 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
     """<div>Olet kirjautunut ulos.</div>"""
   }
   
-  //notFound {
-  //  <html><body>notfound</body></html>
-  //}
-  //error {
-  //  <html><body>we have error here now</body></html>
-  //}
 }
