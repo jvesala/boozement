@@ -13,7 +13,7 @@ class Boozement(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProj
   val servlet = "javax.servlet" % "servlet-api" % "2.5" % "provided->default"
   val liftJson = "net.liftweb" % "lift-json_2.8.0" % "2.1"
 
-  val scalaQuery = "org.scalaquery" % ".8.0" % "0.9.0"
+  val scalaQuery = "org.scalaquery" % "scalaquery_2.8.0" % "0.9.0"
   val mysql = "mysql" % "mysql-connector-java" % "5.1.13"
   val jbCrypt = "org.mindrot" % "jbcrypt" % "0.3m"
   val jodaTime = "joda-time" % "joda-time" % "1.6"
