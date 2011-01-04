@@ -7,24 +7,24 @@ import org.scalatra.auth.ScentryAuthStore
 
 trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport with CookieSupport { self: BoozementServlet =>
   protected val scentryConfig = (new ScentryConfig {}).asInstanceOf[ScentryConfiguration]
+  protected def contextPath = request.getContextPath
   override protected def registerAuthStrategies = 
     scentry.registerStrategy('SessionCookie, app => new CookieSessionStrategy(app, database))
   protected def fromSession = { case id: String => database.user(id.toInt).get }
   protected def toSession = { case usr: User => usr.id.getOrElse("").toString }
  
-  def auth = {
-    scentry.authenticate('SessionCookie) 
-    user match {
-      case user: User => 
-      case _ => halt(401, "Unauthorized")
-    }    
-  }
+  def failUnlessAuthenticated = if (!isAuthenticated) halt(401)
 }
 
 class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database: DB) extends ScentryStrategy[User] {
+  def email = app.params.get("email")
+  def password = app.params.get("password")
+  override def isValid = email.isDefined && password.isDefined
+  
   override def authenticate = {
-    app.cookies.get("userid") match { 
-      case id: Some[String] => database.user(id.get.toInt)
+    val userCandidate = database.userByEmail(email.getOrElse(""))
+    userCandidate match {
+      case user: Some[User] =>if (user.get.password == password.getOrElse("")) user else None
       case _ => None
     }
   }

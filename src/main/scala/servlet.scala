@@ -7,7 +7,7 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   def this() = this(new DB with Env)
 
   post("/insert") {
-    auth
+    failUnlessAuthenticated
     contentType = "applications/json"
     val time = params("time")
     val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
@@ -20,7 +20,7 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   }
   
   post("/delete") {
-    auth
+    failUnlessAuthenticated
     contentType = "applications/json"
     val id = params("id").toInt
     val count = database.deleteServing(Some(id))
@@ -30,7 +30,7 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   }  
   
   get("/servings") {
-    auth
+    failUnlessAuthenticated
     contentType = "applications/json"
     val servings = database.servings.map(x => x.toJson)
     val json = ("servings" -> servings)
@@ -40,7 +40,7 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   def welcomePage = """<div id="tab-welcome" class="tab">Tervetuloa</div>"""
   
   get("/welcome") {
-    auth
+    failUnlessAuthenticated
     contentType = "text/html"
     welcomePage
   }
@@ -53,21 +53,15 @@ class BoozementServlet(protected val database: DB) extends ScalatraServlet with 
   }
   
   post("/login")  {
-    contentType = "text/html"    
-    val userCandidate = database.userByEmail(params("email"))
-    userCandidate match {
-      case user: Some[User] => { 
-        if (user.get.password != params("password")) halt(401, "Unauthorized")
-        cookies.set("userid", user.get.id.get.toString)
-        welcomePage
-      }
-      case _ => halt(401, "Unauthorized")
-    }
+    contentType = "text/html"
+    authenticate
+    failUnlessAuthenticated
+    welcomePage
   }
 
   post("/logout") {
-    cookies.delete("userid")
-    contentType = "text/html"    
+    contentType = "text/html"
+    logOut
     """<div>Olet kirjautunut ulos.</div>"""
   }
   
