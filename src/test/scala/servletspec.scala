@@ -7,7 +7,7 @@ import org.scala_tools.time.Imports._
 import org.easymock._
 
 class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSugar with BeforeAndAfterEach {
-  val database = mock[DB]
+  val database = mock[BoozementDatabase]
   val boozement = new BoozementServlet(database)
   addServlet(boozement, "/*")
 

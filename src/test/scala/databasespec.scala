@@ -3,8 +3,10 @@ import org.scalatest.BeforeAndAfterEach
 import org.scalatest.FunSuite
 import org.scala_tools.time.Imports._
  
+trait TestEnv { self : BoozementDatabase => override def dbUrl = "jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement" }
+ 
 class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
-  val database = new DB with TestEnv
+  val database = new BoozementDatabase with TestEnv
   override def afterAll = database.init
   override def beforeEach = database.init
   
@@ -39,7 +41,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
 }
 
 class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
-  val database = new DB with TestEnv
+  val database = new BoozementDatabase with TestEnv
   override def afterAll = database.init
   override def beforeEach = database.init
 

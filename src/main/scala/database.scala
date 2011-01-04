@@ -13,18 +13,9 @@ import org.scala_tools.time.Imports._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 
-trait Env {
-  def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")
-  def connectDb = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
-}
-
-trait TestEnv {
-  def connectDb = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
-}
-
-abstract class DB extends Implicits {
-  def connectDb: Database  
-  lazy val db = connectDb
+class BoozementDatabase extends Implicits {
+  def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
+  lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
   def init {
     db withSession {
       updateNA("DROP TABLE IF EXISTS users").execute

@@ -16,7 +16,7 @@ trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport wi
   def failUnlessAuthenticated = if (!isAuthenticated) halt(401)
 }
 
-class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database: DB) extends ScentryStrategy[User] {
+class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database: BoozementDatabase) extends ScentryStrategy[User] {
   def email = app.params.get("email")
   def password = app.params.get("password")
   override def isValid = email.isDefined && password.isDefined
