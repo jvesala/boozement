@@ -71,8 +71,7 @@ object Servings extends Table[(Option[Int], Timestamp, String, Int)]("servings")
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ date ~ servingType ~ amount
-  def toServing(x: (Option[Int], Timestamp, String, Int)) = Serving(x._1, x._2, x._3, x._4)  
-  def servings = (for(s <- Servings; _ <- Query orderBy s.date) yield s).mapResult(toServing).list
+  def servings: List[Serving] = (for(s <- Servings; _ <- Query orderBy s.date) yield s).list
 }
 case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
@@ -95,4 +94,6 @@ trait Implicits {
   implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
   implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
   implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
+  implicit def tableRowsToServings(r: List[(Option[Int], Timestamp, String, Int)]): List[Serving] =
+    r.map({x => Serving(x._1, x._2, x._3, x._4)})
 }
