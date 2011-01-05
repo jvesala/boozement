@@ -46,11 +46,7 @@ class BoozementDatabase extends Implicits {
     queryNA[Int]("select last_insert_id()").list.head
   }}
   def user(id: Int): Option[User] = { db withSession { 
-    val q = Users.where(_.id is id)
-    q.list.length match {
-      case 0 => None
-      case _ => Some(q.first)
-    }   
+    Users.findById.firstOption(Some(id))     
   }}
   def userByEmail(email: String): Option[User] = { db withSession {
     val q = Users.where(_.email is email)
@@ -87,6 +83,7 @@ object Users extends Table[User]("users") {
   def email = column[String]("email")
   def password = column[String]("password")
   def * = id ~ email ~ password <> (User, User.unapply _)
+  val findById = createFinderBy(_.id)
 }
 case class User(id: Option[Int], email: String, password: String)
 
