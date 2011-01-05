@@ -49,11 +49,7 @@ class BoozementDatabase extends Implicits {
     Users.findById.firstOption(Some(id))     
   }}
   def userByEmail(email: String): Option[User] = { db withSession {
-    val q = Users.where(_.email is email)
-    q.list.length match {
-      case 0 => None
-      case _ => Some(q.first)
-    }       
+    Users.findByEmail.firstOption(email) 
   }}
   def deleteUser(id: Int) = { db withSession {
     val q = for(u <- Users where {_.id is id }) yield u
@@ -84,6 +80,7 @@ object Users extends Table[User]("users") {
   def password = column[String]("password")
   def * = id ~ email ~ password <> (User, User.unapply _)
   val findById = createFinderBy(_.id)
+  val findByEmail = createFinderBy(_.email)
 }
 case class User(id: Option[Int], email: String, password: String)
 

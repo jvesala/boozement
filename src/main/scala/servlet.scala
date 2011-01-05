@@ -24,7 +24,6 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     contentType = "applications/json"
     val id = params("id").toInt
     val count = database.deleteServing(Some(id))
-    println("count:" + count)
     val json =  ("status" -> "ok")
     compact(render(json))
   }  
