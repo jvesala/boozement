@@ -23,7 +23,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   
   test("insert serving") {
     expecting {
-      database.insertServing(new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
+      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
       lastCall.times(1)
     }
     whenExecuting(database) {
@@ -55,7 +55,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("get servings") {
     expecting {
-      database.servings.andReturn(List(Serving(Some(1), DateTime.now, "Olut", 33)))
+      database.servings.andReturn(List(Serving(Some(1), Some(1), DateTime.now, "Olut", 33)))
       lastCall.times(1)
     }
     whenExecuting(database) {

@@ -23,9 +23,9 @@ class BoozementDatabase extends Implicits {
       (Users.ddl ++ Servings.ddl) create
     }    
   }
-  def insertServing(date: DateTime, servingType: String, amount: Int) = {
+  def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int) = {
     db withSession {
-      Servings.insert(Serving(None, date, servingType, amount))
+      Servings.insert(Serving(None, user.get.id, date, servingType, amount))
       queryNA[Int]("select last_insert_id()").list.head
     }
   }
@@ -57,17 +57,18 @@ class BoozementDatabase extends Implicits {
   }}  
 }
 
-object Servings extends Table[(Option[Int], Timestamp, String, Int)]("servings") with Implicits {
+object Servings extends Table[(Option[Int], Option[Int], Timestamp, String, Int)]("servings") with Implicits {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
+  def userId = column[Option[Int]]("userid")
   def date = column[Timestamp]("date", O.Default(new Timestamp(1000)))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
-  def * = id ~ date ~ servingType ~ amount
+  def * = id ~ userId ~ date ~ servingType ~ amount
   def servings: List[Serving] = (for(s <- Servings; _ <- Query orderBy s.date) yield s).list
 }
-case class Serving(id: Option[Int], date: DateTime, servingType: String, amount: Int) {
+case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
-    val json =  ("id" -> id.getOrElse(0)) ~ 
+    val json =  ("id" -> id.getOrElse(0)) ~ ("userId" -> userId.getOrElse(0)) ~ 
       ("date" -> DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").print(date)) ~ 
       ("type" -> servingType) ~ ("amount" -> amount)
     compact(render(json))
@@ -87,7 +88,8 @@ case class User(id: Option[Int], email: String, password: String)
 trait Implicits {
   implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
   implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
-  implicit def servingToTableRow(x: Serving): (Option[Int], Timestamp, String, Int) = (x.id, x.date, x.servingType, x.amount)        
-  implicit def tableRowsToServings(r: List[(Option[Int], Timestamp, String, Int)]): List[Serving] =
-    r.map({x => Serving(x._1, x._2, x._3, x._4)})
+  implicit def servingToTableRow(x: Serving): (Option[Int], Option[Int], Timestamp, String, Int) = 
+    (x.id, x.userId, x.date, x.servingType, x.amount)        
+  implicit def tableRowsToServings(r: List[(Option[Int], Option[Int], Timestamp, String, Int)]): List[Serving] =
+    r.map({x => Serving(x._1, x._2, x._3, x._4, x._5)})
 }

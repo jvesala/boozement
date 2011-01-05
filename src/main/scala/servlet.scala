@@ -13,7 +13,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
     val servingType = params("type")
     val amount = params("amount").toInt
-    database.insertServing(date, servingType, amount)
+    database.insertServing(Some(user), date, servingType, amount)
     val message: JValue = "Juotu " + servingType + " kello " + time + "." 
     val json =  ("status" -> "ok") ~ ("message" -> message)
     compact(render(json))
