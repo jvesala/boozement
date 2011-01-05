@@ -11,6 +11,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   override def beforeEach = database.init
   
   def user = Some(User(Some(1), "test@user.com", "passwd"))
+  def user2 = Some(User(Some(2), "test2@user.com", "passwd2"))
   test("serving is inserted into db") {    
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
     val drinkingTime2 = new DateTime(2011, 3, 26, 12, 10, 0, 0)
@@ -18,7 +19,8 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     database.insertServing(user, drinkingTime, "Olut", 33)
     database.insertServing(user, drinkingTime3, "Siideri", 50)
     database.insertServing(user, drinkingTime2, "Lonkero", 40)
-    val servings = database.servings
+    database.insertServing(user2, drinkingTime3, "Punaviini", 18)
+    val servings = database.servings(user)
     assert(servings.size == 3)
     assert(servings.head.id == Some(1))
     assert(servings.head.userId == Some(1))
@@ -27,16 +29,17 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(servings.head.date == drinkingTime)
     assert(servings.tail.head.id == Some(3))
     assert(servings.last.id == Some(2))
+    assert(database.servings(user2).size == 1)
   }
 
   test("serving is deleted from db") {    
     val drinkingTime = new DateTime(2010, 5, 20, 11, 45, 13, 0)
     val id1 = database.insertServing(user, drinkingTime, "Siideri", 50)
     val id2 = database.insertServing(user, drinkingTime, "Lonkero", 33)
-    val servings = database.servings
+    val servings = database.servings(user)
     assert(servings.size == 2)
     database.deleteServing(Some(id1))
-    val servings2 = database.servings    
+    val servings2 = database.servings(user)    
     assert(servings2.size == 1)
     assert(servings2.head.id == Some(id2))
   }

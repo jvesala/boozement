@@ -35,9 +35,10 @@ class BoozementDatabase extends Implicits {
       q.delete
     }
   } 
-  def servings: List[Serving] = { 
+  def servings(user: Option[User]): List[Serving] = { 
     db withSession  {
-      Servings.servings
+      val q = for { s <- Servings if (s.userId is user.get.id.get); _ <- Query orderBy s.date } yield s
+      q.list
     }
   }
   
@@ -64,7 +65,6 @@ object Servings extends Table[(Option[Int], Option[Int], Timestamp, String, Int)
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ userId ~ date ~ servingType ~ amount
-  def servings: List[Serving] = (for(s <- Servings; _ <- Query orderBy s.date) yield s).list
 }
 case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {
