@@ -1,0 +1,2 @@
+(:use-sbt t 
+ :root-dir "/Users/jvesala/Git/boozement/")
