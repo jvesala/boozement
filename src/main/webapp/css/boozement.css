@@ -40,7 +40,7 @@ body { width: 100%; height: 100%; }
 .tab-header-insert { left: 0; width: 40px; }
 .tab-header-history { left: 60px; width: 55px; }
 .tab-header.selected { background: #BDBDBD; }
-.session { float: right; border: 1px solid black; margin-top: 10px; 3px; border-radius: 3px; padding: 3px; font-size: 0.9em;}
+.session { float: right; border: none; margin-top: 28px; 3px; padding: 3px; font-size: 0.9em;}
 .session a { text-decoration: none; }
 .session-busy { border: none; }
 
@@ -50,7 +50,7 @@ body { width: 100%; height: 100%; }
 form { -moz-border-radius: 3px; border-radius: 3px; }
 #result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 
-#form-login { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 250px; overflow: auto; }
+#form-login { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
 #form-login h3 { float: left; clear: both; margin-bottom: 5px; }
 #form-login label { float: left; clear: left; width: 120px;}
 #form-login input { float: left; clear: right; }
