@@ -24,8 +24,14 @@ class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database
   override def authenticate = {
     val userCandidate = database.userByEmail(email.getOrElse(""))
     userCandidate match {
-      case user: Some[User] =>if (user.get.password == password.getOrElse("")) user else None
+      case user: Some[User] =>if (PasswordSupport.check(password.getOrElse(""), user.get.password)) user else None
       case _ => None
     }
   }
+}
+
+object PasswordSupport {
+  import org.mindrot.jbcrypt.BCrypt
+  def encrypt(password: String) = BCrypt.hashpw(password, BCrypt.gensalt(12))
+  def check(password:String , passwordHash: String) = BCrypt.checkpw(password, passwordHash)
 }

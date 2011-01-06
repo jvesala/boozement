@@ -11,7 +11,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   val boozement = new BoozementServlet(database)
   addServlet(boozement, "/*")
 
-  val testUser = Some(User(Some(1), "foo", "bar"))
+  val testUser = Some(User(Some(1), "foo", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
   override def beforeEach = { 
     EasyMock.reset(database)
     database.userByEmail("foo").andReturn(testUser)
@@ -28,7 +28,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
     whenExecuting(database) {
       session {
-        post("/login?email=foo&password=bar") { status should equal(200) }
+        post("/login?email=foo&password=foobar") { status should equal(200) }
         post("/insert?date=20.01.2010&time=14:45&type=Siideri&amount=50"){
           status should equal(200)
           body should include("Juotu Siideri kello 14:45")
@@ -44,7 +44,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
     whenExecuting(database) {
       session {
-        post("/login?email=foo&password=bar") { status should equal(200) }
+        post("/login?email=foo&password=foobar") { status should equal(200) }
         post("/delete?id=1") {
           status should equal(200)
           body should include("""{"status":"ok"}""")
@@ -60,7 +60,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
     whenExecuting(database) {
       session {
-        post("/login?email=foo&password=bar") { status should equal(200) }
+        post("/login?email=foo&password=foobar") { status should equal(200) }
         get("/servings") {
           status should equal(200)
           body should include("""{"servings":["{\"id\":1,""")
