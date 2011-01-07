@@ -23,9 +23,11 @@ class BoozementDatabase extends Implicits {
       (Users.ddl ++ Servings.ddl) create
     }    
   }
-  def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int) = {
+  def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int): Int = 
+    insertServing(Serving(None, user.get.id, date, servingType, amount))
+  def insertServing(serving: Serving): Int = {
     db withSession {
-      Servings.insert(Serving(None, user.get.id, date, servingType, amount))
+      Servings.insert(serving)
       queryNA[Int]("select last_insert_id()").list.head
     }
   }
