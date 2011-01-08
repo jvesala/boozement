@@ -76,7 +76,7 @@ form { -moz-border-radius: 3px; border-radius: 3px; }
 #form-insert #result { float: left; margin-top: 15px; }
 
 #tab-history table { margin: 10px; border: 1px solid black; width: 550px;   -moz-border-radius: 3px; border-radius: 3px;}
-#tab-history table thead { background-color: #BDBDBD; border-bottom: 1px solid black;}
-#tab-history table tbody { background-color: white; }
+#tab-history table thead { background-color: #BDBDBD; border-bottom: 1px solid black; width: 550px;}
+#tab-history table tbody { background-color: white; height:200px; overflow: auto; display: block; width: 550px; }
 #tab-history .busy { margin-left: 10px;}
 
