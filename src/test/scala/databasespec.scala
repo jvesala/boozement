@@ -30,6 +30,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(servings.tail.head.id == Some(3))
     assert(servings.last.id == Some(2))
     assert(database.servings(user2).size == 1)
+    assert(database.servings(None).size == 4)
   }
 
   test("serving is deleted from db") {    
@@ -52,9 +53,9 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     database.insertServing(user, drinkingTime + 3.hours, "Punaviini", 18)
     database.insertServing(user, drinkingTime + 4.hours, "Gin tonic", 18)
     assert(database.servings(user).size == 5)
-    assert(database.servings(user, Some(List("Olut"))).size == 1)
-    //assert(database.servings(user, Some(List("ii"))).size == 2)
-    //assert(database.servings(user, Some(List("Olut tonic"))).size == 2)
+    assert(database.servings(user, Some(List("olut"))).size == 1)
+    assert(database.servings(user, Some(List("ii"))).size == 2)
+    assert(database.servings(user, Some(List("Olut", "tonic"))).size == 2)
   }
 }
 

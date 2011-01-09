@@ -37,9 +37,32 @@ class BoozementDatabase extends Implicits {
       q.delete
     }
   } 
-  def servings(user: Option[User]): List[Serving] = { 
+
+  def servings(user: Option[User]): List[Serving] = servings(user, None) 
+  def servings(user: Option[User], words: Option[List[String]]): List[Serving] = {
+    def containsWord(candidate: String, w: String) = candidate.toLowerCase.contains(w.toLowerCase)
+    def containsWords(s: Serving, words: List[String]) =  {
+      val res = for { 
+        w <- words if (containsWord(s.date.toString("dd.MM.yyyyHH:mm"), w) || containsWord(s.servingType, w) || containsWord(s.amount.toString, w)) 
+      } yield true
+      res.contains(true)
+    }
+    val result = user match {
+      case u: Some[User] => servingsByUser(u.get.id)
+      case _ => servingsByUser(None) 
+    }
+    words match {
+      case w: Some[List[String]] => result.filter{containsWords(_, words.get)}
+      case _ => result
+    }
+  }
+  
+  private def servingsByUser(userId: Option[Int]): List[Serving] = {
     db withSession  {
-      val q = for { s <- Servings if (s.userId is user.get.id.get); _ <- Query orderBy s.date } yield s
+      val q = userId match {
+        case id: Some[Int] => for { s <- Servings if (s.userId is id.get); _ <- Query orderBy s.date } yield s
+        case _ => for { s <- Servings; _ <- Query orderBy s.date } yield s
+      }
       q.list
     }
   }
