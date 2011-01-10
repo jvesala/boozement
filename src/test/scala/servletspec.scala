@@ -53,17 +53,38 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
   }
 
-  test("get servings") {
+  test("get servings first page") {
     expecting {
-      database.servings(testUser).andReturn(List(Serving(Some(1), Some(1), DateTime.now, "Olut", 33)))
+      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
+      database.servings(testUser).andReturn(results)
       lastCall.times(1)
     }
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings") {
+        get("/servings?page=0") {
           status should equal(200)
           body should include("""{"servings":["{\"id\":1,""")
+          body should not include("""{"servings":["{\"id\":11,""")
+        }
+      }
+    }
+  }
+
+  test("get servings second page") {
+    expecting {
+      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
+      database.servings(testUser).andReturn(results)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      session {
+        post("/login?email=foo&password=foobar") { status should equal(200) }
+        get("/servings?page=1") {
+          status should equal(200)
+          body should not include("""{"servings":["{\"id\":1,""")
+          body should include("""\"id\":11""")
+          body should not include("""{"servings":["{\"id\":21""")
         }
       }
     }
