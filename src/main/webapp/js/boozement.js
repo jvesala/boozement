@@ -12,8 +12,9 @@ function handleUnauthorized(sourceObservable) {
     }
   }, skip);
 }
-function showLoggedIn(email) { $('.session.invalid').hide();$('.session-busy').hide(); $('.session span').html(email); $('.session.valid').show(); }
-function showLoggedOut() { $('.session.valid').hide(); $('.session-busy').hide(); $('.session.invalid').show(); }
+function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show(); }
+function showLoggedOut() { $('.session.valid').hide(); $('.session.invalid').show(); }
+function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide(); }
 function logOut() {
   var logOut = $.postAsObservable("api/logout").Select(function(d) { return d.data; })
     .Catch(Rx.Observable.Return("Virhetilanne")).Publish();
@@ -23,9 +24,11 @@ function logOut() {
 }
 function updateLoggedIn() {
   $('.session-busy').show();
-  $.ajaxAsObservable({ url: "api/whoami"} )
-    .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
-    .Subscribe(function(d) { if(d.data == "") {showLoggedOut()} else {showLoggedIn(d.data)}});
+  var whoAmI = $.ajaxAsObservable({ url: "api/whoami"} ).Catch(Rx.Observable.Return("error"))
+  whoAmI.Subscribe(function(x) { $('.session-busy').hide() })
+  whoAmI.Where(function(d) { return d == "error" }).Subscribe(showLoggedError)
+  whoAmI.Where(function(d) { return d.data == "" }).Subscribe(showLoggedOut)
+  whoAmI.Where(function(d) { return d.data.length > 0 }).Subscribe(function(d) { showLoggedIn(d.data) })
 }
 
 function getUrlAsObservable(url) {
