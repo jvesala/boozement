@@ -37,6 +37,7 @@ body { width: 100%; height: 100%; }
   padding-top: 5px;
   cursor: pointer;
 }
+.tab { padding: 5px;}
 .tab-header-insert { left: 0; width: 40px; }
 .tab-header-history { left: 60px; width: 55px; }
 .tab-header.selected { background: #BDBDBD; }
@@ -50,7 +51,7 @@ body { width: 100%; height: 100%; }
 form { -moz-border-radius: 3px; border-radius: 3px; }
 #result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 
-#form-login { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
+#form-login { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
 #form-login h3 { float: left; clear: both; margin-bottom: 5px; }
 #form-login label { float: left; clear: left; width: 120px;}
 #form-login input { float: left; clear: right; }
@@ -60,7 +61,7 @@ form { -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
-#form-insert { border: 1px solid black; padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
+#form-insert { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
 #form-insert a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 #form-insert #date { float: left; width: 120px;  }
 #form-insert #time { float: left; width: 50px;  }
@@ -75,8 +76,9 @@ form { -moz-border-radius: 3px; border-radius: 3px; }
 #form-insert .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
 #form-insert #result { float: left; margin-top: 15px; }
 
-#tab-history table { margin: 10px; border: 1px solid black; width: 550px;   -moz-border-radius: 3px; border-radius: 3px;}
+#tab-history input { margin-left: 10px; float: left; width: 100px; }
+#tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
+#tab-history table { float: left; clear: left; margin: 10px; border: 1px solid black; width: 550px;   -moz-border-radius: 3px; border-radius: 3px;}
 #tab-history table thead { background-color: #BDBDBD; border-bottom: 1px solid black; width: 550px;}
 #tab-history table tbody { background-color: white; height:200px; overflow: auto; display: block; width: 550px; }
-#tab-history .busy { margin-left: 10px;}
 

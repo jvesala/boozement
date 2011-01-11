@@ -56,13 +56,13 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   test("get servings first page") {
     expecting {
       val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
-      database.servings(testUser).andReturn(results)
+      database.servings(testUser, None).andReturn(results)
       lastCall.times(1)
     }
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings?page=0") {
+        get("/servings?query=&page=0") {
           status should equal(200)
           body should include("""{"servings":["{\"id\":1,""")
           body should not include("""{"servings":["{\"id\":11,""")
@@ -74,17 +74,37 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   test("get servings second page") {
     expecting {
       val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
-      database.servings(testUser).andReturn(results)
+      database.servings(testUser, None).andReturn(results)
       lastCall.times(1)
     }
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings?page=1") {
+        get("/servings?query=&page=1") {
           status should equal(200)
           body should not include("""{"servings":["{\"id\":1,""")
           body should include("""\"id\":11""")
           body should not include("""{"servings":["{\"id\":21""")
+        }
+      }
+    }
+  }
+
+  test("search servings") {
+    expecting {
+      val results = List.range(1, 15).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33)) ::: List.range(16, 30).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50))
+      database.servings(testUser, Some(List("siideri"))).andReturn(results)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      session {
+        post("/login?email=foo&password=foobar") { status should equal(200) }
+        get("/servings?query=siideri&page=1") {
+          status should equal(200)
+          body should not include("""{"servings":["{\"id\":1,""")
+          body should include("""\"id\":16""")
+          body should include("""\"id\":17""")
+          body should not include("""{"servings":["{\"id\":27,""")
         }
       }
     }
