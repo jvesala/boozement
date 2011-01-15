@@ -78,7 +78,11 @@ form { -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
-#tab-history table { float: left; clear: left; margin: 10px; border: 1px solid black; width: 550px;   -moz-border-radius: 3px; border-radius: 3px;}
-#tab-history table thead { background-color: #BDBDBD; border-bottom: 1px solid black; width: 550px;}
-#tab-history table tbody { background-color: white; height:200px; overflow: auto; display: block; width: 550px; }
+#tab-history table { float: left; clear: left; margin: 10px; border: 1px solid black; XXwidth: 550px; -moz-border-radius: 3px; border-radius: 3px;}
+#tab-history table thead { background-color: #BDBDBD; border-bottom: 1px solid black; }
+#tab-history table tbody { background-color: white; height:100px; overflow: auto; XXdisplay: block; }
+#tab-history table TDtr { width: 550px;}
+#tab-history table .date { width: 150px;}
+#tab-history table .servingType { width: 300px;}
+#tab-history table .amount { width: 100px;}
 

@@ -1,19 +1,10 @@
 var tBody = $('#tab-history table tbody')
 function clearServings() { tBody.empty("") }
-function addServingToTable(serving) { 
-  tBody.append("<tr><td>" + serving.date + "</td><td>" + serving.type + "</td><td>" + serving.amount + " cl</td></tr>");
-}
-
-function getServings() {
-  var servings = $.ajaxAsObservable({ url: "api/servings"}).Publish();
-  handleUnauthorized(servings);
-  var servingsData = servings
-    .Catch(Rx.Observable.Never())
-    .SelectMany(function(data) { return Rx.Observable.FromArray(data.data.servings) })
-    .Select(function(data) { return $.parseJSON(data)});
-  servingsData.Subscribe(addServingToTable());
-  servings.Subscribe(function(x) { hideBusy() });
-  servings.Connect();
+function addServingToTable(s) { tBody.append('<tr><td class="date">' + s.date + '</td><td class="servingType">' + s.type + '</td><td class="amount">' + s.amount + " cl</td></tr>") }
+function addServingsToTable(servings) {
+  $.each(servings, function(i, s) {
+    addServingToTable($.parseJSON(s))
+  })
 }
 
 function query(term, page) {
@@ -23,8 +14,7 @@ function query(term, page) {
   servings.Connect()
   return servings
     .Catch(Rx.Observable.Never())
-    .SelectMany(function(data) { return Rx.Observable.FromArray(data.data.servings) })
-    .Select(function(data) { return $.parseJSON(data)});
+    .Select(function(data) { return data.data.servings ? data.data.servings : [] })
 }
 
 function servings() {
@@ -46,17 +36,19 @@ function servings() {
     .DistinctUntilChanged()
     .Where(function(inBottom) { return inBottom })
   
-  first.Subscribe(function(serving) { clearServings(); addServingToTable(serving) })
-  more.Subscribe(function(serving) { addServingToTable(serving) })
+  first.Subscribe(function(servings) { clearServings(); addServingsToTable(servings) })
+  first.Subscribe(function(x) { hideBusy() });
+  more.Subscribe(function(servings) { addServingsToTable(serving) })
+  more.Subscribe(function(x) { hideBusy() });
+
 
 }
 
-function debug(x) { console.log(x) }
+
 
 $(function() {
   showBusy();
   servings();
-  //getServings();
   updateLoggedIn();  
 });
 

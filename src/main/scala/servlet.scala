@@ -29,6 +29,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }  
   
   get("/servings") {
+    val resultsInPage = 10
     failUnlessAuthenticated
     contentType = "applications/json"
     val page = params("page").toInt
@@ -36,7 +37,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case s: String => if(s.length == 0) None else Some(params("query").split(" ").toList)
       case _ => None
     }
-    val servings = database.servings(Some(user), query).drop(10 * page).take(10).map(x => x.toJson)
+    val servings = database.servings(Some(user), query).drop(resultsInPage * page).take(resultsInPage).map(_.toJson)
     val json = ("servings" -> servings)
     compact(render(json))
   }
