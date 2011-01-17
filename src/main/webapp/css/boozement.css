@@ -74,12 +74,16 @@ input[type="submit"] {
 
 #form-insert { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
 #form-insert a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
-#form-insert #date { float: left; width: 120px;  }
+#form-insert #dateElement { margin: 5px; }
+#form-insert #dateElement a { margin-top: 2px; }
+#form-insert #dateElement span.startDateLabel { margin-top: 4px; display: block; }
+#form-insert #date { float: left; width: 120px; }
 #form-insert #time { float: left; width: 50px;  }
-#form-insert label { float: left; width: 120px;  padding-top: 8px; clear: left; }
+#form-insert label { float: left; width: 120px;  margin-top: 4px; clear: left; margin-left: 5px; }
+#form-insert label.time { clear: none; margin-left: 10px; width: 33px; }
 #form-insert #type { float: left; width: 150px; }
 #form-insert #amount { float: left; width: 40px; }
-#form-insert .unit { float: left; margin-top: 5px; }
+#form-insert .unit { float: left; margin-top: 5px; margin-left: 2px; }
 #form-insert #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
 #form-insert .busy { float: right; margin-top: 15px; margin-right: 5px; }
 #form-insert em { float: right;}
