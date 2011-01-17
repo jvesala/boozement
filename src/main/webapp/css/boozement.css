@@ -104,5 +104,8 @@ input[type="submit"] {
 #tab-history table tbody { background-color: white; border: 1px solid black; height:100px;  width: 540px; overflow-y: scroll; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px; }
 #tab-history table .date { width: 150px; }
 #tab-history table .servingType { width: 300px; }
-#tab-history table .amount {}
+#tab-history table .amount { width: 75px; overflow: hidden; }
+#tab-history table th { font-weight: bold; }
+#tab-history table tr:nth-child(even) td {background: #E6E6E6}
+#tab-history table tr:nth-child(odd) td {background: #FFF}
 
