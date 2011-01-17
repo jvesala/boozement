@@ -3,7 +3,7 @@ import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 import org.scala_tools.time.Imports._
 
-class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport {
+class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   def this() = this(new BoozementDatabase)
 
   post("/insert") {

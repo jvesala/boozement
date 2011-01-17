@@ -30,6 +30,14 @@ class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database
   }
 }
 
+trait RemoteInfo {
+ self: ScalatraKernel =>
+  def remoteAddress(): String = {
+    val proxiedAddress = Option(request.getHeader("X-FORWARDED-FOR")).getOrElse("")
+    if (!proxiedAddress.isEmpty) proxiedAddress else request.getRemoteAddr
+  }
+}
+
 object PasswordSupport {
   import org.mindrot.jbcrypt.BCrypt
   def encrypt(password: String) = BCrypt.hashpw(password, BCrypt.gensalt(12))
