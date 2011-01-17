@@ -47,7 +47,7 @@ body { width: 100%; height: 100%; }
 
 .hidden { display: none; }
 .busy, .session-busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
-.clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; }
+.clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
 
 form { -moz-border-radius: 3px; border-radius: 3px; }
 #result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
