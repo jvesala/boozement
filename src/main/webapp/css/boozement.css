@@ -51,14 +51,23 @@ body { width: 100%; height: 100%; }
 .shadow { -moz-box-shadow: 3px 3px 3px gray; -webkit-box-shadow: 3px 3px 3px gray;}
 
 form { -moz-border-radius: 3px; border-radius: 3px; }
+input {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
+  background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
+  background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
+}
+input[type="submit"] {
+  margin: 5px;
+  -moz-border-radius: 5px; border-radius: 5px;
+}
 
 #result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #form-login { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
-#form-login h3 { float: left; clear: both; margin-bottom: 5px; text-shadow: gray 0px 1px 2px; }
-#form-login label { float: left; clear: left; width: 120px;}
-#form-login input { float: left; clear: right; }
-#form-login #submit { float: right; clear: both; }
-#form-login .busy { float: right; margin-top: 3px; margin-right: 3px; }
+#form-login h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
+#form-login label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
+#form-login input { float: left; clear: right;  width: 150px; margin-top: 5px; }
+#form-login #submit { float: right; clear: both; margin-right: 19px; width: 90px; }
+#form-login .busy { float: right; margin-top: 7px; }
 #form-login #result { float: left; background: red; margin-top: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
