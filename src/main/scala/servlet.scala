@@ -2,6 +2,7 @@ import org.scalatra._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 import org.scala_tools.time.Imports._
+import java.net.URLDecoder
 
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   def this() = this(new BoozementDatabase)
@@ -34,7 +35,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     contentType = "applications/json"
     val page = params("page").toInt
     val query: Option[List[String]] = params("query") match {
-      case s: String => if(s.length == 0) None else Some(params("query").split(" ").toList)
+      case s: String => if(s.length == 0) None else Some(URLDecoder.decode(s, "UTF-8").split(" ").toList)
       case _ => None
     }
     val servings = database.servings(Some(user), query).drop(resultsInPage * page).take(resultsInPage).map(_.toJson)
