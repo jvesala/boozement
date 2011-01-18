@@ -1,6 +1,6 @@
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
-function setPageContent() { return function(content) { setElementContent($('#page-content'), content); }}
-function setElementContent(element, content) { element.children().detach(); element.append(content);}
+function setPageContent() { return function(content) { setElementContent($('#page-content div'), content); }}
+function setElementContent(element, content) { element.hide().empty().html(content).fadeIn(); }
 function updateResult(html) { $('#result').html(html).show(); }
 function skip() { return function(x) {} };
 function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(function(d) { return d.data; }).Subscribe(setPageContent()); }
