@@ -4,17 +4,28 @@ var tBody = $('#tab-history table tbody')
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
 function addServingToTable(s) { tBody.append('<tr><td class="date">' + s.date + '</td><td class="servingType">' + s.type + '</td><td class="amount">' + s.amount + " cl</td></tr>") }
-function addServingsToTable(servings) { $.each(servings, function(i, s) { addServingToTable($.parseJSON(s)) }) }
+function addServingsToTable(servings) { $.each(servings, function(i, s) { addServingToTable(s) }) }
+function highlight(s, terms) {
+  if(terms != "") {
+    var regExp = new RegExp('(' + terms.split(" ").join(")|(") + ')', 'gi')
+    var replacement = '<span class="highlight">$&</span>'
+    s.date = s.date.replace(regExp, replacement)
+    s.type = s.type.replace(regExp, replacement)
+    s.amount = s.amount.toString().replace(regExp, replacement)
+  }
+  return s
+}
 
-function query(term, page) {
+function query(terms, page) {
   showBusy()  
-  var params = { query:escape(term), page:page }
+  var params = { query:escape(terms), page:page }
   var servings = $.ajaxAsObservable({ url: "api/servings", data: params}).Publish()
   handleUnauthorized(servings)
   servings.Connect()
   return servings
     .Catch(Rx.Observable.Never())
     .Select(function(data) { return data.data.servings ? data.data.servings : [] })
+    .Select(function(data) { return $.map(data, function(s) { return highlight($.parseJSON(s), terms)}) })
 }
 
 function servings() {

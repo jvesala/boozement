@@ -108,4 +108,5 @@ input[type="submit"] {
 #tab-history table th { font-weight: bold; }
 #tab-history table tr:nth-child(even) td {background: #E6E6E6}
 #tab-history table tr:nth-child(odd) td {background: #FFF}
+#tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
