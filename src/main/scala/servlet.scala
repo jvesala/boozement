@@ -38,8 +38,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case s: String => if(s.length == 0) None else Some(URLDecoder.decode(s, "UTF-8").split(" ").toList)
       case _ => None
     }
-    val servings = database.servings(Some(user), query).drop(resultsInPage * page).take(resultsInPage).map(_.toJson)
-    val json = ("servings" -> servings)
+    val servings = database.servings(Some(user), query)
+    val json = ("servings" -> servings.drop(resultsInPage * page).take(resultsInPage).map(_.toJson)) ~
+      ("count" -> servings.length)
     compact(render(json))
   }
   

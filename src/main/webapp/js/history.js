@@ -1,6 +1,8 @@
 var clear = $('#clear')
 var search = $('#search')
 var tBody = $('#tab-history table tbody')
+function showCount(count) { $('#count').show(); $('#count span').html(count) }
+function hideCount() { $('#count').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
 function addServingToTable(s) { tBody.append('<tr><td class="date">' + s.date + '</td><td class="servingType">' + s.type + '</td><td class="amount">' + s.amount + " cl</td></tr>") }
@@ -17,18 +19,23 @@ function highlight(s, terms) {
 }
 
 function query(terms, page) {
-  showBusy()  
   var params = { query:escape(terms), page:page }
   var servings = $.ajaxAsObservable({ url: "api/servings", data: params}).Publish()
   handleUnauthorized(servings)
   servings.Connect()
   return servings
     .Catch(Rx.Observable.Never())
-    .Select(function(data) { return data.data.servings ? data.data.servings : [] })
-    .Select(function(data) { return $.map(data, function(s) { return highlight($.parseJSON(s), terms)}) })
+    .Select(function(data) { return data.data })
+    .Select(function(data) { return [$.map(data.servings, function(s) { return highlight($.parseJSON(s), terms)}), data.count] })
+    .Catch(Rx.Observable.Never())
 }
 
-function servings() {
+function isScrolledToBottom(e) {
+  var scrollTolerance = 10
+  return e.target.scrollTop + e.target.offsetHeight + scrollTolerance > e.target.scrollHeight
+}
+
+$(function() {  
   var input = search.toObservable('keyup')
     .Throttle(50)
     .Select(function(e) { return $(e.target).val() })
@@ -38,30 +45,23 @@ function servings() {
       .Scan(0, function(current, x) { return current+1 })
       .SelectMany(function(page) { return query(term, page) })
   }
-  input.Where(function(x) { return x == ""}).Subscribe(function(_) { clear.hide() })
-  input.Where(function(x) { return x != ""}).Subscribe(function(_) { clear.show() })
-  var first = input.Select(function(term) { return query(term, 0) }).Switch().Publish()
-  var more = input.Select(paging).Switch().Publish()
   var scrollBottom = $('table tbody').toObservable('scroll')
     .Select(isScrolledToBottom)
     .DistinctUntilChanged()
     .Where(function(inBottom) { return inBottom })
-  first.Subscribe(function(servings) { clearServings(); addServingsToTable(servings) })
-  first.Subscribe(function(x) { hideBusy() })  
-  more.Subscribe(function(servings) { addServingsToTable(servings) })
-  more.Subscribe(function(x) { hideBusy() })
+  
+  input.Where(function(x) { return x == ""}).Subscribe(function(_) { clear.hide() })
+  input.Where(function(x) { return x != ""}).Subscribe(function(_) { clear.show() })
+  var first = input.Subscribe(function(_) { hideCount(); showBusy() })
+  var first = input.Select(function(term) { return query(term, 0) }).Switch().Publish()
+  var more = input.Select(paging).Switch().Publish()
+  first.Subscribe(function(x) { clearServings(); addServingsToTable(x[0]) })
+  first.Subscribe(function(x) { hideBusy(); showCount(x[1]) })
+  more.Subscribe(function(x) { addServingsToTable(x[0]) })
   first.Connect()
   more.Connect()
   clearSearch()
   clear.toObservable('click').Subscribe(function(_) { clearSearch() })
-}
 
-function isScrolledToBottom(e) {
-  var scrollTolerance = 10
-  return e.target.scrollTop + e.target.offsetHeight + scrollTolerance > e.target.scrollHeight
-}
-
-$(function() {
-  servings()
   updateLoggedIn()
 });
