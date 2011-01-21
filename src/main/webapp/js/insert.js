@@ -1,6 +1,6 @@
 function insertParams() {
-  var fields = ["date", "time", "type", "amount"];
-  return jQuery.map(fields, function(f, i) { return f + "=" + $('#' + f).val();} ).join("&");
+  var fields = ["date", "time", "type", "amount"]
+  return $.map(fields, function(f) { return f + "=" + $('#' + f).val() } ).join("&")
 }
 
 function getCurrentTime() {
