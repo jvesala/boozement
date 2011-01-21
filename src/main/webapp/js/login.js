@@ -16,5 +16,12 @@ function doLogin() {
 }
 
 $(function() {
+  var email = $('#email').changes()
+  var emailValidation = mkValidation(email, requiredValidator())
+  var password = $('#password').changes()
+  var passwordValidation = mkValidation(password, requiredValidator())
+  var all = combine([emailValidation, passwordValidation])
+  all.Subscribe(disableEffect($('#submit')))
+	
   $('#submit').toObservable('click').Subscribe(doLogin)
 });
