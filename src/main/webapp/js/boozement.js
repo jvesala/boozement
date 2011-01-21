@@ -31,6 +31,7 @@ function updateLoggedIn() {
   whoAmI.Where(function(d) { return d.data.length > 0 }).Subscribe(function(d) { showLoggedIn(d.data) })
 }
 
+function id(e) { return e.target.id }
 function showTab(tabId) {
   deSelectTabHeader()
   $("." + tabId).addClass("selected")
@@ -59,7 +60,7 @@ function showWelcomeTab() {
 }
 
 $(function () {
-  $('.tab-header').toObservable('click').Select(function(x) { return x.srcElement.id }).Subscribe(showTab)
+  $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
   showWelcomeTab()
   updateLoggedIn()
 });
