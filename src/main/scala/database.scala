@@ -42,10 +42,9 @@ class BoozementDatabase extends Implicits {
   def servings(user: Option[User], words: Option[List[String]]): List[Serving] = {
     def containsWord(candidate: String, w: String) = candidate.toLowerCase.contains(w.toLowerCase)
     def containsWords(s: Serving, words: List[String]) =  {
-      val res = for { 
-        w <- words if (containsWord(s.date.toString("dd.MM.yyyyHH:mm"), w) || containsWord(s.servingType, w) || containsWord(s.amount.toString, w)) 
-      } yield true
-      res.contains(true)
+      words.map{ (w) =>  
+        if (containsWord(s.date.toString("dd.MM.yyyyHH:mm"), w) || containsWord(s.servingType, w) || containsWord(s.amount.toString, w)) true else false 
+      }.forall(_ == true)
     }
     val result = user match {
       case u: Some[User] => servingsByUser(u.get.id)

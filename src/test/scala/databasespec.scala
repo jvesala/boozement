@@ -55,9 +55,9 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(database.servings(user).size == 5)
     assert(database.servings(user, Some(List("olut"))).size == 1)
     assert(database.servings(user, Some(List("ii"))).size == 2)
-    val res = database.servings(user, Some(List("Olut", "tonic")))
-    assert(res.size == 2)
-    assert(res.head.id == Some(5))
+    val res = database.servings(user, Some(List("Olut", "33")))
+    assert(res.size == 1)
+    assert(res.head.id == Some(1))
   }
 }
 
