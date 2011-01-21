@@ -20,7 +20,7 @@ function doInsert() {
 }
 
 $(function() {
-  $('#submit').click(function (x) { doInsert(); return false; })
+  $('#submit').toObservable('click').Subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
 });

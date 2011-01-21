@@ -14,5 +14,5 @@ function doLogin() {
 }
 
 $(function() {
-  $('#submit').click(function (x) { doLogin(); return false; })
+  $('#submit').toObservable('click').Subscribe(doLogin)
 });
