@@ -60,8 +60,8 @@ class BoozementDatabase extends Implicits {
   private def servingsByUser(userId: Option[Int]): List[Serving] = {
     db withSession  {
       val q = userId match {
-        case id: Some[Int] => for { s <- Servings if (s.userId is id.get); _ <- Query orderBy s.date } yield s
-        case _ => for { s <- Servings; _ <- Query orderBy s.date } yield s
+        case id: Some[Int] => for { s <- Servings if (s.userId is id.get); _ <- Query orderBy (s.date desc) } yield s
+        case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
       }
       q.list
     }

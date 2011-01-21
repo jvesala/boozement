@@ -22,13 +22,13 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     database.insertServing(user2, drinkingTime3, "Punaviini", 18)
     val servings = database.servings(user)
     assert(servings.size == 3)
-    assert(servings.head.id == Some(1))
+    assert(servings.head.id == Some(2))
     assert(servings.head.userId == Some(1))
-    assert(servings.head.amount == 33)
-    assert(servings.head.servingType == "Olut")
-    assert(servings.head.date == drinkingTime)
+    assert(servings.head.amount == 50)
+    assert(servings.head.servingType == "Siideri")
+    assert(servings.head.date == drinkingTime3)
     assert(servings.tail.head.id == Some(3))
-    assert(servings.last.id == Some(2))
+    assert(servings.last.id == Some(1))
     assert(database.servings(user2).size == 1)
     assert(database.servings(None).size == 4)
   }
@@ -55,7 +55,9 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(database.servings(user).size == 5)
     assert(database.servings(user, Some(List("olut"))).size == 1)
     assert(database.servings(user, Some(List("ii"))).size == 2)
-    assert(database.servings(user, Some(List("Olut", "tonic"))).size == 2)
+    val res = database.servings(user, Some(List("Olut", "tonic")))
+    assert(res.size == 2)
+    assert(res.head.id == Some(5))
   }
 }
 
