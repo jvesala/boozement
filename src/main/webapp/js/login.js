@@ -13,7 +13,6 @@ function doLogin() {
   loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn() })
   login.Connect()
   loginContent.Connect()
-  return false
 }
 
 $(function() {
