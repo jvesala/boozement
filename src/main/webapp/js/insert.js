@@ -17,6 +17,7 @@ function doInsert() {
   insert.Select(function(d) { return d.data.message }).Catch(Rx.Observable.Never())
     .Subscribe(function(x) { updateResult(x); resetSubmitStatus() })
   insert.Connect()
+  return false
 }
 
 $(function() {

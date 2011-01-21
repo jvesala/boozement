@@ -71,34 +71,34 @@ input[type="submit"] {
 }
 
 #result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
-#form-login { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
-#form-login h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
-#form-login label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
-#form-login input { float: left; clear: right;  width: 150px; margin-top: 5px; }
-#form-login #submit { float: right; clear: both; margin-right: 19px; width: 90px; }
-#form-login .busy { float: right; margin-top: 7px; }
-#form-login #result { float: left; background: red; margin-top: 5px; }
+#tab-login-content { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
+#tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
+#tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
+#tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
+#tab-login-content #submit { float: right; clear: both; margin-right: 19px; width: 90px; }
+#tab-login-content .busy { float: right; margin-top: 7px; }
+#tab-login-content #result { float: left; background: red; margin-top: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
-#form-insert { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
-#form-insert a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
-#form-insert #dateElement { margin: 5px; }
-#form-insert #dateElement a { margin-top: 2px; }
-#form-insert #dateElement span.startDateLabel { margin-top: 4px; display: block; }
-#form-insert #date { float: left; width: 120px; }
-#form-insert #time { float: left; width: 50px;  }
-#form-insert label { float: left; width: 120px;  margin-top: 4px; clear: left; margin-left: 5px; }
-#form-insert label.time { clear: none; margin-left: 10px; width: 33px; }
-#form-insert #type { float: left; width: 150px; }
-#form-insert #amount { float: left; width: 40px; }
-#form-insert .unit { float: left; margin-top: 5px; margin-left: 2px; }
-#form-insert #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
-#form-insert .busy { float: right; margin-top: 15px; margin-right: 5px; }
-#form-insert em { float: right;}
-#form-insert .invalid { color: red; }
-#form-insert .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
-#form-insert #result { float: left; margin-top: 15px; }
+#tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
+#tab-insert-content a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
+#tab-insert-content #dateElement { margin: 5px; }
+#tab-insert-content #dateElement a { margin-top: 2px; }
+#tab-insert-content #dateElement span.startDateLabel { margin-top: 4px; display: block; }
+#tab-insert-content #date { float: left; width: 120px; }
+#tab-insert-content #time { float: left; width: 50px;  }
+#tab-insert-content label { float: left; width: 120px;  margin-top: 4px; clear: left; margin-left: 5px; }
+#tab-insert-content label.time { clear: none; margin-left: 10px; width: 33px; }
+#tab-insert-content #type { float: left; width: 150px; }
+#tab-insert-content #amount { float: left; width: 40px; }
+#tab-insert-content .unit { float: left; margin-top: 5px; margin-left: 2px; }
+#tab-insert-content #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
+#tab-insert-content .busy { float: right; margin-top: 15px; margin-right: 5px; }
+#tab-insert-content em { float: right;}
+#tab-insert-content .invalid { color: red; }
+#tab-insert-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
+#tab-insert-content #result { float: left; margin-top: 15px; }
 
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }

@@ -5,7 +5,7 @@ function doLogin() {
   var login = $.postAsObservable("api/login", loginParams()).Publish()
   login.Subscribe(skip, function(error) {
     if(error.xmlHttpRequest.status == "401") { updateResult("Väärä kirjautumistunnus tai salasana.") }
-    else if(error.xmlHttpRequest.status != "200") { updateResult("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
+    else if(error.xmlHttpRequest.status == "500") { updateResult("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
     resetSubmitStatus()
   }, skip)
   var loginContent = login.Select(function(d) { return d.data }).Catch(Rx.Observable.Never()).Publish()
@@ -13,6 +13,7 @@ function doLogin() {
   loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn() })
   login.Connect()
   loginContent.Connect()
+  return false
 }
 
 $(function() {
