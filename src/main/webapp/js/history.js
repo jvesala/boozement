@@ -61,7 +61,7 @@ $(function() {
   first.Connect()
   more.Connect()
   clearSearch()
-  clear.toObservable('click').Subscribe(function(_) { clearSearch() })
+  clear.toObservable('click').Subscribe(clearSearch)
 
   updateLoggedIn()
 });
