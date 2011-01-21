@@ -65,7 +65,10 @@ input {
   background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
   background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
 }
-input[type="submit"] {
+button {
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
+  background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
+  background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
   margin: 5px;
   -moz-border-radius: 5px; border-radius: 5px;
 }
@@ -75,7 +78,7 @@ input[type="submit"] {
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
-#tab-login-content #submit { float: right; clear: both; margin-right: 19px; width: 90px; }
+#tab-login-content button { float: right; clear: both; margin-right: 19px; width: 90px; }
 #tab-login-content .busy { float: right; margin-top: 7px; }
 #tab-login-content #result { float: left; background: red; margin-top: 5px; }
 
@@ -93,7 +96,7 @@ input[type="submit"] {
 #tab-insert-content #type { float: left; width: 150px; }
 #tab-insert-content #amount { float: left; width: 40px; }
 #tab-insert-content .unit { float: left; margin-top: 5px; margin-left: 2px; }
-#tab-insert-content #submit { float: right; margin-top: 10px; width: 100px; clear: both; }
+#tab-insert-content button { float: right; margin-top: 10px; width: 100px; clear: both; }
 #tab-insert-content .busy { float: right; margin-top: 15px; margin-right: 5px; }
 #tab-insert-content em { float: right;}
 #tab-insert-content .invalid { color: red; }

@@ -46,8 +46,8 @@ function showBusy() { $('.busy').show() }
 function hideBusy() { $('.busy').hide() }
 function showTabHeaders() { $('.tab-header').show() }
 function hideTabHeaders() { $('.tab-header').hide() }
-function enableSubmitButton() { $('input[type=submit]').removeAttr("disabled") }
-function disableSubmitButton() { $('input[type=submit]').attr("disabled", "disabled") }
+function enableSubmitButton() { $('button').removeAttr("disabled") }
+function disableSubmitButton() { $('button').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }
 function resetSubmitStatus() { hideBusy(); enableSubmitButton() }
 
