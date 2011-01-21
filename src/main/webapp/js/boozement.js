@@ -31,16 +31,12 @@ function updateLoggedIn() {
   whoAmI.Where(function(d) { return d.data.length > 0 }).Subscribe(function(d) { showLoggedIn(d.data) })
 }
 
-function getUrlAsObservable(url) {
-  return $.ajaxAsObservable({ url: url})
-      .Catch(Rx.Observable.Return({data: "Virhetilanne"}))
-      .Select(function(d) { return d.data; });
-}
-function showTab(tabHeader, url) {
-  deSelectTabHeader();
-  tabHeader.addClass("selected");
-  var source = getUrlAsObservable(url);
-  source.Subscribe(setPageContent());
+function showTab(tabId) {
+  deSelectTabHeader()
+  $("." + tabId).addClass("selected")
+  $.ajaxAsObservable({ url: tabId.split("-").pop() + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
+    .Select(function(d) { return d.data; })
+    .Subscribe(setPageContent())
 }
 
 function showBusy() { $('.busy').show(); }
@@ -63,11 +59,7 @@ function showWelcomeTab() {
 }
 
 $(function () {
-  function initTabs() {
-    $('.tab-header-insert').click(function() { showTab($(this), "insert.html"); });
-    $('.tab-header-history').click(function() { showTab($(this), "history.html"); });
-  }
-  initTabs();
+  $('.tab-header').toObservable('click').Select(function(x) { return x.srcElement.id }).Subscribe(showTab)
   showWelcomeTab();
   updateLoggedIn();
 });
