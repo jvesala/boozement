@@ -34,6 +34,8 @@ function updateLoggedIn() {
 function id(e) { return e.target.id }
 function showTab(tabId) {
   deSelectTabHeader()
+  setPageContent('<div class="busy"></div>')
+  showBusy()
   $("." + tabId).addClass("selected")
   $.ajaxAsObservable({ url: tabId.split("-").pop() + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
     .Select(function(d) { return d.data })
