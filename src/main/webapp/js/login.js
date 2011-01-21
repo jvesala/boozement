@@ -7,7 +7,7 @@ function doLogin() {
     if(error.xmlHttpRequest.status == "401") { updateResult("Väärä kirjautumistunnus tai salasana."); resetSubmitStatus(); }
   }, skip);
   var loginContent = login.Select(function(d) { return d.data; }).Catch(Rx.Observable.Never()).Publish();
-  loginContent.Subscribe(setPageContent());
+  loginContent.Subscribe(setPageContent);
   loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn(); });
   login.Connect();
   loginContent.Connect();

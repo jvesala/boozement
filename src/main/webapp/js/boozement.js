@@ -1,9 +1,9 @@
-function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }); }
-function setPageContent() { return function(content) { setElementContent($('#page-content div'), content); }}
-function setElementContent(element, content) { element.hide().empty().html(content).fadeIn(); }
-function updateResult(html) { $('#result').html(html).show(); }
-function skip() { return function(x) {} };
-function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(function(d) { return d.data; }).Subscribe(setPageContent()); }
+function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }) }
+function setPageContent(content) { setElementContent($('#page-content div'), content) }
+function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
+function updateResult(html) { $('#result').html(html).show() }
+function skip() { return function(x) {} }
+function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(function(d) { return d.data; }).Subscribe(setPageContent); }
 function handleUnauthorized(sourceObservable) {
   sourceObservable.Subscribe(skip, function(error) {
     if(error.xmlHttpRequest.status == "401") {
@@ -18,7 +18,7 @@ function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudesta
 function logOut() {
   var logOut = $.postAsObservable("api/logout").Select(function(d) { return d.data; })
     .Catch(Rx.Observable.Return("Virhetilanne")).Publish();
-  logOut.Subscribe(setPageContent());
+  logOut.Subscribe(setPageContent);
   logOut.Subscribe(function(x) {  showLoggedOut(); });
   logOut.Connect();
 }
@@ -36,7 +36,7 @@ function showTab(tabId) {
   $("." + tabId).addClass("selected")
   $.ajaxAsObservable({ url: tabId.split("-").pop() + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
     .Select(function(d) { return d.data; })
-    .Subscribe(setPageContent())
+    .Subscribe(setPageContent)
 }
 
 function showBusy() { $('.busy').show(); }
@@ -54,7 +54,7 @@ function showWelcomeTab() {
   welcome
     .Select(function(d) { return d.data; })
     .Catch(Rx.Observable.Never())
-    .Subscribe(setPageContent());
+    .Subscribe(setPageContent);
   welcome.Connect();
 }
 
