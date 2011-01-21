@@ -1,18 +1,18 @@
-function loginParams() { return "email=" + $('#email').val() + "&password=" + $('#password').val(); }
+function loginParams() { return "email=" + $('#email').val() + "&password=" + $('#password').val() }
 
 function doLogin() {
-  preSubmit();
-  var login = $.postAsObservable("api/login", loginParams()).Publish();
+  preSubmit()
+  var login = $.postAsObservable("api/login", loginParams()).Publish()
   login.Subscribe(skip, function(error) {
-    if(error.xmlHttpRequest.status == "401") { updateResult("Väärä kirjautumistunnus tai salasana."); resetSubmitStatus(); }
-  }, skip);
-  var loginContent = login.Select(function(d) { return d.data; }).Catch(Rx.Observable.Never()).Publish();
-  loginContent.Subscribe(setPageContent);
-  loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn(); });
-  login.Connect();
-  loginContent.Connect();
+    if(error.xmlHttpRequest.status == "401") { updateResult("Väärä kirjautumistunnus tai salasana."); resetSubmitStatus() }
+  }, skip)
+  var loginContent = login.Select(function(d) { return d.data; }).Catch(Rx.Observable.Never()).Publish()
+  loginContent.Subscribe(setPageContent)
+  loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn() })
+  login.Connect()
+  loginContent.Connect()
 }
 
 $(function() {
-  $('#submit').click(function (x) { doLogin(); return false; });
+  $('#submit').click(function (x) { doLogin(); return false; })
 });
