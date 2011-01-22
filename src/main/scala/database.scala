@@ -67,9 +67,14 @@ class BoozementDatabase extends Implicits {
     }
   }
   
-  def insertUser(email: String, password: String) = { db withSession {
-    Users.insert(User(None, email, password))
+  def insertUser(email: String, password: String): Int = insertUser(User(None, email, password))
+  def insertUser(user: User) = { db withSession {
+    Users.insert(user)
     Query(lastId).first
+  }}
+  def updateUser(usr: User) = { db withSession {
+    val q = for(u <- Users where {_.id is usr.id }) yield u.email ~ u.password
+    q.update(usr.email, usr.password)
   }}
   def user(id: Int): Option[User] = { db withSession { 
     Users.findById.firstOption(Some(id))     

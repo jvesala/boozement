@@ -71,6 +71,15 @@ class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAft
     assert(res == 1)
     assert(database.user(1).get.email == "test@test.com")
   }
+
+  test("user is updated") {
+    val user = User(None, "originalemail@test.com", "mypassword")
+    val res = database.insertUser(user)
+    assert(res == 1)
+    assert(database.user(1).get.email == "originalemail@test.com")
+    database.updateUser(user.copy(email = "newemail@test.com", id = Some(1)))
+    assert(database.user(1).get.email == "newemail@test.com")
+  }
   
   test("user is deleted from db") {
     val res = database.insertUser("test@test.com", "mypassword")
