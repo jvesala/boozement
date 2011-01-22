@@ -45,8 +45,8 @@ body { width: 100%; height: 100%; }
   background: -webkit-gradient(linear, center top, center bottom, from(#424242), to(white)); /* for webkit browsers */
   background: -moz-linear-gradient(top, #424242,  white); /* for firefox 3.6+ */  
 }
-.session { float: right; border: none; margin-top: 28px; 3px; padding: 3px; font-size: 0.9em;}
-.session a { text-decoration: none; }
+.session { float: right; border: none; margin-top: 20px; 3px; padding: 3px; font-size: 0.9em;}
+.session button { text-decoration: none; margin: 0; }
 .session-busy { border: none; }
 
 .hidden { display: none; }

@@ -46,8 +46,8 @@ function showBusy() { $('.busy').show() }
 function hideBusy() { $('.busy').hide() }
 function showTabHeaders() { $('.tab-header').show() }
 function hideTabHeaders() { $('.tab-header').hide() }
-function enableSubmitButton() { $('button').removeAttr("disabled") }
-function disableSubmitButton() { $('button').attr("disabled", "disabled") }
+function enableSubmitButton() { $('#submit').removeAttr("disabled") }
+function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }
 function resetSubmitStatus() { hideBusy(); enableSubmitButton() }
 
@@ -63,6 +63,7 @@ function showWelcomeTab() {
 
 $(function () {
   $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
+  $('#logout').toObservable('click').Subscribe(logOut)
   showWelcomeTab()
   updateLoggedIn()
 });
