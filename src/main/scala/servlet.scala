@@ -33,8 +33,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val resultsInPage = 20
     failUnlessAuthenticated
     contentType = "applications/json"
-    val page = params("page").toInt
-    val query: Option[List[String]] = params("query") match {
+    val page = if (params.contains("page")) params("page").toInt else 0
+    val query = (if (params.contains("query")) params("query") else "") match {
       case s: String => if(s.length == 0) None else Some(URLDecoder.decode(s, "UTF-8").split(" ").toList)
       case _ => None
     }
