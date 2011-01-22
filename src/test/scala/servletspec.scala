@@ -83,8 +83,8 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
         get("/servings?query=&page=1") {
           status should equal(200)
           body should not include("""{"servings":["{\"id\":1,""")
-          body should include("""\"id\":11""")
-          body should not include("""{"servings":["{\"id\":21""")
+          body should include("""\"id\":21""")
+          body should not include("""{"servings":["{\"id\":31""")
         }
       }
     }
@@ -92,7 +92,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("search servings") {
     expecting {
-      val results = List.range(1, 15).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33)) ::: List.range(16, 30).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50))
+      val results = List.range(1,50).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50))
       database.servings(testUser, Some(List("siideri"))).andReturn(results)
       lastCall.times(1)
     }
@@ -102,9 +102,10 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
         get("/servings?query=siideri&page=1") {
           status should equal(200)
           body should not include("""{"servings":["{\"id\":1,""")
-          body should include("""\"id\":16""")
-          body should include("""\"id\":17""")
-          body should not include("""{"servings":["{\"id\":27,""")
+          body should not include("""{"servings":["{\"id\":20,""")
+          body should include("""\"id\":21""")
+          body should include("""\"id\":39""")
+          body should not include("""{"servings":["{\"id\":41,""")
         }
       }
     }

@@ -30,7 +30,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }  
   
   get("/servings") {
-    val resultsInPage = 10
+    val resultsInPage = 20
     failUnlessAuthenticated
     contentType = "applications/json"
     val page = params("page").toInt
