@@ -23,10 +23,15 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/delete") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    val id = params("id").toInt
-    val count = database.deleteServing(Some(id))
-    val json =  ("status" -> "ok")
-    compact(render(json))
+    (if (params.contains("id")) Some(params("id").toInt) else None) match {
+      case id: Some[Int] => {
+        val count = database.deleteServing(id)
+        if(count == 0) halt(400)
+        val json =  ("status" -> "ok")
+        compact(render(json))
+      }
+      case None => halt(400) 
+    }
   }  
   
   get("/servings") {
@@ -42,6 +47,25 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val json = ("servings" -> servings.drop(resultsInPage * page).take(resultsInPage).map(_.toJson)) ~
       ("count" -> servings.length)
     compact(render(json))
+  }
+  
+  post("/update-user") {
+    failUnlessAuthenticated
+    contentType = "applications/json"
+    val email = if (params.contains("email")) Some(params("email")) else None
+    val password = if (params.contains("password")) Some(params("password")) else None
+    email match {
+      case e: Some[String] => password match {
+        case p: Some[String] => {
+          val count = database.updateUser(user.copy(email = e.get, password = p.get))
+          if(count == 0) halt(400)
+          val json =  ("status" -> "ok")
+          compact(render(json))
+        }
+        case None => halt(400)
+      }
+      case None => halt(400)
+    }
   }
   
   def welcomePage = """<div id="tab-welcome" class="tab">Tervetuloa</div>"""
