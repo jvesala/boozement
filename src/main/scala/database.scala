@@ -1,7 +1,7 @@
 import org.scalaquery._
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable}
+import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleScalarFunction}
 import org.scalaquery.ql.TypeMapper._
 import org.scalaquery.util.NamingContext
 import org.scalaquery.ql.extended.MySQLDriver
@@ -16,6 +16,7 @@ import net.liftweb.json.JsonDSL._
 class BoozementDatabase extends Implicits {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
   lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
+  val lastId = SimpleScalarFunction.nullary[Int]("last_insert_id")
   def init {
     db withSession {
       updateNA("DROP TABLE IF EXISTS users").execute
@@ -28,7 +29,7 @@ class BoozementDatabase extends Implicits {
   def insertServing(serving: Serving): Int = {
     db withSession {
       Servings.insert(serving)
-      queryNA[Int]("select last_insert_id()").list.head
+      Query(lastId).first
     }
   }
   def deleteServing(id: Option[Int]) = {
@@ -68,7 +69,7 @@ class BoozementDatabase extends Implicits {
   
   def insertUser(email: String, password: String) = { db withSession {
     Users.insert(User(None, email, password))
-    queryNA[Int]("select last_insert_id()").list.head
+    Query(lastId).first
   }}
   def user(id: Int): Option[User] = { db withSession { 
     Users.findById.firstOption(Some(id))     
