@@ -7,6 +7,12 @@ import java.net.URLDecoder
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   def this() = this(new BoozementDatabase)
 
+  def getParam[T](convert: (String) => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
+  val toSomeInt = (value: String) => Some(value.toInt)
+  val toSomeString = (value: String) => Some(value)
+  val intParam = getParam(toSomeInt) _
+  val stringParam = getParam(toSomeString) _
+
   post("/insert") {
     failUnlessAuthenticated
     contentType = "applications/json"
@@ -23,7 +29,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/delete") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    (if (params.contains("id")) Some(params("id").toInt) else None) match {
+    intParam("id") match {
       case id: Some[Int] => {
         val count = database.deleteServing(id)
         if(count == 0) halt(400)
@@ -38,24 +44,25 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val resultsInPage = 20
     failUnlessAuthenticated
     contentType = "applications/json"
-    val page = if (params.contains("page")) params("page").toInt else 0
-    val query = (if (params.contains("query")) params("query") else "") match {
-      case s: String => if(s.length == 0) None else Some(URLDecoder.decode(s, "UTF-8").split(" ").toList)
+    val query = stringParam("query") match {
+      case x if x.get.trim.length == 0 => None
+      case s: Some[String] => Some(URLDecoder.decode(s.get, "UTF-8").split(" ").toList)
       case _ => None
     }
     val servings = database.servings(Some(user), query)
-    val json = ("servings" -> servings.drop(resultsInPage * page).take(resultsInPage).map(_.toJson)) ~
-      ("count" -> servings.length)
+    val returnServings = (intParam("page") match {
+      case p: Some[Int] => servings.drop(resultsInPage * p.get)
+      case _ => servings
+    }).take(resultsInPage).map(_.toJson)
+    val json = ("servings" -> returnServings) ~ ("count" -> servings.length)
     compact(render(json))
   }
   
   post("/update-user") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    val email = if (params.contains("email")) Some(params("email")) else None
-    val password = if (params.contains("password")) Some(params("password")) else None
-    email match {
-      case e: Some[String] => password match {
+    stringParam("email") match {
+      case e: Some[String] => stringParam("password") match {
         case p: Some[String] => {
           val count = database.updateUser(user.copy(email = e.get, password = p.get))
           if(count == 0) halt(400)
