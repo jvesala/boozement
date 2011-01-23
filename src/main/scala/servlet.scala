@@ -13,17 +13,21 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   val intParam = getParam(toSomeInt) _
   val stringParam = getParam(toSomeString) _
 
+  def jodaDate(source: String) = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source)
+
   post("/insert") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    val time = params("time")
-    val date = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(params("date") + time)
-    val servingType = params("type")
-    val amount = params("amount").toInt
-    database.insertServing(Some(user), date, servingType, amount)
-    val message: JValue = "Juotu " + servingType + " kello " + time + "." 
-    val json =  ("status" -> "ok") ~ ("message" -> message)
-    compact(render(json))
+    (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount") ) match {
+      case (time: Some[String], date: Some[String], servingType: Some[String], amount: Some[Int]) => {
+        val count = database.insertServing(Some(user), jodaDate(date.get + time.get), servingType.get, amount.get)
+        if (count == 0) halt(400)
+        val message: JValue = "Juotu " + servingType.get + " kello " + time.get + "."
+        val json =  ("status" -> "ok") ~ ("message" -> message)
+        compact(render(json))
+      }
+      case _ => halt(400)
+    }
   }
   
   post("/delete") {
