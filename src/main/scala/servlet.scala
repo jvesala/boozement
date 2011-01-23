@@ -67,7 +67,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     contentType = "applications/json"
     (stringParam("email"), stringParam("password")) match {
       case (e: Some[String], p: Some[String]) => {
-        val count = database.updateUser(user.copy(email = e.get, password = p.get))
+        val count = database.updateUser(user.copy(email = e.get, password = PasswordSupport.encrypt(p.get)))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok")
         compact(render(json))
