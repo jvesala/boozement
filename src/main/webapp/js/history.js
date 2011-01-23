@@ -5,7 +5,13 @@ function showCount(count) { $('#count').show(); $('#count span').html(count) }
 function hideCount() { $('#count').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
-function addServingToTable(s) { tBody.append('<tr><td class="date">' + s.date + '</td><td class="servingType">' + s.type + '</td><td class="amount">' + s.amount + " cl</td></tr>") }
+function addServingToTable(s) { 
+  var date = $('<td class="date">' + s.date + '</td>')
+  var type = $('<td class="servingType">' + s.type + '</td>')
+  var amount = $('<td class="amount">' + s.amount + ' cl</td>')
+  var row = $('<tr></tr>').append(date).append(type).append(amount)
+  tBody.append(row)
+}
 function addServingsToTable(servings) { $.each(servings, function(i, s) { addServingToTable(s) }) }
 function highlight(s, terms) {
   if(terms != "") {
