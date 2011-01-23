@@ -61,18 +61,15 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/update-user") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    stringParam("email") match {
-      case e: Some[String] => stringParam("password") match {
-        case p: Some[String] => {
-          val count = database.updateUser(user.copy(email = e.get, password = p.get))
-          if(count == 0) halt(400)
-          val json =  ("status" -> "ok")
-          compact(render(json))
-        }
-        case None => halt(400)
+    (stringParam("email"), stringParam("password")) match {
+      case (e: Some[String], p: Some[String]) => {
+        val count = database.updateUser(user.copy(email = e.get, password = p.get))
+        if(count == 0) halt(400)
+        val json =  ("status" -> "ok")
+        compact(render(json))
       }
-      case None => halt(400)
-    }
+      case _ => halt(400)
+    } 
   }
   
   def welcomePage = """<div id="tab-welcome" class="tab">Tervetuloa</div>"""
