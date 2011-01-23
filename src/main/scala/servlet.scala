@@ -69,7 +69,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case (e: Some[String], p: Some[String]) => {
         val count = database.updateUser(user.copy(email = e.get, password = PasswordSupport.encrypt(p.get)))
         if(count == 0) halt(400)
-        val json =  ("status" -> "ok")
+        val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
         compact(render(json))
       }
       case _ => halt(400)

@@ -40,6 +40,7 @@ body { width: 100%; height: 100%; }
 .tab { padding: 5px;}
 .tab-header-insert { left: 0; width: 40px; }
 .tab-header-history { left: 60px; width: 55px; }
+.tab-header-userdata { left: 135px; width: 75px; }
 .tab-header.selected { 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#424242', endColorstr='white'); /* for IE */
   background: -webkit-gradient(linear, center top, center bottom, from(#424242), to(white)); /* for webkit browsers */
@@ -117,4 +118,14 @@ button {
 #tab-history table tr:nth-child(even) td {background: #E6E6E6}
 #tab-history table tr:nth-child(odd) td {background: #FFF}
 #tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
+
+#tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
+#tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
+#tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
+#tab-userdata-content button { float: right; margin-top: 10px; width: 150px; clear: both; }
+#tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
+#tab-userdata-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
+#tab-userdata-content #result { float: left; margin-top: 15px; }
+
+
 
