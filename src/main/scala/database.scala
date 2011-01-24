@@ -38,7 +38,21 @@ class BoozementDatabase extends Implicits {
       q.delete
     }
   } 
-
+  def serving(id: Int): Option[Serving] = { 
+    db withSession { 
+      val res = Servings.findById.firstOption(Some(id))
+      res match {
+        case x: Some[(Option[Int], Option[Int], Timestamp, String, Int)] => Some(Serving(x.get._1, x.get._2, x.get._3, x.get._4,x.get._5))
+        case _ => None
+      }
+    }
+  }
+  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int) = { 
+    db withSession {
+      val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount
+      q.update(date, servingType, amount)
+    }
+  }
   def servings(user: Option[User]): List[Serving] = servings(user, None) 
   def servings(user: Option[User], words: Option[List[String]]): List[Serving] = {
     def containsWord(candidate: String, w: String) = candidate.toLowerCase.contains(w.toLowerCase)
@@ -95,6 +109,7 @@ object Servings extends Table[(Option[Int], Option[Int], Timestamp, String, Int)
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def * = id ~ userId ~ date ~ servingType ~ amount
+  val findById = createFinderBy(_.id)  
 }
 case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int) {
   def toJson = {

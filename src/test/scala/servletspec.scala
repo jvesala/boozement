@@ -131,7 +131,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
         post("/login?email=foo&password=foobar") { status should equal(200) }
         post("/update-user?email=newemail&password=newpassword") {
           status should equal(200)
-          body should include("""{"status":"ok"}""")
+          body should include("""{"status":"ok""")
         }
         post("/login?email=newemail&password=newpassword") { status should equal(200) }
       }
