@@ -29,6 +29,21 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case _ => halt(400)
     }
   }
+
+  post("/update-serving") {
+    failUnlessAuthenticated
+    contentType = "applications/json"
+    (stringParam("id"), stringParam("field"), stringParam("value")) match {
+      case (id: Some[String], field: Some[String], value: Some[String]) => {
+        //val count = database.updateServing(Some(user), field.get, value.get)
+        //if (count == 0) halt(400)
+        val message: JValue = value.get + " päivitetty."
+        val json =  ("status" -> "ok") ~ ("message" -> message )
+        compact(render(json))
+      }
+      case _ => halt(400)
+    }
+  }
   
   post("/delete") {
     failUnlessAuthenticated

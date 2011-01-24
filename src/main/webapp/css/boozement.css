@@ -119,6 +119,8 @@ button {
 #tab-history table tr:nth-child(odd) td {background: #FFF}
 #tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-history table input { height: 8px; margin: 0; }
+#tab-history #result { clear: both; float: left; }
+
 
 #tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}

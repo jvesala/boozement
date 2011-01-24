@@ -6,10 +6,19 @@ function hideCount() { $('#count').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
 
+function resultData(data) { return data.data }
+function resultDataMessage(data) { return data.data.message }
+
 function updateField(target) {
+  var parent = target.parent()  
   var currentValue = target.val()
-  var parent = target.parent()
-  parent.html(currentValue)
+  var inputParts = target.attr("name").split("-")
+  var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + escape(currentValue)
+  var update = $.postAsObservable("api/update-serving", query).Publish()
+  handleUnauthorized(update)
+  update.Subscribe(function(x) {parent.html(currentValue)} )
+  update.Select(resultDataMessage).Subscribe(updateResult)
+  update.Connect()
 }
 function eventTarget(e) { return $(e.target) }
 function enterPressed(e) { return e.keyCode == 13}
