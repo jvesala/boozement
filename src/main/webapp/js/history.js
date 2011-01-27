@@ -6,18 +6,17 @@ function hideCount() { $('#count').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
 
-function resultData(data) { return data.data }
-function resultDataMessage(data) { return data.data.message }
-
 function updateField(target) {
   var parent = target.parent()  
   var currentValue = target.val()
   var inputParts = target.attr("name").split("-")
   var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + escape(currentValue)
-  var update = $.postAsObservable("api/update-serving", query).Publish()
+  var update = $.postAsObservable("api/update-serving", query)
+    .Catch(Rx.Observable.Return("error")).Publish()
   handleUnauthorized(update)
-  update.Subscribe(function(x) {parent.html(currentValue)} )
-  update.Select(resultDataMessage).Subscribe(updateResult)
+  update.Where(validData).Subscribe(function(x) {parent.html(currentValue)} )
+  update.Where(validData).Select(resultDataMessage).Subscribe(updateResult)
+  update.Where(errorData).Select(function(x) { return "Virhetilanne." } ).Subscribe(updateError)
   update.Connect()
 }
 function eventTarget(e) { return $(e.target) }
@@ -60,8 +59,7 @@ function query(terms, page) {
   handleUnauthorized(servings)
   servings.Connect()
   return servings
-    .Catch(Rx.Observable.Never())
-    .Select(function(data) { return data.data })
+    .Catch(Rx.Observable.Never()).Select(resultData)
     .Select(function(data) { return [$.map(data.servings, function(s) { return highlight($.parseJSON(s), terms)}), data.count] })
     .Catch(Rx.Observable.Never())
 }

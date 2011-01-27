@@ -1,9 +1,10 @@
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }) }
 function setPageContent(content) { setElementContent($('#page-content div'), content) }
 function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
-function updateResult(html) { $('#result').html(html).show() }
+function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
+function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
-function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(function(d) { return d.data; }).Subscribe(setPageContent) }
+function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Subscribe(setPageContent) }
 function handleUnauthorized(sourceObservable) {
   sourceObservable.Subscribe(skip, function(error) {
     if(error.xmlHttpRequest.status == "401") {
@@ -22,12 +23,19 @@ function logOut() {
   logOut.Subscribe(function(x) {  showLoggedOut() })
   logOut.Connect()
 }
+
+function resultData(data) { return data.data }
+function resultDataMessage(data) { return data.data.message }
+function validData(data) { return data != "error" }
+function errorData(data) { return data == "error" }
+function emptyData(data) { return data == "" }
+
 function updateLoggedIn() {
   $('.session-busy').show()
   var whoAmI = $.ajaxAsObservable({ url: "api/whoami"} ).Catch(Rx.Observable.Return("error"))
   whoAmI.Subscribe(function(x) { $('.session-busy').hide() })
-  whoAmI.Where(function(d) { return d == "error" }).Subscribe(showLoggedError)
-  whoAmI.Where(function(d) { return d.data == "" }).Subscribe(showLoggedOut)
+  whoAmI.Where(errorData).Subscribe(showLoggedError)
+  whoAmI.Where(emptyData).Subscribe(showLoggedOut)
   whoAmI.Where(function(d) { return d.data.length > 0 }).Subscribe(function(d) { showLoggedIn(d.data) })
 }
 
@@ -38,7 +46,7 @@ function showTab(tabId) {
   showBusy()
   $("." + tabId).addClass("selected")
   $.ajaxAsObservable({ url: tabId.split("-").pop() + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
-    .Select(function(d) { return d.data })
+    .Select(resultData)
     .Subscribe(setPageContent)
 }
 
@@ -55,7 +63,7 @@ function showWelcomeTab() {
   var welcome = $.ajaxAsObservable({url: "api/welcome"}).Publish()
   handleUnauthorized(welcome)
   welcome
-    .Select(function(d) { return d.data })
+    .Select(resultData)
     .Catch(Rx.Observable.Never())
     .Subscribe(setPageContent)
   welcome.Connect()

@@ -53,6 +53,25 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
   }
 
+  test("update serving date") {
+    expecting {
+      database.serving(1).andReturn(Some(Serving(Some(1), Some(1), new DateTime(2008, 3, 21, 12, 12, 0, 0), "Siideri", 50)))
+      lastCall.times(1)
+      database.updateServing(1, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      session {
+        post("/login?email=foo&password=foobar") { status should equal(200) }
+        post("/update-serving?id=1&field=date&value=20.01.2010%2014:45") {
+          status should equal(200)
+          body should include("""{"status":"ok""")
+          body should include("""päivitetty""")
+        }
+      }
+    }
+  }
+
   test("get servings first page") {
     expecting {
       val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))

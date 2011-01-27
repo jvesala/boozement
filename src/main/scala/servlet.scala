@@ -33,13 +33,24 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/update-serving") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    (stringParam("id"), stringParam("field"), stringParam("value")) match {
-      case (id: Some[String], field: Some[String], value: Some[String]) => {
-        //val count = database.updateServing(Some(user), field.get, value.get)
-        //if (count == 0) halt(400)
-        val message: JValue = value.get + " päivitetty."
-        val json =  ("status" -> "ok") ~ ("message" -> message )
-        compact(render(json))
+    (intParam("id"), stringParam("field"), stringParam("value")) match {
+      case (id: Some[Int], field: Some[String], value: Some[String]) => {
+        database.serving(id.get) match {
+          case s: Some[Serving] => {
+            if (s.get.userId != user.id) halt(500)
+            val count = field.get match {
+              case "date" => database.updateServing(s.get.id.get, jodaDate(value.get.replace(" ", "")), s.get.servingType, s.get.amount)
+              case "servingType" => database.updateServing(s.get.id.get, s.get.date, value.get, s.get.amount)
+              case "amount" => database.updateServing(s.get.id.get, s.get.date, s.get.servingType, value.get.replace(" cl", "").toInt)
+              case _ => halt(400)
+            }
+            if (count == 0) halt(400)
+            val message: JValue = value.get + " päivitetty."
+            val json =  ("status" -> "ok") ~ ("message" -> message )
+            compact(render(json))
+          }
+          case _ => halt(400)
+        }        
       }
       case _ => halt(400)
     }
