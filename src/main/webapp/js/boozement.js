@@ -69,6 +69,14 @@ function showWelcomeTab() {
   welcome.Connect()
 }
 
+// String -> (a -> a)
+function trace(s) {
+  return function(x) {
+    console.log(s + '> ' + x)
+    return x
+  }
+}
+
 $(function () {
   $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
   $('#logout').toObservable('click').Subscribe(logOut)
