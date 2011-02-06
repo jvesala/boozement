@@ -74,14 +74,16 @@ button {
   -moz-border-radius: 5px; border-radius: 5px;
 }
 
-#result { display: none; background: green;  color: white;-moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+#result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+#error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+
 #tab-login-content { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
 #tab-login-content button { float: right; clear: both; margin-right: 19px; width: 90px; }
 #tab-login-content .busy { float: right; margin-top: 7px; }
-#tab-login-content #result { float: left; background: red; margin-top: 5px; }
+#tab-login-content #error { margin-top: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
@@ -102,8 +104,8 @@ button {
 #tab-insert-content em { float: right;}
 #tab-insert-content .invalid { color: red; }
 #tab-insert-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
-#tab-insert-content #result { float: left; margin-top: 15px; }
-#tab-insert-content #error { float: left; margin-top: 15px; color: red; }
+#tab-insert-content #result { margin-top: 15px; }
+#tab-insert-content #error { margin-top: 15px; }
 
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
@@ -120,10 +122,8 @@ button {
 #tab-history table tr:nth-child(odd) td {background: #FFF}
 #tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-history table input { height: 8px; margin: 0; }
-#tab-history #result { clear: both; float: left; }
-#tab-history #error { clear: both; float: left; color: red; }
-
-
+#tab-history #result { margin-left: 10px; }
+#tab-history #error { margin-left: 10px; }
 
 #tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
@@ -131,7 +131,9 @@ button {
 #tab-userdata-content button { float: right; margin-top: 10px; width: 150px; clear: both; }
 #tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
 #tab-userdata-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
-#tab-userdata-content #result { float: left; margin-top: 15px; }
+#tab-userdata-content #result { margin-top: 15px; }
+#tab-userdata-content #error { margin-top: 15px; }
+
 
 
 

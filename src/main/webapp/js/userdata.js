@@ -7,8 +7,10 @@ function doUserDataUpdate() {
   preSubmit()
   var update = $.postAsObservable("api/update-user", insertUserUpdateParams()).Publish()
   handleUnauthorized(update)
-  update.Select(function(d) { return d.data.message }).Catch(Rx.Observable.Never())
-    .Subscribe(function(x) { updateResult(x); resetSubmitStatus() })
+  var result = update.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
+  result.Subscribe(resetSubmitStatus)
+  result.Where(validData).Subscribe(updateResult)
+  result.Where(errorData).Select(function(x) { return "Virhe tietojen päivityksessä!" } ).Subscribe(updateError)
   update.Connect()
 }
 
