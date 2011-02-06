@@ -1,10 +1,13 @@
 var clear = $('#clear')
 var search = $('#search')
 var tBody = $('#tab-history table tbody')
+
 function showCount(count) { $('#count').show(); $('#count span').html(count) }
 function hideCount() { $('#count').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
+function showClear() { clear.show() }
+function hideClear() { clear.hide() }
 
 function updateField(target) {
   var parent = target.parent()  
@@ -13,7 +16,6 @@ function updateField(target) {
   var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + escape(currentValue)
   var update = $.postAsObservable("api/update-serving", query)
     .Catch(Rx.Observable.Return("error")).Publish()
-  handleUnauthorized(update)
   update.Where(validData).Subscribe(function(x) {parent.html(currentValue)} )
   update.Where(validData).Select(resultDataMessage).Subscribe(updateResult)
   update.Where(errorData).Select(function(x) { return "Virhetilanne." } ).Subscribe(updateError)
@@ -84,8 +86,8 @@ $(function() {
     .DistinctUntilChanged()
     .Where(function(inBottom) { return inBottom })
   
-  input.Where(function(x) { return x == ""}).Subscribe(function(_) { clear.hide() })
-  input.Where(function(x) { return x != ""}).Subscribe(function(_) { clear.show() })
+  input.Where(emptyData).Subscribe(hideClear)
+  input.Where(notF(emptyData)).Subscribe(showClear)
   var first = input.Subscribe(function(_) { hideCount(); showBusy() })
   var first = input.Select(function(term) { return query(term, 0) }).Switch().Publish()
   var more = input.Select(paging).Switch().Publish()

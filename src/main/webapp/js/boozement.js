@@ -29,6 +29,7 @@ function resultDataMessage(data) { return data.data.message }
 function validData(data) { return data != "error" }
 function errorData(data) { return data == "error" }
 function emptyData(data) { return data == "" }
+function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 
 function updateLoggedIn() {
   $('.session-busy').show()
