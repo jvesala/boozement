@@ -14,7 +14,7 @@ function doInsert() {
   preSubmit()
   var insert = $.postAsObservable("api/insert", insertParams()).Publish()
   handleUnauthorized(insert)
-  insert.Select(function(d) { return d.data.message }).Catch(Rx.Observable.Never())
+  insert.Select(resultDataMessage).Catch(Rx.Observable.Never())
     .Subscribe(function(x) { updateResult(x); resetSubmitStatus() })
   insert.Connect()
 }

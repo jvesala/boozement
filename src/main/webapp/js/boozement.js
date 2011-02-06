@@ -17,7 +17,7 @@ function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').
 function showLoggedOut() { $('.session.valid').hide(); $('.session.invalid').show() }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide() }
 function logOut() {
-  var logOut = $.postAsObservable("api/logout").Select(function(d) { return d.data })
+  var logOut = $.postAsObservable("api/logout").Select(resultData)
     .Catch(Rx.Observable.Return("Virhetilanne")).Publish()
   logOut.Subscribe(setPageContent)
   logOut.Subscribe(function(x) {  showLoggedOut() })
