@@ -26,8 +26,8 @@ function logOut() {
 
 function resultData(data) { return data.data }
 function resultDataMessage(data) { return data.data.message }
-function validData(data) { return data != "error" }
-function errorData(data) { return data == "error" }
+function validData(data) { return data && data != "error" }
+function errorData(data) { return !data || data == "error" }
 function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 

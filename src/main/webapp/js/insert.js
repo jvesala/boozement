@@ -14,8 +14,10 @@ function doInsert() {
   preSubmit()
   var insert = $.postAsObservable("api/insert", insertParams()).Publish()
   handleUnauthorized(insert)
-  insert.Select(resultDataMessage).Catch(Rx.Observable.Never())
-    .Subscribe(function(x) { updateResult(x); resetSubmitStatus() })
+  var insertResult = insert.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
+  insertResult.Subscribe(resetSubmitStatus)
+  insertResult.Where(validData).Subscribe(updateResult)
+  insertResult.Where(errorData).Select(function(x) { return "Virhe syötössä!" } ).Subscribe(updateError)
   insert.Connect()
 }
 

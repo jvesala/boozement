@@ -103,6 +103,7 @@ button {
 #tab-insert-content .invalid { color: red; }
 #tab-insert-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
 #tab-insert-content #result { float: left; margin-top: 15px; }
+#tab-insert-content #error { float: left; margin-top: 15px; color: red; }
 
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
