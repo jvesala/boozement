@@ -125,9 +125,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }
 
   post("/logout") {
-    contentType = "text/html"
     logOut
-    """<div>Olet kirjautunut ulos.</div>"""
+    val json =  ("status" -> "ok")
+    compact(render(json))
   }
   
 }

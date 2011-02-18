@@ -77,7 +77,8 @@ button {
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 
-#tab-login-content { border: 1px solid black; margin: 10px 0 0 10px; width: 280px; overflow: auto; }
+#tab-login { margin: 10px 0 0 10px; }
+#tab-login-content { border: 1px solid black; width: 280px; overflow: auto; }
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }

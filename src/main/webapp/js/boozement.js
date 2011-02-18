@@ -4,24 +4,27 @@ function setElementContent(element, content) { element.hide().empty().html(conte
 function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
 function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
-function fetchLoginToContent() { $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Subscribe(setPageContent) }
+function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Catch(Rx.Observable.Return("Virhetilanne!")) }
 function handleUnauthorized(sourceObservable) {
   sourceObservable.Subscribe(skip, function(error) {
     if(error.xmlHttpRequest.status == "401") {
-      fetchLoginToContent()
+      loginPage().Subscribe(setPageContent)
       hideTabHeaders()
     }
   }, skip)
 }
+
+function prependHtml(html) { return function(x) { return $(x).prepend(html) }}
 function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show() }
 function showLoggedOut() { $('.session.valid').hide(); $('.session.invalid').show() }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide() }
 function logOut() {
   var logOut = $.postAsObservable("api/logout").Select(resultData)
-    .Catch(Rx.Observable.Return("Virhetilanne")).Publish()
-  logOut.Subscribe(setPageContent)
-  logOut.Subscribe(function(x) {  showLoggedOut() })
-  logOut.Connect()
+    .Catch(Rx.Observable.Return("Virhetilanne"))
+  logOut.Subscribe(function(x) { 
+    loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent) 
+    showLoggedOut() 
+  })
 }
 
 function resultData(data) { return data.data }
