@@ -81,6 +81,21 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(res.size == 1)
     assert(res.head.id == Some(1))
   }
+  
+  test("search servings by interval") {
+    val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
+    val startTime = drinkingTime + 1.hours
+    val endTime = drinkingTime + 7.hours
+    database.insertServing(user, drinkingTime, "Olut", 33)
+    database.insertServing(user, drinkingTime + 3.hours, "Siideri", 50)
+    database.insertServing(user, drinkingTime + 6.hours, "Lonkero", 40)
+    database.insertServing(user, drinkingTime + 9.hours, "Punaviini", 18)
+    database.insertServing(user, drinkingTime + 12.hours, "Gin tonic", 18)
+    val res = database.servingsInterval(user.get, startTime, endTime) 
+    assert(res.size == 2)
+    assert(res.head.id == Some(3))
+    assert(res.tail.head.id == Some(2))
+  }
 }
 
 class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {

@@ -81,6 +81,16 @@ class BoozementDatabase extends Implicits {
     }
   }
   
+  def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = {
+    db withSession  {
+      val q = for { 
+        s <- Servings if ((s.userId is user.id) && (s.date > dateTimeToTimestamp(start)) && (s.date < dateTimeToTimestamp(end))); 
+        _ <- Query orderBy (s.date desc)
+      } yield s
+      q.list
+    }    
+  }
+  
   def insertUser(email: String, password: String): Int = insertUser(User(None, email, password))
   def insertUser(user: User) = { db withSession {
     Users.insert(user)
