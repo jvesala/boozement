@@ -2,17 +2,19 @@ function loginParams() { return "email=" + $('#email').val() + "&password=" + $(
 
 function doLogin() {
   preSubmit()
-  var login = $.postAsObservable("api/login", loginParams()).Publish()
-  login.Subscribe(skip, function(error) {
-    if(error.xmlHttpRequest.status == "401") { updateError("Väärä kirjautumistunnus tai salasana.") }
-    else if(error.xmlHttpRequest.status == "500") { updateError("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
-    resetSubmitStatus()
-  }, skip)
-  var loginContent = login.Select(resultData).Catch(Rx.Observable.Never()).Publish()
-  loginContent.Subscribe(setPageContent)
-  loginContent.Subscribe(function(x) { showTabHeaders(); updateLoggedIn() })
-  login.Connect()
-  loginContent.Connect()
+  $.postAsObservable("api/login", loginParams()).Subscribe(loginSuccessful, loginFailed)
+}
+
+function loginSuccessful() {
+  setPageContent('<div id="tab-welcome" class="tab">Tervetuloa</div>')
+  showTabHeaders() 
+  updateLoggedIn()
+} 
+
+function loginFailed(error) {
+  if(error.xmlHttpRequest.status == "401") { updateError("Väärä kirjautumistunnus tai salasana.") }
+  else if(error.xmlHttpRequest.status == "500") { updateError("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
+  resetSubmitStatus()
 }
 
 $(function() {

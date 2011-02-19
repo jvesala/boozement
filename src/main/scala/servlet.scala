@@ -121,13 +121,13 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     contentType = "text/html"
     authenticate
     failUnlessAuthenticated
-    welcomePage
+    val json =  ("status" -> "ok")
+    compact(render(json))
   }
-
+  
   post("/logout") {
     logOut
     val json =  ("status" -> "ok")
     compact(render(json))
   }
-  
 }
