@@ -80,6 +80,7 @@ function trace(s) {
     return x
   }
 }
+function debug(s) { console.log(s) }
 
 $(function () {
   $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)

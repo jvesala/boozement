@@ -3,11 +3,19 @@ function insertParams() {
   return $.map(fields, function(f) { return f + "=" + $('#' + f).val() } ).join("&")
 }
 
+function padZero(val) { return (val > 9) ? val : "0" + val }
 function getCurrentTime() {
   var now = new Date()
-  var hours = (now.getHours() > 9) ? now.getHours() : "0"  + now.getHours()
-  var minutes = (now.getMinutes() > 9) ? now.getMinutes() : "0"  + now.getMinutes()
-  return hours + ":" + minutes
+  return padZero(now.getHours()) + ":" + padZero(now.getMinutes())
+}
+function formatDate(date) {
+  return padZero(date.getDate()) + "." + padZero(date.getMonth() + 1) + "." + date.getFullYear() +
+    padZero(date.getHours()) + ":" + padZero(date.getMinutes())
+}
+function intervalStart() {
+  var now = new Date()
+  now.setDate(now.getDate() - 1)
+  return formatDate(now)
 }
 
 function doInsert() {
@@ -17,12 +25,27 @@ function doInsert() {
   var insertResult = insert.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
   insertResult.Subscribe(resetSubmitStatus)
   insertResult.Where(validData).Subscribe(updateResult)
+  insertResult.Where(validData).Subscribe(fetchCurrentInterval)
   insertResult.Where(errorData).Select(function(x) { return "Virhe syötössä!" } ).Subscribe(updateError)
   insert.Connect()
+}
+
+function fetchCurrentInterval() {
+  var tBody = $('#tab-insert table tbody')  
+  tBody.empty("").append('<tr colspan="3"><td><div class="busy"></div></td></tr>')
+  var params = { start:intervalStart() }
+  var servings = $.ajaxAsObservable({ url: "api/servings-interval", data: params}).Publish()
+  servings.Connect()
+  handleUnauthorized(servings)
+  var rows = servings.Catch(Rx.Observable.Never()).Select(resultData)
+   .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count] })
+   .Catch(Rx.Observable.Never())
+  rows.Subscribe(function(x) { tBody.empty(""); addServingsToTable(tBody, x[0]) })
 }
 
 $(function() {
   $('#submit').toObservable('click').Subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
+  fetchCurrentInterval()
 });
