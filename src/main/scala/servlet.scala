@@ -92,14 +92,14 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   get("/servings-interval") {
     failUnlessAuthenticated
     contentType = "applications/json"
-    (dateParam("start"), dateParam("end")) match {
-      case(start: Some[DateTime], end: Some[DateTime]) => {
-        val returnServings = database.servingsInterval(user, start.get, end.get).map(_.toJson)
-        val json = ("servings" -> returnServings) ~ ("count" -> returnServings.length)
-        compact(render(json))
-      }
+    val returnServings = (dateParam("start"), dateParam("end")) match {
+      case(start: Some[DateTime], end: Some[DateTime]) => database.servingsInterval(user, start.get, end.get)
+      case(_, end: Some[DateTime]) => database.servingsInterval(user, new DateTime, end.get)
+      case(start: Some[DateTime], _) => database.servingsInterval(user, start.get, DateTime.now)
       case _ => halt(400)
     }
+    val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length)
+    compact(render(json))    
   }
   
   post("/update-user") {

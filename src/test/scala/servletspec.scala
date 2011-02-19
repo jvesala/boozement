@@ -144,7 +144,6 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
         post("/login?email=foo&password=foobar") { status should equal(200) }
         get("/servings-interval?start=20.01.2010%2010:00&end=21.01.2010%2010:00") {
           status should equal(200)
-          println(body)
           body should include("""count":23""")
         }
       }
