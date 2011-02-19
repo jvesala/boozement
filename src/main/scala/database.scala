@@ -13,7 +13,7 @@ import org.scala_tools.time.Imports._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 
-class BoozementDatabase extends Implicits {
+class BoozementDatabase extends JodaTypeMapperDelegates {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
   lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
   val lastId = SimpleScalarFunction.nullary[Int]("last_insert_id")
@@ -40,11 +40,7 @@ class BoozementDatabase extends Implicits {
   } 
   def serving(id: Int): Option[Serving] = { 
     db withSession { 
-      val res = Servings.findById.firstOption(Some(id))
-      res match {
-        case x: Some[(Option[Int], Option[Int], Timestamp, String, Int)] => Some(Serving(x.get._1, x.get._2, x.get._3, x.get._4,x.get._5))
-        case _ => None
-      }
+      Servings.findById.firstOption(Some(id))
     }
   }
   def updateServing(id: Int, date: DateTime, servingType: String, amount: Int) = { 
@@ -84,7 +80,7 @@ class BoozementDatabase extends Implicits {
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = {
     db withSession  {
       val q = for { 
-        s <- Servings if ((s.userId is user.id) && (s.date > dateTimeToTimestamp(start)) && (s.date < dateTimeToTimestamp(end))); 
+        s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
         _ <- Query orderBy (s.date desc)
       } yield s
       q.list
@@ -112,13 +108,13 @@ class BoozementDatabase extends Implicits {
   }}  
 }
 
-object Servings extends Table[(Option[Int], Option[Int], Timestamp, String, Int)]("servings") with Implicits {
+object Servings extends Table[Serving]("servings") with JodaTypeMapperDelegates {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def userId = column[Option[Int]]("userid")
-  def date = column[Timestamp]("date", O.Default(new Timestamp(1000)))
+  def date = column[DateTime]("date", O.Default(new DateTime))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
-  def * = id ~ userId ~ date ~ servingType ~ amount
+  def * = id ~ userId ~ date ~ servingType ~ amount <> (Serving, Serving.unapply _)
   val findById = createFinderBy(_.id)  
 }
 case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int) {
@@ -139,12 +135,3 @@ object Users extends Table[User]("users") {
   val findByEmail = createFinderBy(_.email)
 }
 case class User(id: Option[Int], email: String, password: String)
-
-trait Implicits {
-  implicit def dateTimeToTimestamp(x: DateTime): Timestamp = new Timestamp(x.getMillis)
-  implicit def timeStampToDateTime(x: Timestamp): DateTime = new DateTime(x.getTime)  
-  implicit def servingToTableRow(x: Serving): (Option[Int], Option[Int], Timestamp, String, Int) = 
-    (x.id, x.userId, x.date, x.servingType, x.amount)        
-  implicit def tableRowsToServings(r: List[(Option[Int], Option[Int], Timestamp, String, Int)]): List[Serving] =
-    r.map({x => Serving(x._1, x._2, x._3, x._4, x._5)})
-}
