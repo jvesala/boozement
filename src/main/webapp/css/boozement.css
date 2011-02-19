@@ -108,6 +108,17 @@ button {
 #tab-insert-content #result { margin-top: 15px; }
 #tab-insert-content #error { margin-top: 15px; }
 
+#tab-insert-content h3 { float: left; clear: both; margin-left: 10px; }
+#tab-insert-content table { float: left; clear: left; margin: 10px; -moz-border-radius: 3px; border-radius: 3px; }
+#tab-insert-content table thead { border: 1px solid black; width: 500px; display: block; padding: 5px; }
+#tab-insert-content table th { font-weight: bold; }
+#tab-insert-content table tbody { border: 1px solid black; overflow-y: scroll; }
+#tab-insert-content table .time { width: 100px; }
+#tab-insert-content table .servingType { width: 250px; }
+#tab-insert-content table .amount { width: 100px; overflow: hidden; }
+#tab-insert-content table tr:nth-child(even) td {background: #E6E6E6}
+#tab-insert-content table tr:nth-child(odd) td {background: #FFF}
+
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
 #tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
