@@ -129,6 +129,27 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
       }
     }
   }
+
+  test("servings with interval") {
+    expecting {
+      val initialTime = new DateTime(2010, 1, 20, 9, 0, 0, 0)
+      val queryStart = new DateTime(2010, 1, 20, 10, 0, 0, 0)
+      val queryEnd = new DateTime(2010, 1, 21, 10, 0, 0, 0)
+      val results = List.range(1,24).map( (x) => Serving(Some(x), Some(1), initialTime + x.hours, "Siideri", 50))
+      database.servingsInterval(testUser.get, queryStart, queryEnd).andReturn(results)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      session {
+        post("/login?email=foo&password=foobar") { status should equal(200) }
+        get("/servings-interval?start=20.01.2010%2010:00&end=21.01.2010%2010:00") {
+          status should equal(200)
+          println(body)
+          body should include("""count":23""")
+        }
+      }
+    }
+  }
   
   test("whoami") {
     get("/whoami") {

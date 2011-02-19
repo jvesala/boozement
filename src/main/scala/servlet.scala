@@ -12,15 +12,16 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   val toSomeString = (value: String) => Some(value)
   val intParam = getParam(toSomeInt) _
   val stringParam = getParam(toSomeString) _
+  val dateParam = getParam(jodaDate) _
 
-  def jodaDate(source: String) = DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source)
+  def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
   post("/insert") {
     failUnlessAuthenticated
     contentType = "applications/json"
     (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount") ) match {
       case (time: Some[String], date: Some[String], servingType: Some[String], amount: Some[Int]) => {
-        val count = database.insertServing(Some(user), jodaDate(date.get + time.get), servingType.get, amount.get)
+        val count = database.insertServing(Some(user), jodaDate(date.get + time.get).get, servingType.get, amount.get)
         if (count == 0) halt(400)
         val message: JValue = "Juotu " + servingType.get + " kello " + time.get + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
@@ -39,7 +40,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           case s: Some[Serving] => {
             if (s.get.userId != user.id) halt(500)
             val count = field.get match {
-              case "date" => database.updateServing(s.get.id.get, jodaDate(value.get.replace(" ", "")), s.get.servingType, s.get.amount)
+              case "date" => database.updateServing(s.get.id.get, jodaDate(value.get).get, s.get.servingType, s.get.amount)
               case "servingType" => database.updateServing(s.get.id.get, s.get.date, value.get, s.get.amount)
               case "amount" => database.updateServing(s.get.id.get, s.get.date, s.get.servingType, value.get.replace(" cl", "").toInt)
               case _ => halt(400)
@@ -86,6 +87,19 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     }).take(resultsInPage).map(_.toJson)
     val json = ("servings" -> returnServings) ~ ("count" -> servings.length)
     compact(render(json))
+  }
+
+  get("/servings-interval") {
+    failUnlessAuthenticated
+    contentType = "applications/json"
+    (dateParam("start"), dateParam("end")) match {
+      case(start: Some[DateTime], end: Some[DateTime]) => {
+        val returnServings = database.servingsInterval(user, start.get, end.get).map(_.toJson)
+        val json = ("servings" -> returnServings) ~ ("count" -> returnServings.length)
+        compact(render(json))
+      }
+      case _ => halt(400)
+    }
   }
   
   post("/update-user") {
