@@ -188,4 +188,17 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     }
   }
   
+  test("register user") {
+    expecting {
+      EasyMock.reset(database)      
+      database.insertUser("newemail", "newpassword").andReturn(1)
+      lastCall.times(1)
+    }
+    whenExecuting(database) {
+      post("/register?email=newemail&password=newpassword") {
+        status should equal(200)
+        body should include("""{"status":"ok""")
+      }
+    }
+  }
 }
