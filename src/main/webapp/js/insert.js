@@ -1,3 +1,5 @@
+var tableBody = $('#tab-insert .interval table tbody')
+
 function insertParams() {
   var fields = ["date", "time", "type", "amount"]
   return $.map(fields, function(f) { return f + "=" + $('#' + f).val() } ).join("&")
@@ -31,8 +33,7 @@ function doInsert() {
 }
 
 function fetchCurrentInterval() {
-  var tBody = $('#tab-insert table tbody')  
-  tBody.empty("").append('<tr colspan="3"><td><div class="busy"></div></td></tr>')
+  tableBody.empty("").append('<tr colspan="3"><td><div class="busy"></div></td></tr>')
   var params = { start:intervalStart() }
   var servings = $.ajaxAsObservable({ url: "api/servings-interval", data: params}).Publish()
   servings.Connect()
@@ -40,7 +41,7 @@ function fetchCurrentInterval() {
   var rows = servings.Catch(Rx.Observable.Never()).Select(resultData)
    .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count] })
    .Catch(Rx.Observable.Never())
-  rows.Subscribe(function(x) { tBody.empty(""); addServingsToTable(tBody, x[0]) })
+  rows.Subscribe(function(x) { tableBody.empty("").hide(); addServingsToTable(tableBody, x[0]); tableBody.fadeIn() })
 }
 
 $(function() {

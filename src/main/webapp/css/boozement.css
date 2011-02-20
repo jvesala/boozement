@@ -78,7 +78,7 @@ button {
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 
 #tab-login { margin: 10px 0 0 10px; }
-#tab-login-content { border: 1px solid black; width: 280px; overflow: auto; }
+#tab-login-content { border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
@@ -88,7 +88,7 @@ button {
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
-#tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
+#tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-insert-content a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 #tab-insert-content #dateElement { margin: 5px; }
 #tab-insert-content #dateElement a { margin-top: 2px; }
@@ -107,8 +107,8 @@ button {
 #tab-insert-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
 #tab-insert-content #result { margin-top: 15px; }
 #tab-insert-content #error { margin-top: 15px; }
-
-#tab-insert-content h3 { float: left; clear: both; margin-left: 10px; }
+#tab-insert-content .interval { float: left; clear: both; overflow: auto; display: block;  }
+#tab-insert-content h3 { float: left; clear: both; margin-left: 10px; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; }
 #tab-insert-content table { float: left; clear: left; margin: 10px; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-insert-content table thead { border: 1px solid black; display: block; padding: 5px; }
 #tab-insert-content table th { font-weight: bold; }
@@ -138,7 +138,7 @@ button {
 #tab-history #result { margin-left: 10px; }
 #tab-history #error { margin-left: 10px; }
 
-#tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; }
+#tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
 #tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
 #tab-userdata-content button { float: right; margin-top: 10px; width: 150px; clear: both; }

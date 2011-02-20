@@ -13,9 +13,6 @@ function updateField(target) {
 function eventTarget(e) { return $(e.target) }
 function enterPressed(e) { return e.keyCode == 13}
 function openEdit(target) {
-  
-  console.log("openEdit pressed!")
-  
   var inputName = target.parent().attr("class") + '-' +  target.attr("class")
   var originalValue = target.html()
   var input = $('<input type="text" name="' + inputName + '" value="' + originalValue + '" />')
