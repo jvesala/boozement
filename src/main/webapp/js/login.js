@@ -19,17 +19,23 @@ function loginFailed(error) {
 
 function convertUserdataFormToRegisterForm(x) { 
   var data = $(x)
-  data.find('#submit').html("Rekisteröidy")
-  data.find('#submit').toObservable('click').Subscribe(doRegister)
-  data.find('#back').toObservable('click').Subscribe(debug)
+  var text = $('<div class="registerTitle">Rekisteröityminen</div>')
+  var button = $('<button type="submit" id="back">Takaisin kirjautumissivulle.</button>')
+  var register = $('<button type="submit" id="register">Rekisteröidy</button>')
+  data.find('#submit').after(register).detach()
+  data.prepend(button).prepend(text)
   return data
 }
 function openRegister() {
   $.ajaxAsObservable({ url: "userdata.html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
     .Select(resultData)
-    .Select(prependHtml('<div class="registerTitle">Rekisteröityminen</div><button type="submit" id="back">Takaisin</button>'))
     .Select(convertUserdataFormToRegisterForm)
-    .Subscribe(setPageContent)
+    .Subscribe(function(x) { 
+      setPageContent(x)
+      $('#back').toObservable('click').Subscribe(loadLogin)
+      $('#register').toObservable('click').Subscribe(doRegister)
+      combine([emailValidation, passwordValidation, pwdValidation]).Subscribe(disableEffect($('#register')))
+    })
 }
 
 function doRegister() {
