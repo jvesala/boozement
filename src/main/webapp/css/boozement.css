@@ -108,8 +108,8 @@ button {
 #tab-insert-content #result { margin-top: 15px; }
 #tab-insert-content #error { margin-top: 15px; }
 #tab-insert-content .interval { float: left; clear: both; overflow: auto; display: block;  }
-#tab-insert-content h3 { float: left; clear: both; margin-left: 10px; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; }
-#tab-insert-content table { float: left; clear: left; margin: 10px; -moz-border-radius: 3px; border-radius: 3px; }
+#tab-insert-content h3 { border: 1px solid black; float: left; clear: both; margin-left: 10px; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; }
+#tab-insert-content table { float: left; clear: left; margin-left: 10px; margin-bottom: 10px; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-insert-content table thead { border: 1px solid black; display: block; padding: 5px; }
 #tab-insert-content table th { font-weight: bold; }
 #tab-insert-content table tbody { border: 1px solid black; overflow-y: scroll; max-height: 200px; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px; }
