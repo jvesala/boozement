@@ -21,9 +21,10 @@ function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudesta
 function logOut() {
   var logOut = $.postAsObservable("api/logout").Select(resultData)
     .Catch(Rx.Observable.Return("Virhetilanne"))
-  logOut.Subscribe(function(x) { 
-    loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent) 
-    showLoggedOut() 
+  logOut.Subscribe(function(x) {
+    loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent)
+    showLoggedOut()
+    hideTabHeaders()
   })
 }
 
