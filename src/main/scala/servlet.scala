@@ -117,7 +117,11 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/register") {
     (stringParam("email"), stringParam("password")) match {
       case (e: Some[String], p: Some[String]) => {
-        val count = database.insertUser(e.get, p.get)
+        database.userByEmail(e.get) match {
+          case u: Some[User] => halt(409)
+          case _ =>
+        }
+        val count = database.insertUser(e.get, PasswordSupport.encrypt(p.get))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Käyttäjä luotu.")
         compact(render(json))
@@ -127,10 +131,11 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }
     
   get("/whoami") {
-    user match {
-      case user: User => user.email
-      case _ => ""
+    val json = user match {
+      case user: User => ("user" -> user.email)
+      case _ => ("user" -> "")
     }
+    compact(render(json))
   }
   
   post("/login")  {

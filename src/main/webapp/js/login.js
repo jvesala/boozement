@@ -44,13 +44,18 @@ function doRegister() {
 }
 
 function registerSuccessful() {
+  $.postAsObservable("api/login", loginParams()).Subscribe(loginAfterRegisterSuccessful, loginFailed)
+} 
+
+function loginAfterRegisterSuccessful() {
   setPageContent('<div id="tab-welcome" class="tab">Olet nyt rekisteröinyt palvelun käyttäjäksi. Tervetuloa.</div>')
   showTabHeaders() 
   updateLoggedIn()
 } 
 
-function registerFailed() {
-  updateError("Rekisteröinti epäonnistui jostain syystä. Yritä uudelleen.")
+function registerFailed(error) {
+  if(error.xmlHttpRequest.status == "409") { updateError("Kirjautumistunnus on varattu.") }
+  else updateError("Rekisteröinti epäonnistui jostain syystä. Yritä uudelleen.")
   resetSubmitStatus()
 } 
 

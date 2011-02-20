@@ -16,7 +16,6 @@ function doUserDataUpdate() {
 
 $(function() {
   $('#submit').toObservable('click').Subscribe(doUserDataUpdate)
-  $.ajaxAsObservable({ url: "api/whoami"} ).Catch(Rx.Observable.Never())
-    .Subscribe(function(email) { $('#email').val(email.data).keyup() } )
+  doWhoAmI().Where(notF(emptyData)).Subscribe(function(email) { $('#email').val(email).keyup() } )
   updateLoggedIn()
 });

@@ -25,12 +25,13 @@ function logOut() {
 
 function resultData(data) { return data.data }
 function resultDataMessage(data) { return data.data.message }
+function userName(data) { return data.user }
 function validData(data) { return data && data != "error" }
 function errorData(data) { return data == "error" }
 function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 
-function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Catch(Rx.Observable.Return("error")) }
+function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Select(userName) }
 function updateLoggedIn() {
   $('.session-busy').show()
   var whoAmI = doWhoAmI()
