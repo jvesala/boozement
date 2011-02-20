@@ -82,7 +82,8 @@ button {
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
-#tab-login-content button { float: right; clear: both; margin-right: 19px; width: 90px; }
+#tab-login-content button { float: right; margin-right: 19px; width: 90px; }
+#tab-login-content #register { float: left; width: 110px; }
 #tab-login-content .busy { float: right; margin-top: 7px; }
 #tab-login-content #error { margin-top: 5px; }
 
@@ -141,11 +142,16 @@ button {
 #tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
 #tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
-#tab-userdata-content button { float: right; margin-top: 10px; width: 150px; clear: both; }
+#tab-userdata-content button { float: right; margin-top: 10px; width: 150px; }
 #tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
 #tab-userdata-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
 #tab-userdata-content #result { margin-top: 15px; }
 #tab-userdata-content #error { margin-top: 15px; }
+#tab-userdata .registerTitle { margin-left: 10px; }
+
+
+
+
 
 
 

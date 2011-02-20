@@ -5,14 +5,9 @@ function updateResult(html) { $('#error').hide(); $('#result').html(html).show()
 function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
 function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Catch(Rx.Observable.Return("Virhetilanne!")) }
-function handleUnauthorized(sourceObservable) {
-  sourceObservable.Subscribe(skip, function(error) {
-    if(error.xmlHttpRequest.status == "401") {
-      loginPage().Subscribe(setPageContent)
-      hideTabHeaders()
-    }
-  }, skip)
-}
+function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
+function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
+function loadLogin() { loginPage().Subscribe(setPageContent); hideTabHeaders() }
 
 function prependHtml(html) { return function(x) { return $(x).prepend(html) }}
 function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show() }
@@ -31,17 +26,18 @@ function logOut() {
 function resultData(data) { return data.data }
 function resultDataMessage(data) { return data.data.message }
 function validData(data) { return data && data != "error" }
-function errorData(data) { return !data || data == "error" }
+function errorData(data) { return data == "error" }
 function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 
+function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Catch(Rx.Observable.Return("error")) }
 function updateLoggedIn() {
   $('.session-busy').show()
-  var whoAmI = $.ajaxAsObservable({ url: "api/whoami"} ).Catch(Rx.Observable.Return("error"))
+  var whoAmI = doWhoAmI()
   whoAmI.Subscribe(function(x) { $('.session-busy').hide() })
   whoAmI.Where(errorData).Subscribe(showLoggedError)
   whoAmI.Where(emptyData).Subscribe(showLoggedOut)
-  whoAmI.Where(function(d) { return d.data.length > 0 }).Subscribe(function(d) { showLoggedIn(d.data) })
+  whoAmI.Where(function(d) { return d.length > 0 }).Subscribe(showLoggedIn)
 }
 
 function id(e) { return e.target.id }
@@ -64,16 +60,6 @@ function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }
 function resetSubmitStatus() { hideBusy(); enableSubmitButton() }
 
-function showWelcomeTab() {
-  var welcome = $.ajaxAsObservable({url: "api/welcome"}).Publish()
-  handleUnauthorized(welcome)
-  welcome
-    .Select(resultData)
-    .Catch(Rx.Observable.Never())
-    .Subscribe(setPageContent)
-  welcome.Connect()
-}
-
 // String -> (a -> a)
 function trace(s) {
   return function(x) {
@@ -86,6 +72,6 @@ function debug(s) { console.log(s) }
 $(function () {
   $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
   $('#logout').toObservable('click').Subscribe(logOut)
-  showWelcomeTab()
+  doWhoAmI().Where(emptyData).Subscribe(loadLogin)
   updateLoggedIn()
 });

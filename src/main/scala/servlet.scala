@@ -115,15 +115,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case _ => halt(400)
     } 
   }
-  
-  def welcomePage = """<div id="tab-welcome" class="tab">Tervetuloa</div>"""
-  
-  get("/welcome") {
-    failUnlessAuthenticated
-    contentType = "text/html"
-    welcomePage
-  }
-  
+    
   get("/whoami") {
     user match {
       case user: User => user.email
