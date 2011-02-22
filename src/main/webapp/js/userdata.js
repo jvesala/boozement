@@ -7,11 +7,20 @@ function doUserDataUpdate() {
   preSubmit()
   var update = $.postAsObservable("api/update-user", insertUserUpdateParams()).Publish()
   handleUnauthorized(update)
-  var result = update.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
-  result.Subscribe(resetSubmitStatus)
-  result.Where(validData).Subscribe(updateResult)
-  result.Where(errorData).Select(function(x) { return "Virhe tietojen päivityksessä!" } ).Subscribe(updateError)
+  var result = update.Select(resultDataMessage)
+  result.Subscribe(updateSuccessful, updateFailed)
   update.Connect()
+}
+
+function updateSuccessful(message) {
+  resetSubmitStatus()
+  updateResult(message)
+}
+
+function updateFailed(error) {
+  if(error.xmlHttpRequest.status == "409") updateError("Kirjautumistunnus on varattu.")
+  else updateError("Virhe tietojen päivityksessä!")
+  resetSubmitStatus()
 }
 
 $(function() {
