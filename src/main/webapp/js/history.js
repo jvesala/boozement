@@ -20,6 +20,12 @@ function highlight(s, terms) {
   return s
 }
 
+function deHighlight(text) {
+  var regExp = new RegExp('<span class="highlight">(.*?)</span>', 'gi')
+  var replaceMent = '$1'
+  return text.replace(regExp, replaceMent)
+}
+
 function query(terms, page) {
   var params = { query:escape(terms), page:page }
   var servings = $.ajaxAsObservable({ url: "api/servings", data: params}).Publish()
