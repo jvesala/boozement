@@ -3,13 +3,17 @@ function updateField(target) {
   var currentValue = target.val()
   var inputParts = target.attr("name").split("-")
   var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + escape(currentValue)
-  var update = $.postAsObservable("api/update-serving", query)
-    .Catch(Rx.Observable.Return("error")).Publish()
-  update.Where(validData).Subscribe(function(x) {parent.html(currentValue)} )
-  update.Where(validData).Select(resultDataMessage).Subscribe(updateResult)
-  update.Where(errorData).Select(function(x) { return "Virhetilanne." } ).Subscribe(updateError)
-  update.Connect()
+  $.postAsObservable("api/update-serving", query).Subscribe(updateSuccessful(parent, currentValue), updateFailed)
 }
+
+function updateSuccessful(parent, currentValue) {
+  return function(x) {
+    parent.html(currentValue)
+    updateResult(resultDataMessage(x))
+  }
+}
+function updateFailed() { updateError("Virhetilanne.") }
+
 function eventTarget(e) { return $(e.target) }
 function enterPressed(e) { return e.keyCode == 13}
 function openEdit(target) {
