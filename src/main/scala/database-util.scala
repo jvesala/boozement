@@ -8,8 +8,7 @@ import org.scala_tools.time.Imports._
 
 trait JodaTypeMapperDelegates {
   import JodaTypeMapperDelegates._
-  val dateTimeTypeMapperDelegate = new DateTimeTypeMapperDelegate 
-  
+    
   implicit object DateTimeTypeMapper extends BaseTypeMapper[DateTime] {
     def apply(profile: BasicProfile) = new DateTimeTypeMapperDelegate
   }
