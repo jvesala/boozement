@@ -58,7 +58,7 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
       }.forall(_ == true)
     }
     val result = user match {
-      case u: Some[User] => servingsByUser(u.get.id)
+      case Some(u) => servingsByUser(u.id)
       case _ => servingsByUser(None) 
     }
     words match {
@@ -70,7 +70,7 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
   private def servingsByUser(userId: Option[Int]): List[Serving] = {
     db withSession  {
       val q = userId match {
-        case id: Some[Int] => for { s <- Servings if (s.userId is id.get); _ <- Query orderBy (s.date desc) } yield s
+        case Some(id) => for { s <- Servings if (s.userId is id); _ <- Query orderBy (s.date desc) } yield s
         case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
       }
       q.list

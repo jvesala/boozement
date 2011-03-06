@@ -7,7 +7,7 @@ import java.net.URLDecoder
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   def this() = this(new BoozementDatabase)
 
-  def getParam[T](convert: (String) => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
+  def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
   val toSomeInt = (value: String) => Some(value.toInt)
   val toSomeString = (value: String) => Some(value)
   val intParam = getParam(toSomeInt) _
@@ -23,10 +23,10 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/insert") {
     failUnlessAuthenticated
     (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount") ) match {
-      case (time: Some[String], date: Some[String], servingType: Some[String], amount: Some[Int]) => {
-        val count = database.insertServing(Some(user), jodaDate(date.get + time.get).get, servingType.get, amount.get)
+      case (Some(time), Some(date), Some(servingType), Some(amount)) => {
+        val count = database.insertServing(Some(user), jodaDate(date + time).get, servingType, amount)
         if (count == 0) halt(400)
-        val message: JValue = "Juotu " + servingType.get + " kello " + time.get + "."
+        val message: JValue = "Juotu " + servingType + " kello " + time + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
         compact(render(json))
       }
@@ -37,18 +37,18 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/update-serving") {
     failUnlessAuthenticated
     (intParam("id"), stringParam("field"), stringParam("value")) match {
-      case (id: Some[Int], field: Some[String], value: Some[String]) => {
-        database.serving(id.get) match {
-          case s: Some[Serving] => {
-            if (s.get.userId != user.id) halt(500)
-            val count = field.get match {
-              case "date" => database.updateServing(s.get.id.get, jodaDate(value.get).get, s.get.servingType, s.get.amount)
-              case "servingType" => database.updateServing(s.get.id.get, s.get.date, value.get, s.get.amount)
-              case "amount" => database.updateServing(s.get.id.get, s.get.date, s.get.servingType, value.get.replace(" cl", "").toInt)
+      case (Some(id), Some(field), Some(value)) => {
+        database.serving(id) match {
+          case Some(serving) => {
+            if (serving.userId != user.id) halt(401)
+            val count = field match {
+              case "date" => database.updateServing(serving.id.get, jodaDate(value).get, serving.servingType, serving.amount)
+              case "servingType" => database.updateServing(serving.id.get, serving.date, value, serving.amount)
+              case "amount" => database.updateServing(serving.id.get, serving.date, serving.servingType, value.replace(" cl", "").toInt)
               case _ => halt(400)
             }
             if (count == 0) halt(400)
-            val message: JValue = value.get + " päivitetty."
+            val message: JValue = value + " päivitetty."
             val json =  ("status" -> "ok") ~ ("message" -> message )
             compact(render(json))
           }
@@ -77,12 +77,12 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     failUnlessAuthenticated
     val query = stringParam("query") match {
       case x if x.get.trim.length == 0 => None
-      case s: Some[String] => Some(URLDecoder.decode(s.get, "UTF-8").split(" ").toList)
+      case Some(string) => Some(URLDecoder.decode(string, "UTF-8").split(" ").toList)
       case _ => None
     }
     val servings = database.servings(Some(user), query)
     val returnServings = (intParam("page") match {
-      case p: Some[Int] => servings.drop(resultsInPage * p.get)
+      case Some(page) => servings.drop(resultsInPage * page)
       case _ => servings
     }).take(resultsInPage).map(_.toJson)
     val json = ("servings" -> returnServings) ~ ("count" -> servings.length)
@@ -92,9 +92,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   get("/servings-interval") {
     failUnlessAuthenticated
     val returnServings = (dateParam("start"), dateParam("end")) match {
-      case(start: Some[DateTime], end: Some[DateTime]) => database.servingsInterval(user, start.get, end.get)
-      case(_, end: Some[DateTime]) => database.servingsInterval(user, new DateTime, end.get)
-      case(start: Some[DateTime], _) => database.servingsInterval(user, start.get, DateTime.now)
+      case(Some(start), Some(end)) => database.servingsInterval(user, start, end)
+      case(_, Some(end)) => database.servingsInterval(user, new DateTime, end)
+      case(Some(start), _) => database.servingsInterval(user, start, DateTime.now)
       case _ => halt(400)
     }
     val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length)
@@ -104,12 +104,12 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/update-user") {
     failUnlessAuthenticated
     (stringParam("email"), stringParam("password")) match {
-      case (e: Some[String], p: Some[String]) => {
-        database.userByEmail(e.get) match {
-          case u: Some[User] => halt(409)
+      case (Some(newEmail), Some(newPassword)) => {
+        database.userByEmail(newEmail) match {
+          case Some(user) => halt(409)
           case _ =>
         }
-        val count = database.updateUser(user.copy(email = e.get, password = PasswordSupport.encrypt(p.get)))
+        val count = database.updateUser(user.copy(email = newEmail, password = PasswordSupport.encrypt(newPassword)))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
         compact(render(json))
@@ -120,12 +120,12 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   
   post("/register") {
     (stringParam("email"), stringParam("password")) match {
-      case (e: Some[String], p: Some[String]) => {
-        database.userByEmail(e.get) match {
-          case u: Some[User] => halt(409)
+      case (Some(email), Some(password)) => {
+        database.userByEmail(email) match {
+          case Some(user) => halt(409)
           case _ =>
         }
-        val count = database.insertUser(e.get, PasswordSupport.encrypt(p.get))
+        val count = database.insertUser(email, PasswordSupport.encrypt(password))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Käyttäjä luotu.")
         compact(render(json))

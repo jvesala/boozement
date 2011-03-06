@@ -24,7 +24,7 @@ class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database
   override def authenticate = {
     val userCandidate = database.userByEmail(email.getOrElse(""))
     userCandidate match {
-      case user: Some[User] =>if (PasswordSupport.check(password.getOrElse(""), user.get.password)) user else None
+      case user: Some[user] =>if (PasswordSupport.check(password.getOrElse(""), user.get.password)) user else None
       case _ => None
     }
   }
