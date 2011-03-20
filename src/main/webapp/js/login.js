@@ -20,7 +20,7 @@ function loginFailed(error) {
 function convertUserdataFormToRegisterForm(x) { 
   var data = $(x)
   var text = $('<div class="registerTitle">Rekisteröityminen</div>')
-  var button = $('<button type="submit" id="back">Takaisin kirjautumissivulle.</button>')
+  var button = $('<button type="submit" id="back">Takaisin kirjautumissivulle</button>')
   var register = $('<button type="submit" id="register">Rekisteröidy</button>')
   data.find('#submit').after(register).after(button).detach()
   data.prepend(text)
