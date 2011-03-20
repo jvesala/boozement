@@ -42,7 +42,10 @@ function fetchCurrentInterval() {
    .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count] })
    .Catch(Rx.Observable.Never())
   rows.Subscribe(function(x) { tableBody.empty("").hide(); addServingsToTable(tableBody, x[0]); tableBody.fadeIn() })
+  rows.Where(emptyResults).Subscribe(hideIntervalTable)
 }
+function emptyResults(data) { return data[1] == 0 }
+function hideIntervalTable() { $('.interval table').hide() }
 
 $(function() {
   $('#submit').toObservable('click').Subscribe(doInsert)
