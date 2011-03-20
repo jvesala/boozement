@@ -1,4 +1,22 @@
+function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Catch(Rx.Observable.Return("Virhetilanne!")) }
+function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
+function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
+function loadLogin() { loginPage().Subscribe(setPageContent); hideTabHeaders() }
+
 function loginParams() { return "email=" + $('#email').val() + "&password=" + $('#password').val() }
+function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show() }
+function showLoggedOut() { $('.session.valid').hide(); $('.session.invalid').show() }
+function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide() }
+function logOut() {
+  var logOut = $.postAsObservable("api/logout").Select(resultData)
+    .Catch(Rx.Observable.Return("Virhetilanne"))
+  logOut.Subscribe(function(x) {
+    loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent)
+    showLoggedOut()
+    hideTabHeaders()
+  })
+}
+
 
 function doLogin() {
   preSubmit()
@@ -22,8 +40,8 @@ function convertUserdataFormToRegisterForm(x) {
   var text = $('<div class="registerTitle">Rekisteröityminen</div>')
   var button = $('<button type="submit" id="back">Takaisin kirjautumissivulle.</button>')
   var register = $('<button type="submit" id="register">Rekisteröidy</button>')
-  data.find('#submit').after(register).after(button).detach()
-  data.prepend(text)
+  data.find('#submit').after(register).detach()
+  data.prepend(button).prepend(text)
   return data
 }
 function openRegister() {

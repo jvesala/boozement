@@ -148,6 +148,8 @@ button {
 #tab-userdata-content #result { margin-top: 15px; }
 #tab-userdata-content #error { margin-top: 15px; }
 #tab-userdata .registerTitle { margin-left: 10px; }
+#tab-userdata #back { width: 200px; float: left; clear: left; }
+
 
 
 
