@@ -48,6 +48,7 @@ function emptyResults(data) { return data[1] == 0 }
 function hideIntervalTable() { $('.interval table').hide() }
 
 $(function() {
+  $("#dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
   $('#submit').toObservable('click').Subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
