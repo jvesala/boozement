@@ -94,7 +94,7 @@ button {
 #tab-insert-content .insert { min-height: 100px; overflow: auto; }
 #tab-insert-content .datetime { width: 165px; float: left; margin-top: 10px; }
 #tab-insert-content .type { width: 150px; float: left; margin-left: 5px; }
-#tab-insert-content .amount { width: 85px; float: left; margin-left: 10px; }
+#tab-insert-content .insert .amount { width: 85px; float: left; margin-left: 10px; }
 #tab-insert-content a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 #tab-insert-content #dateElement { margin: 5px; }
 #tab-insert-content #dateElement a { margin-top: 2px; }
