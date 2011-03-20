@@ -53,4 +53,5 @@ $(function() {
   $('#time').val(getCurrentTime())
   updateLoggedIn()
   fetchCurrentInterval()
+  $('#type').focus()
 });

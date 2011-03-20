@@ -76,6 +76,7 @@ button {
 
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+.error { color: red; font-size: 0.8em; }
 
 #tab-login { margin: 10px 0 0 10px; }
 #tab-login-content { border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
@@ -90,24 +91,28 @@ button {
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
 #tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
+#tab-insert-content .insert { min-height: 100px; overflow: auto; }
+#tab-insert-content .datetime { width: 165px; float: left; margin-top: 10px; }
+#tab-insert-content .type { width: 150px; float: left; margin-left: 5px; }
+#tab-insert-content .amount { width: 85px; float: left; margin-left: 10px; }
 #tab-insert-content a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 #tab-insert-content #dateElement { margin: 5px; }
 #tab-insert-content #dateElement a { margin-top: 2px; }
 #tab-insert-content #dateElement span.startDateLabel { margin-top: 4px; display: block; }
-#tab-insert-content #date { float: left; width: 120px; }
-#tab-insert-content #time { float: left; width: 50px;  }
-#tab-insert-content label { float: left; width: 120px;  margin-top: 4px; clear: left; margin-left: 5px; }
-#tab-insert-content label.time { clear: none; margin-left: 10px; width: 33px; }
-#tab-insert-content #type { float: left; width: 150px; }
-#tab-insert-content #amount { float: left; width: 40px; }
-#tab-insert-content .unit { float: left; margin-top: 5px; margin-left: 2px; }
-#tab-insert-content button { float: right; margin-top: 10px; width: 100px; clear: both; }
-#tab-insert-content .busy { float: right; margin-top: 15px; margin-right: 5px; }
-#tab-insert-content em { float: right;}
-#tab-insert-content .invalid { color: red; }
-#tab-insert-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
-#tab-insert-content #result { margin-top: 15px; }
-#tab-insert-content #error { margin-top: 15px; }
+#tab-insert-content label { font-size: 0.8em; float: left; }
+#tab-insert-content label[for="time"] { width: 25px; margin: 4px 0 0 3px; }
+#tab-insert-content label[for="type"] { width: 150px;}
+#tab-insert-content label[for="amount"] { width: 150px;}
+#tab-insert-content #date { width: 120px; }
+#tab-insert-content #time { width: 40px; }
+#tab-insert-content #type { width: 150px; }
+#tab-insert-content #amount { width: 40px; }
+#tab-insert-content .unit { margin-top: 5px; margin-left: 2px; }
+#tab-insert-content .invalid { border: 1px solid red; }
+#tab-insert-content button { margin-top: 14px; width: 100px; float: right;}
+#tab-insert-content .busy { margin-top: 16px; margin-left: 8px; float: left; }
+#tab-insert-content #result { margin-bottom: 15px; }
+#tab-insert-content #error { margin-bottom: 15px; }
 #tab-insert-content .interval { float: left; clear: both; overflow: auto; display: block;  }
 #tab-insert-content .interval table { float: left; clear: left; margin-left: 10px; margin-bottom: 10px; }
 #tab-insert-content .interval table thead { border: 1px solid black; display: block; padding: 5px; }

@@ -1,21 +1,28 @@
 <div id="tab-insert" class="tab">
   <div id="tab-insert-content" class="shadow">
-    <form id="form-insert" method="post">
-      <div id="dateElement"><input type="hidden" name="date" id="date" class="startDate"/></div>
-      <label for="time" class="time">klo</label><input id="time" name="time" maxlength="5" />
-      <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
-      <label for="type">Mitä joit</label>
-      <input id="type" name="type" />
-      <em class="error type-error hidden">Juo jotain</em>
-      <label for="amount">Annosmäärä</label>
-      <input id="amount" name="amount" /><div class="unit">cl</div>
-      <em class="error amount-error hidden">Annosmäärän oltava 1-100 cl.</em>
-    </form>
-    <button type="submit" id="submit">Lisää annos</button>
-    <div class="busy hidden"></div>
+    <div class="insert">
+      <form id="form-insert" method="post">
+        <div class="datetime">
+          <div id="dateElement"><input type="hidden" name="date" id="date" class="startDate"/></div>
+          <label for="time" class="time">klo</label><input id="time" name="time" maxlength="5" tabindex="1" />
+          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>        
+        </div>
+        <div class="type">
+          <label for="type">Mitä joit</label>
+          <input id="type" name="type" tabindex="2" />
+          <em class="error type-error hidden">Juo jotain</em>
+        </div>
+        <div class="amount">
+          <label for="amount">Annosmäärä</label>
+          <input id="amount" name="amount" tabindex="3" /><em class="unit">cl</em>
+          <em class="error amount-error hidden">Annoskoko on 1-100 cl.</em>
+        </div>
+        <div class="busy hidden"></div>
+        <button type="submit" id="submit" tabindex="4">Lisää annos</button>
+      </form>
     <div id="result"></div>
     <div id="error"></div>
-    
+    </div>
     <div class="interval">
       <table class="shadow">
         <thead class="gradient">
