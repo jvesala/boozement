@@ -41,11 +41,12 @@ function fetchCurrentInterval() {
   var rows = servings.Catch(Rx.Observable.Never()).Select(resultData)
    .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count] })
    .Catch(Rx.Observable.Never())
-  rows.Subscribe(function(x) { tableBody.empty("").hide(); addServingsToTable(tableBody, x[0]); tableBody.fadeIn() })
+  rows.Subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); tableBody.fadeIn() })
   rows.Where(emptyResults).Subscribe(hideIntervalTable)
 }
 function emptyResults(data) { return data[1] == 0 }
 function hideIntervalTable() { $('.interval table').hide() }
+function showIntervalTable() { $('.interval table').fadeIn() }
 
 $(function() {
   $("#dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})

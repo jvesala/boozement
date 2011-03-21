@@ -22,10 +22,12 @@ $(function() {
   typeValidation.Subscribe(toggleClassEffect($('#type'), 'invalid'))
 
   var amount = $('#amount').changes()
-  var amountValidation = mkValidation(amount, amountValidator())
+  var amountValidation = mkValidation(amount, emptyOk(amountValidator()))
   amountValidation.Subscribe(toggleEffect($('.amount-error')))
   amountValidation.Subscribe(toggleClassEffect($('#amount'), 'invalid'))
 
-  var all = combine([timeValidation, typeValidation, amountValidation])
+  var requiredValidation = required([amount])
+
+  var all = combine([timeValidation, typeValidation, amountValidation, requiredValidation])
   all.Subscribe(disableEffect($('#submit')))
 });
