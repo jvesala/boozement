@@ -2,16 +2,16 @@
   <div id="tab-userdata-content" class="shadow">
     <form id="form-userdata" method="post">
       <label for="email">Sähköpostiosoite</label>
-      <input id="email" name="email" />
+      <input id="email" name="email" tabindex="1" />
       <em class="error email-error hidden">Sähköpostiosoite on virheellinen.</em>
       <label for="password">Salasana</label>
-      <input type="password" id="password" name="password" />
+      <input type="password" id="password" name="password" tabindex="2" />
       <em class="error password-error hidden">Salasana on pakollinen.</em>
       <label for="password-copy">Salasana uudelleen</label>
-      <input type="password" id="password-copy" name="password-copy" />
+      <input type="password" id="password-copy" name="password-copy" tabindex="3" />
       <em class="error password-match-error hidden">Salasanat eivät ole samat.</em>
     </form>
-    <button type="submit" id="submit">Tallenna muutokset</button>
+    <button type="submit" id="submit" tabindex="4">Tallenna muutokset</button>
     <div class="busy hidden"></div>
     <div id="result"></div>
     <div id="error"></div>

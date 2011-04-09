@@ -73,6 +73,7 @@ button {
   margin: 5px;
   -moz-border-radius: 5px; border-radius: 5px;
 }
+button:focus { border: 2px solid black; }
 
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
