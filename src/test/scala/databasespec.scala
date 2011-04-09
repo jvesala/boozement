@@ -10,8 +10,8 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   override def afterAll = database.init
   override def beforeEach = database.init
   
-  def user = Some(User(Some(1), "test@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
-  def user2 = Some(User(Some(2), "test2@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
+  def user = Some(User(Some(1), "test@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W", "m", 75000))
+  def user2 = Some(User(Some(2), "test2@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W", "f", 65000))
 
   test("serving insert and fetch") {    
     val drinkingTime = new DateTime(2001, 3, 26, 12, 0, 0, 0)
@@ -110,7 +110,7 @@ class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAft
   }
 
   test("user is updated") {
-    val user = User(None, "originalemail@test.com", "mypassword")
+    val user = User(None, "originalemail@test.com", "mypassword", "m", 69000)
     val res = database.insertUser(user)
     assert(res == 1)
     assert(database.user(1).get.email == "originalemail@test.com")

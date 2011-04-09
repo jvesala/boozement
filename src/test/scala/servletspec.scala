@@ -11,7 +11,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   val boozement = new BoozementServlet(database)
   addServlet(boozement, "/*")
 
-  val testUser = Some(User(Some(1), "foo", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
+  val testUser = Some(User(Some(1), "foo", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W", "m", 72000))
   override def beforeEach = { 
     EasyMock.reset(database)
     database.userByEmail("foo").andReturn(testUser)
@@ -159,7 +159,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   
   test("update user happy flow") {
     expecting {
-      database.updateUser(User(Some(1), "newemail", EasyMock.anyObject())).andReturn(1)
+      database.updateUser(User(Some(1), "newemail", EasyMock.anyObject(), "m", 72000)).andReturn(1)
       lastCall.times(1)
       database.userByEmail("newemail").andReturn(None)
       lastCall.times(1)

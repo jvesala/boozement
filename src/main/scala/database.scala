@@ -87,7 +87,7 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     }    
   }
   
-  def insertUser(email: String, password: String): Int = insertUser(User(None, email, password))
+  def insertUser(email: String, password: String): Int = insertUser(User(None, email, password, "M", 77000))
   def insertUser(user: User) = { db withSession {
     Users.insert(user)
     Query(lastId).first
@@ -130,8 +130,10 @@ object Users extends Table[User]("users") {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def email = column[String]("email")
   def password = column[String]("password")
-  def * = id ~ email ~ password <> (User, User.unapply _)
+  def gender = column[String]("gender", O.DBType("enum ('M','F')"))
+  def weight = column[Int]("weight")
+  def * = id ~ email ~ password ~ gender ~ weight <> (User, User.unapply _)
   val findById = createFinderBy(_.id)
   val findByEmail = createFinderBy(_.email)
 }
-case class User(id: Option[Int], email: String, password: String)
+case class User(id: Option[Int], email: String, password: String, gender: String, weight: Int)
