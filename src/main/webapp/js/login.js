@@ -69,4 +69,5 @@ $(function() {
 	
   $('#submit').toObservable('click').Subscribe(doLogin)
   $('#register').toObservable('click').Subscribe(openRegister)
+  $('#email').focus()
 });
