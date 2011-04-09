@@ -87,7 +87,8 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     }    
   }
   
-  def insertUser(email: String, password: String): Int = insertUser(User(None, email, password, "M", 77000))
+  def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
+    insertUser(User(None, email, password, gender, weight))
   def insertUser(user: User) = { db withSession {
     Users.insert(user)
     Query(lastId).first

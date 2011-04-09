@@ -159,7 +159,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   
   test("update user happy flow") {
     expecting {
-      database.updateUser(User(Some(1), "newemail", EasyMock.anyObject(), "m", 72000)).andReturn(1)
+      database.updateUser(User(Some(1), "newemail", EasyMock.anyObject(), "M", 72000)).andReturn(1)
       lastCall.times(1)
       database.userByEmail("newemail").andReturn(None)
       lastCall.times(1)
@@ -167,7 +167,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/update-user?email=newemail&password=newpassword") {
+        post("/update-user?email=newemail&password=newpassword&gender=M&weight=72000") {
           status should equal(200)
           body should include("""{"status":"ok""")
         }
@@ -191,12 +191,12 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
       EasyMock.reset(database)
       database.userByEmail("newemail").andReturn(None)
       lastCall.times(1)
-      database.insertUser(EasyMock.anyObject(), EasyMock.anyObject()).andReturn(1)
+      database.insertUser(EasyMock.anyObject(), EasyMock.anyObject(), EasyMock.anyObject(), EasyMock.anyObject()).andReturn(1)
       lastCall.times(1)
       None
     }
     whenExecuting(database) {
-      post("/register?email=newemail&password=newpassword") {
+      post("/register?email=newemail&password=newpassword&gender=F&weight=44000") {
         status should equal(200)
         body should include("""{"status":"ok""")
       }

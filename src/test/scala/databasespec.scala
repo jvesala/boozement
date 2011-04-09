@@ -104,13 +104,13 @@ class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAft
   override def beforeEach = database.init
 
   test("user is inserted into db") {  
-    val res = database.insertUser("test@test.com", "mypassword")
+    val res = database.insertUser("test@test.com", "mypassword", "M", 79000)
     assert(res == 1)
     assert(database.user(1).get.email == "test@test.com")
   }
 
   test("user is updated") {
-    val user = User(None, "originalemail@test.com", "mypassword", "m", 69000)
+    val user = User(None, "originalemail@test.com", "mypassword", "M", 69000)
     val res = database.insertUser(user)
     assert(res == 1)
     assert(database.user(1).get.email == "originalemail@test.com")
@@ -119,15 +119,15 @@ class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAft
   }
   
   test("user is deleted from db") {
-    val res = database.insertUser("test@test.com", "mypassword")
+    val res = database.insertUser("test@test.com", "mypassword", "M", 79000)
     database.deleteUser(1)
     assert(database.user(1) == None)    
   }
   
   test("user is found by email") {
-    database.insertUser("test@test1.com", "mypassword1")
-    database.insertUser("test@test2.com", "mypassword2")
-    database.insertUser("test@test3.com", "mypassword3")
+    database.insertUser("test@test1.com", "mypassword1", "M", 80000)
+    database.insertUser("test@test2.com", "mypassword2", "M", 80000)
+    database.insertUser("test@test3.com", "mypassword3", "M", 80000)
     val user = database.userByEmail("test@test2.com")
     assert(user.get.password == "mypassword2")   
   }

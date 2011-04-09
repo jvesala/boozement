@@ -103,13 +103,14 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   
   post("/update-user") {
     failUnlessAuthenticated
-    (stringParam("email"), stringParam("password")) match {
-      case (Some(newEmail), Some(newPassword)) => {
+    (stringParam("email"), stringParam("password"), stringParam("gender"), intParam("weight")) match {
+      case (Some(newEmail), Some(newPassword), Some(newGender), Some(newWeight)) => {
         database.userByEmail(newEmail) match {
           case Some(user) => halt(409)
           case _ =>
         }
-        val count = database.updateUser(user.copy(email = newEmail, password = PasswordSupport.encrypt(newPassword)))
+        val count = database.updateUser(user.copy(
+          email = newEmail, password = PasswordSupport.encrypt(newPassword), gender = newGender, weight = newWeight))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
         compact(render(json))
@@ -119,13 +120,13 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }
   
   post("/register") {
-    (stringParam("email"), stringParam("password")) match {
-      case (Some(email), Some(password)) => {
+    (stringParam("email"), stringParam("password"), stringParam("gender"), intParam("weight")) match {
+      case (Some(email), Some(password), Some(gender), Some(weight)) => {
         database.userByEmail(email) match {
           case Some(user) => halt(409)
           case _ =>
         }
-        val count = database.insertUser(email, PasswordSupport.encrypt(password))
+        val count = database.insertUser(email, PasswordSupport.encrypt(password), gender, weight)
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Käyttäjä luotu.")
         compact(render(json))
