@@ -17,7 +17,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
   before {
-    contentType = "applications/json"  
+    contentType = "applications/json; charset=utf-8"
   }
 
   post("/insert") {

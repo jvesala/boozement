@@ -23,15 +23,15 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   
   test("insert serving") {
     expecting {
-      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
+      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideriä", 50).andReturn(1)
       lastCall.times(1)
     }
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/insert?date=20.01.2010&time=14:45&type=Siideri&amount=50"){
+        post("/insert?date=20.01.2010&time=14:45&type=Siideri%C3%A4&amount=50"){
           status should equal(200)
-          body should include("Juotu Siideri kello 14:45")
+          body should include("Juotu Siideriä kello 14:45")
         }
       }
     }

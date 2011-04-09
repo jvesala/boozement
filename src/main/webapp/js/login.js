@@ -1,4 +1,4 @@
-function loginParams() { return "email=" + $('#email').val() + "&password=" + $('#password').val() }
+function loginParams() { return "email=" + encodeURI($('#email').val()) + "&password=" + encodeURI($('#password').val()) }
 
 function doLogin() {
   preSubmit()

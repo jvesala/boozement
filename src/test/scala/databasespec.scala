@@ -13,13 +13,13 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   def user = Some(User(Some(1), "test@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
   def user2 = Some(User(Some(2), "test2@user.com", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W"))
 
-  test("serving insert and search") {    
+  test("serving insert and fetch") {    
     val drinkingTime = new DateTime(2001, 3, 26, 12, 0, 0, 0)
-    val id = database.insertServing(user, drinkingTime, "Olut", 33)
+    val id = database.insertServing(user, drinkingTime, "Oluttä", 33)
     val res = database.serving(id).get
     assert(res.id.get == id)
     assert(res.date == drinkingTime)
-    assert(res.servingType == "Olut")    
+    assert(res.servingType == "Oluttä")
   }  
   
   test("servings are inserted into db") {    

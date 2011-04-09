@@ -1,6 +1,6 @@
 function insertUserUpdateParams() {
   var fields = ["email", "password", "password-copy"]
-  return $.map(fields, function(f) { return f + "=" + $('#' + f).val() } ).join("&")
+  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&")
 }
 
 function doUserDataUpdate() {

@@ -2,7 +2,7 @@ function updateField(target) {
   var parent = target.parent()  
   var currentValue = target.val()
   var inputParts = target.attr("name").split("-")
-  var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + escape(currentValue)
+  var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + encodeURI(currentValue)
   $.postAsObservable("api/update-serving", query).Subscribe(updateSuccessful(parent, currentValue), updateFailed)
 }
 
