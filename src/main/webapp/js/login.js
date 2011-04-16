@@ -1,4 +1,9 @@
 function loginParams() { return "email=" + encodeURI($('#email').val()) + "&password=" + encodeURI($('#password').val()) }
+function userDataParams() {
+  var fields = ["email", "password", "weight"]
+  var gender = "&gender=" + $('input[name="gender"]:checked').val()
+  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&") + gender
+}
 
 function doLogin() {
   preSubmit()
@@ -20,8 +25,8 @@ function loginFailed(error) {
 function convertUserdataFormToRegisterForm(x) { 
   var data = $(x)
   var text = $('<div class="registerTitle">Rekisteröityminen</div>')
-  var button = $('<button type="submit" id="back" tabindex="5">Takaisin kirjautumissivulle</button>')
-  var register = $('<button type="submit" id="register" tabindex="4">Rekisteröidy</button>')
+  var button = $('<button type="submit" id="back" tabindex="8">Takaisin kirjautumissivulle</button>')
+  var register = $('<button type="submit" id="register" tabindex="7">Rekisteröidy</button>')
   data.find('#submit').after(register).after(button).detach()
   data.prepend(text)
   return data
@@ -40,7 +45,7 @@ function openRegister() {
 
 function doRegister() {
   preSubmit()
-  $.postAsObservable("api/register", loginParams()).Subscribe(registerSuccessful, registerFailed)
+  $.postAsObservable("api/register", userDataParams()).Subscribe(registerSuccessful, registerFailed)
 }
 
 function registerSuccessful() {

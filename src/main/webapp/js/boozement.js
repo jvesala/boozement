@@ -32,6 +32,8 @@ function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 
 function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Select(userName) }
+function doUserdata() { return $.ajaxAsObservable({ url: "api/userdata"} ).Select(resultData) }
+
 function updateLoggedIn() {
   $('.session-busy').show()
   var whoAmI = doWhoAmI()

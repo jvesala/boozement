@@ -1,11 +1,6 @@
-function insertUserUpdateParams() {
-  var fields = ["email", "password", "password-copy"]
-  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&")
-}
-
 function doUserDataUpdate() {
   preSubmit()
-  var update = $.postAsObservable("api/update-user", insertUserUpdateParams()).Publish()
+  var update = $.postAsObservable("api/update-user", userDataParams()).Publish()
   handleUnauthorized(update)
   var result = update.Select(resultDataMessage)
   result.Subscribe(updateSuccessful, updateFailed)
@@ -25,6 +20,10 @@ function updateFailed(error) {
 
 $(function() {
   $('#submit').toObservable('click').Subscribe(doUserDataUpdate)
-  doWhoAmI().Where(notF(emptyData)).Subscribe(function(email) { $('#email').val(email).keyup() } )
+  doUserdata().Subscribe(function(user) { 
+    $('#email').val(user.email).keyup() 
+    $('input[value="' + user.gender + '"]').click()
+    $('#weight').val(user.weight).keyup() 
+  })
   updateLoggedIn()
 });

@@ -142,6 +142,12 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     }
     compact(render(json))
   }
+
+  get("/userdata") {
+    failUnlessAuthenticated
+    val json:JValue = ("email" -> user.email) ~ ("gender" -> user.gender) ~ ("weight" -> user.weight)
+    compact(render(json))
+  }
   
   post("/login")  {
     authenticate

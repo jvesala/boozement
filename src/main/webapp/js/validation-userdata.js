@@ -15,5 +15,10 @@ pwdValidation.Subscribe(toggleEffect($('.password-match-error')))
 pwdValidation.Subscribe(toggleClassEffect($('#password'), 'invalid'))
 pwdValidation.Subscribe(toggleClassEffect($('#password2'), 'invalid'))
 
-var all = combine([emailValidation, passwordValidation, pwdValidation])
+var weight = $('#weight').changes()
+var weightValidation = mkValidation(weight, numberValidator())
+weightValidation.Subscribe(toggleEffect($('.weight-error')))
+weightValidation.Subscribe(toggleClassEffect($('#weight'), 'invalid'))
+
+var all = combine([emailValidation, passwordValidation, pwdValidation, weightValidation])
 all.Subscribe(disableEffect($('#submit')))

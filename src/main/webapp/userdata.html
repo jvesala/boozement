@@ -4,11 +4,22 @@
       <label for="email">Sähköpostiosoite</label>
       <input id="email" name="email" tabindex="1" />
       <em class="error email-error hidden">Sähköpostiosoite on virheellinen.</em>
+
+      <label for="gender">Sukupuoli</label>
+      <input type="radio" id="gender-male" name="gender" value="M" tabindex="2" checked="checked" />
+      <label for="gender-male">Mies</label>
+      <input type="radio" id="gender-female" name="gender" value="F"  tabindex="3" />
+      <label for="gender-female">Nainen</label>
+
+      <label for="weight">Paino</label>
+      <input id="weight" name="weight" tabindex="4" />
+      <em class="error weight-error hidden">Anna paino kiloissa.</em>
+
       <label for="password">Salasana</label>
-      <input type="password" id="password" name="password" tabindex="2" />
+      <input type="password" id="password" name="password" tabindex="5" />
       <em class="error password-error hidden">Salasana on pakollinen.</em>
       <label for="password-copy">Salasana uudelleen</label>
-      <input type="password" id="password-copy" name="password-copy" tabindex="3" />
+      <input type="password" id="password-copy" name="password-copy" tabindex="6" />
       <em class="error password-match-error hidden">Salasanat eivät ole samat.</em>
     </form>
     <button type="submit" id="submit" tabindex="4">Tallenna muutokset</button>
