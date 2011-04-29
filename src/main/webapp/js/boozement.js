@@ -30,6 +30,7 @@ function validData(data) { return data && data != "error" }
 function errorData(data) { return data == "error" }
 function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
+function preventDefault(event) { event.preventDefault() }
 
 function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Select(userName) }
 function updateLoggedIn() {
