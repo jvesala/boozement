@@ -50,7 +50,7 @@ function showIntervalTable() { $('.interval table').fadeIn() }
 
 $(function() {
   $("#dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
-  $('#submit').toObservable('click').Subscribe(doInsert)
+  $('#submit').toObservable('click').Do(preventDefault).Subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
   fetchCurrentInterval()
