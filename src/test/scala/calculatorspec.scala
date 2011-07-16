@@ -10,6 +10,7 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   def user2 = User(None, "", "", "F", 69000)
 
   val now = new DateTime
+  val manOneBeerNow = new Serving(None, user.id, now, "Olut", 33)
 
   test("should return zero when no drinks consumed") {
     val bacHistory = calculator.calculateBacHistory(user, now, Nil)
@@ -17,9 +18,13 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   }
   
   test("should return 0.22 for M/75kg immediately after beer has been consumed") {
-    val serving = new Serving(None, user.id, now, "Olut", 33)
-    val bacHistory = calculator.calculateBacHistory(user, now, List(serving))
-    assert(bacHistory.last._1 == 0.21333333333333332)    
+    val bacHistory = calculator.calculateBacHistory(user, now, List(manOneBeerNow))
+    assert(bacHistory.last._1 == 0.21333333333333332)
+  }
+
+  test("should return 0.22 for M/75kg immediately after two beers") {
+    val bacHistory = calculator.calculateBacHistory(user, now, List(manOneBeerNow, manOneBeerNow))
+    assert(bacHistory.last._1 == 0.42666666666666664)
   }
 
   test("should return 0.26 for F/69kg immediately after beer has been consumed") {
@@ -29,17 +34,12 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   }
 
   test("should return 0.08 for M/75kg one hour after beer has been consumed") {
-    val serving = new Serving(None, user.id, now, "Olut", 33)
-    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours, List(serving))
+    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours, List(manOneBeerNow))
     assert(bacHistory.last._1 == 0.08)    
   }
 
   test("should return 0 for M/75kg 1:40 after beer has been consumed") {
-    val serving = new Serving(None, user.id, now, "Olut", 33)
-    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours + 40.minutes, List(serving))
-    println(bacHistory)
+    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours + 40.minutes, List(manOneBeerNow))
     assert(bacHistory.last._1 == 0.0)
   }
-
-
 }
