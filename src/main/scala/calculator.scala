@@ -4,10 +4,12 @@ import org.scala_tools.time.Imports._
 class Calculator {
   def alcoholInGramsInServing(serving: Serving) = if (serving.amount > 0) 12D else 0D
 
-  def burnRate(weight: Double) = 0.1 * weight / (3600 * 1000)
+  def weightInKilos(weight: Double) = weight / 1000
+  def hourInMillis = 3600 * 1000
+  def burnRateInMillis(weight: Double) = 0.1 * weightInKilos(weight) / hourInMillis
 
   def remainingAmount(weight: Double, startGrams: Double, start: DateTime, end: DateTime) = {
-    max(startGrams - burnRate(weight) * (end.millis - start.millis), 0)
+    max(startGrams - burnRateInMillis(weight) * (start to end).millis, 0)
   }
 
   def genderFactor(gender: String) = if (gender == "M") 0.75 else 0.66

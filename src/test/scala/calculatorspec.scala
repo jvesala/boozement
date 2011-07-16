@@ -28,4 +28,9 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
     assert(bacHistory.last._1 == 0.26350461133069825)    
   }
 
+  test("should return 0.xx for M/75kg one hour after beer has been consumed") {
+    val serving = new Serving(None, user.id, now, "Olut", 33)
+    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours, List(serving))
+    assert(bacHistory.last._1 == 0.08)    
+  }
 }
