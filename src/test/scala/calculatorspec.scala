@@ -9,7 +9,7 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   def user = User(None, "", "", "M", 75000)
   def user2 = User(None, "", "", "F", 69000)
 
-  def now = new DateTime
+  val now = new DateTime
 
   test("should return zero when no drinks consumed") {
     val bacHistory = calculator.calculateBacHistory(user, new DateTime(), Nil)
