@@ -12,7 +12,7 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   val now = new DateTime
 
   test("should return zero when no drinks consumed") {
-    val bacHistory = calculator.calculateBacHistory(user, new DateTime(), Nil)
+    val bacHistory = calculator.calculateBacHistory(user, now, Nil)
     assert(bacHistory.head._1 == 0)
   }
   
