@@ -144,7 +144,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
 #tab-userdata-content button { float: right; margin-top: 10px; width: 150px; }
 #tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
-#tab-userdata-content .error { float:left; color: red; font-size: 0.8em; margin-top: 5px; margin-left: 5px; }
+#tab-userdata-content .error { float:left; margin-top: 5px; margin-left: 5px; }
 #tab-userdata-content #result { margin-top: 15px; }
 #tab-userdata-content #error { margin-top: 15px; }
 #tab-userdata .registerTitle { margin-left: 10px; }
