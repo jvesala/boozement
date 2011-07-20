@@ -78,6 +78,7 @@ button:focus { border: 2px solid black; }
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 .error { color: red; font-size: 0.8em; }
+.invalid { border: 1px solid red; }
 
 a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 transparent; display: block; float: left; height: 16px; width: 16px; }
 .dateElement { margin: 5px; }
@@ -122,7 +123,6 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-insert-content #type { width: 150px; }
 #tab-insert-content #amount { width: 40px; }
 #tab-insert-content .unit { margin-top: 5px; margin-left: 2px; }
-#tab-insert-content .invalid { border: 1px solid red; }
 #tab-insert-content button { margin-top: 14px; width: 100px; float: right;}
 #tab-insert-content .busy { margin-top: 16px; margin-left: 8px; float: left; }
 #tab-insert-content #result { margin-bottom: 15px; }
