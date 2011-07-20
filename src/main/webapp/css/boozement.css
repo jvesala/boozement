@@ -84,12 +84,17 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .dateElement a { margin-top: 2px; }
 .dateElement span.startDateLabel { margin-top: 4px; display: block; }
 
+.servingstable { float: left; clear: left; margin: 10px; }
+.servingstable thead { border: 1px solid black; display: block; padding: 5px; }
+.servingstable tbody { max-height: 250px; border: 1px solid black; overflow-y: scroll; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px;}
 .servingstable tbody tr:nth-child(even) td {background: #E6E6E6}
 .servingstable tbody tr:nth-child(odd) td {background: #FFF}
 .servingstable input { height: 8px; margin: 0; }
 .servingstable th { font-weight: bold; }
 .servingstable .date { width: 150px; }
 .servingstable .amount { width: 75px; overflow: hidden; }
+.servingstable .servingType { width: 300px; }
+.servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-login { margin: 10px 0 0 10px; }
 #tab-login-content { border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
@@ -123,20 +128,11 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-insert-content #result { margin-bottom: 15px; }
 #tab-insert-content #error { margin-bottom: 15px; }
 #tab-insert-content .interval { float: left; clear: both; overflow: auto; display: block;  }
-#tab-insert-content .interval table { float: left; clear: left; margin-left: 10px; margin-bottom: 10px; }
-#tab-insert-content .interval table thead { border: 1px solid black; display: block; padding: 5px; }
-#tab-insert-content .interval table tbody { border: 1px solid black; overflow-y: scroll; max-height: 200px; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px; }
-#tab-insert-content .interval table .servingType { width: 230px; }
 
 #search { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
 #tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
 #tab-history .count { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
-#tab-history table { float: left; clear: left; margin: 10px;}
-#tab-history table thead { border: 1px solid black; width: 540px; display: block; padding: 5px; }
-#tab-history table tbody { background-color: white; border: 1px solid black; height:250px;  width: 540px; overflow-y: scroll; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px; }
-#tab-history table .servingType { width: 300px; }
-#tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-history #result { margin-left: 10px; }
 #tab-history #error { margin-left: 10px; }
 
