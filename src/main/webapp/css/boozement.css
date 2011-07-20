@@ -84,6 +84,9 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .dateElement a { margin-top: 2px; }
 .dateElement span.startDateLabel { margin-top: 4px; display: block; }
 
+.servingstable tbody tr:nth-child(even) td {background: #E6E6E6}
+.servingstable tbody tr:nth-child(odd) td {background: #FFF}
+
 #tab-login { margin: 10px 0 0 10px; }
 #tab-login-content { border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
@@ -123,8 +126,6 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-insert-content .interval table .date { width: 150px; }
 #tab-insert-content .interval table .servingType { width: 230px; }
 #tab-insert-content .interval table .amount { width: 75px; overflow: hidden; }
-#tab-insert-content .interval table tr:nth-child(even) td {background: #E6E6E6}
-#tab-insert-content .interval table tr:nth-child(odd) td {background: #FFF}
 #tab-insert-content .interval table input { height: 8px; margin: 0; }
 #tab-history input { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
@@ -137,8 +138,6 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-history table .servingType { width: 300px; }
 #tab-history table .amount { width: 75px; overflow: hidden; }
 #tab-history table th { font-weight: bold; }
-#tab-history table tr:nth-child(even) td {background: #E6E6E6}
-#tab-history table tr:nth-child(odd) td {background: #FFF}
 #tab-history table .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-history table input { height: 8px; margin: 0; }
 #tab-history #result { margin-left: 10px; }
