@@ -49,7 +49,7 @@ function hideIntervalTable() { $('.interval table').hide() }
 function showIntervalTable() { $('.interval table').fadeIn() }
 
 $(function() {
-  $("#dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
+  $(".dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
   $('#submit').toObservable('click').Do(preventDefault).Subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
