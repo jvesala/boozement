@@ -17,22 +17,23 @@ object ServingGenerator {
   val wineSizes = List(12, 16, 18, 36)
   val drinkTypes = List("Mohito", "Tom Collins", "Gin tonic", "Dry Martini")
   val drinkSizes = List(12, 20)
+  
   def cycle[T](seq: Seq[T]) = Stream.from(0).flatten(_ => seq)
   
   def createBeers(count: Int) = {
     val beers = cycle(beerTypes).take(count).toList
     val sizes = cycle(beerSizes).take(count).toList  
-    beers.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2))
+    beers.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2, 1.0))
   }
   def createWines(count: Int) = {
     val wines = cycle(wineTypes).take(count).toList
     val sizes = cycle(wineSizes).take(count).toList  
-    wines.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2))    
+    wines.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2, 1.0))
   }
   def createDrinks(count: Int) = {
     val drinks = cycle(drinkTypes).take(count).toList
     val sizes = cycle(drinkSizes).take(count).toList  
-    drinks.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2))    
+    drinks.zip(sizes).map(x => Serving(None, userId, RandomTime.get, x._1, x._2, 1.0))
   }
   
   def insertBeers(count: Int) = for (s <- createBeers(count)) database.insertServing(s)

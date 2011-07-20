@@ -10,7 +10,7 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   def user2 = User(None, "", "", "F", 69000)
 
   val now = new DateTime
-  val manOneBeerNow = new Serving(None, user.id, now, "Olut", 33)
+  val manOneBeerNow = Serving(None, user.id, now, "Olut", 33, 1.0)
 
   test("should return zero when no drinks consumed") {
     val bacHistory = calculator.calculateBacHistory(user, now, Nil)
@@ -22,13 +22,18 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
     assert(bacHistory.last._1 == 0.21333333333333332)
   }
 
+  test("should return 0.32 for M/75kg immediately after 1.5 units of alcohol") {
+    val bacHistory = calculator.calculateBacHistory(user, now, List(Serving(None, user.id, now, "VahvaOlut", 25, 1.5)))
+    assert(bacHistory.last._1 == 0.32)
+  }
+
   test("should return 0.22 for M/75kg immediately after two beers") {
     val bacHistory = calculator.calculateBacHistory(user, now, List(manOneBeerNow, manOneBeerNow))
     assert(bacHistory.last._1 == 0.42666666666666664)
   }
 
   test("should return 0.26 for F/69kg immediately after beer has been consumed") {
-    val serving = new Serving(None, user2.id, now, "Olut", 33)
+    val serving = Serving(None, user2.id, now, "Olut", 33, 1.0)
     val bacHistory = calculator.calculateBacHistory(user2, now, List(serving))
     assert(bacHistory.last._1 == 0.26350461133069825)    
   }

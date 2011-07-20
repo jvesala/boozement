@@ -15,7 +15,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
 
   test("serving insert and fetch") {    
     val drinkingTime = new DateTime(2001, 3, 26, 12, 0, 0, 0)
-    val id = database.insertServing(user, drinkingTime, "Oluttä", 33)
+    val id = database.insertServing(user, drinkingTime, "Oluttä", 33, 1.0)
     val res = database.serving(id).get
     assert(res.id.get == id)
     assert(res.date == drinkingTime)
@@ -26,16 +26,17 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
     val drinkingTime2 = new DateTime(2011, 3, 26, 12, 10, 0, 0)
     val drinkingTime3 = new DateTime(2012, 4, 26, 12, 0, 0, 0)
-    database.insertServing(user, drinkingTime, "Olut", 33)
-    database.insertServing(user, drinkingTime3, "Siideri", 50)
-    database.insertServing(user, drinkingTime2, "Lonkero", 40)
-    database.insertServing(user2, drinkingTime3, "Punaviini", 18)
+    database.insertServing(user, drinkingTime, "Olut", 33, 1.0)
+    database.insertServing(user, drinkingTime3, "Siideri", 50, 1.5)
+    database.insertServing(user, drinkingTime2, "Lonkero", 40, 1.2)
+    database.insertServing(user2, drinkingTime3, "Punaviini", 18, 1.5)
     val servings = database.servings(user)
     assert(servings.size == 3)
     assert(servings.head.id == Some(2))
     assert(servings.head.userId == Some(1))
     assert(servings.head.amount == 50)
     assert(servings.head.servingType == "Siideri")
+    assert(servings.head.units == 1.5)
     assert(servings.head.date == drinkingTime3)
     assert(servings.tail.head.id == Some(3))
     assert(servings.last.id == Some(1))
@@ -45,8 +46,8 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
 
   test("serving is deleted from db") {    
     val drinkingTime = new DateTime(2010, 5, 20, 11, 45, 13, 0)
-    val id1 = database.insertServing(user, drinkingTime, "Siideri", 50)
-    val id2 = database.insertServing(user, drinkingTime, "Lonkero", 33)
+    val id1 = database.insertServing(user, drinkingTime, "Siideri", 50, 1.5)
+    val id2 = database.insertServing(user, drinkingTime, "Lonkero", 33, 1.0)
     val servings = database.servings(user)
     assert(servings.size == 2)
     database.deleteServing(Some(id1))
@@ -58,8 +59,8 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   test("serving is updated") {    
     val drinkingTime = new DateTime(2007, 2, 21, 8, 12, 9, 0)
     val drinkingTimeUpdated = new DateTime(2008, 2, 21, 8, 12, 9, 0)
-    val id1 = database.insertServing(user, drinkingTime, "Siideri", 50)
-    database.updateServing(id1, drinkingTimeUpdated, "SiideriUpdated", 75)
+    val id1 = database.insertServing(user, drinkingTime, "Siideri", 50, 1.5)
+    database.updateServing(id1, drinkingTimeUpdated, "SiideriUpdated", 75, 2.3)
     val serving = database.serving(id1).get
     assert(serving.id == Some(id1))
     assert(serving.date == drinkingTimeUpdated)
@@ -69,11 +70,11 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   
   test("search servings") {
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
-    database.insertServing(user, drinkingTime, "Olut", 33)
-    database.insertServing(user, drinkingTime + 1.hours, "Siideri", 50)
-    database.insertServing(user, drinkingTime + 2.hours, "Lonkero", 40)
-    database.insertServing(user, drinkingTime + 3.hours, "Punaviini", 18)
-    database.insertServing(user, drinkingTime + 4.hours, "Gin tonic", 18)
+    database.insertServing(user, drinkingTime, "Olut", 33, 1.0)
+    database.insertServing(user, drinkingTime + 1.hours, "Siideri", 50, 1.5)
+    database.insertServing(user, drinkingTime + 2.hours, "Lonkero", 40, 1.2)
+    database.insertServing(user, drinkingTime + 3.hours, "Punaviini", 18, 1.5)
+    database.insertServing(user, drinkingTime + 4.hours, "Gin tonic", 18, 1.5)
     assert(database.servings(user).size == 5)
     assert(database.servings(user, Some(List("olut"))).size == 1)
     assert(database.servings(user, Some(List("ii"))).size == 2)
@@ -86,11 +87,11 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
     val startTime = drinkingTime + 1.hours
     val endTime = drinkingTime + 7.hours
-    database.insertServing(user, drinkingTime, "Olut", 33)
-    database.insertServing(user, drinkingTime + 3.hours, "Siideri", 50)
-    database.insertServing(user, drinkingTime + 6.hours, "Lonkero", 40)
-    database.insertServing(user, drinkingTime + 9.hours, "Punaviini", 18)
-    database.insertServing(user, drinkingTime + 12.hours, "Gin tonic", 18)
+    database.insertServing(user, drinkingTime, "Olut", 33, 1.0)
+    database.insertServing(user, drinkingTime + 3.hours, "Siideri", 50, 1.5)
+    database.insertServing(user, drinkingTime + 6.hours, "Lonkero", 40, 1.2)
+    database.insertServing(user, drinkingTime + 9.hours, "Punaviini", 18, 1.5)
+    database.insertServing(user, drinkingTime + 12.hours, "Gin tonic", 18, 1.5)
     val res = database.servingsInterval(user.get, startTime, endTime) 
     assert(res.size == 2)
     assert(res.head.id == Some(3))

@@ -23,13 +23,13 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
   
   test("insert serving") {
     expecting {
-      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideriä", 50).andReturn(1)
+      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideriä", 50, 1.5).andReturn(1)
       lastCall.times(1)
     }
     whenExecuting(database) {
       session {
         post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/insert?date=20.01.2010&time=14:45&type=Siideri%C3%A4&amount=50"){
+        post("/insert?date=20.01.2010&time=14:45&type=Siideri%C3%A4&amount=50&units=1.5"){
           status should equal(200)
           body should include("Juotu Siideriä kello 14:45")
         }
@@ -55,9 +55,9 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("update serving date") {
     expecting {
-      database.serving(1).andReturn(Some(Serving(Some(1), Some(1), new DateTime(2008, 3, 21, 12, 12, 0, 0), "Siideri", 50)))
+      database.serving(1).andReturn(Some(Serving(Some(1), Some(1), new DateTime(2008, 3, 21, 12, 12, 0, 0), "Siideri", 50, 1.5)))
       lastCall.times(1)
-      database.updateServing(1, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50).andReturn(1)
+      database.updateServing(1, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50, 1.5).andReturn(1)
       lastCall.times(1)
     }
     whenExecuting(database) {
@@ -74,7 +74,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("get servings first page") {
     expecting {
-      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
+      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33, 1.0))
       database.servings(testUser, None).andReturn(results)
       lastCall.times(1)
     }
@@ -92,7 +92,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("get servings second page") {
     expecting {
-      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33))
+      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33, 1.0))
       database.servings(testUser, None).andReturn(results)
       lastCall.times(1)
     }
@@ -111,7 +111,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
 
   test("search servings") {
     expecting {
-      val results = List.range(1,50).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50))
+      val results = List.range(1,50).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50, 1.5))
       database.servings(testUser, Some(List("siideri"))).andReturn(results)
       lastCall.times(1)
     }
@@ -135,7 +135,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSuga
       val initialTime = new DateTime(2010, 1, 20, 9, 0, 0, 0)
       val queryStart = new DateTime(2010, 1, 20, 10, 0, 0, 0)
       val queryEnd = new DateTime(2010, 1, 21, 10, 0, 0, 0)
-      val results = List.range(1,24).map( (x) => Serving(Some(x), Some(1), initialTime + x.hours, "Siideri", 50))
+      val results = List.range(1,24).map( (x) => Serving(Some(x), Some(1), initialTime + x.hours, "Siideri", 50, 1.5))
       database.servingsInterval(testUser.get, queryStart, queryEnd).andReturn(results)
       lastCall.times(1)
     }

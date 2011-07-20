@@ -24,8 +24,8 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
       (Users.ddl ++ Servings.ddl) create
     }    
   }
-  def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int): Int = 
-    insertServing(Serving(None, user.get.id, date, servingType, amount))
+  def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int, units: Double): Int = 
+    insertServing(Serving(None, user.get.id, date, servingType, amount, units))
   def insertServing(serving: Serving): Int = {
     db withSession {
       Servings.insert(serving)
@@ -43,10 +43,10 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
       Servings.findById.firstOption(Some(id))
     }
   }
-  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int) = { 
+  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double) = { 
     db withSession {
-      val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount
-      q.update(date, servingType, amount)
+      val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount ~ s.units
+      q.update(date, servingType, amount, units)
     }
   }
   def servings(user: Option[User]): List[Serving] = servings(user, None) 
@@ -115,10 +115,11 @@ object Servings extends Table[Serving]("servings") with JodaTypeMapperDelegates 
   def date = column[DateTime]("date", O.Default(new DateTime))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
-  def * = id ~ userId ~ date ~ servingType ~ amount <> (Serving, Serving.unapply _)
+  def units = column[Double]("units")
+  def * = id ~ userId ~ date ~ servingType ~ amount ~ units <> (Serving, Serving.unapply _)
   val findById = createFinderBy(_.id)  
 }
-case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int) {
+case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int, units: Double) {
   def toJson = {
     val json =  ("id" -> id.getOrElse(0)) ~ ("userId" -> userId.getOrElse(0)) ~ 
       ("date" -> DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").print(date)) ~ 

@@ -9,8 +9,10 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
   val toSomeInt = (value: String) => Some(value.toInt)
+  val toSomeDouble = (value: String) => Some(value.toDouble)
   val toSomeString = (value: String) => Some(value)
   val intParam = getParam(toSomeInt) _
+  val doubleParam = getParam(toSomeDouble) _
   val stringParam = getParam(toSomeString) _
   val dateParam = getParam(jodaDate) _
 
@@ -22,9 +24,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   post("/insert") {
     failUnlessAuthenticated
-    (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount") ) match {
-      case (Some(time), Some(date), Some(servingType), Some(amount)) => {
-        val count = database.insertServing(Some(user), jodaDate(date + time).get, servingType, amount)
+    (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount"), doubleParam("units")) match {
+      case (Some(time), Some(date), Some(servingType), Some(amount), Some(units)) => {
+        val count = database.insertServing(Some(user), jodaDate(date + time).get, servingType, amount, units)
         if (count == 0) halt(400)
         val message: JValue = "Juotu " + servingType + " kello " + time + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
@@ -39,12 +41,13 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     (intParam("id"), stringParam("field"), stringParam("value")) match {
       case (Some(id), Some(field), Some(value)) => {
         database.serving(id) match {
-          case Some(serving) => {
-            if (serving.userId != user.id) halt(401)
+          case Some(s) => {
+            if (s.userId != user.id) halt(401)
             val count = field match {
-              case "date" => database.updateServing(serving.id.get, jodaDate(value).get, serving.servingType, serving.amount)
-              case "servingType" => database.updateServing(serving.id.get, serving.date, value, serving.amount)
-              case "amount" => database.updateServing(serving.id.get, serving.date, serving.servingType, value.replace(" cl", "").toInt)
+              case "date" => database.updateServing(s.id.get, jodaDate(value).get, s.servingType, s.amount, s.units)
+              case "servingType" => database.updateServing(s.id.get, s.date, value, s.amount, s.units)
+              case "amount" => database.updateServing(s.id.get, s.date, s.servingType, value.replace(" cl", "").toInt, s.units)
+              case "units" => database.updateServing(s.id.get, s.date, s.servingType, s.amount, value.toDouble)
               case _ => halt(400)
             }
             if (count == 0) halt(400)
