@@ -1,6 +1,7 @@
 import org.scalatra._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
+import net.liftweb.json.Printer._
 import org.scala_tools.time.Imports._
 import java.net.URLDecoder
 
@@ -18,7 +19,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
-  before {
+  before() {
     contentType = "applications/json; charset=utf-8"
   }
 
@@ -101,7 +102,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case _ => halt(400)
     }
     val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length)
-    compact(render(json))    
+    compact(render(json))
   }
   
   post("/update-user") {

@@ -1,4 +1,4 @@
-import org.scalatra.auth.{ScentryConfig, ScentrySupport, ScentryStrategy, ScalatraKernelProxy}
+import org.scalatra.auth.{ScentryConfig, ScentrySupport, ScentryStrategy}
 import org.scalatra.ScalatraKernel
 import org.scalatra.FlashMapSupport
 import org.scalatra.CookieSupport
@@ -12,11 +12,13 @@ trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport wi
     scentry.registerStrategy('SessionCookie, app => new CookieSessionStrategy(app, database))
   protected def fromSession = { case id: String => database.user(id.toInt).get }
   protected def toSession = { case usr: User => usr.id.getOrElse("").toString }
- 
+
+  override abstract def initialize(config: Config) = super.initialize(config)
+
   def failUnlessAuthenticated = if (!isAuthenticated) halt(401)
 }
 
-class CookieSessionStrategy(protected val app: ScalatraKernelProxy, val database: BoozementDatabase) extends ScentryStrategy[User] {
+class CookieSessionStrategy(protected val app: ScalatraKernel, val database: BoozementDatabase) extends ScentryStrategy[User] {
   def email = app.params.get("email")
   def password = app.params.get("password")
   override def isValid = email.isDefined && password.isDefined

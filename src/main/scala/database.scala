@@ -1,7 +1,7 @@
 import org.scalaquery._
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleScalarFunction}
+import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
 import org.scalaquery.ql.TypeMapper._
 import org.scalaquery.util.NamingContext
 import org.scalaquery.ql.extended.MySQLDriver
@@ -12,11 +12,12 @@ import java.sql.Timestamp
 import org.scala_tools.time.Imports._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
+import net.liftweb.json.Printer._
 
 class BoozementDatabase extends JodaTypeMapperDelegates {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
   lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
-  val lastId = SimpleScalarFunction.nullary[Int]("last_insert_id")
+  val lastId = SimpleFunction.nullary[Int]("last_insert_id")
   def init {
     db withSession {
       updateNA("DROP TABLE IF EXISTS users").execute
