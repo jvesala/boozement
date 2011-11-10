@@ -1,3 +1,7 @@
+import AssemblyKeys._
+
+seq(assemblySettings: _*)
+
 name := "boozement"
 
 version := "1.1"
@@ -25,3 +29,9 @@ libraryDependencies ++= Seq(
 )
 
 console in Compile <<= console in Test
+
+jarName in assembly := "boozement.jar"
+
+excludedJars in assembly <<= (fullClasspath in assembly) map { cp => 
+  cp filter {_.data.getName == "scala-compiler.jar"}
+}
