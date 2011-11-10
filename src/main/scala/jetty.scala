@@ -5,7 +5,7 @@ import org.mortbay.jetty.handler.{ResourceHandler, DefaultHandler, HandlerList, 
 
 object Jetty {
   def main(args: Array[String]) {
-    val server = new Server(8080)
+    val server = new Server(if(args.length > 0) args(0).toInt else 8080)
 
     val handler = new ResourceHandler
     handler.setWelcomeFiles(Array("boozement.html"))
