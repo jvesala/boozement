@@ -2,6 +2,8 @@ import AssemblyKeys._
 
 seq(assemblySettings: _*)
 
+seq(webSettings :_*)
+
 name := "boozement"
 
 version := "1.1"
@@ -22,7 +24,7 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "1.6.2",
   "org.scala-tools.time" %% "time" % "0.5",
   "javax.servlet" % "servlet-api" % "2.5" % "provided->default",
-  "org.mortbay.jetty" % "jetty" % "6.1.26" % "test",
+  "org.mortbay.jetty" % "jetty" % "6.1.26" % "container, test",
   "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test",
   "org.easymock" % "easymock" % "3.0" % "test",
   "org.easymock" % "easymockclassextension" % "3.0" % "test"
