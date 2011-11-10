@@ -14,6 +14,8 @@ scalaVersion :="2.9.1"
 
 parallelExecution in Test := false
 
+mainClass := Some("Jetty")
+
 libraryDependencies ++= Seq(
   "org.scalatra" %% "scalatra" % "2.0.1",  
   "org.scalatra" %% "scalatra-auth" % "2.0.1",
@@ -23,14 +25,16 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "joda-time" % "joda-time" % "1.6.2",
   "org.scala-tools.time" %% "time" % "0.5",
-  "javax.servlet" % "servlet-api" % "2.5" % "provided->default",
-  "org.mortbay.jetty" % "jetty" % "6.1.26" % "container, test",
+  "javax.servlet" % "servlet-api" % "2.5",
+  "org.mortbay.jetty" % "jetty" % "6.1.26" % "compile, runtime, container",
   "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test",
   "org.easymock" % "easymock" % "3.0" % "test",
   "org.easymock" % "easymockclassextension" % "3.0" % "test"
 )
 
 console in Compile <<= console in Test
+
+test in assembly := {}
 
 jarName in assembly := "boozement.jar"
 
