@@ -41,3 +41,7 @@ jarName in assembly := "boozement.jar"
 excludedJars in assembly <<= (fullClasspath in assembly) map { cp => 
   cp filter {_.data.getName == "scala-compiler.jar"}
 }
+
+webappResources in Compile := Seq(file("src/main/resources/static/"), file("src/test/"))
+
+port in container.Configuration := 8081
