@@ -1,8 +1,8 @@
 var tableBody = $('#tab-insert .interval table tbody')
 
 function insertParams() {
-  var fields = ["date", "time", "type", "amount"]
-  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&")
+  var fields = ["date", "time", "type", "amount", "units"]
+  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&") + "&units=1.0"
 }
 
 function padZero(val) { return (val > 9) ? val : "0" + val }

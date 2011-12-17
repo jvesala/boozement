@@ -124,7 +124,7 @@ case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, serving
   def toJson = {
     val json =  ("id" -> id.getOrElse(0)) ~ ("userId" -> userId.getOrElse(0)) ~ 
       ("date" -> DateTimeFormat.forPattern("dd.MM.yyyy HH:mm").print(date)) ~ 
-      ("type" -> servingType) ~ ("amount" -> amount)
+      ("type" -> servingType) ~ ("amount" -> amount) ~ ("units" -> units)
     compact(render(json))
   }
 }

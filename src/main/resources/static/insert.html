@@ -13,12 +13,17 @@
           <em class="error type-error hidden">Juo jotain</em>
         </div>
         <div class="amount">
-          <label for="amount">Annosmäärä</label>
+          <label for="amount">Tilavuus</label>
           <input id="amount" name="amount" tabindex="3" /><em class="unit">cl</em>
           <em class="error amount-error hidden">Annoskoko on 1-100 cl.</em>
         </div>
+        <div class="units">
+          <label for="units">Annokset</label>
+          <input id="units" name="units" tabindex="4" /><em class="unit">aa</em>
+          <em class="error units-error hidden">Alkoholimäärä 0.1-5 yksikköä</em>
+        </div>
         <div class="busy hidden"></div>
-        <button type="submit" id="submit" tabindex="4">Lisää annos</button>
+        <button type="submit" id="submit" tabindex="5">Lisää annos</button>
       </form>
     <div id="result"></div>
     <div id="error"></div>
@@ -27,13 +32,14 @@
       <table class="shadow servingstable">
         <thead class="gradient">
           <tr>
-            <th colspan="3" class="title">
+            <th colspan="4" class="title">
               Edellisen 24 tunnin aikana olet juonut
             </th>
           <tr>
             <th class="date">Kellonaika</th>
             <th class="servingType">Mitä joit</th>
-            <th class="amount">Annosmäärä</th>
+            <th class="amount">Tilavuus</th>
+            <th class="units">Annokset</th>
           </tr>
         </thead>
         <tbody>

@@ -33,7 +33,9 @@ function addServingToTable(tableBody, s) {
   type.toObservable('click').Select(eventTarget).Subscribe(openEdit)
   var amount = $('<td class="amount">' + s.amount + ' cl</td>')
   amount.toObservable('click').Select(eventTarget).Subscribe(openEdit)
-  var row = $('<tr class="' + s.id + '"></tr>').append(date).append(type).append(amount)
+  var units = $('<td class="units">' + s.units + '</td>')
+  units.toObservable('click').Select(eventTarget).Subscribe(openEdit)
+  var row = $('<tr class="' + s.id + '"></tr>').append(date).append(type).append(amount).append(units)
   tableBody.append(row)
 }
 function addServingsToTable(tableBody, servings) { $.each(servings, function(i, s) { addServingToTable(tableBody, s) }) }

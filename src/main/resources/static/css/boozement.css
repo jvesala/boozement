@@ -94,6 +94,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable th { font-weight: bold; }
 .servingstable .date { width: 150px; }
 .servingstable .amount { width: 75px; overflow: hidden; }
+.servingstable .units { width: 35px; overflow: hidden; }
 .servingstable .servingType { width: 300px; }
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
@@ -109,19 +110,22 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
-#tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
+#tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 650px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-insert-content .insert { min-height: 100px; overflow: auto; }
 #tab-insert-content .datetime { width: 165px; float: left; margin-top: 10px; }
 #tab-insert-content .type { width: 150px; float: left; margin-left: 5px; }
-#tab-insert-content .insert .amount { width: 85px; float: left; margin-left: 10px; }
+#tab-insert-content .insert .amount { width: 70px; float: left; margin-left: 10px; }
+#tab-insert-content .insert .units { width: 70px; float: left; margin-left: 10px; }
 #tab-insert-content label { font-size: 0.8em; float: left; }
 #tab-insert-content label[for="time"] { width: 25px; margin: 4px 0 0 3px; }
 #tab-insert-content label[for="type"] { width: 150px;}
 #tab-insert-content label[for="amount"] { width: 150px;}
+#tab-insert-content label[for="units"] { width: 100px;}
 #tab-insert-content #date { width: 120px; }
 #tab-insert-content #time { width: 40px; }
 #tab-insert-content #type { width: 150px; }
 #tab-insert-content #amount { width: 40px; }
+#tab-insert-content #units { width: 40px; }
 #tab-insert-content .unit { margin-top: 5px; margin-left: 2px; }
 #tab-insert-content button { margin-top: 14px; width: 100px; float: right;}
 #tab-insert-content .busy { margin-top: 16px; margin-left: 8px; float: left; }
