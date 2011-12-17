@@ -110,7 +110,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     (stringParam("email"), stringParam("password"), stringParam("gender"), intParam("weight")) match {
       case (Some(newEmail), Some(newPassword), Some(newGender), Some(newWeight)) => {
         database.userByEmail(newEmail) match {
-          case Some(user) => halt(409)
+          case Some(existingUser) if (existingUser.id != user.id) => halt(409)
           case _ =>
         }
         val count = database.updateUser(user.copy(
