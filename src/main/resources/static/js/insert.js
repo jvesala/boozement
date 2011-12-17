@@ -1,10 +1,5 @@
 var tableBody = $('#tab-insert .interval table tbody')
 
-function insertParams() {
-  var fields = ["date", "time", "type", "amount", "units"]
-  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&") + "&units=1.0"
-}
-
 function padZero(val) { return (val > 9) ? val : "0" + val }
 function getCurrentTime() {
   var now = new Date()
@@ -22,7 +17,7 @@ function intervalStart() {
 
 function doInsert() {
   preSubmit()
-  var insert = $.postAsObservable("api/insert", insertParams()).Publish()
+  var insert = $.postAsObservable("api/insert", $('#form-insert').serialize()).Publish()
   handleUnauthorized(insert)
   var insertResult = insert.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
   insertResult.Subscribe(resetSubmitStatus)

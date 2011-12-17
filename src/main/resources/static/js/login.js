@@ -1,9 +1,5 @@
-function loginParams() { return "email=" + encodeURI($('#email').val()) + "&password=" + encodeURI($('#password').val()) }
-function userDataParams() {
-  var fields = ["email", "password", "weight"]
-  var gender = "&gender=" + $('input[name="gender"]:checked').val()
-  return $.map(fields, function(f) { return f + "=" + encodeURI($('#' + f).val()) } ).join("&") + gender
-}
+function loginParams() { return $("#form-login").serialize() }
+function userDataParams() { return $("#tab-userdata form").serialize() }
 
 function doLogin() {
   preSubmit()
