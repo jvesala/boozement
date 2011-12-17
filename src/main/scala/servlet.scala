@@ -101,7 +101,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case(Some(start), _) => database.servingsInterval(user, start, DateTime.now)
       case _ => halt(400)
     }
-    val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length)
+    val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length) ~ 
+      ("bac" -> Calculator.bacNow(user, returnServings.reverse))
     compact(render(json))
   }
   

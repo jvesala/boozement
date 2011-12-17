@@ -1,5 +1,6 @@
 import scala.math._
 import org.scala_tools.time.Imports._
+import java.text.DecimalFormat
 
 class Calculator {
   val gramsInUnit = 12D
@@ -25,6 +26,10 @@ class Calculator {
     gramHistory.map( x => { (gramsToBac(user, x._1), x._2) })
   }
   
+  def formatBac(d: Double): String = new DecimalFormat("#0.00").format(d)
+  
+  def bacNow(user: User, servings: List[Serving]): String = 
+    formatBac(calculateBacHistory(user, new DateTime, servings).last._1)
 }
 
 object Calculator extends Calculator

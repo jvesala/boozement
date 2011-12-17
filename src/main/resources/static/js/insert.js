@@ -34,12 +34,13 @@ function fetchCurrentInterval() {
   servings.Connect()
   handleUnauthorized(servings)
   var rows = servings.Catch(Rx.Observable.Never()).Select(resultData)
-   .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count] })
+   .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count, data.bac] })
    .Catch(Rx.Observable.Never())
-  rows.Subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); tableBody.fadeIn() })
+  rows.Subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); updateBac(x[2]); tableBody.fadeIn() })
   rows.Where(emptyResults).Subscribe(hideIntervalTable)
 }
 function emptyResults(data) { return data[1] == 0 }
+function updateBac(bac) { $('.interval table .bac').text(bac) }
 function hideIntervalTable() { $('.interval table').hide() }
 function showIntervalTable() { $('.interval table').fadeIn() }
 
