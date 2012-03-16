@@ -88,9 +88,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val returnServings = (intParam("page") match {
       case Some(page) => servings.drop(resultsInPage * page)
       case _ => servings
-    }).take(resultsInPage).map(_.toJson)
-    val json = ("servings" -> returnServings) ~ ("count" -> servings.length)
-    compact(render(json))
+    }).take(resultsInPage)
+    servingsToJson(returnServings)
   }
 
   get("/servings-interval") {
@@ -101,9 +100,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case(Some(start), _) => database.servingsInterval(user, start, DateTime.now)
       case _ => halt(400)
     }
-    val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> returnServings.length) ~ 
-      ("bac" -> Calculator.bacNow(user, returnServings.reverse))
-    compact(render(json))
+    servingsToJson(returnServings)
   }
   
   post("/update-user") {
@@ -164,6 +161,13 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/logout") {
     logOut
     val json =  ("status" -> "ok")
+    compact(render(json))
+  }
+
+  def servingsToJson(servings: List[Serving]) = {
+    val json = ("servings" -> servings.map(_.toJson)) ~ ("count" -> servings.length) ~
+      ("bac" -> Calculator.bacNow(user, servings.reverse)) ~
+      ("units" -> servings.map(_.units).fold(0 : Double)(_ + _))
     compact(render(json))
   }
 }
