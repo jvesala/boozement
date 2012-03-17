@@ -113,7 +113,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           case _ =>
         }
         val count = database.updateUser(user.copy(
-          email = newEmail, password = PasswordSupport.encrypt(newPassword), gender = newGender, weight = newWeight))
+          email = newEmail, password = PasswordSupport.encrypt(newPassword), gender = newGender, weight = newWeight * 1000))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
         compact(render(json))
@@ -148,7 +148,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   get("/userdata") {
     failUnlessAuthenticated
-    val json:JValue = ("email" -> user.email) ~ ("gender" -> user.gender) ~ ("weight" -> user.weight)
+    val json:JValue = ("email" -> user.email) ~ ("gender" -> user.gender) ~ ("weight" -> user.weight / 1000)
     compact(render(json))
   }
   

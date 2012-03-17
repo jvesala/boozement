@@ -95,8 +95,8 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     Query(lastId).first
   }}
   def updateUser(usr: User) = { db withSession {
-    val q = for(u <- Users where {_.id is usr.id }) yield u.email ~ u.password
-    q.update(usr.email, usr.password)
+    val q = for(u <- Users where {_.id is usr.id }) yield u.email ~ u.password ~ u.weight ~ u.gender
+    q.update(usr.email, usr.password, usr.weight, usr.gender)
   }}
   def user(id: Int): Option[User] = { db withSession { 
     Users.findById.firstOption(Some(id))     
