@@ -1,205 +1,159 @@
+import org.scalaquery._
+import org.scalaquery.session._
+import org.scalaquery.session.Database.threadLocalSession
+import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
+import org.scalaquery.ql.TypeMapper._
+import org.scalaquery.util.NamingContext
+import org.scalaquery.ql.extended.MySQLDriver
+import org.scalaquery.ql.extended.MySQLDriver.Implicit._
+import org.scalaquery.ql.extended.{ExtendedTable => Table}
+import org.scalaquery.simple.StaticQuery._
 import org.scalatra._
 import org.scalatra.test.scalatest._
 import org.scalatest.matchers._
-import org.scalatest.mock._
 import org.scalatest.BeforeAndAfterEach
 import org.scala_tools.time.Imports._
-import org.easymock._
 
-class ServletSpec extends ScalatraFunSuite with ShouldMatchers with EasyMockSugar with BeforeAndAfterEach {
-  val database = mock[BoozementDatabase]
+
+class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAfterEach {
+  val database = new BoozementDatabase with TestEnv
   val boozement = new BoozementServlet(database)
   addServlet(boozement, "/*")
 
-  val testUser = Some(User(Some(1), "foo", "$2a$12$6NGXXN3gneDXR7YBv7cO6ezZraBcn14lrIqcQmydvK.ksMRIfPd9W", "m", 72000))
-  override def beforeEach = { 
-    EasyMock.reset(database)
-    database.userByEmail("foo").andReturn(testUser)
-    lastCall.times(1)
-    database.user(1).andReturn(testUser)
-    lastCall.times(1)  
-    None          
-  }
-  
+  override def beforeEach = TestDatabaseInit.init
+
+  def login = post("/login?email=jussi.vesala@iki.fi&password=foobar") { status should equal(200) }
+
   test("insert serving") {
-    expecting {
-      database.insertServing(testUser, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideriä", 50, 1.5).andReturn(1)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/insert?date=20.01.2010&time=14:45&type=Siideri%C3%A4&amount=50&units=1.5"){
-          status should equal(200)
-          body should include("Juotu Siideriä kello 14:45")
-        }
+    session {
+      login
+      post("/insert?date=20.01.2010&time=14:45&type=Siideri%C3%A4&amount=50&units=1.5"){
+        status should equal(200)
+        body should include("Juotu Siideriä kello 14:45")
       }
     }
   }
 
   test("delete serving") {
-    expecting {
-      database.deleteServing(Some(1)).andReturn(1)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/delete?id=1") {
-          status should equal(200)
-          body should include("""{"status":"ok"}""")
-        }
+    session {
+      login
+      post("/delete?id=1") {
+        status should equal(200)
+        body should include("""{"status":"ok"}""")
       }
     }
   }
 
   test("update serving date") {
-    expecting {
-      database.serving(1).andReturn(Some(Serving(Some(1), Some(1), new DateTime(2008, 3, 21, 12, 12, 0, 0), "Siideri", 50, 1.5)))
-      lastCall.times(1)
-      database.updateServing(1, new DateTime(2010, 1, 20, 14, 45, 0, 0), "Siideri", 50, 1.5).andReturn(1)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/update-serving?id=1&field=date&value=20.01.2010%2014:45") {
-          status should equal(200)
-          body should include("""{"status":"ok""")
-          body should include("""päivitetty""")
-        }
+    session {
+      login
+      post("/update-serving?id=2&field=date&value=20.01.2010%2014:45") {
+        status should equal(200)
+        body should include("""{"status":"ok""")
+        body should include("""päivitetty""")
       }
     }
   }
 
   test("get servings first page") {
-    expecting {
-      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33, 1.0))
-      database.servings(testUser, None).andReturn(results)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings?query=&page=0") {
-          status should equal(200)
-          body should include("""{"servings":["{\"id\":1,""")
-          body should not include("""{"servings":["{\"id\":11,""")
-        }
+    session {
+      login
+      get("/servings?query=") {
+        status should equal(200)
+        resultContainsIds(body, 63 to 82 toList)
+        resultCount(body, 20)
       }
     }
   }
 
   test("get servings second page") {
-    expecting {
-      val results = List.range(1, 100).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Olut", 33, 1.0))
-      database.servings(testUser, None).andReturn(results)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings?query=&page=1") {
-          status should equal(200)
-          body should not include("""{"servings":["{\"id\":1,""")
-          body should include("""\"id\":21""")
-          body should not include("""{"servings":["{\"id\":31""")
-        }
+    session {
+      login
+      get("/servings?query=&page=1") {
+        status should equal(200)
+        body should not include("""{"servings":["{\"id\":63,""")
+        body should include("""\"id\":61""")
+        body should not include("""{"servings":["{\"id\":42""")
       }
     }
   }
 
   test("search servings") {
-    expecting {
-      val results = List.range(1,50).map( (x) => Serving(Some(x), Some(1), RandomTime.get, "Siideri", 50, 1.5))
-      database.servings(testUser, Some(List("siideri"))).andReturn(results)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings?query=siideri&page=1") {
-          status should equal(200)
-          body should not include("""{"servings":["{\"id\":1,""")
-          body should not include("""{"servings":["{\"id\":20,""")
-          body should include("""\"id\":21""")
-          body should include("""\"id\":39""")
-          body should not include("""{"servings":["{\"id\":41,""")
-        }
+    session {
+      login
+      get("/servings?query=kuohuviini&page=0") {
+        status should equal(200)
+        resultContainsIds(body, List(10, 11, 13, 62, 63, 66))
+        resultCount(body, 6)
       }
     }
   }
 
   test("servings with interval") {
-    expecting {
-      val initialTime = new DateTime(2010, 1, 20, 9, 0, 0, 0)
-      val queryStart = new DateTime(2010, 1, 20, 10, 0, 0, 0)
-      val queryEnd = new DateTime(2010, 1, 21, 10, 0, 0, 0)
-      val results = List.range(1,24).map( (x) => Serving(Some(x), Some(1), initialTime + x.hours, "Siideri", 50, 1.5))
-      database.servingsInterval(testUser.get, queryStart, queryEnd).andReturn(results)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        get("/servings-interval?start=20.01.2010%2010:00&end=21.01.2010%2010:00") {
-          status should equal(200)
-          body should include("""count":23""")
-        }
+    session {
+      login
+      get("/servings-interval?start=24.02.2011%2012:15&end=25.02.2011%2019:15") {
+        status should equal(200)
+        resultContainsIds(body, List(64, 65, 66))
+        resultCount(body, 3)
       }
     }
   }
-  
+
   test("whoami") {
     get("/whoami") {
       status should equal(200)
       body should include("""{"user":""}""")
     }
   }
-  
+
   test("update user happy flow") {
-    expecting {
-      database.updateUser(User(Some(1), "newemail", EasyMock.anyObject(), "M", 72000)).andReturn(1)
-      lastCall.times(1)
-      database.userByEmail("newemail").andReturn(None)
-      lastCall.times(1)
-    }
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/update-user?email=newemail&password=newpassword&gender=M&weight=72000") {
-          status should equal(200)
-          body should include("""{"status":"ok""")
-        }
+    session {
+      login
+      post("/update-user?email=newemail&password=newpassword&gender=M&weight=72000") {
+        status should equal(200)
+        body should include("""{"status":"ok""")
       }
     }
   }
 
   test("update user invalid data") {
-    whenExecuting(database) {
-      session {
-        post("/login?email=foo&password=foobar") { status should equal(200) }
-        post("/update-user?wrong=params") {
-          status should equal(400)
-        }
+    session {
+      login
+      post("/update-user?wrong=params") {
+        status should equal(400)
       }
     }
   }
-  
+
   test("register user") {
-    expecting {
-      EasyMock.reset(database)
-      database.userByEmail("newemail").andReturn(None)
-      lastCall.times(1)
-      database.insertUser(EasyMock.anyObject(), EasyMock.anyObject(), EasyMock.anyObject(), EasyMock.anyObject()).andReturn(1)
-      lastCall.times(1)
-      None
+    post("/register?email=newemail&password=newpassword&gender=F&weight=44000") {
+      status should equal(200)
+      body should include("""{"status":"ok""")
     }
-    whenExecuting(database) {
-      post("/register?email=newemail&password=newpassword&gender=F&weight=44000") {
-        status should equal(200)
-        body should include("""{"status":"ok""")
-      }
+  }
+
+  def resultContainsIds(body: String, ids: List[Int]) {
+    ids.foreach { (id: Int) =>
+      body should include("\\\"id\\\":" + id.toString)
+    }
+  }
+
+  def resultCount(body: String, count: Int) {
+    body should include("\"count\":" + count)
+  }
+}
+
+object TestDatabaseInit {
+  lazy val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
+  def init {
+    db withSession {
+      updateNA("DROP TABLE IF EXISTS servings").execute
+      updateNA("DROP TABLE IF EXISTS users").execute
+      updateNA("CREATE TABLE servings LIKE servings_template").execute
+      updateNA("CREATE TABLE users LIKE users_template").execute
+      updateNA("INSERT INTO servings SELECT * FROM servings_template;").execute
+      updateNA("INSERT INTO users SELECT * FROM users_template;").execute
     }
   }
 }
