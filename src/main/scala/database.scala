@@ -27,28 +27,21 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
   }
   def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int, units: Double): Int = 
     insertServing(Serving(None, user.get.id, date, servingType, amount, units))
-  def insertServing(serving: Serving): Int = {
-    db withSession {
-      Servings.insert(serving)
-      Query(lastId).first
-    }
+  def insertServing(serving: Serving): Int = db withSession {
+    Servings.insert(serving)
+    Query(lastId).first
   }
-  def deleteServing(id: Option[Int]) = {
-    db withSession {
-      val q = for(u <- Servings where {_.id is id }) yield u
-      q.delete
-    }
+
+  def deleteServing(id: Option[Int]) = db withSession {
+    val q = for(u <- Servings where {_.id is id }) yield u
+    q.delete
   } 
-  def serving(id: Int): Option[Serving] = { 
-    db withSession { 
-      Servings.findById.firstOption(Some(id))
-    }
+  def serving(id: Int): Option[Serving] =  db withSession {
+    Servings.findById.firstOption(Some(id))
   }
-  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double) = { 
-    db withSession {
-      val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount ~ s.units
-      q.update(date, servingType, amount, units)
-    }
+  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double) = db withSession {
+    val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount ~ s.units
+    q.update(date, servingType, amount, units)
   }
   def servings(user: Option[User]): List[Serving] = servings(user, None) 
   def servings(user: Option[User], words: Option[List[String]]): List[Serving] = {
@@ -68,46 +61,42 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     }
   }
   
-  private def servingsByUser(userId: Option[Int]): List[Serving] = {
-    db withSession  {
-      val q = userId match {
-        case Some(id) => for { s <- Servings if (s.userId is id); _ <- Query orderBy (s.date desc) } yield s
-        case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
-      }
-      q.list
+  private def servingsByUser(userId: Option[Int]): List[Serving] = db withSession {
+    val q = userId match {
+      case Some(id) => for { s <- Servings if (s.userId is id); _ <- Query orderBy (s.date desc) } yield s
+      case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
     }
+    q.list
   }
   
-  def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = {
-    db withSession  {
-      val q = for { 
-        s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
-        _ <- Query orderBy (s.date desc)
-      } yield s
-      q.list
-    }    
+  def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withSession  {
+    val q = for {
+      s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
+      _ <- Query orderBy (s.date desc)
+    } yield s
+    q.list
   }
   
   def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
     insertUser(User(None, email, password, gender, weight))
-  def insertUser(user: User) = { db withSession {
+  def insertUser(user: User) = db withSession {
     Users.insert(user)
     Query(lastId).first
-  }}
-  def updateUser(usr: User) = { db withSession {
+  }
+  def updateUser(usr: User) = db withSession {
     val q = for(u <- Users where {_.id is usr.id }) yield u.email ~ u.password ~ u.weight ~ u.gender
     q.update(usr.email, usr.password, usr.weight, usr.gender)
-  }}
-  def user(id: Int): Option[User] = { db withSession { 
+  }
+  def user(id: Int): Option[User] = db withSession {
     Users.findById.firstOption(Some(id))     
-  }}
-  def userByEmail(email: String): Option[User] = { db withSession {
+  }
+  def userByEmail(email: String): Option[User] = db withSession {
     Users.findByEmail.firstOption(email) 
-  }}
-  def deleteUser(id: Int) = { db withSession {
+  }
+  def deleteUser(id: Int) = db withSession {
     val q = for(u <- Users where {_.id is id }) yield u
     q.delete
-  }}  
+  }
 }
 
 object Servings extends Table[Serving]("servings") with JodaTypeMapperDelegates {
