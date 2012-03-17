@@ -28,8 +28,6 @@ libraryDependencies ++= Seq(
   "javax.servlet" % "servlet-api" % "2.5",
   "org.mortbay.jetty" % "jetty" % "6.1.26" % "compile, runtime, container",
   "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test",
-  "org.easymock" % "easymock" % "3.0" % "test",
-  "org.easymock" % "easymockclassextension" % "3.0" % "test"
 )
 
 console in Compile <<= console in Test
