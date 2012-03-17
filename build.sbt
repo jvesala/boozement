@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
   "org.scala-tools.time" %% "time" % "0.5",
   "javax.servlet" % "servlet-api" % "2.5",
   "org.mortbay.jetty" % "jetty" % "6.1.26" % "compile, runtime, container",
-  "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test",
+  "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test"
 )
 
 console in Compile <<= console in Test
