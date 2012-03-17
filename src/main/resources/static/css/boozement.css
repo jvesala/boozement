@@ -137,6 +137,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
 #tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
 #tab-history .count { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
+#tab-history .units { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
 #tab-history #result { margin-left: 10px; }
 #tab-history #error { margin-left: 10px; }
 
