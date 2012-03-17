@@ -18,7 +18,7 @@ function eventTarget(e) { return $(e.target) }
 function enterPressed(e) { return e.keyCode == 13}
 function openEdit(target) {
   var inputName = target.parent().attr("class") + '-' +  target.attr("class")
-  var originalValue = target.html()
+  var originalValue = deHighlight(target.html())
   var input = $('<input type="text" name="' + inputName + '" value="' + originalValue + '" />')
   input.toObservable('blur').Select(eventTarget).Subscribe(updateField)
   input.toObservable('keyup').Where(enterPressed).Select(eventTarget).Subscribe(updateField)
