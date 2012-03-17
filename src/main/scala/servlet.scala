@@ -4,6 +4,7 @@ import net.liftweb.json.JsonDSL._
 import net.liftweb.json.Printer._
 import org.scala_tools.time.Imports._
 import java.net.URLDecoder
+import java.text.DecimalFormat
 
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   def this() = this(new BoozementDatabase)
@@ -167,7 +168,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   def servingsToJson(servings: List[Serving]) = {
     val json = ("servings" -> servings.map(_.toJson)) ~ ("count" -> servings.length) ~
       ("bac" -> Calculator.bacNow(user, servings.reverse)) ~
-      ("units" -> servings.map(_.units).fold(0 : Double)(_ + _))
+      ("units" -> new DecimalFormat("#0.00").format(servings.map(_.units).fold(0 : Double)(_ + _)))
     compact(render(json))
   }
 }
