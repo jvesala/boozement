@@ -93,8 +93,8 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable input { height: 8px; margin: 0; }
 .servingstable th { font-weight: bold; }
 .servingstable .date { width: 150px; }
-.servingstable .amount { width: 75px; overflow: hidden; }
-.servingstable .units { width: 35px; overflow: hidden; }
+.servingstable .amount { width: 75px; }
+.servingstable .units { width: 50px; overflow: hidden; }
 .servingstable .servingType { width: 300px; }
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
@@ -136,8 +136,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #search { margin-left: 10px; float: left; width: 100px; }
 #tab-history .clear { position: absolute; top: 23px; left: 118px; }
 #tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
-#tab-history .count { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
-#tab-history .units { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
+#tab-history #summary { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
 #tab-history #result { margin-left: 10px; }
 #tab-history #error { margin-left: 10px; }
 

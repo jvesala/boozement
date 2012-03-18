@@ -2,10 +2,8 @@ var clear = $('#clear')
 var search = $('#search')
 var tBody = $('#tab-history table tbody')
 
-function showCount(count) { $('#count').show(); $('#count span').html(count) }
-function hideCount() { $('#count').hide() }
-function showUnits(units) { $('#units').show(); $('#units span').html(units) }
-function hideUnits() { $('#units').hide() }
+function showSummary(count, units) { $('#summary').show(); $('#summary .count').html(count); $('#summary .units').html(units) }
+function hideSummary() { $('#summary').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
 function showClear() { clear.show() }
@@ -61,11 +59,11 @@ $(function() {
   
   input.Where(emptyData).Subscribe(hideClear)
   input.Where(notF(emptyData)).Subscribe(showClear)
-  var first = input.Subscribe(function(_) { hideCount(); hideUnits(); showBusy() })
+  var first = input.Subscribe(function(_) { hideSummary(); showBusy() })
   var first = input.Select(function(term) { return query(term, 0) }).Switch().Publish()
   var more = input.Select(paging).Switch().Publish()
   first.Subscribe(function(x) { clearServings(); addServingsToTable(tBody, x[0]) })
-  first.Subscribe(function(x) { hideBusy(); showCount(x[1]); showUnits(x[2]) })
+  first.Subscribe(function(x) { hideBusy(); showSummary(x[1], x[2]) })
   more.Subscribe(function(x) { addServingsToTable(tBody, x[0]) })
   first.Connect()
   more.Connect()
