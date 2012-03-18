@@ -93,9 +93,13 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable input { height: 8px; margin: 0; }
 .servingstable th { font-weight: bold; }
 .servingstable .date { width: 150px; }
+.servingstable .date input { width: 140px; }
 .servingstable .amount { width: 75px; }
+.servingstable .amount input { width: 65px; }
 .servingstable .units { width: 50px; overflow: hidden; }
+.servingstable .units input { width: 40px; }
 .servingstable .servingType { width: 300px; }
+.servingstable .servingType input { width: 290px; }
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-login { margin: 10px 0 0 10px; }
