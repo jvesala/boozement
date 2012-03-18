@@ -7,10 +7,9 @@ function doLogin() {
 }
 
 function loginSuccessful() {
-  setPageContent('<div id="tab-welcome" class="tab">Tervetuloa</div>')
-  showTabHeaders() 
-  updateLoggedIn()
-} 
+  showTabHeaders()
+  showTab("tab-header-insert")
+}
 
 function loginFailed(error) {
   if(error.xmlHttpRequest.status == "401") { updateError("Väärä kirjautumistunnus tai salasana.") }
