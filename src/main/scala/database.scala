@@ -32,8 +32,8 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     Query(lastId).first
   }
 
-  def deleteServing(id: Option[Int]) = db withSession {
-    val q = for(u <- Servings where {_.id is id }) yield u
+  def deleteServing(id: Option[Int], user: User) = db withSession {
+    val q = for(u <- Servings where {s => (s.id is id) && (s.userId is user.id) }) yield u
     q.delete
   } 
   def serving(id: Int): Option[Serving] =  db withSession {

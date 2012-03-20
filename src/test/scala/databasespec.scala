@@ -50,7 +50,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     val id2 = database.insertServing(user, drinkingTime, "Lonkero", 33, 1.0)
     val servings = database.servings(user)
     assert(servings.size == 2)
-    database.deleteServing(Some(id1))
+    database.deleteServing(Some(id1), user.get)
     val servings2 = database.servings(user)    
     assert(servings2.size == 1)
     assert(servings2.head.id == Some(id2))

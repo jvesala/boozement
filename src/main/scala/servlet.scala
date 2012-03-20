@@ -68,7 +68,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     failUnlessAuthenticated
     intParam("id") match {
       case id: Some[Int] => {
-        val count = database.deleteServing(id)
+        val count = database.deleteServing(id, user)
         if(count == 0) halt(400)
         val json =  ("status" -> "ok")
         compact(render(json))
