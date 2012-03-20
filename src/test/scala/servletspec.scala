@@ -61,7 +61,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAft
       get("/servings?query=") {
         status should equal(200)
         resultContainsIds(body, 63 to 82 toList)
-        resultCount(body, 20)
+        resultCount(body, 82)
       }
     }
   }

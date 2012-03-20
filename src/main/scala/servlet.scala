@@ -86,11 +86,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case _ => None
     }
     val servings = database.servings(Some(user), query)
-    val returnServings = (intParam("page") match {
-      case Some(page) => servings.drop(resultsInPage * page)
-      case _ => servings
-    }).take(resultsInPage)
-    servingsToJson(returnServings)
+    servingsToJson(servings, intParam("page"))
   }
 
   get("/servings-interval") {
@@ -165,10 +161,16 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     compact(render(json))
   }
 
-  def servingsToJson(servings: List[Serving]) = {
-    val json = ("servings" -> servings.map(_.toJson)) ~ ("count" -> servings.length) ~
-      ("bac" -> Calculator.bacNow(user, servings.reverse)) ~
-      ("units" -> new DecimalFormat("#0.00").format(servings.map(_.units).fold(0 : Double)(_ + _)))
+  def resultsInPage = 20
+
+  def servingsToJson(servings: List[Serving], page: Option[Int] = None) = {
+    val returnServings = (page match {
+      case Some(page) => servings.drop(resultsInPage * page)
+      case _ => servings
+    }).take(resultsInPage)
+    val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> servings.length) ~
+      ("units" -> new DecimalFormat("#0.00").format(servings.map(_.units).fold(0 : Double)(_ + _))) ~
+      ("bac" -> Calculator.bacNow(user, servings.reverse))
     compact(render(json))
   }
 }
