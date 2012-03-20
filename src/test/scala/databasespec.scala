@@ -60,7 +60,7 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     val drinkingTime = new DateTime(2007, 2, 21, 8, 12, 9, 0)
     val drinkingTimeUpdated = new DateTime(2008, 2, 21, 8, 12, 9, 0)
     val id1 = database.insertServing(user, drinkingTime, "Siideri", 50, 1.5)
-    database.updateServing(id1, drinkingTimeUpdated, "SiideriUpdated", 75, 2.3)
+    database.updateServing(id1, drinkingTimeUpdated, "SiideriUpdated", 75, 2.3, user.get)
     val serving = database.serving(id1).get
     assert(serving.id == Some(id1))
     assert(serving.date == drinkingTimeUpdated)

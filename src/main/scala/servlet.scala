@@ -46,10 +46,10 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           case Some(s) => {
             if (s.userId != user.id) halt(401)
             val count = field match {
-              case "date" => database.updateServing(s.id.get, jodaDate(value).get, s.servingType, s.amount, s.units)
-              case "servingType" => database.updateServing(s.id.get, s.date, value, s.amount, s.units)
-              case "amount" => database.updateServing(s.id.get, s.date, s.servingType, value.replace(" cl", "").toInt, s.units)
-              case "units" => database.updateServing(s.id.get, s.date, s.servingType, s.amount, value.toDouble)
+              case "date" => database.updateServing(s.id.get, jodaDate(value).get, s.servingType, s.amount, s.units, user)
+              case "servingType" => database.updateServing(s.id.get, s.date, value, s.amount, s.units, user)
+              case "amount" => database.updateServing(s.id.get, s.date, s.servingType, value.replace(" cl", "").toInt, s.units, user)
+              case "units" => database.updateServing(s.id.get, s.date, s.servingType, s.amount, value.toDouble, user)
               case _ => halt(400)
             }
             if (count == 0) halt(400)

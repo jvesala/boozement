@@ -39,8 +39,8 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
   def serving(id: Int): Option[Serving] =  db withSession {
     Servings.findById.firstOption(Some(id))
   }
-  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double) = db withSession {
-    val q = for(s <- Servings where {_.id is id }) yield s.date ~ s.servingType ~ s.amount ~ s.units
+  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double, user: User) = db withSession {
+    val q = for(s <- Servings where {s => (s.id is id) && (s.userId is user.id) }) yield s.date ~ s.servingType ~ s.amount ~ s.units
     q.update(date, servingType, amount, units)
   }
   def servings(user: Option[User]): List[Serving] = servings(user, None) 
