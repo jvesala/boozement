@@ -12,3 +12,6 @@ src/main/scala/tags
 .ensime
 ensime_port
 .ensime.msg.counter
+src/main/resources/static/css/ie.css
+src/main/resources/static/css/print.css
+src/main/resources/static/css/screen.css
