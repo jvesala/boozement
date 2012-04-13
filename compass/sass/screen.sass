@@ -1,8 +1,3 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
 @import "compass/reset"
 @import "compass/css3"
 
@@ -10,10 +5,11 @@ $width: 800px
 $height: 400px
 $tabWidth: 750px
 
-$pageContentColor1: #EFDEC2
-$pageContentColor2: #DAC27C
-$boxColor: white
-$backgroundColor: #E6E6E6
+$pageContentColor1: #AA9F8E
+$pageContentColor2: darken($pageContentColor1, 30) 
+$boxColor: lighten($pageContentColor1, 20)
+$backgroundColor: lighten($boxColor, 10)
+$buttonTextColor: #F2EADF
 
 @mixin box-layout($color)
   border: 1px solid black
@@ -117,12 +113,6 @@ body
   clear: none
   cursor: pointer
 
-//h1, h2, h3
-//  @include text-shadow(gray 1px 1px 1px)
-
-//form, table
-//  @include border-radius(3px) 
-
 label 
   font-size: 12px
   line-height: 17px
@@ -130,13 +120,13 @@ label
 
 input
   border: 1px solid $pageContentColor1
-  @include background-image(linear-gradient($pageContentColor1, white))
+  @include background-image(linear-gradient($boxColor, white))
 
 button
   font-family: Arial, Helvetica
   text-transform: uppercase
   margin: 5px
-  color: black
+  color: $buttonTextColor
   border: 1px solid $pageContentColor2
   font-size: 12px
   white-space: nowrap
@@ -282,8 +272,7 @@ a.calendarIcon
   .datetime  
     width: 165px 
     float: left
-    margin-top: 10px
-    margin-left: 7px 
+    margin: 10px 0 0 7px
   .type  
     width: 150px 
     float: left 
@@ -312,13 +301,11 @@ a.calendarIcon
   #units
     width: 40px 
   .unit
-    margin-top: 5px 
-    margin-left: 2px 
+    margin: 5px 0 0 2px
   button
     margin: 15px 0 0 10px
   .busy
-    margin-top: 16px
-    margin-left: 8px
+    margin: 16px 0 0 8px
     float: left 
   #result
     clear: left
@@ -341,12 +328,10 @@ a.calendarIcon
     top: 23px 
     left: 118px 
   .busy
-    margin-left: 5px
-    margin-top: 5px 
+    margin: 5px 0 0 5px
     float: left 
   #summary  
-    margin-left: 5px
-    margin-top: 3px
+    margin: 3px 0 0 5px
     float: left
     font-size: 0.9em 
   #result
@@ -358,9 +343,8 @@ a.calendarIcon
   label
     float: left
     clear: left
-    margin-left: 5px 
     width: 150px
-    margin-top: 5px
+    margin: 5px 0 0 5px
   label[for="gender-male"], label[for="gender-female"]
     clear: none 
     float: left
@@ -385,12 +369,10 @@ a.calendarIcon
     margin-top: 10px 
   .busy
     float: right
-    margin-top: 12px
-    margin-right: 5px 
+    margin: 12px 5px 0 0
   .error
     float: left 
-    margin-top: 5px 
-    margin-left: 5px 
+    margin: 5px 0 0 5px
   #result
     margin-top: 15px 
   #error
