@@ -1,22 +1,24 @@
 <div id="tab-history" class="tab">
-  <input type="text" name="search" id="search" /><div class="clear" id="clear"></div><div class="busy"></div>
-  <div id="summary">
-    <span class="count"></span> osumaa /
-    <span class="units"></span> annosta
-  </div>
+  <div id="tab-history-content" class="tab-content">
+    <input type="text" name="search" id="search" /><div class="clear" id="clear"></div><div class="busy"></div>
+    <div id="summary">
+      <span class="count"></span> osumaa /
+      <span class="units"></span> annosta
+    </div>
 
-  <div id="result"></div>
-  <div id="error"></div>
-  <table class="shadow servingstable">
-    <thead class="gradient">
-      <th class="date">Päivämäärä</th>
-      <th class="servingType">Mitä joit</th>
-      <th class="amount">Tilavuus</th>
-      <th class="units">Annokset</th>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+    <div id="result"></div>
+    <div id="error"></div>
+    <table class="servingstable">
+      <thead>
+        <th class="date">Päivämäärä</th>
+        <th class="servingType">Mitä joit</th>
+        <th class="amount">Tilavuus</th>
+        <th class="units">Annokset</th>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 </div>
 <script type="text/javascript" src="js/history.js"></script>
 <script type="text/javascript" src="js/table.js"></script>

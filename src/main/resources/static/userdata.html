@@ -1,5 +1,6 @@
 <div id="tab-userdata" class="tab">
-  <div id="tab-userdata-content" class="shadow">
+  <div id="tab-userdata-content" class="tab-content">
+    <h3 class="registerTitle hidden">Rekisteröityminen</h3>
     <form id="form-userdata" method="post">
       <label for="email">Sähköpostiosoite</label>
       <input id="email" name="email" tabindex="1" />
@@ -12,7 +13,7 @@
       <label for="gender-female">Nainen</label>
 
       <label for="weight">Paino</label>
-      <input id="weight" name="weight" tabindex="4" />
+      <input id="weight" name="weight" tabindex="4" /><em class="weightTitle">kg</em>
       <em class="error weight-error hidden">Anna paino kiloissa.</em>
 
       <label for="password">Salasana</label>
@@ -22,6 +23,8 @@
       <input type="password" id="password-copy" name="password-copy" tabindex="6" />
       <em class="error password-match-error hidden">Salasanat eivät ole samat.</em>
     </form>
+    <button type="submit" id="back" tabindex="8" class="hidden">Takaisin kirjautumissivulle</button>
+    <button type="submit" id="register" tabindex="7" class="hidden">Rekisteröidy</button>
     <button type="submit" id="submit" tabindex="4">Tallenna muutokset</button>
     <div class="busy hidden"></div>
     <div id="result"></div>

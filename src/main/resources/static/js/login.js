@@ -19,11 +19,10 @@ function loginFailed(error) {
 
 function convertUserdataFormToRegisterForm(x) { 
   var data = $(x)
-  var text = $('<div class="registerTitle">Rekisteröityminen</div>')
-  var button = $('<button type="submit" id="back" tabindex="8">Takaisin kirjautumissivulle</button>')
-  var register = $('<button type="submit" id="register" tabindex="7">Rekisteröidy</button>')
-  data.find('#submit').after(register).after(button).detach()
-  data.prepend(text)
+  data.find('.registerTitle').removeClass('hidden')
+  data.find('#back').removeClass('hidden')
+  data.find('#register').removeClass('hidden')
+  data.find('#submit').addClass('hidden')
   return data
 }
 function openRegister() {

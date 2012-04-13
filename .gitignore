@@ -15,3 +15,4 @@ ensime_port
 src/main/resources/static/css/ie.css
 src/main/resources/static/css/print.css
 src/main/resources/static/css/screen.css
+.sass-cache
