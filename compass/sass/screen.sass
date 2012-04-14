@@ -48,6 +48,7 @@ body
   @include box-layout($pageContentColor1)
   border: 0
   @include border-top-left-radius(0) 
+  @include border-top-right-radius(0) 
 
 .tab-header
   font-size: 12px  
@@ -89,14 +90,23 @@ body
   float: right
   border: none
   margin-top: 20px
-  padding: 3px
-  font-size: 0.9em
+  padding: 8px 10px 0 10px 
+  height: 23px
+  background: $pageContentColor1
+  color: $buttonTextColor
+  @include border-top-left-radius(3px) 
+  @include border-top-right-radius(3px) 
+  @include box-shadow(gray 2px 2px 3px)
   button 
     text-decoration: none
     margin: 0
+  &.invalid
+    border: 0
 
 .session-busy
   border: none
+  margin-top: 25px
+  float: right
 
 .hidden 
   display: none
