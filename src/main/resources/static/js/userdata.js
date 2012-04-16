@@ -23,7 +23,7 @@ $(function() {
   doUserdata().Subscribe(function(user) { 
     $('#email').val(user.email).keyup() 
     $('input[value="' + user.gender + '"]').click()
-    $('#weight').val(user.weight).keyup() 
-  })
-  updateLoggedIn()
+    $('#weight').val(user.weight).keyup()
+    updateLoggedIn()
+  }, function(_) { updateLoggedIn()})
 });
