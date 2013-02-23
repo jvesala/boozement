@@ -30,7 +30,7 @@ body
   left: 50%
   margin-left: -($width / 2)
 
-#page-header
+aside
   font-size: 11px
   height: 50px
   position: absolute
@@ -50,17 +50,20 @@ body
   @include border-top-left-radius(0) 
   @include border-top-right-radius(0) 
 
-.tab-header
-  font-size: 12px  
-  position: absolute
-  top: 21px
-  font-weight: bold
-  background: $boxColor
-  height: 24px
-  @include border-top-radius(3px) 
-  padding-left: 7px
-  padding-top: 5px
-  cursor: pointer
+nav
+  div
+    font-size: 12px
+    position: absolute
+    top: 21px
+    font-weight: bold
+    background: $boxColor
+    height: 24px
+    @include border-top-radius(3px)
+    padding-left: 7px
+    padding-top: 5px
+    cursor: pointer
+    .selected
+      background: $pageContentColor1
 
 .tab 
   padding: 10px
@@ -82,9 +85,6 @@ body
 .tab-header-userdata 
   left: 135px
   width: 75px
-
-.tab-header.selected
-  background: $pageContentColor1
 
 .session
   float: right

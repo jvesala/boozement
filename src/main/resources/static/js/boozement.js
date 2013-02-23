@@ -1,4 +1,4 @@
-function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }) }
+function deSelectTabHeader() { $('nav div').each(function() { $(this).removeClass("selected") }) }
 function setPageContent(content) { setElementContent($('#page-content div'), content) }
 function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
 function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
@@ -57,8 +57,8 @@ function showTab(tabId) {
 
 function showBusy() { $('.busy').show() }
 function hideBusy() { $('.busy').hide() }
-function showTabHeaders() { $('.tab-header').show() }
-function hideTabHeaders() { $('.tab-header').hide() }
+function showTabHeaders() { $('header aside').show() }
+function hideTabHeaders() { $('header aside').hide() }
 function enableSubmitButton() { $('#submit').removeAttr("disabled") }
 function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }
@@ -74,7 +74,7 @@ function trace(s) {
 function debug(s) { console.log(s) }
 
 $(function () {
-  $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
+  $('nav div').toObservable('click').Select(id).Subscribe(showTab)
   $('#logout').toObservable('click').Subscribe(logOut)
   doWhoAmI().Where(emptyData).Subscribe(loadLogin)
   updateLoggedIn()
