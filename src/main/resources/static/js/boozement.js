@@ -1,13 +1,20 @@
 function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }) }
 function setPageContent(content) { setElementContent($('#page-content div'), content) }
-function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
+//function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
+function setElementContent(element, content) { element.empty().html(content) }
 function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
 function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
 function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Catch(Rx.Observable.Return("Virhetilanne!")) }
 function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
 function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
-function loadLogin() { loginPage().Subscribe(setPageContent); hideTabHeaders() }
+function loadLogin() {
+  hideTabHeaders()
+  loginPage().Subscribe(function(html) {
+    setPageContent(html)
+    $.getScript("js/login.js", function () {})
+  })
+}
 
 function prependHtml(html) { return function(x) { return $(x).prepend(html) }}
 function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show() }
@@ -46,13 +53,17 @@ function updateLoggedIn() {
 
 function id(e) { return e.target.id }
 function showTab(tabId) {
-  deSelectTabHeader()
-  setPageContent('<div class="busy"></div>')
-  showBusy()
-  $("." + tabId).addClass("selected")
-  $.ajaxAsObservable({ url: tabId.split("-").pop() + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
+  //deSelectTabHeader()
+  //setPageContent('<div class="busy"></div>')
+  //showBusy()
+  //$("." + tabId).addClass("selected")
+  var name = tabId.split("-").pop()
+  $.ajaxAsObservable({ url: name + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
     .Select(resultData)
-    .Subscribe(setPageContent)
+    .Subscribe(function(html) {
+      setPageContent(html)
+      //$.getScript("js/" + name + ".js", function () {})
+    })
 }
 
 function showBusy() { $('.busy').show() }
@@ -77,5 +88,6 @@ $(function () {
   $('.tab-header').toObservable('click').Select(id).Subscribe(showTab)
   $('#logout').toObservable('click').Subscribe(logOut)
   doWhoAmI().Where(emptyData).Subscribe(loadLogin)
+  // todo: load insert if session is valid
   updateLoggedIn()
 });

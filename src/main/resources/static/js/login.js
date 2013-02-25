@@ -9,6 +9,7 @@ function doLogin() {
 function loginSuccessful() {
   showTabHeaders()
   showTab("tab-header-insert")
+  updateLoggedIn()
 }
 
 function loginFailed(error) {

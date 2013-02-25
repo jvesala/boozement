@@ -1,38 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>Boozement</title>
-  <script type="text/javascript" src="js/lib/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="js/lib/rx.js"></script>
-  <script type="text/javascript" src="js/lib/rx.jQuery.js"></script>
-  <script type="text/javascript" src="js/lib/rx.html.js"></script>
-  <script type="text/javascript" src="js/lib/rx.aggregates.js"></script>
-  <script type="text/javascript" src="js/lib/date-functions.js"></script>
-  <script type="text/javascript" src="js/lib/date-locales.js"></script>
-  <script type="text/javascript" src="js/lib/date-range.js"></script>
-  <script type="text/javascript" src="js/lib/jquery.continuous-calendar.js"></script>
-  <script type="text/javascript" src="js/validation.js"></script>
-  <script type="text/javascript" src="js/boozement.js"></script>
-  <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="css/jquery.continuous-calendar.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="css/boozement.css" type="text/css" media="screen" />
-  <meta http-equiv='content-type' content='text/html; charset=utf-8' /> 
-</head>
-<body>
-  <div id="page">
-    <div id="page-header">
-      <div class="session valid hidden">Kirjautuneena <span></span> <button type="submit" id="logout">Kirjaudu ulos</button></div>
-      <div class="session invalid hidden">Et ole kirjautuneena</div>
-      <div class="session session-busy hidden"></div>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Boozement</title>
+    <script src="css/5grid/jquery.js"></script>
+    <script src="css/5grid/init.js"></script>
+    <script src="js/lib/rx.js"></script>
+    <script src="js/lib/rx.jQuery.js"></script>
+    <script src="js/lib/rx.html.js"></script>
+    <script src="js/lib/rx.aggregates.js"></script>
+    <script src="js/lib/date-functions.js"></script>
+    <script src="js/lib/date-locales.js"></script>
+    <script src="js/lib/date-range.js"></script>
+    <script src="js/lib/jquery.continuous-calendar.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/boozement.js"></script>
+    <link rel="stylesheet" href="css/jquery.continuous-calendar.css" />
+    <link rel="stylesheet" href="css/boozement.css" type="text/css" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Boozement" />
+    <meta name="keywords" content="" />
+    <meta name="Author" content="Jussi Vesala" />
+  </head>
+  <body>
+    <div id="header-wrapper">
+      <header id="header" class="5grid-layout">
+        <div class="row">
+          <div class="3u">
+            <h1 class="mobileUI-site-name">Boozement</h1>
+          </div>
+          <div class="6u">
+            <nav class="mobileUI-site-nav">
+              <ul>
+                <li class="tab-header" id="tab-header-insert">Syötä</li>
+                <li class="tab-header" id="tab-header-history">Historia</li>
+                <li class="tab-header" id="tab-header-userdata">Omat tiedot</li>
+              </ul>
+            </nav>
+          </div>
+          <div class="3u">
+            <div class="session valid hidden">Kirjautuneena <span></span> <button type="submit" id="logout">Kirjaudu ulos</button></div>
+            <div class="session invalid hidden">Et ole kirjautuneena</div>
+            <div class="session session-busy hidden"></div>
+          </div>
+        </div>
+      </header>
     </div>
-    <div class="tab-header tab-header-insert gradient" id="tab-header-insert">Syötä</div>
-    <div class="tab-header tab-header-history gradient" id="tab-header-history">Historia</div>
-    <div class="tab-header tab-header-userdata gradient" id="tab-header-userdata">Omat tiedot</div>
-    <div id="page-content" class="shadow">
-      <div id="tab-welcome" class="tab"><div class="busy"></div></div>
+    <div class="5grid-layout">
+      <div class="row">
+        <div class="6u offset-3u" id="page-content">
+          <div id="tab-welcome" class="tab"><div class="busy"></div></div>
+        </div>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
