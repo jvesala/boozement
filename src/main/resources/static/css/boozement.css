@@ -1,16 +1,17 @@
 #header-wrapper { background: #000; }
 
-#header h1 { color: white; font-size: 18px; text-align: center; margin-top: 15px; }
-#header ul { margin-top: 15px; }
+#header { min-height: 80px; }
+#header h1 { color: white; font-size: 26px; margin-top: 25px; border-bottom: 1px solid white; width: 130px; }
+#header ul { margin-top: 30px; }
 #header ul li { color: white; font-size: 14px; cursor: pointer; display: inline-block; font-size: 18px; padding-right: 20px; text-transform: uppercase; }
 #header ul li.selecte { color: green;  }
 
-.session { color: white; float: right; border: none; margin-top: 20px; padding: 3px; font-size: 0.9em;}
+.session { color: white;border: none; margin-top: 22px; padding: 3px; font-size: 0.9em;}
 .session button { text-decoration: none; margin: 0; }
 .session-busy { border: none; }
 
 .hidden { display: none; }
-.busy, .session-busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
+.busy, { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 .clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
 .shadow { -moz-box-shadow: 3px 3px 3px gray; -webkit-box-shadow: 3px 3px 3px gray;}
 .gradient {
@@ -96,12 +97,14 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-insert-content #error { margin-bottom: 15px; }
 #tab-insert-content .interval { float: left; clear: both; overflow: auto; display: block;  }
 
-#search { margin-left: 10px; float: left; width: 100px; }
-#tab-history .clear { position: absolute; top: 23px; left: 118px; }
-#tab-history .busy { margin-left: 5px; margin-top: 5px; float: left; }
-#tab-history #summary { margin-left: 5px; margin-top: 3px; float: left; font-size: 0.9em; }
+#tab-history { position: relative; }
+#tab-history #search { position: absolute; top: 0; left: 10px; width: 100px; }
+#tab-history .clear { position: absolute; top: 4px; left: 120px; }
+#tab-history .busy { position: absolute; top: 4px; left: 140px; }
+#tab-history #summary { position: absolute; top: 4px; left: 140px; }
 #tab-history #result { margin-left: 10px; }
 #tab-history #error { margin-left: 10px; }
+#tab-history table { margin-top: 30px; }
 
 #tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}

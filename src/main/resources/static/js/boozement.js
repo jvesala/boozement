@@ -9,7 +9,6 @@ function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(re
 function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
 function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
 function loadLogin() {
-  hideTabHeaders()
   loginPage().Subscribe(function(html) {
     setPageContent(html)
     $.getScript("js/login.js", function () {})
@@ -17,8 +16,8 @@ function loadLogin() {
 }
 
 function prependHtml(html) { return function(x) { return $(x).prepend(html) }}
-function showLoggedIn(email) { $('.session.invalid').hide(); $('.session span').html(email); $('.session.valid').show() }
-function showLoggedOut() { $('.session.valid').hide(); $('.session.invalid').show() }
+function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').show() }
+function showLoggedOut() { $('.session.valid').hide() }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide() }
 function logOut() {
   var logOut = $.postAsObservable("api/logout").Select(resultData)
@@ -26,7 +25,6 @@ function logOut() {
   logOut.Subscribe(function(x) {
     loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent)
     showLoggedOut()
-    hideTabHeaders()
   })
 }
 
@@ -43,9 +41,7 @@ function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(re
 function doUserdata() { return $.ajaxAsObservable({ url: "api/userdata"} ).Select(resultData) }
 
 function updateLoggedIn() {
-  $('.session-busy').show()
   var whoAmI = doWhoAmI()
-  whoAmI.Subscribe(function(x) { $('.session-busy').hide() })
   whoAmI.Where(errorData).Subscribe(showLoggedError)
   whoAmI.Where(emptyData).Subscribe(showLoggedOut)
   whoAmI.Where(function(d) { return d.length > 0 }).Subscribe(showLoggedIn)
@@ -61,15 +57,16 @@ function showTab(tabId) {
   $.ajaxAsObservable({ url: name + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
     .Select(resultData)
     .Subscribe(function(html) {
-      setPageContent(html)
-      //$.getScript("js/" + name + ".js", function () {})
+      $('#page-content > div').hide().empty().html(html)
+//      setPageContent(html)
+      $.getScript("js/" + name + ".js", function () {
+        $('#page-content > div').show()
+      })
     })
 }
 
 function showBusy() { $('.busy').show() }
 function hideBusy() { $('.busy').hide() }
-function showTabHeaders() { $('.tab-header').show() }
-function hideTabHeaders() { $('.tab-header').hide() }
 function enableSubmitButton() { $('#submit').removeAttr("disabled") }
 function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }

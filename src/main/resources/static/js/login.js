@@ -7,7 +7,6 @@ function doLogin() {
 }
 
 function loginSuccessful() {
-  showTabHeaders()
   showTab("tab-header-insert")
   updateLoggedIn()
 }
@@ -50,7 +49,6 @@ function registerSuccessful() {
 
 function loginAfterRegisterSuccessful() {
   setPageContent('<div id="tab-welcome" class="tab">Olet nyt rekisteröinyt palvelun käyttäjäksi. Tervetuloa.</div>')
-  showTabHeaders() 
   updateLoggedIn()
 } 
 
