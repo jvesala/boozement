@@ -1,31 +1,22 @@
-function deSelectTabHeader() { $('.tab-header').each(function() { $(this).removeClass("selected") }) }
-function setPageContent(content) { setElementContent($('#page-content div'), content) }
-//function setElementContent(element, content) { element.hide().empty().html(content).fadeIn() }
-function setElementContent(element, content) { element.empty().html(content) }
 function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
 function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
-function loginPage() { return $.ajaxAsObservable({ url: "login.html"}).Select(resultData).Catch(Rx.Observable.Return("Virhetilanne!")) }
 function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
 function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
-function loadLogin() {
-  loginPage().Subscribe(function(html) {
-    setPageContent(html)
-    $.getScript("js/login.js", function () {})
-  })
-}
 
-function prependHtml(html) { return function(x) { return $(x).prepend(html) }}
+function loadLogin() { loadTab("login") }
 function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').show() }
 function showLoggedOut() { $('.session.valid').hide() }
-function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show(); $('.session.invalid').hide() }
+function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show() }
 function logOut() {
-  var logOut = $.postAsObservable("api/logout").Select(resultData)
+  $.postAsObservable("api/logout").Select(resultData)
     .Catch(Rx.Observable.Return("Virhetilanne"))
-  logOut.Subscribe(function(x) {
-    loginPage().Select(prependHtml("<div>Olet kirjautunut ulos.</div>")).Subscribe(setPageContent)
-    showLoggedOut()
-  })
+    .Subscribe(function(x) {
+      loadTab("login").Subscribe(function(x) {
+        $('.logout-message').removeClass('hidden')
+        showLoggedOut()
+      })
+    })
 }
 
 function resultData(data) { return data.data }
@@ -49,20 +40,21 @@ function updateLoggedIn() {
 
 function id(e) { return e.target.id }
 function showTab(tabId) {
-  //deSelectTabHeader()
   //setPageContent('<div class="busy"></div>')
   //showBusy()
-  //$("." + tabId).addClass("selected")
+  $('.tab-header').removeClass("selected")
+  $("#" + tabId).addClass("selected")
   var name = tabId.split("-").pop()
-  $.ajaxAsObservable({ url: name + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
-    .Select(resultData)
-    .Subscribe(function(html) {
-      $('#page-content > div').hide().empty().html(html)
-//      setPageContent(html)
-      $.getScript("js/" + name + ".js", function () {
-        $('#page-content > div').show()
-      })
-    })
+  loadTab(name)
+}
+
+function loadTab(name) {
+  var loader = $.ajaxAsObservable({ url: name + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"})).Select(resultData)
+  loader.Subscribe(function(html) {
+    $('#page-content').hide().empty().html(html)
+    $.getScript("js/" + name + ".js", function () { $('#page-content').show() })
+  })
+  return loader
 }
 
 function showBusy() { $('.busy').show() }

@@ -31,7 +31,7 @@ function openRegister() {
     .Select(resultData)
     .Select(convertUserdataFormToRegisterForm)
     .Subscribe(function(x) { 
-      setPageContent(x)
+      $('#page-content').html(x)
       $('#back').toObservable('click').Subscribe(loadLogin)
       $('#register').toObservable('click').Subscribe(doRegister)
       combine([emailValidation, passwordValidation, pwdValidation]).Subscribe(disableEffect($('#register')))
@@ -48,7 +48,7 @@ function registerSuccessful() {
 } 
 
 function loginAfterRegisterSuccessful() {
-  setPageContent('<div id="tab-welcome" class="tab">Olet nyt rekisteröinyt palvelun käyttäjäksi. Tervetuloa.</div>')
+  $('#page-content').html('<div id="tab-welcome" class="tab">Olet nyt rekisteröinyt palvelun käyttäjäksi. Tervetuloa.</div>')
   updateLoggedIn()
 } 
 

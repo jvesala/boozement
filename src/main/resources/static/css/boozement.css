@@ -4,7 +4,7 @@
 #header h1 { color: white; font-size: 26px; margin-top: 25px; border-bottom: 1px solid white; width: 130px; }
 #header ul { margin-top: 30px; }
 #header ul li { color: white; font-size: 14px; cursor: pointer; display: inline-block; font-size: 18px; padding-right: 20px; text-transform: uppercase; }
-#header ul li.selecte { color: green;  }
+#header ul li.selected { color: gray; }
 
 .session { color: white;border: none; margin-top: 22px; padding: 3px; font-size: 0.9em;}
 .session button { text-decoration: none; margin: 0; }
@@ -65,7 +65,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-login { margin: 10px 0 0 10px; }
-#tab-login-content { border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
+#tab-login-content { background-color: white; border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
 #tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
