@@ -13,7 +13,7 @@
 body { background: url("../img/background.png") repeat 0 0; }
 
 .hidden { display: none; }
-.busy, { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
+.busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 .clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
 .shadow { -moz-box-shadow: 3px 3px 3px gray; -webkit-box-shadow: 3px 3px 3px gray;}
 .gradient {
