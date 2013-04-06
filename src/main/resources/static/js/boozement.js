@@ -5,8 +5,8 @@ function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip,
 function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
 
 function loadLogin() { loadTab("login") }
-function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').show() }
-function showLoggedOut() { $('.session.valid').hide() }
+function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').removeClass('hidden') }
+function showLoggedOut() { $('.session.valid').addClass('hidden') }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show() }
 function logOut() {
   $.postAsObservable("api/logout").Select(resultData)
