@@ -18,7 +18,7 @@ object Jetty {
     staticHolder.setInitParameter("dirAllowed", "false")
     staticHolder.setServlet(new DefaultServlet)
 
-    context.addServlet(new ServletHolder(new BoozementServlet),"/api*");    
+    context.addServlet(new ServletHolder(new BoozementServlet),"/api/*");    
     context.addServlet(staticHolder, "/*")
 
     server.setHandler(context)
