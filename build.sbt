@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "1.6.2",
   "org.scala-tools.time" %% "time" % "0.5",
   "javax.servlet" % "servlet-api" % "2.5",
-  "org.mortbay.jetty" % "jetty" % "6.1.26" % "compile, runtime, container",
+  "org.eclipse.jetty" % "jetty-webapp" % "8.1.9.v20130131" % "compile, runtime, container",
   "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test"
 )
 
