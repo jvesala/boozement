@@ -74,7 +74,7 @@ function trace(s) {
 function debug(s) { console.log(s) }
 
 $(function () {
-  $('nav div').toObservable('click').Select(id).Subscribe(showTab)
+  $('nav li').toObservable('click').Select(id).Subscribe(showTab)
   $('#logout').toObservable('click').Subscribe(logOut)
   doWhoAmI().Where(emptyData).Subscribe(loadLogin)
   // todo: load insert if session is valid
