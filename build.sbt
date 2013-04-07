@@ -25,7 +25,6 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "joda-time" % "joda-time" % "1.6.2",
   "org.scala-tools.time" %% "time" % "0.5",
-  "javax.servlet" % "servlet-api" % "2.5",
   "org.eclipse.jetty" % "jetty-webapp" % "8.1.9.v20130131" % "compile, runtime, container",
   "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test"
 )
@@ -43,3 +42,10 @@ excludedJars in assembly <<= (fullClasspath in assembly) map { cp =>
 webappResources in Compile := Seq(file("src/main/resources/static/"), file("src/test/"))
 
 port in container.Configuration := 8081
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+  {
+    case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+    case _ => MergeStrategy.first
+  }
+}
