@@ -42,7 +42,9 @@ function isScrolledToBottom(e) {
   return e.target.scrollTop + e.target.offsetHeight + scrollTolerance > e.target.scrollHeight
 }
 
-$(function() {  
+$(function() {
+  $.getScript("js/table.js", function () {})
+  $.getScript("js/validation-insert.js", function () {})
   var input = search.toObservable('keyup')
     .Throttle(50)
     .Select(function(e) { return $(e.target).val() })

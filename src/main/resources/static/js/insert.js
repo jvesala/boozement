@@ -45,6 +45,8 @@ function hideIntervalTable() { $('.interval table').hide() }
 function showIntervalTable() { $('.interval table').fadeIn() }
 
 $(function() {
+  $.getScript("js/table.js", function () {})
+  $.getScript("js/validation-insert.js", function () {})
   $(".dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
   $('#submit').toObservable('click').Do(preventDefault).Subscribe(doInsert)
   $('#time').val(getCurrentTime())
