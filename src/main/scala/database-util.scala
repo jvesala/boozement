@@ -1,7 +1,6 @@
-import scala.slick.session.Database
-import Database.threadLocalSession
-import scala.slick.driver.MySQLDriver
-import scala.slick.jdbc.StaticQuery._
+import scala.slick.lifted.{TypeMapperDelegate, BaseTypeMapper}
+import scala.slick.session.{PositionedResult, PositionedParameters}
+import scala.slick.driver.BasicProfile
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
 
@@ -23,5 +22,6 @@ object JodaTypeMapperDelegates {
     def nextValue(r: PositionedResult) = new DateTime(r.nextTimestamp.getTime)
     def updateValue(v: DateTime, r: PositionedResult) = r.updateTimestamp(toTimestamp(v))
     override def valueToSQLLiteral(value: DateTime) = "{ts '"+toTimestamp(value).toString+"'}"
-  } 
+    def sqlTypeName = "TIMESTAMP"
+  }
 }

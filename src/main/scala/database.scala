@@ -1,11 +1,15 @@
-import scala.slick.session.Database
-import Database.threadLocalSession
-import scala.slick.driver.MySQLDriver
-import scala.slick.jdbc.StaticQuery._
-import java.sql.Timestamp
-import org.scala_tools.time.Imports._
-import org.json4s._
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
+import scala.slick.lifted.Query._
+import scala.slick.lifted.{Query, SimpleFunction}
+import scala.slick.session.Database
+import scala.slick.driver.ExtendedProfile
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.jdbc.StaticQuery._
+import scala.slick.session.Session
+import Database.threadLocalSession
 
 class BoozementDatabase extends JodaTypeMapperDelegates {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
@@ -16,7 +20,7 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
       updateNA("DROP TABLE IF EXISTS users").execute
       updateNA("DROP TABLE IF EXISTS servings").execute
       (Users.ddl ++ Servings.ddl) create
-    }    
+    }
   }
   def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int, units: Double): Int = 
     insertServing(Serving(None, user.get.id, date, servingType, amount, units))

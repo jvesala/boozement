@@ -1,18 +1,9 @@
-import org.scalaquery._
-import org.scalaquery.session._
-import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
-import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.util.NamingContext
-import org.scalaquery.ql.extended.MySQLDriver
-import org.scalaquery.ql.extended.MySQLDriver.Implicit._
-import org.scalaquery.ql.extended.{ExtendedTable => Table}
-import org.scalaquery.simple.StaticQuery._
-import org.scalatra._
+import scala.slick.session.Database
+import scala.slick.jdbc.StaticQuery._
+import Database.threadLocalSession
 import org.scalatra.test.scalatest._
 import org.scalatest.matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.scala_tools.time.Imports._
 
 
 class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAfterEach {

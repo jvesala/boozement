@@ -1,5 +1,6 @@
 import org.scalatra._
 import org.json4s._
+import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.scala_tools.time.Imports._
 import java.net.URLDecoder
@@ -7,7 +8,7 @@ import java.text.DecimalFormat
 
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
   implicit val formats = org.json4s.DefaultFormats
-  
+
   def this() = this(new BoozementDatabase)
 
   def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
@@ -22,6 +23,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
   def renderAsJson(a: JValue) = compact(render(a))
+
+  override protected def contextPath = request.getContextPath
 
   before() {
     contentType = "applications/json; charset=utf-8"
@@ -73,7 +76,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case id: Some[Int] => {
         val count = database.deleteServing(id, user)
         if(count == 0) halt(400)
-        val json =  ("status" -> "ok")
+        val json =  "status" -> "ok"
         renderAsJson(json)
       }
       case None => halt(400) 
@@ -108,7 +111,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     (stringParam("email"), stringParam("password"), stringParam("gender"), intParam("weight")) match {
       case (Some(newEmail), Some(newPassword), Some(newGender), Some(newWeight)) => {
         database.userByEmail(newEmail) match {
-          case Some(existingUser) if (existingUser.id != user.id) => halt(409)
+          case Some(existingUser) if existingUser.id != user.id => halt(409)
           case _ =>
         }
         val count = database.updateUser(user.copy(
@@ -139,8 +142,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     
   get("/whoami") {
     val json = user match {
-      case user: User => ("user" -> user.email)
-      case _ => ("user" -> "")
+      case user: User => "user" -> user.email
+      case _ => "user" -> ""
     }
     renderAsJson(json)
   }
@@ -154,13 +157,13 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   post("/login")  {
     authenticate
     failUnlessAuthenticated
-    val json =  ("status" -> "ok")
+    val json =  "status" -> "ok"
     renderAsJson(json)
   }
   
   post("/logout") {
     logOut
-    val json =  ("status" -> "ok")
+    val json =  "status" -> "ok"
     renderAsJson(json)
   }
 
