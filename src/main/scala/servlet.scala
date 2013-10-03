@@ -1,12 +1,13 @@
 import org.scalatra._
-import net.liftweb.json.JsonAST._
-import net.liftweb.json.JsonDSL._
-import net.liftweb.json.Printer._
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 import org.scala_tools.time.Imports._
 import java.net.URLDecoder
 import java.text.DecimalFormat
 
 class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
+  implicit val formats = org.json4s.DefaultFormats
+  
   def this() = this(new BoozementDatabase)
 
   def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
@@ -20,6 +21,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
+  def renderAsJson(a: JValue) = compact(render(a))
+
   before() {
     contentType = "applications/json; charset=utf-8"
   }
@@ -30,9 +33,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case (Some(time), Some(date), Some(servingType), Some(amount), Some(units)) => {
         val count = database.insertServing(Some(user), jodaDate(date + time).get, servingType, amount, units)
         if (count == 0) halt(400)
-        val message: JValue = "Juotu " + servingType + " kello " + time + "."
+        val message = "Juotu " + servingType + " kello " + time + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
-        compact(render(json))
+        renderAsJson(json)
       }
       case _ => halt(400)
     }
@@ -53,9 +56,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
               case _ => halt(400)
             }
             if (count == 0) halt(400)
-            val message: JValue = value + " päivitetty."
-            val json =  ("status" -> "ok") ~ ("message" -> message )
-            compact(render(json))
+            val message = value + " päivitetty."
+            val json =  ("status" -> "ok") ~ ("message" -> message)
+            renderAsJson(json)
           }
           case _ => halt(400)
         }        
@@ -71,7 +74,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
         val count = database.deleteServing(id, user)
         if(count == 0) halt(400)
         val json =  ("status" -> "ok")
-        compact(render(json))
+        renderAsJson(json)
       }
       case None => halt(400) 
     }
@@ -112,7 +115,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           email = newEmail, password = PasswordSupport.encrypt(newPassword), gender = newGender, weight = newWeight * 1000))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
-        compact(render(json))
+        renderAsJson(json)
       }
       case _ => halt(400)
     } 
@@ -126,9 +129,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           case _ =>
         }
         val count = database.insertUser(email, PasswordSupport.encrypt(password), gender, weight)
-        if(count == 0) halt(400)
+        if (count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Käyttäjä luotu.")
-        compact(render(json))
+        renderAsJson(json)
       }
       case _ => halt(400)
     }
@@ -139,26 +142,26 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
       case user: User => ("user" -> user.email)
       case _ => ("user" -> "")
     }
-    compact(render(json))
+    renderAsJson(json)
   }
 
   get("/userdata") {
     failUnlessAuthenticated
-    val json:JValue = ("email" -> user.email) ~ ("gender" -> user.gender) ~ ("weight" -> user.weight / 1000)
-    compact(render(json))
+    val json = ("email" -> user.email) ~ ("gender" -> user.gender) ~ ("weight" -> user.weight / 1000)
+    renderAsJson(json)
   }
   
   post("/login")  {
     authenticate
     failUnlessAuthenticated
     val json =  ("status" -> "ok")
-    compact(render(json))
+    renderAsJson(json)
   }
   
   post("/logout") {
     logOut
     val json =  ("status" -> "ok")
-    compact(render(json))
+    renderAsJson(json)
   }
 
   def resultsInPage = 20
@@ -171,6 +174,6 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val json = ("servings" -> returnServings.map(_.toJson)) ~ ("count" -> servings.length) ~
       ("units" -> new DecimalFormat("#0.00").format(servings.map(_.units).fold(0 : Double)(_ + _))) ~
       ("bac" -> Calculator.bacNow(user, servings.reverse))
-    compact(render(json))
+      renderAsJson(json)
   }
 }

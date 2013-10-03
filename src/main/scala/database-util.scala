@@ -1,8 +1,7 @@
-import org.scalaquery._
-import org.scalaquery.ql._
-import org.scalaquery.ql.basic._
-import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.session._
+import scala.slick.session.Database
+import Database.threadLocalSession
+import scala.slick.driver.MySQLDriver
+import scala.slick.jdbc.StaticQuery._
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
 

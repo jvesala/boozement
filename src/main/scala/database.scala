@@ -1,18 +1,11 @@
-import org.scalaquery._
-import org.scalaquery.session._
-import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
-import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.util.NamingContext
-import org.scalaquery.ql.extended.MySQLDriver
-import org.scalaquery.ql.extended.MySQLDriver.Implicit._
-import org.scalaquery.ql.extended.{ExtendedTable => Table}
-import org.scalaquery.simple.StaticQuery._
+import scala.slick.session.Database
+import Database.threadLocalSession
+import scala.slick.driver.MySQLDriver
+import scala.slick.jdbc.StaticQuery._
 import java.sql.Timestamp
 import org.scala_tools.time.Imports._
-import net.liftweb.json.JsonAST._
-import net.liftweb.json.JsonDSL._
-import net.liftweb.json.Printer._
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 class BoozementDatabase extends JodaTypeMapperDelegates {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
