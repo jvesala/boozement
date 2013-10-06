@@ -86,7 +86,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 
 #tab-insert-content { border: 1px solid black; margin: 10px 0 0 10px; width: 650px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
-#tab-insert-content .insert { min-height: 100px; overflow: auto; background-color: white; }
+#tab-insert-content .insert { min-height: 100px; overflow: auto; }
 #tab-insert-content .datetime { width: 165px; float: left; margin-top: 10px; }
 #tab-insert-content .type { width: 150px; float: left; margin-left: 5px; }
 #tab-insert-content .insert .amount { width: 70px; float: left; margin-left: 10px; }
@@ -111,7 +111,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-history-content { border: 1px solid black; margin: 10px 0 0 10px; width: 650px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-history table { margin-top: 30px; }
 
-#tab-userdata-content { background-color: white; border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
+#tab-userdata-content { border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
 #tab-userdata-content label[for="gender-male"], #tab-userdata-content label[for="gender-female"] { clear: none; float: left; width: 50px; }
 #tab-userdata-content input[type="radio"] { width: 10px; margin-top: 7px; }
