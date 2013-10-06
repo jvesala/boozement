@@ -116,6 +116,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-userdata-content input[type="radio"] { width: 10px; margin-top: 7px; }
 #tab-userdata-content #weight { width: 25px;}
 #tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
+#tab-userdata-content .weightTitle { float: left; margin-top: 8px; margin-left: 5px; }
 #tab-userdata-content button { float: right; margin-top: 10px; width: 150px; }
 #tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
 #tab-userdata-content .error { float:left; margin-top: 5px; margin-left: 5px; }
