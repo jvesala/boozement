@@ -2,8 +2,21 @@
 <html>
   <head>
     <title>Boozement</title>
-    <script src="css/5grid/jquery.js"></script>
-    <script src="css/5grid/init.js"></script>
+    <script src="js/lib/jquery-1.10.2.min.js"></script>
+    <script>
+      window._skel_config = {
+        prefix: "css/style",
+        resetCSS: true,
+        boxModel: "border",
+        grid: { gutters: 30 },
+        breakpoints: {
+          wide: { range: "1200-", containers: 1140, grid: { gutters: 50 } },
+          narrow: { range: "481-1199", containers: 960 },
+          mobile: { range: "-480", containers: "fluid", lockViewport: true, grid: { collapse: true } }
+        }
+      }
+    </script>
+    <script src="js/lib/skel.min.js"></script>
     <script src="js/lib/rx.js"></script>
     <script src="js/lib/rx.jQuery.js"></script>
     <script src="js/lib/rx.html.js"></script>
@@ -15,6 +28,7 @@
     <script src="js/validation.js"></script>
     <script src="js/boozement.js"></script>
     <link rel="stylesheet" href="css/jquery.continuous-calendar.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="Boozement" />
     <meta name="keywords" content="" />
@@ -22,10 +36,10 @@
   </head>
   <body>
     <div id="header-wrapper">
-      <header id="header" class="5grid-layout">
+      <header id="header">
         <div class="row">
           <div class="12u">
-            <h1 class="mobileUI-site-name">Boozement</h1>
+            <h1>Boozement</h1>
             <div class="session valid hidden">
               <span></span>
               <button type="submit" id="logout">Kirjaudu ulos</button>
@@ -34,7 +48,7 @@
         </div>
         <div class="row">
           <div class="12u">
-            <nav class="mobileUI-site-nav">
+            <nav>
               <ul>
                 <li class="tab-header" id="tab-header-insert">Syötä</li>
                 <li class="tab-header" id="tab-header-history">Historia</li>
@@ -45,7 +59,7 @@
         </div>
       </header>
     </div>
-    <div class="5grid-layout">
+    <div>
       <div class="row">
         <div class="12u" id="page-content">
           <div id="tab-welcome" class="tab"><div class="busy"></div></div>
