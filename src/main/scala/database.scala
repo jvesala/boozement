@@ -60,18 +60,14 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
   
   private def servingsByUser(userId: Option[Int]): List[Serving] = db withSession {
     val q = userId match {
-      case Some(id) => for { s <- Servings if (s.userId is id); _ <- Query orderBy (s.date desc) } yield s
-      case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
+      case Some(id) => Query(Servings).filter(_.userId === id).sortBy(_.date.desc)
+      case _ => Query(Servings).sortBy(_.date.desc)
     }
     q.list
   }
   
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withSession  {
-    val q = for {
-      s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
-      _ <- Query orderBy (s.date desc)
-    } yield s
-    q.list
+    Query(Servings).filter(s => s.userId === user.id && (s.date > start) && (s.date < end)).sortBy(_.date.desc).list
   }
   
   def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
