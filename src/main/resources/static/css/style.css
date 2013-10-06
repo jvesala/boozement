@@ -54,7 +54,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable tbody { max-height: 250px; border: 1px solid black; overflow-y: scroll; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px;}
 .servingstable tbody tr:nth-child(even) td {background: #E6E6E6}
 .servingstable tbody tr:nth-child(odd) td {background: #FFF}
-.servingstable input { height: 8px; margin: 0; }
+.servingstable input { height: 15px; margin: 0; padding: 0; }
 .servingstable th { font-weight: bold; }
 .servingstable .date { width: 150px; }
 .servingstable .date input { width: 140px; }
@@ -106,8 +106,8 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-history .clear { position: absolute; top: 4px; left: 120px; }
 #tab-history .busy { position: absolute; top: 4px; left: 140px; }
 #tab-history #summary { position: absolute; top: 4px; left: 140px; }
-#tab-history #result { margin-left: 10px; }
-#tab-history #error { margin-left: 10px; }
+#tab-history #result { position: absolute; top: 2px; left: 350px; }
+#tab-history #error { position: absolute; top: 2px; left: 350px; }
 #tab-history table { margin-top: 30px; }
 
 #tab-userdata-content { background-color: white; border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
