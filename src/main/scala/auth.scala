@@ -6,10 +6,9 @@ import org.scalatra.CookieSupport
 import org.scalatra.ScalatraServlet
 import org.scalatra.auth.ScentryAuthStore
 
-trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport with CookieSupport { self: BoozementServlet =>
+trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport { self: BoozementServlet =>
   protected val scentryConfig = (new ScentryConfig {}).asInstanceOf[ScentryConfiguration]
-  protected def contextPath = request.getContextPath
-  override protected def registerAuthStrategies = 
+  override protected def registerAuthStrategies =
     scentry.register("SessionCookie", app => new CookieSessionStrategy(app, database))
   protected def fromSession = { case id: String => database.user(id.toInt).get }
   protected def toSession = { case usr: User => usr.id.getOrElse("").toString }

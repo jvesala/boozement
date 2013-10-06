@@ -24,8 +24,6 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
 
   def renderAsJson(a: JValue) = compact(render(a))
 
-  override protected def contextPath = request.getContextPath
-
   before() {
     contentType = "applications/json; charset=utf-8"
   }
