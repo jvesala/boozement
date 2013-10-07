@@ -5,18 +5,18 @@
     <script src="js/lib/jquery-1.10.2.min.js"></script>
     <script>
       window._skel_config = {
+        preset: 'standard',
         prefix: "css/style",
-        resetCSS: true,
-        boxModel: "border",
-        grid: { gutters: 30 },
-        breakpoints: {
-          wide: { range: "1200-", containers: 1140, grid: { gutters: 50 } },
-          narrow: { range: "481-1199", containers: 960 },
-          mobile: { range: "-480", containers: "fluid", lockViewport: true, grid: { collapse: true } }
-        }
+        resetCSS: true
       }
     </script>
     <script src="js/lib/skel.min.js"></script>
+    <script>
+      window._skel_panels_config = {
+        preset: 'standard'
+      };
+    </script>
+    <script src="js/lib/skel-panels.min.js"></script>
     <script src="js/lib/rx.js"></script>
     <script src="js/lib/rx.jQuery.js"></script>
     <script src="js/lib/rx.html.js"></script>
@@ -36,7 +36,7 @@
   </head>
   <body>
     <div id="header-wrapper">
-      <header id="header">
+      <header id="header" class="container">
         <div class="row">
           <div class="12u">
             <h1>Boozement</h1>
@@ -48,7 +48,7 @@
         </div>
         <div class="row">
           <div class="12u">
-            <nav>
+            <nav id="nav">
               <ul>
                 <li class="tab-header" id="tab-header-insert">Syötä</li>
                 <li class="tab-header" id="tab-header-history">Historia</li>
@@ -60,7 +60,7 @@
       </header>
     </div>
     <div>
-      <div class="row">
+      <div class="row" class="container">
         <div class="12u" id="page-content">
           <div id="tab-welcome" class="tab"><div class="busy"></div></div>
         </div>
