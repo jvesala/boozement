@@ -2,46 +2,37 @@ import AssemblyKeys._
 
 seq(assemblySettings: _*)
 
-seq(webSettings :_*)
-
 name := "boozement"
 
-version := "1.1"
+version := "1.2"
 
 organization := "jvesala"
 
-scalaVersion :="2.9.1"
+scalaVersion :="2.10.3"
 
 parallelExecution in Test := false
 
 mainClass := Some("Jetty")
 
 libraryDependencies ++= Seq(
-  "org.scalatra" %% "scalatra" % "2.0.1",  
-  "org.scalatra" %% "scalatra-auth" % "2.0.1",
-  "net.liftweb" %% "lift-json" % "2.4-M4",
-  "org.scalaquery" % "scalaquery_2.9.0-1" % "0.9.5",
+  "org.scalatra" %% "scalatra" % "2.2.2",
+  "org.scalatra" %% "scalatra-auth" % "2.2.2",
+  "org.json4s" %% "json4s-native" % "3.2.9",
+  "com.typesafe.slick" %% "slick" % "2.0.1",
   "mysql" % "mysql-connector-java" % "5.1.13",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "joda-time" % "joda-time" % "1.6.2",
-  "org.scala-tools.time" %% "time" % "0.5",
-  "org.eclipse.jetty" % "jetty-webapp" % "8.1.9.v20130131" % "compile, runtime, container",
-  "org.scalatra" %% "scalatra-scalatest" % "2.0.1" % "test"
+  "org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "compile, runtime",
+  "org.eclipse.jetty" % "jetty-plus"   % "9.1.0.v20131115" % "compile, runtime",
+  "org.scalatra" %% "scalatra-scalatest" % "2.2.2" % "test",
+  "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided"
 )
-
-console in Compile <<= console in Test
 
 test in assembly := {}
 
+autoScalaLibrary := true
+
 jarName in assembly := "boozement.jar"
-
-excludedJars in assembly <<= (fullClasspath in assembly) map { cp => 
-  cp filter {_.data.getName == "scala-compiler.jar"}
-}
-
-webappResources in Compile := Seq(file("src/main/resources/static/"), file("src/test/"))
-
-port in container.Configuration := 8081
 
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
