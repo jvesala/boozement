@@ -1,25 +1,22 @@
-import org.scalaquery._
-import org.scalaquery.session._
-import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
-import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.util.NamingContext
-import org.scalaquery.ql.extended.MySQLDriver
-import org.scalaquery.ql.extended.MySQLDriver.Implicit._
-import org.scalaquery.ql.extended.{ExtendedTable => Table}
-import org.scalaquery.simple.StaticQuery._
-import java.sql.Timestamp
-import org.scala_tools.time.Imports._
-import net.liftweb.json.JsonAST._
-import net.liftweb.json.JsonDSL._
-import net.liftweb.json.Printer._
+import java.sql.{Date, Timestamp}
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.json4s.native.JsonMethods._
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.direct.AnnotationMapper.column
+import scala.slick.lifted.{Query, SimpleFunction}
+import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
+import scala.slick.jdbc.StaticQuery._
+import JodaTypeMapperDelegates._
 
-class BoozementDatabase extends JodaTypeMapperDelegates {
-  def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")  
+class BoozementDatabase {
+  def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")
   lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
   val lastId = SimpleFunction.nullary[Int]("last_insert_id")
   def init {
-    db withSession {
+    db withDynSession {
       updateNA("DROP TABLE IF EXISTS users").execute
       updateNA("DROP TABLE IF EXISTS servings").execute
       (Users.ddl ++ Servings.ddl) create
@@ -27,21 +24,21 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
   }
   def insertServing(user: Option[User], date: DateTime, servingType: String, amount: Int, units: Double): Int = 
     insertServing(Serving(None, user.get.id, date, servingType, amount, units))
-  def insertServing(serving: Serving): Int = db withSession {
+  def insertServing(serving: Serving): Int = db withDynSession {
     Servings.insert(serving)
     Query(lastId).first
   }
 
-  def deleteServing(id: Option[Int], user: User) = db withSession {
+  def deleteServing(id: Option[Int], user: User) = db withDynSession {
     val q = for(u <- Servings where {s => (s.id is id) && (s.userId is user.id) }) yield u
     q.delete
   } 
-  def serving(id: Int): Option[Serving] =  db withSession {
-    Servings.findById.firstOption(Some(id))
+  def serving(id: Int): Option[Serving] =  db withDynSession {
+    Servings.findById(Some(id)).firstOption
   }
-  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double, user: User) = db withSession {
-    val q = for(s <- Servings where {s => (s.id is id) && (s.userId is user.id) }) yield s.date ~ s.servingType ~ s.amount ~ s.units
-    q.update(date, servingType, amount, units)
+  def updateServing(id: Int, date: DateTime, servingType: String, amount: Int, units: Double, user: User) = db withDynSession {
+    val q = for(s <- Servings where {s => (s.id is id) && (s.userId is user.id) }) yield (s.date, s.servingType, s.amount, s.units)
+    q.update((date, servingType, amount, units))
   }
   def servings(user: Option[User]): List[Serving] = servings(user, None) 
   def servings(user: Option[User], words: Option[List[String]]): List[Serving] = {
@@ -61,53 +58,55 @@ class BoozementDatabase extends JodaTypeMapperDelegates {
     }
   }
   
-  private def servingsByUser(userId: Option[Int]): List[Serving] = db withSession {
+  private def servingsByUser(userId: Option[Int]): List[Serving] = db withDynSession {
     val q = userId match {
-      case Some(id) => for { s <- Servings if (s.userId is id); _ <- Query orderBy (s.date desc) } yield s
-      case _ => for { s <- Servings; _ <- Query orderBy (s.date desc)} yield s
+      case Some(id) => for { s <- Servings if s.userId is id } yield s
+      case _ => for { s <- Servings } yield s
     }
-    q.list
+    q.sortBy(_.date).list
   }
   
-  def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withSession  {
+  def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withDynSession  {
     val q = for {
       s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
-      _ <- Query orderBy (s.date desc)
     } yield s
-    q.list
+    q.sortBy(_.date).list
   }
   
   def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
     insertUser(User(None, email, password, gender, weight))
-  def insertUser(user: User) = db withSession {
+  def insertUser(user: User) = db withDynSession {
     Users.insert(user)
     Query(lastId).first
   }
-  def updateUser(usr: User) = db withSession {
-    val q = for(u <- Users where {_.id is usr.id }) yield u.email ~ u.password ~ u.weight ~ u.gender
-    q.update(usr.email, usr.password, usr.weight, usr.gender)
+  def updateUser(usr: User) = db withDynSession {
+    val q = for(u <- Users where {_.id is usr.id }) yield (u.email, u.password, u.weight, u.gender)
+    q.update((usr.email, usr.password, usr.weight, usr.gender))
   }
-  def user(id: Int): Option[User] = db withSession {
-    Users.findById.firstOption(Some(id))     
+  def user(id: Int): Option[User] = db withDynSession {
+    Users.findById(Some(id)).firstOption
   }
-  def userByEmail(email: String): Option[User] = db withSession {
-    Users.findByEmail.firstOption(email) 
+  def userByEmail(email: String): Option[User] = db withDynSession {
+    Users.findByEmail(email).firstOption
   }
-  def deleteUser(id: Int) = db withSession {
+  def deleteUser(id: Int) = db withDynSession {
     val q = for(u <- Users where {_.id is id }) yield u
     q.delete
   }
 }
 
-object Servings extends Table[Serving]("servings") with JodaTypeMapperDelegates {
+class Servings(tag: Tag) extends Table[Serving](tag, "servings") {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def userId = column[Option[Int]]("userid")
   def date = column[DateTime]("date", O.Default(new DateTime))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def units = column[Double]("units")
-  def * = id ~ userId ~ date ~ servingType ~ amount ~ units <> (Serving, Serving.unapply _)
-  val findById = createFinderBy(_.id)  
+  def * = (id, userId, date, servingType, amount, units) <> (Serving.tupled, Serving.unapply)
+  //val findById = createFinderBy(_.id)
+}
+object Servings extends TableQuery(new Servings(_)) {
+  val findById = this.findBy(_.id)
 }
 case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, servingType: String, amount: Int, units: Double) {
   def toJson = {
@@ -118,14 +117,25 @@ case class Serving(id: Option[Int], userId: Option[Int], date: DateTime, serving
   }
 }
 
-object Users extends Table[User]("users") {
+class Users(tag: Tag) extends Table[User](tag, "users") {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def email = column[String]("email")
   def password = column[String]("password")
   def gender = column[String]("gender", O.DBType("enum ('M','F')"))
   def weight = column[Int]("weight")
-  def * = id ~ email ~ password ~ gender ~ weight <> (User, User.unapply _)
-  val findById = createFinderBy(_.id)
-  val findByEmail = createFinderBy(_.email)
+  def * = (id, email, password, gender, weight) <> (User.tupled, User.unapply)
+  //val findById = createFinderBy(_.id)
+  //val findByEmail = createFinderBy(_.email)
+}
+object Users extends TableQuery(new Users(_)) {
+  val findById = this.findBy(_.id)
+  val findByEmail = this.findBy(_.email)
 }
 case class User(id: Option[Int], email: String, password: String, gender: String, weight: Int)
+
+object JodaTypeMapperDelegates {
+  implicit def date2dateTime = MappedColumnType.base[DateTime, Date] (
+    dateTime => new Date(dateTime.getMillis),
+    date => new DateTime(date.getTime)
+  )
+}

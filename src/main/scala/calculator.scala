@@ -1,5 +1,5 @@
+import org.joda.time.{Duration, DateTime}
 import scala.math._
-import org.scala_tools.time.Imports._
 import java.text.DecimalFormat
 
 class Calculator {
@@ -11,7 +11,7 @@ class Calculator {
   def burnRateInMillis(weight: Double) = 0.1 * weightInKilos(weight) / hourInMillis
 
   def remainingAmount(weight: Double, startGrams: Double, start: DateTime, end: DateTime) = 
-    max(startGrams - burnRateInMillis(weight) * (start to end).millis, 0)
+    max(startGrams - burnRateInMillis(weight) * new Duration(start, end).getMillis, 0)
 
   def genderFactor(gender: String) = if (gender == "M") 0.75 else 0.66
   def gramsToBac(user: User, grams: Double) = grams / (genderFactor(user.gender) * user.weight) * 1000

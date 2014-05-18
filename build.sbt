@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.scalatra" %% "scalatra-auth" % "2.2.2",
   "org.json4s" %% "json4s-native" % "3.2.9",
   "com.typesafe.slick" %% "slick" % "2.0.1",
-  "mysql" % "mysql-connector-java" % "5.1.13",
+  "mysql" % "mysql-connector-java" % "5.1.23",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "joda-time" % "joda-time" % "1.6.2",
   "org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "compile, runtime",
