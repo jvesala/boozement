@@ -1,8 +1,8 @@
+import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.FunSuite
-import org.scala_tools.time.Imports._
- 
+
 trait TestEnv { self : BoozementDatabase => override def dbUrl = "jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement" }
  
 class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
@@ -71,10 +71,10 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   test("search servings") {
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
     database.insertServing(user, drinkingTime, "Olut", 33, 1.0)
-    database.insertServing(user, drinkingTime + 1.hours, "Siideri", 50, 1.5)
-    database.insertServing(user, drinkingTime + 2.hours, "Lonkero", 40, 1.2)
-    database.insertServing(user, drinkingTime + 3.hours, "Punaviini", 18, 1.5)
-    database.insertServing(user, drinkingTime + 4.hours, "Gin tonic", 18, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(1), "Siideri", 50, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(2), "Lonkero", 40, 1.2)
+    database.insertServing(user, drinkingTime.plusHours(3), "Punaviini", 18, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(4), "Gin tonic", 18, 1.5)
     assert(database.servings(user).size == 5)
     assert(database.servings(user, Some(List("olut"))).size == 1)
     assert(database.servings(user, Some(List("ii"))).size == 2)
@@ -85,13 +85,13 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
   
   test("search servings by interval") {
     val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
-    val startTime = drinkingTime + 1.hours
-    val endTime = drinkingTime + 7.hours
+    val startTime = drinkingTime.plusHours(1)
+    val endTime = drinkingTime.plusHours(7)
     database.insertServing(user, drinkingTime, "Olut", 33, 1.0)
-    database.insertServing(user, drinkingTime + 3.hours, "Siideri", 50, 1.5)
-    database.insertServing(user, drinkingTime + 6.hours, "Lonkero", 40, 1.2)
-    database.insertServing(user, drinkingTime + 9.hours, "Punaviini", 18, 1.5)
-    database.insertServing(user, drinkingTime + 12.hours, "Gin tonic", 18, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(3), "Siideri", 50, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(6), "Lonkero", 40, 1.2)
+    database.insertServing(user, drinkingTime.plusHours(9), "Punaviini", 18, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(12), "Gin tonic", 18, 1.5)
     val res = database.servingsInterval(user.get, startTime, endTime) 
     assert(res.size == 2)
     assert(res.head.id == Some(3))

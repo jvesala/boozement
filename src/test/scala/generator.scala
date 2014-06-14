@@ -1,10 +1,10 @@
-import org.scala_tools.time.Imports._
+import org.joda.time.{Duration, DateTime}
 import scala.util.Random
 
 object RandomTime {
   val random = new Random
-  def randomTimeBetween(start: DateTime, end: DateTime) = new DateTime(start.millis + (random.nextFloat() * (start to end).millis).toLong)  
-  def get = randomTimeBetween(DateTime.now-2.years, DateTime.now)  
+  def randomTimeBetween(start: DateTime, end: DateTime) = new DateTime(start.getMillis + (random.nextFloat() *  new Duration(start, end).getMillis).toLong)
+  def get = randomTimeBetween(DateTime.now.minusYears(2), DateTime.now)
 }
 
 object ServingGenerator {

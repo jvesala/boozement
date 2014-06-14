@@ -10,6 +10,7 @@ import scala.slick.lifted.{Query, SimpleFunction}
 import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
 import scala.slick.jdbc.StaticQuery._
 import JodaTypeMapperDelegates._
+import com.github.tototoshi.slick.MySQLJodaSupport._
 
 class BoozementDatabase {
   def dbUrl = System.getProperty("database.url", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")

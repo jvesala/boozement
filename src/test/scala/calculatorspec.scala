@@ -1,8 +1,8 @@
+import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.FunSuite
-import org.scala_tools.time.Imports._
-  
+
 class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
   val calculator = new Calculator
 
@@ -39,12 +39,12 @@ class CalculatorSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfter
   }
 
   test("should return 0.08 for M/75kg one hour after beer has been consumed") {
-    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours, List(manOneBeerNow))
+    val bacHistory = calculator.calculateBacHistory(user, now.plusHours(1), List(manOneBeerNow))
     assert(bacHistory.last._1 == 0.08)    
   }
 
   test("should return 0 for M/75kg 1:40 after beer has been consumed") {
-    val bacHistory = calculator.calculateBacHistory(user, now + 1.hours + 40.minutes, List(manOneBeerNow))
+    val bacHistory = calculator.calculateBacHistory(user, now.plusHours(1).plusMinutes(40), List(manOneBeerNow))
     assert(bacHistory.last._1 == 0.0)
   }
 }

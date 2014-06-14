@@ -1,11 +1,11 @@
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import org.scalatra.auth.{ScentryConfig, ScentrySupport, ScentryStrategy}
 import org.scalatra._
 import org.scalatra.auth.ScentryAuthStore
 import scala.Some
 
 trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport { self: BoozementServlet =>
-  //protected val scentryConfig = (new ScentryConfig {}).asInstanceOf[ScentryConfiguration]
-  //protected def contextPath = request.getContextPath
+  protected val scentryConfig = (new ScentryConfig {}).asInstanceOf[ScentryConfiguration]
   override protected def registerAuthStrategies = {
     scentry.register("SessionCookie", app => new CookieSessionStrategy(app, database))
   }
@@ -17,12 +17,13 @@ trait AuthenticationSupport extends ScentrySupport[User] with FlashMapSupport { 
   def failUnlessAuthenticated = if (!isAuthenticated) halt(401)
 }
 
-class CookieSessionStrategy(protected override val app: ScalatraBase, val database: BoozementDatabase) extends ScentryStrategy[User] {
+class CookieSessionStrategy(protected override val app: ScalatraBase, val database: BoozementDatabase)
+                           (implicit request: HttpServletRequest, response: HttpServletResponse) extends ScentryStrategy[User] {
   def email = app.params.get("email")
   def password = app.params.get("password")
-  override def isValid = email.isDefined && password.isDefined
+  override def isValid(implicit request: HttpServletRequest) = email.isDefined && password.isDefined
   
-  override def authenticate = {
+  override def authenticate()(implicit request: HttpServletRequest, response: HttpServletResponse) = {
     val userCandidate = database.userByEmail(email.getOrElse(""))
     userCandidate match {
       case user: Some[user] =>if (PasswordSupport.check(password.getOrElse(""), user.get.password)) user else None

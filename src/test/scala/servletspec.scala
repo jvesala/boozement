@@ -1,19 +1,20 @@
-import org.scalaquery._
-import org.scalaquery.session._
-import org.scalaquery.session.Database.threadLocalSession
-import org.scalaquery.ql.{Join, Query, Projection, ColumnBase, AbstractTable, SimpleFunction}
-import org.scalaquery.ql.TypeMapper._
-import org.scalaquery.util.NamingContext
-import org.scalaquery.ql.extended.MySQLDriver
-import org.scalaquery.ql.extended.MySQLDriver.Implicit._
-import org.scalaquery.ql.extended.{ExtendedTable => Table}
-import org.scalaquery.simple.StaticQuery._
+import java.sql.{Date, Timestamp}
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.json4s.native.JsonMethods._
+import scala.slick.driver.MySQLDriver.simple._
+import scala.slick.direct.AnnotationMapper.column
+import scala.slick.lifted.{Query, SimpleFunction}
+import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
+import scala.slick.jdbc.StaticQuery._
+import JodaTypeMapperDelegates._
+import com.github.tototoshi.slick.MySQLJodaSupport._
 import org.scalatra._
 import org.scalatra.test.scalatest._
 import org.scalatest.matchers._
 import org.scalatest.BeforeAndAfterEach
-import org.scala_tools.time.Imports._
-
 
 class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAfterEach {
   val database = new BoozementDatabase with TestEnv
@@ -147,7 +148,7 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAft
 object TestDatabaseInit {
   lazy val db = Database.forURL("jdbc:mysql://127.0.0.1:3306/boozement_test?user=boozement&password=boozement", driver = "com.mysql.jdbc.Driver")
   def init {
-    db withSession {
+    db withDynSession {
       updateNA("DROP TABLE IF EXISTS servings").execute
       updateNA("DROP TABLE IF EXISTS users").execute
       updateNA("CREATE TABLE servings LIKE servings_template").execute
