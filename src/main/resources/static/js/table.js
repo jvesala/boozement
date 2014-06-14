@@ -3,7 +3,7 @@ function updateField(target) {
   var currentValue = target.val()
   var inputParts = target.attr("name").split("-")
   var query = "id=" + inputParts[0] + "&field=" + inputParts[1] + "&value=" + encodeURI(currentValue)
-  $.postAsObservable("api/update-serving", query).Subscribe(updateSuccessful(parent, currentValue), updateFailed)
+  $.postAsObservable("api/update-serving", query).subscribe(updateSuccessful(parent, currentValue), updateFailed)
 }
 
 function updateSuccessful(parent, currentValue) {
@@ -20,21 +20,21 @@ function openEdit(target) {
   var inputName = target.parent().attr("class") + '-' +  target.attr("class")
   var originalValue = deHighlight(target.html())
   var input = $('<input type="text" name="' + inputName + '" value="' + originalValue + '" />')
-  input.toObservable('blur').Select(eventTarget).Subscribe(updateField)
-  input.toObservable('keyup').Where(enterPressed).Select(eventTarget).Subscribe(updateField)
+  input.onAsObservable('blur').select(eventTarget).subscribe(updateField)
+  input.onAsObservable('keyup').where(enterPressed).select(eventTarget).subscribe(updateField)
   target.empty().append(input)
   input.focus()
 }
 
 function addServingToTable(tableBody, s) {
   var date = $('<td class="date">' + s.date + '</td>')
-  date.toObservable('click').Select(eventTarget).Subscribe(openEdit)
+  date.onAsObservable('click').select(eventTarget).subscribe(openEdit)
   var type = $('<td class="servingType">' + s.type + '</td>')
-  type.toObservable('click').Select(eventTarget).Subscribe(openEdit)
+  type.onAsObservable('click').select(eventTarget).subscribe(openEdit)
   var amount = $('<td class="amount">' + s.amount + ' cl</td>')
-  amount.toObservable('click').Select(eventTarget).Subscribe(openEdit)
+  amount.onAsObservable('click').select(eventTarget).subscribe(openEdit)
   var units = $('<td class="units">' + s.units + '</td>')
-  units.toObservable('click').Select(eventTarget).Subscribe(openEdit)
+  units.onAsObservable('click').select(eventTarget).subscribe(openEdit)
   var row = $('<tr class="' + s.id + '"></tr>').append(date).append(type).append(amount).append(units)
   tableBody.append(row)
 }

@@ -3,7 +3,7 @@ function userDataParams() { return $("#tab-userdata form").serialize() }
 
 function doLogin() {
   preSubmit()
-  $.postAsObservable("api/login", loginParams()).Subscribe(loginSuccessful, loginFailed)
+  $.postAsObservable("api/login", loginParams()).subscribe(loginSuccessful, loginFailed)
 }
 
 function loginSuccessful() {
@@ -12,8 +12,8 @@ function loginSuccessful() {
 }
 
 function loginFailed(error) {
-  if(error.xmlHttpRequest.status == "401") { updateError("Väärä kirjautumistunnus tai salasana.") }
-  else if(error.xmlHttpRequest.status == "500") { updateError("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
+  if(error.jqXHR.status == "401") { updateError("Väärä kirjautumistunnus tai salasana.") }
+  else if(error.jqXHR.status == "500") { updateError("Virhetilanne kirjautumisessa. Yritä uudelleen.") }
   resetSubmitStatus()
 }
 
@@ -26,24 +26,24 @@ function convertUserdataFormToRegisterForm(x) {
   return data
 }
 function openRegister() {
-  $.ajaxAsObservable({ url: "userdata.html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"}))
-    .Select(resultData)
-    .Select(convertUserdataFormToRegisterForm)
-    .Subscribe(function(x) { 
+  $.ajaxAsObservable({ url: "userdata.html"}).catch(Rx.Observable.return({data: "Virhetilanne"}))
+    .select(resultData)
+    .select(convertUserdataFormToRegisterForm)
+    .subscribe(function(x) {
       $('#page-content').html(x)
-      $('#back').toObservable('click').Subscribe(loadLogin)
-      $('#register').toObservable('click').Subscribe(doRegister)
-      combine([emailValidation, passwordValidation, pwdValidation]).Subscribe(disableEffect($('#register')))
+      $('#back').toObservable('click').subscribe(loadLogin)
+      $('#register').toObservable('click').subscribe(doRegister)
+      combine([emailValidation, passwordValidation, pwdValidation]).subscribe(disableEffect($('#register')))
     })
 }
 
 function doRegister() {
   preSubmit()
-  $.postAsObservable("api/register", userDataParams()).Subscribe(registerSuccessful, registerFailed)
+  $.postAsObservable("api/register", userDataParams()).subscribe(registerSuccessful, registerFailed)
 }
 
 function registerSuccessful() {
-  $.postAsObservable("api/login", loginParams()).Subscribe(loginAfterRegisterSuccessful, loginFailed)
+  $.postAsObservable("api/login", loginParams()).subscribe(loginAfterRegisterSuccessful, loginFailed)
 } 
 
 function loginAfterRegisterSuccessful() {
@@ -52,7 +52,7 @@ function loginAfterRegisterSuccessful() {
 } 
 
 function registerFailed(error) {
-  if(error.xmlHttpRequest.status == "409") { updateError("Kirjautumistunnus on varattu.") }
+  if(error.jqXHR.status == "409") { updateError("Kirjautumistunnus on varattu.") }
   else updateError("Rekisteröinti epäonnistui jostain syystä. Yritä uudelleen.")
   resetSubmitStatus()
 } 
@@ -63,9 +63,9 @@ $(function() {
   var password = $('#password').changes()
   var passwordValidation = mkValidation(password, requiredValidator())
   var all = combine([emailValidation, passwordValidation])
-  all.Subscribe(disableEffect($('#submit')))
+  all.subscribe(disableEffect($('#submit')))
 	
-  $('#submit').toObservable('click').Subscribe(doLogin)
-  $('#register').toObservable('click').Subscribe(openRegister)
+  $('#submit').onAsObservable('click').subscribe(doLogin)
+  $('#register').onAsObservable('click').subscribe(openRegister)
   $('#email').focus()
 });

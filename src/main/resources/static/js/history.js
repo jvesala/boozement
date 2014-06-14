@@ -28,13 +28,13 @@ function deHighlight(text) {
 
 function query(terms, page) {
   var params = { query:escape(terms), page:page }
-  var servings = $.ajaxAsObservable({ url: "api/servings", data: params}).Publish()
+  var servings = $.ajaxAsObservable({ url: "api/servings", data: params}).publish()
   handleUnauthorized(servings)
-  servings.Connect()
+  servings.connect()
   return servings
-    .Catch(Rx.Observable.Never()).Select(resultData)
-    .Select(function(data) { return [$.map(data.servings, function(s) { return highlight($.parseJSON(s), terms)}), data.count, data.units] })
-    .Catch(Rx.Observable.Never())
+    .catch(Rx.Observable.never()).select(resultData)
+    .select(function(data) { return [$.map(data.servings, function(s) { return highlight($.parseJSON(s), terms)}), data.count, data.units] })
+    .catch(Rx.Observable.never())
 }
 
 function isScrolledToBottom(e) {
@@ -45,32 +45,32 @@ function isScrolledToBottom(e) {
 $(function() {
   $.getScript("js/table.js", function () {})
   $.getScript("js/validation-insert.js", function () {})
-  var input = search.toObservable('keyup')
-    .Throttle(50)
-    .Select(function(e) { return $(e.target).val() })
-    .DistinctUntilChanged()
+  var input = search.onAsObservable('keyup')
+    .throttle(50)
+    .select(function(e) { return $(e.target).val() })
+    .distinctUntilChanged()
   var paging = function(term) {
     return scrollBottom
-      .Scan(0, function(current, x) { return current+1 })
-      .SelectMany(function(page) { return query(term, page) })
+      .scan(0, function(current, x) { return current+1 })
+      .selectMany(function(page) { return query(term, page) })
   }
-  var scrollBottom = $('table tbody').toObservable('scroll')
-    .Select(isScrolledToBottom)
-    .DistinctUntilChanged()
-    .Where(function(inBottom) { return inBottom })
+  var scrollBottom = $('table tbody').onAsObservable('scroll')
+    .select(isScrolledToBottom)
+    .distinctUntilChanged()
+    .where(function(inBottom) { return inBottom })
   
-  input.Where(emptyData).Subscribe(hideClear)
-  input.Where(notF(emptyData)).Subscribe(showClear)
-  var first = input.Subscribe(function(_) { hideSummary(); showBusy() })
-  var first = input.Select(function(term) { return query(term, 0) }).Switch().Publish()
-  var more = input.Select(paging).Switch().Publish()
-  first.Subscribe(function(x) { clearServings(); addServingsToTable(tBody, x[0]) })
-  first.Subscribe(function(x) { hideBusy(); showSummary(x[1], x[2]) })
-  more.Subscribe(function(x) { addServingsToTable(tBody, x[0]) })
-  first.Connect()
-  more.Connect()
+  input.where(emptyData).subscribe(hideClear)
+  input.where(notF(emptyData)).subscribe(showClear)
+  var first = input.subscribe(function(_) { hideSummary(); showBusy() })
+  var first = input.select(function(term) { return query(term, 0) }).switch().publish()
+  var more = input.select(paging).switch().publish()
+  first.subscribe(function(x) { clearServings(); addServingsToTable(tBody, x[0]) })
+  first.subscribe(function(x) { hideBusy(); showSummary(x[1], x[2]) })
+  more.subscribe(function(x) { addServingsToTable(tBody, x[0]) })
+  first.connect()
+  more.connect()
   clearSearch()
-  clear.toObservable('click').Subscribe(clearSearch)
+  clear.onAsObservable('click').subscribe(clearSearch)
 
   updateLoggedIn()
-});
+})

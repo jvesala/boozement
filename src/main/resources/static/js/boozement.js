@@ -1,18 +1,18 @@
 function updateResult(html) { $('#error').hide(); $('#result').html(html).show() }
 function updateError(html) { $('#result').hide(); $('#error').html(html).show() }
 function skip() { return function(x) {} }
-function handleUnauthorized(sourceObservable) { sourceObservable.Subscribe(skip, openLoginIfNotAuthenticated, skip)}
-function openLoginIfNotAuthenticated(error) { if(error.xmlHttpRequest.status == "401") { loadLogin() } }
+function handleUnauthorized(sourceObservable) { sourceObservable.subscribe(skip, openLoginIfNotAuthenticated, skip)}
+function openLoginIfNotAuthenticated(error) { if(error.jqXHR.status == "401") { loadLogin() } }
 
 function loadLogin() { loadTab("login") }
 function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').removeClass('hidden') }
 function showLoggedOut() { $('.session.valid').addClass('hidden') }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show() }
 function logOut() {
-  $.postAsObservable("api/logout").Select(resultData)
-    .Catch(Rx.Observable.Return("Virhetilanne"))
-    .Subscribe(function(x) {
-      loadTab("login").Subscribe(function(x) {
+  $.postAsObservable("api/logout").select(resultData)
+    .catch(Rx.Observable.return("Virhetilanne"))
+    .subscribe(function(x) {
+      loadTab("login").subscribe(function(x) {
         $('.logout-message').removeClass('hidden')
         showLoggedOut()
       })
@@ -28,14 +28,14 @@ function emptyData(data) { return data == "" }
 function notF(validatorF) { return function() { return !validatorF.apply(this, arguments) } }
 function preventDefault(event) { event.preventDefault() }
 
-function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).Select(resultData).Select(userName) }
-function doUserdata() { return $.ajaxAsObservable({ url: "api/userdata"} ).Select(resultData) }
+function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).select(resultData).select(userName) }
+function doUserdata() { return $.ajaxAsObservable({ url: "api/userdata"} ).select(resultData) }
 
 function updateLoggedIn() {
   var whoAmI = doWhoAmI()
-  whoAmI.Where(errorData).Subscribe(showLoggedError)
-  whoAmI.Where(emptyData).Subscribe(showLoggedOut)
-  whoAmI.Where(function(d) { return d.length > 0 }).Subscribe(showLoggedIn)
+  whoAmI.where(errorData).subscribe(showLoggedError)
+  whoAmI.where(emptyData).subscribe(showLoggedOut)
+  whoAmI.where(function(d) { return d.length > 0 }).subscribe(showLoggedIn)
 }
 
 function id(e) { return e.target.id }
@@ -49,10 +49,11 @@ function showTab(tabId) {
 }
 
 function loadTab(name) {
-  var loader = $.ajaxAsObservable({ url: name + ".html"}).Catch(Rx.Observable.Return({data: "Virhetilanne"})).Select(resultData)
-  loader.Subscribe(function(html) {
-    $('#page-content').hide().empty().html(html)
-    $.getScript("js/" + name + ".js", function () { $('#page-content').show() })
+  var loader = $.ajaxAsObservable({ url: name + ".html"}).catch(Rx.Observable.return({data: "Virhetilanne"})).select(resultData)
+  loader.subscribe(function(html) {
+    $('#page-content').html(html)
+    //$('#page-content').hide().empty().html(html)
+    //$.getScript("js/" + name + ".js", function () { $('#page-content').show() })
   })
   return loader
 }
@@ -74,9 +75,9 @@ function trace(s) {
 function debug(s) { console.log(s) }
 
 $(function () {
-  $('nav li').toObservable('click').Select(id).Subscribe(showTab)
-  $('#logout').toObservable('click').Subscribe(logOut)
-  doWhoAmI().Where(emptyData).Subscribe(loadLogin)
+  $('nav li').onAsObservable('click').select(id).subscribe(showTab)
+  $('#logout').onAsObservable('click').subscribe(logOut)
+  doWhoAmI().where(emptyData).subscribe(loadLogin)
   // todo: load insert if session is valid
   updateLoggedIn()
-});
+})

@@ -24,6 +24,8 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.3",
   "org.joda" % "joda-convert" % "1.5",
   "com.github.tototoshi" %% "slick-joda-mapper" % "1.1.0",
+  "org.slf4j" % "slf4j-api" % "1.7.5",
+  "org.slf4j" % "slf4j-simple" % "1.7.5",
   "org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "compile, runtime",
   "org.eclipse.jetty" % "jetty-plus"   % "9.1.0.v20131115" % "compile, runtime",
   "org.scalatra" %% "scalatra-scalatest" % "2.2.2" % "test",

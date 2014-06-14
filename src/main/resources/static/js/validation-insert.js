@@ -13,21 +13,21 @@ function amountValidator() {
 $(function() {
   var time = $('#time').changes()
   var timeValidation = mkValidation(time, timeValidator())
-  timeValidation.Subscribe(toggleEffect($('.time-error')))
-  timeValidation.Subscribe(toggleClassEffect($('#time'), 'invalid'))
+  timeValidation.subscribe(toggleEffect($('.time-error')))
+  timeValidation.subscribe(toggleClassEffect($('#time'), 'invalid'))
 
   var type = $('#type').changes()
   var typeValidation = mkValidation(type, requiredValidator())
-  typeValidation.Subscribe(toggleEffect($('.type-error')))
-  typeValidation.Subscribe(toggleClassEffect($('#type'), 'invalid'))
+  typeValidation.subscribe(toggleEffect($('.type-error')))
+  typeValidation.subscribe(toggleClassEffect($('#type'), 'invalid'))
 
   var amount = $('#amount').changes()
   var amountValidation = mkValidation(amount, emptyOk(amountValidator()))
-  amountValidation.Subscribe(toggleEffect($('.amount-error')))
-  amountValidation.Subscribe(toggleClassEffect($('#amount'), 'invalid'))
+  amountValidation.subscribe(toggleEffect($('.amount-error')))
+  amountValidation.subscribe(toggleClassEffect($('#amount'), 'invalid'))
 
   var requiredValidation = required([amount])
 
   var all = combine([timeValidation, typeValidation, amountValidation, requiredValidation])
-  all.Subscribe(disableEffect($('#submit')))
+  all.subscribe(disableEffect($('#submit')))
 });

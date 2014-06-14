@@ -17,27 +17,27 @@ function intervalStart() {
 
 function doInsert() {
   preSubmit()
-  var insert = $.postAsObservable("api/insert", $('#form-insert').serialize()).Publish()
+  var insert = $.postAsObservable("api/insert", $('#form-insert').serialize()).publish()
   handleUnauthorized(insert)
-  var insertResult = insert.Select(resultDataMessage).Catch(Rx.Observable.Return("error"))
-  insertResult.Subscribe(resetSubmitStatus)
-  insertResult.Where(validData).Subscribe(updateResult)
-  insertResult.Where(validData).Subscribe(fetchCurrentInterval)
-  insertResult.Where(errorData).Select(function(x) { return "Virhe syötössä!" } ).Subscribe(updateError)
-  insert.Connect()
+  var insertResult = insert.select(resultDataMessage).catch(Rx.Observable.return("error"))
+  insertResult.subscribe(resetSubmitStatus)
+  insertResult.where(validData).subscribe(updateResult)
+  insertResult.where(validData).subscribe(fetchCurrentInterval)
+  insertResult.where(errorData).select(function(x) { return "Virhe syötössä!" } ).subscribe(updateError)
+  insert.connect()
 }
 
 function fetchCurrentInterval() {
   tableBody.empty("").append('<tr colspan="3"><td><div class="busy"></div></td></tr>')
   var params = { start:intervalStart() }
-  var servings = $.ajaxAsObservable({ url: "api/servings-interval", data: params}).Publish()
-  servings.Connect()
+  var servings = $.ajaxAsObservable({ url: "api/servings-interval", data: params}).publish()
+  servings.connect()
   handleUnauthorized(servings)
-  var rows = servings.Catch(Rx.Observable.Never()).Select(resultData)
-   .Select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count, data.bac] })
-   .Catch(Rx.Observable.Never())
-  rows.Subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); updateBac(x[2]); tableBody.fadeIn() })
-  rows.Where(emptyResults).Subscribe(hideIntervalTable)
+  var rows = servings.catch(Rx.Observable.never()).select(resultData)
+   .select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count, data.bac] })
+   .catch(Rx.Observable.never())
+  rows.subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); updateBac(x[2]); tableBody.fadeIn() })
+  rows.where(emptyResults).subscribe(hideIntervalTable)
 }
 function emptyResults(data) { return data[1] == 0 }
 function updateBac(bac) { $('.interval table .bac').text(bac) }
@@ -45,10 +45,8 @@ function hideIntervalTable() { $('.interval table').hide() }
 function showIntervalTable() { $('.interval table').fadeIn() }
 
 $(function() {
-  $.getScript("js/table.js", function () {})
-  $.getScript("js/validation-insert.js", function () {})
-  $(".dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale:DATE_LOCALE_FI, selectToday: true})
-  $('#submit').toObservable('click').Do(preventDefault).Subscribe(doInsert)
+  $(".dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale: DateLocale.FI, selectToday: true})
+  $('#submit').onAsObservable('click').doAction(preventDefault).subscribe(doInsert)
   $('#time').val(getCurrentTime())
   updateLoggedIn()
   fetchCurrentInterval()

@@ -1,10 +1,10 @@
 function doUserDataUpdate() {
   preSubmit()
-  var update = $.postAsObservable("api/update-user", userDataParams()).Publish()
+  var update = $.postAsObservable("api/update-user", userDataParams()).publish()
   handleUnauthorized(update)
-  var result = update.Select(resultDataMessage)
-  result.Subscribe(updateSuccessful, updateFailed)
-  update.Connect()
+  var result = update.select(resultDataMessage)
+  result.subscribe(updateSuccessful, updateFailed)
+  update.connect()
 }
 
 function updateSuccessful(message) {
@@ -13,14 +13,14 @@ function updateSuccessful(message) {
 }
 
 function updateFailed(error) {
-  if(error.xmlHttpRequest.status == "409") updateError("Kirjautumistunnus on varattu.")
+  if(error.jqXHR.status == "409") updateError("Kirjautumistunnus on varattu.")
   else updateError("Virhe tietojen päivityksessä!")
   resetSubmitStatus()
 }
 
 $(function() {
-  $('#submit').toObservable('click').Subscribe(doUserDataUpdate)
-  doUserdata().Subscribe(function(user) { 
+  $('#submit').onAsObservable('click').subscribe(doUserDataUpdate)
+  doUserdata().subscribe(function(user) {
     $('#email').val(user.email).keyup() 
     $('input[value="' + user.gender + '"]').click()
     $('#weight').val(user.weight).keyup()
