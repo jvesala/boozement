@@ -9,7 +9,6 @@ import scala.slick.direct.AnnotationMapper.column
 import scala.slick.lifted.{Query, SimpleFunction}
 import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
 import scala.slick.jdbc.StaticQuery._
-import JodaTypeMapperDelegates._
 import com.github.tototoshi.slick.MySQLJodaSupport._
 
 class BoozementDatabase {
@@ -64,14 +63,14 @@ class BoozementDatabase {
       case Some(id) => for { s <- Servings if s.userId is id } yield s
       case _ => for { s <- Servings } yield s
     }
-    q.sortBy(_.date).list
+    q.sortBy(_.date.desc).list
   }
   
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withDynSession  {
     val q = for {
       s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
     } yield s
-    q.sortBy(_.date).list
+    q.sortBy(_.date.desc).list
   }
   
   def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
@@ -133,10 +132,3 @@ object Users extends TableQuery(new Users(_)) {
   val findByEmail = this.findBy(_.email)
 }
 case class User(id: Option[Int], email: String, password: String, gender: String, weight: Int)
-
-object JodaTypeMapperDelegates {
-  implicit def date2dateTime = MappedColumnType.base[DateTime, Date] (
-    dateTime => new Date(dateTime.getMillis),
-    date => new DateTime(date.getTime)
-  )
-}
