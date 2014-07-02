@@ -1,5 +1,5 @@
 header { margin-bottom: 0.5em; }
-.session { text-align: right; }
+.session { text-align: right; margin-bottom: 10px; }
 .session span { margin-right: 10px; }
 
 .button { text-align: left; width: 150px; border: 0; font-size: 1em; padding: 0.3em; }
