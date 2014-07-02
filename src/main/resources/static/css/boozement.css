@@ -1,7 +1,9 @@
 header { margin-bottom: 0.5em; }
 .session { text-align: right; }
+.session span { margin-right: 10px; }
 
 .button { text-align: left; width: 150px; border: 0; font-size: 1em; padding: 0.3em; }
+.button[disabled] { background-color: #c9c9c9; }
 .button.fa:before {position: absolute; right: 0.15em; top: 50%; margin-top: -0.5em;}
 
 .hidden { display: none; }
@@ -56,7 +58,7 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
 #tab-login-content button { float: left; clear: left; margin-top: 10px; }
-#tab-login-content .busy { float: left; margin-top: 7px; }
+#tab-login-content .busy { float: left; margin-top: 15px; margin-left: 5px; }
 #tab-login-content #error { margin-top: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
