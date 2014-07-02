@@ -8,7 +8,8 @@ function intervalStart() {
   return formatDate(now)
 }
 function emptyResults(data) { return data[1] == 0 }
-function updateBac(bac) { $('.interval table .bac').text(bac) }
+function updateBac(bac) { $('.interval .bac').text(bac) }
+function updateBacUnits(units) { $('.interval .bac-units').text(units) }
 function hideIntervalTable() { $('.inactive').show(); $('.interval table').hide() }
 function showIntervalTable() { $('.inactive').hide(); $('.interval table').fadeIn() }
 
@@ -21,9 +22,9 @@ function fetchCurrentInterval() {
   servings.connect()
   handleUnauthorized(servings)
   var rows = servings.catch(Rx.Observable.never()).select(resultData)
-    .select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count, data.bac] })
+    .select(function(data) { return [$.map(data.servings, function(s) { return $.parseJSON(s)}), data.count, data.bac, data.units] })
     .catch(Rx.Observable.never())
-  rows.subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); updateBac(x[2]); tableBody.fadeIn() })
+  rows.subscribe(function(x) { tableBody.empty("").hide(); showIntervalTable(); addServingsToTable(tableBody, x[0]); updateBac(x[2], updateBacUnits(x[3])); tableBody.fadeIn() })
   rows.where(emptyResults).subscribe(hideIntervalTable)
 }
 
