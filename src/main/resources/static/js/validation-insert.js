@@ -10,6 +10,12 @@ function amountValidator() {
   }
 }
 
+function unitValidator() {
+  return function(x) {
+    return (x != undefined && ( x > 0 && x < 5)).orFailure("invalid")
+  }
+}
+
 $(function() {
   var time = $('#time').changes()
   var timeValidation = mkValidation(time, timeValidator())
@@ -26,8 +32,13 @@ $(function() {
   amountValidation.subscribe(toggleEffect($('.amount-error')))
   amountValidation.subscribe(toggleClassEffect($('#amount'), 'invalid'))
 
-  var requiredValidation = required([amount])
+  var units = $('#units').changes()
+  var unitsValidation = mkValidation(units, emptyOk(unitValidator()))
+  unitsValidation.subscribe(toggleEffect($('.units-error')))
+  unitsValidation.subscribe(toggleClassEffect($('#units'), 'invalid'))
 
-  var all = combine([timeValidation, typeValidation, amountValidation, requiredValidation])
+  var requiredValidation = required([amount, units])
+
+  var all = combine([timeValidation, typeValidation, amountValidation, unitsValidation, requiredValidation])
   all.subscribe(disableEffect($('#submit')))
 });
