@@ -42,8 +42,8 @@ function id(e) { return e.target.id }
 function showTab(tabId) {
   //setPageContent('<div class="busy"></div>')
   //showBusy()
-  $('.tab-header').removeClass("selected")
-  $("#" + tabId).addClass("selected")
+  $('.tab-header').removeClass("current_page_item")
+  $("#" + tabId).parent().addClass("current_page_item")
   var name = tabId.split("-").pop()
   loadTab(name)
 }

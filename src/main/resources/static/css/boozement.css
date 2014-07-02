@@ -36,18 +36,21 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .dateElement a { margin-top: 2px; }
 .dateElement span.startDateLabel { margin-top: 4px; display: block; }
 
-.servingstable { float: left; clear: left; margin: 10px; }
-.servingstable thead { border: 1px solid black; display: block; padding: 5px; }
-.servingstable tbody { max-height: 250px; border: 1px solid black; overflow-y: scroll; overflow-x: hidden; display: block; padding-left: 5px; padding-right: 5px;}
-.servingstable tbody tr:nth-child(even) td {background: #E6E6E6}
-.servingstable tbody tr:nth-child(odd) td {background: #FFF}
-.servingstable input { height: 8px; margin: 0; }
-.servingstable th { font-weight: bold; }
+.servingstable thead { border: 1px solid black; display: block; }
+.servingstable tbody { max-height: 250px; border: 1px solid black; overflow-y: scroll; overflow-x: hidden; display: block; }
+.servingstable tbody tr:nth-child(even) { background: #E6E6E6; }
+.servingstable tbody tr:nth-child(odd) { background: #FFF; }
+.servingstable input { height: 20px; margin: 0; }
+.servingstable th { font-weight: bold; text-align: left; }
+.servingstable th:first-child { padding-left: 5px; }
+.servingstable td:first-child { padding-left: 5px; }
+.servingstable th:last-child { padding-right: 5px; }
+.servingstable td:last-child { padding-right: 5px; }
 .servingstable .date { width: 150px; }
 .servingstable .date input { width: 140px; }
 .servingstable .amount { width: 75px; }
 .servingstable .amount input { width: 65px; }
-.servingstable .units { width: 50px; overflow: hidden; }
+.servingstable .units { width: 73px; overflow: hidden; }
 .servingstable .units input { width: 40px; }
 .servingstable .servingType { width: 300px; }
 .servingstable .servingType input { width: 290px; }
@@ -90,12 +93,12 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 
 #tab-history { position: relative; }
 #tab-history #search { position: absolute; top: 0; left: 10px; width: 100px; }
-#tab-history .clear { position: absolute; top: 4px; left: 120px; }
+#tab-history .clear { position: absolute; top: 5px; left: 115px; }
 #tab-history .busy { position: absolute; top: 4px; left: 140px; }
-#tab-history #summary { position: absolute; top: 4px; left: 140px; }
-#tab-history #result { margin-left: 10px; }
-#tab-history #error { margin-left: 10px; }
-#tab-history table { margin-top: 30px; }
+#tab-history #summary { position: absolute; left: 140px; }
+#tab-history #result { position: absolute; left: 350px; }
+#tab-history #error { position: absolute; left: 350px; }
+#tab-history table { margin-top: 30px; float: left; clear: left; }
 
 #tab-userdata-content { background-color: white; border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
 #tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
