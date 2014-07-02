@@ -1,14 +1,14 @@
 <div id="tab-login" class="tab">
   <div class="logout-message hidden">Olet kirjautunut ulos.</div>
-  <div id="tab-login-content" class="shadow">
+  <div id="tab-login-content">
     <form id="form-login" action="api/login" method="post">
       <h3>Kirjaudu sisään</h3>
       <label for="email">Email</label><input type="email" id="email" name="email" tabindex="1" />
       <label for="password">Salasana</label><input type="password"  id="password" name="password" tabindex="2" />
     </form>
-    <button type="submit" id="submit" tabindex="3">Kirjaudu</button>
+    <button class="button fa fa-arrow-circle-right" type="submit" id="submit" tabindex="3">Kirjaudu</button>
     <div class="busy hidden"></div>
-    <button type="submit" id="register" tabindex="4">Rekisteröidy</button>
+    <button class="button fa fa-arrow-circle-right" type="submit" id="register" tabindex="4">Rekisteröidy</button>
     <div id="result"></div>
     <div id="error"></div>
   </div>

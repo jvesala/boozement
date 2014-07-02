@@ -1,5 +1,8 @@
-.session { display: inline-block; color: white; border: none; margin-top: 5px; padding: 3px; font-size: 0.9em;}
-.session button { text-decoration: none; margin: 0; }
+header { margin-bottom: 0.5em; }
+.session { text-align: right; }
+
+.button { text-align: left; width: 150px; border: 0; font-size: 1em; padding: 0.3em; }
+.button.fa:before {position: absolute; right: 0.15em; top: 50%; margin-top: -0.5em;}
 
 .hidden { display: none; }
 .busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
@@ -17,14 +20,6 @@ input {
   background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
   background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
 }
-button {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
-  background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
-  background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
-  margin: 5px;
-  -moz-border-radius: 5px; border-radius: 5px;
-}
-button:focus { border: 2px solid black; }
 
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
 #error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
@@ -57,13 +52,11 @@ a.calendarIcon { background: url("../img/calendar.gif") no-repeat scroll 0 0 tra
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
 #tab-login { margin: 10px 0 0 10px; }
-#tab-login-content { background-color: white; border: 1px solid black; width: 280px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px; }
-#tab-login-content h3 { float: left; clear: both; margin: 5px; text-shadow: #E6E6E6 0px 1px 1px; }
+#tab-login-content h3 { float: left; clear: both; margin: 5px; }
 #tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
 #tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
-#tab-login-content button { float: right; margin-right: 19px; width: 90px; }
-#tab-login-content #register { float: left; width: 110px; }
-#tab-login-content .busy { float: right; margin-top: 7px; }
+#tab-login-content button { float: left; clear: left; margin-top: 10px; }
+#tab-login-content .busy { float: left; margin-top: 7px; }
 #tab-login-content #error { margin-top: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
