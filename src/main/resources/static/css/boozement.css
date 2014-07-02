@@ -83,7 +83,9 @@ input {
 .insert-form #result { float: left; clear: left; margin-top: 10px; }
 .insert-form #error { float: left; clear: left; margin-top: 10px; }
 
-#tab-active-content .interval { float: left; clear: both; overflow: auto; display: block;  }
+.active .interval { float: left; clear: both; overflow: auto; display: block;  }
+.active .bac { font-weight: bold; }
+.active .bac-units { font-weight: bold; }
 
 #tab-history { position: relative; }
 #tab-history #search { position: absolute; top: 0; left: 10px; width: 100px; }
