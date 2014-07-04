@@ -78,7 +78,10 @@ function trace(s) {
 function debug(s) { console.log(s) }
 
 $(function () {
-  $('nav li').onAsObservable('click').select(id).subscribe(showTab)
+  $(window).on('hashchange', function() {
+    console.log(window.location.hash)
+    showTab("tab-header-" + window.location.hash.split("#").pop())
+  })
   $('#logout').onAsObservable('click').subscribe(logOut)
   updateLoggedIn().where(emptyData).subscribe(loadLogin)
   updateLoggedIn().where(function(d) { return d.length > 0 }).subscribe(function() { showTab("tab-header-insert") })
