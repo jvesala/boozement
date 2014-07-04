@@ -32,10 +32,12 @@ function doWhoAmI() { return $.ajaxAsObservable({ url: "api/whoami"} ).select(re
 function doUserdata() { return $.ajaxAsObservable({ url: "api/userdata"} ).select(resultData) }
 
 function updateLoggedIn() {
-  var whoAmI = doWhoAmI()
+  var whoAmI = doWhoAmI().publish()
+  whoAmI.connect()
   whoAmI.where(errorData).subscribe(showLoggedError)
   whoAmI.where(emptyData).subscribe(showLoggedOut)
   whoAmI.where(function(d) { return d.length > 0 }).subscribe(showLoggedIn)
+  return whoAmI
 }
 
 function id(e) { return e.target.id }
@@ -78,7 +80,6 @@ function debug(s) { console.log(s) }
 $(function () {
   $('nav li').onAsObservable('click').select(id).subscribe(showTab)
   $('#logout').onAsObservable('click').subscribe(logOut)
-  doWhoAmI().where(emptyData).subscribe(loadLogin)
-  // todo: load insert if session is valid
-  updateLoggedIn()
+  updateLoggedIn().where(emptyData).subscribe(loadLogin)
+  updateLoggedIn().where(function(d) { return d.length > 0 }).subscribe(function() { showTab("tab-header-insert") })
 })
