@@ -79,7 +79,6 @@ function debug(s) { console.log(s) }
 
 $(function () {
   $(window).on('hashchange', function() {
-    console.log(window.location.hash)
     showTab("tab-header-" + window.location.hash.split("#").pop())
   })
   $('#logout').onAsObservable('click').subscribe(logOut)
