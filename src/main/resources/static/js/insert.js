@@ -11,7 +11,6 @@ function doInsert() {
   var insertResult = insert.select(resultDataMessage).catch(Rx.Observable.return("error"))
   insertResult.subscribe(resetSubmitStatus)
   insertResult.where(validData).subscribe(updateResult)
-  insertResult.where(validData).subscribe(fetchCurrentInterval)
   insertResult.where(errorData).select(function(x) { return "Virhe syötössä!" } ).subscribe(updateError)
   insert.connect()
 }
