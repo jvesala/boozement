@@ -2,11 +2,16 @@ function registrationDataParams() { return $("#form-registration").serialize() }
 
 function doRegister() {
   preSubmit()
-  $.postAsObservable("api/register", registrationDataParams()).subscribe(registerSuccessful, registerFailed)
+  var email = $('#email').val()
+  var password = $('#password').val()
+  $.postAsObservable("api/register", registrationDataParams()).subscribe(registerSuccessful(email, password), registerFailed)
 }
 
-function registerSuccessful() {
-  $.postAsObservable("api/login", loginParams()).subscribe(loginAfterRegisterSuccessful, loginFailed)
+function registerSuccessful(email, password) {
+  return function() {
+    var loginData = "email=" + email + "&password=" + password
+    $.postAsObservable("api/login", loginData).subscribe(loginAfterRegisterSuccessful, loginFailed)
+  }
 }
 
 function loginAfterRegisterSuccessful() {

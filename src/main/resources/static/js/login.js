@@ -29,6 +29,6 @@ $(function() {
   all.subscribe(disableEffect($('#submit')))
 	
   $('#submit').onAsObservable('click').subscribe(doLogin)
-  $('#register').onAsObservable('click').subscribe(openRegister)
+  $('#registration').onAsObservable('click').subscribe(openRegister)
   $('#email').focus()
 });
