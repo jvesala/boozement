@@ -9,18 +9,15 @@ header { margin-bottom: 0.5em; }
 .hidden { display: none; }
 .busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 .clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
-.shadow { -moz-box-shadow: 3px 3px 3px gray; -webkit-box-shadow: 3px 3px 3px gray;}
-.gradient {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
-  background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
-  background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */  
-}
 
 form, table { -moz-border-radius: 3px; border-radius: 3px; }
 input {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
   background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
   background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
+  border: 1px solid #c9c9c9;
+  padding: 0;
+  height: 20px;
 }
 
 #result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
@@ -61,7 +58,7 @@ input {
 .insert-form input { float: left; clear: left; }
 .insert-form em { float: left; margin-left: 5px; }
 .insert-form label { float: left; }
-.insert-form a.calendarIcon { height: 25px; width: 25px !important; }
+.insert-form a.calendarIcon { height: 21px; width: 25px !important; }
 .insert-form .dateElement { float: left; margin: 5px; width: 125px; display: inline-block; }
 .insert-form .continuousCalendar .calendarScrollContent { width: 202px !important; }
 .insert-form .continuousCalendar .calendarHeader { margin: 0 !important; }
@@ -70,7 +67,7 @@ input {
 .insert-form .datetime { float: left; margin-top: 10px; }
 .insert-form label[for="time"] { width: 20px; margin: 7px 0 0 3px; }
 .insert-form #time { width: 40px; margin: 7px 0 0 3px; float: none; }
-.insert-form .type { float: left; clear: left; }
+.insert-form .type { float: left; clear: left; min-height: 50px; }
 .insert-form .amount { float: left; clear: left; }
 .insert-form .units { float: left; clear: left; }
 .insert-form  #date { width: 120px; }
