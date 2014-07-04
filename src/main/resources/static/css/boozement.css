@@ -96,17 +96,15 @@ input {
 #tab-history #error { position: absolute; left: 350px; }
 #tab-history table { margin-top: 30px; float: left; clear: left; }
 
-#tab-userdata-content { background-color: white; border: 1px solid black; margin: 10px 0 0 10px; width: 550px; overflow: auto; -moz-border-radius: 3px; border-radius: 3px;}
-#tab-userdata-content label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
-#tab-userdata-content label[for="gender-male"], #tab-userdata-content label[for="gender-female"] { clear: none; float: left; width: 50px; }
-#tab-userdata-content input[type="radio"] { width: 10px; margin-top: 7px; }
-#tab-userdata-content #weight { width: 25px;}
-#tab-userdata-content input { float: left; clear: right;  width: 100px; margin-top: 5px; }
-#tab-userdata-content button { float: right; margin-top: 10px; width: 150px; }
-#tab-userdata-content .busy { float: right; margin-top: 12px; margin-right: 5px; }
-#tab-userdata-content .error { float:left; margin-top: 5px; margin-left: 5px; }
-#tab-userdata-content #result { margin-top: 15px; }
-#tab-userdata-content #error { margin-top: 15px; }
-#tab-userdata .registerTitle { margin-left: 10px; }
-#tab-userdata #back { width: 200px; float: left; clear: left; }
+.userdata label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
+.userdata span { float: left; }
+.userdata em { float: left; }
+.userdata input { float: left; clear: right;  width: 100px; margin-top: 5px; }
+.userdata #weight { width: 25px;}
+.userdata .button { float: left; clear: left; width: 200px; }
+.userdata .busy { float: left; margin-top: 7px; margin-left: 3px; }
+.userdata #error { float:left; clear:left; }
+.userdata #result { float:left; clear:left; }
 
+.registration label[for="gender-male"], .userdata label[for="gender-female"] { clear: none; float: left; width: 50px; }
+.registration input[type="radio"] { width: 10px; margin-top: 7px; }

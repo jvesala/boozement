@@ -1,3 +1,8 @@
+var email = $('#email').changes()
+var emailValidation = mkValidation(email, emailValidator())
+emailValidation.subscribe(toggleEffect($('.email-error')))
+emailValidation.subscribe(toggleClassEffect($('#email'), 'invalid'))
+
 var password = $('#password').changes()
 var passwordValidation = mkValidation(password, requiredValidator())
 passwordValidation.subscribe(toggleEffect($('.password-error')))
@@ -15,5 +20,5 @@ var weightValidation = mkValidation(weight, numberValidator())
 weightValidation.subscribe(toggleEffect($('.weight-error')))
 weightValidation.subscribe(toggleClassEffect($('#weight'), 'invalid'))
 
-var all = combine([passwordValidation, pwdValidation, weightValidation])
+var all = combine([emailValidation, passwordValidation, pwdValidation, weightValidation])
 all.subscribe(disableEffect($('#submit')))

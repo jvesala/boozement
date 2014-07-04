@@ -1,21 +1,30 @@
 <div id="tab-userdata" class="tab">
   <div id="tab-userdata-content" class="tab-content">
     <div class="userdata">
+      <h3 class="registerTitle">Rekisteröityminen</h3>
       <form id="form-userdata" method="post">
         <label for="email">Sähköpostiosoite</label>
-        <span id="email"></span>
+        <input id="email" name="email" tabindex="1" />
+        <em class="error email-error hidden">Sähköpostiosoite on virheellinen.</em>
+
         <label>Sukupuoli</label>
-        <span id="gender"></span>
+        <input type="radio" id="gender-male" name="gender" value="M" tabindex="2" checked="checked" />
+        <label for="gender-male">Mies</label>
+        <input type="radio" id="gender-female" name="gender" value="F"  tabindex="3" />
+        <label for="gender-female">Nainen</label>
 
         <label for="weight">Paino</label>
         <input id="weight" name="weight" tabindex="4" /><em class="weightTitle">kg</em>
         <em class="error weight-error hidden">Anna paino kiloissa.</em>
+
         <label for="password">Salasana</label>
         <input type="password" id="password" name="password" tabindex="5" />
         <em class="error password-error hidden">Salasana on pakollinen.</em>
         <label for="password-copy">Salasana uudelleen</label>
         <input type="password" id="password-copy" name="password-copy" tabindex="6" />
         <em class="error password-match-error hidden">Salasanat eivät ole samat.</em>
+        <button class="button fa fa-arrow-circle-right" type="submit" id="back" tabindex="8" class="hidden">Takaisin kirjautumissivulle</button>
+        <button class="button fa fa-arrow-circle-right" type="submit" id="register" tabindex="7" class="hidden">Rekisteröidy</button>
         <button class="button fa fa-arrow-circle-right" type="submit" id="submit" tabindex="4">Tallenna muutokset</button>
         <div class="busy hidden"></div>
         <div id="result"></div>

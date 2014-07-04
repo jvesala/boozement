@@ -1,3 +1,5 @@
+function userDataParams() { return $("#form-userdata").serialize() }
+
 function doUserDataUpdate() {
   preSubmit()
   var update = $.postAsObservable("api/update-user", userDataParams()).publish()
@@ -13,17 +15,16 @@ function updateSuccessful(message) {
 }
 
 function updateFailed(error) {
-  if(error.jqXHR.status == "409") updateError("Kirjautumistunnus on varattu.")
-  else updateError("Virhe tietojen päivityksessä!")
+  updateError("Virhe tietojen päivityksessä!")
   resetSubmitStatus()
 }
 
 $(function() {
+  updateLoggedIn()
   $('#submit').onAsObservable('click').subscribe(doUserDataUpdate)
   doUserdata().subscribe(function(user) {
-    $('#email').val(user.email).keyup() 
-    $('input[value="' + user.gender + '"]').click()
+    $('#email').text(user.email)
+    if (user.gender == "M") { $('#gender').text("Mies") } else { $('#gender').text("Nainen") }
     $('#weight').val(user.weight).keyup()
-    updateLoggedIn()
-  }, function(_) { updateLoggedIn()})
-});
+  })
+})

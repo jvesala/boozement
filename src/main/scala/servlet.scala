@@ -103,14 +103,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   
   post("/update-user") {
     failUnlessAuthenticated
-    (stringParam("email"), stringParam("password"), stringParam("gender"), intParam("weight")) match {
-      case (Some(newEmail), Some(newPassword), Some(newGender), Some(newWeight)) => {
-        database.userByEmail(newEmail) match {
-          case Some(existingUser) if (existingUser.id != user.id) => halt(409)
-          case _ =>
-        }
-        val count = database.updateUser(user.copy(
-          email = newEmail, password = PasswordSupport.encrypt(newPassword), gender = newGender, weight = newWeight * 1000))
+    (stringParam("password"), intParam("weight")) match {
+      case (Some(newPassword), Some(newWeight)) => {
+        val count = database.updateUser(user.copy(password = PasswordSupport.encrypt(newPassword), weight = newWeight * 1000))
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Tiedot päivitetty.")
         compact(render(json))
