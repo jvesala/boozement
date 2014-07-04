@@ -1,8 +1,9 @@
 header { margin-bottom: 0.5em; }
 .session { text-align: right; margin-bottom: 10px; }
 .session span { margin-right: 10px; }
+.session .button { font-size: 0.8em; padding: 0.4em; width: 120px; }
 
-.button { text-align: left; width: 150px; border: 0; font-size: 1em; padding: 0.3em; }
+.button { text-align: left; width: 200px; border: 0; font-size: 1em; padding: 0.8em; }
 .button[disabled] { background-color: #c9c9c9; }
 .button.fa:before {position: absolute; right: 0.15em; top: 50%; margin-top: -0.5em;}
 
@@ -97,7 +98,7 @@ header { margin-bottom: 0.5em; }
 .userdata em { float: left; }
 .userdata input { float: left; clear: right;  width: 100px; margin-top: 5px; }
 .userdata #weight { width: 25px;}
-.userdata .button { float: left; clear: left; width: 200px; }
+.userdata .button { float: left; clear: left; }
 .userdata .busy { float: left; margin-top: 7px; margin-left: 3px; }
 .userdata #error { float:left; clear:left; }
 .userdata #result { float:left; clear:left; }
