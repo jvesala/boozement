@@ -107,4 +107,5 @@ input {
 .userdata #result { float:left; clear:left; }
 
 .registration label[for="gender-male"], .userdata label[for="gender-female"] { clear: none; float: left; width: 50px; }
-.registration input[type="radio"] { width: 10px; margin-top: 7px; }
+.registration input[type="radio"] { width: 10px; height: 10px; margin-top: 7px; }
+.registration #back { clear: none; margin-left: 10px; }

@@ -21,4 +21,4 @@ weightValidation.subscribe(toggleEffect($('.weight-error')))
 weightValidation.subscribe(toggleClassEffect($('#weight'), 'invalid'))
 
 var all = combine([emailValidation, passwordValidation, pwdValidation, weightValidation])
-all.subscribe(disableEffect($('#submit')))
+all.subscribe(disableEffect($('#register')))

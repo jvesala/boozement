@@ -1,5 +1,4 @@
 function loginParams() { return $("#form-login").serialize() }
-function userDataParams() { return $("#tab-userdata form").serialize() }
 
 function doLogin() {
   preSubmit()
@@ -17,45 +16,9 @@ function loginFailed(error) {
   resetSubmitStatus()
 }
 
-function convertUserdataFormToRegisterForm(x) { 
-  var data = $(x)
-  data.find('.registerTitle').removeClass('hidden')
-  data.find('#back').removeClass('hidden')
-  data.find('#register').removeClass('hidden')
-  data.find('#submit').addClass('hidden')
-  return data
-}
 function openRegister() {
-  $.ajaxAsObservable({ url: "userdata.html"}).catch(Rx.Observable.return({data: "Virhetilanne"}))
-    .select(resultData)
-    .select(convertUserdataFormToRegisterForm)
-    .subscribe(function(x) {
-      $('#page-content').html(x)
-      $('#back').toObservable('click').subscribe(loadLogin)
-      $('#register').toObservable('click').subscribe(doRegister)
-      combine([emailValidation, passwordValidation, pwdValidation]).subscribe(disableEffect($('#register')))
-    })
+  loadTab("registration")
 }
-
-function doRegister() {
-  preSubmit()
-  $.postAsObservable("api/register", userDataParams()).subscribe(registerSuccessful, registerFailed)
-}
-
-function registerSuccessful() {
-  $.postAsObservable("api/login", loginParams()).subscribe(loginAfterRegisterSuccessful, loginFailed)
-} 
-
-function loginAfterRegisterSuccessful() {
-  $('#page-content').html('<div id="tab-welcome" class="tab">Olet nyt rekisteröinyt palvelun käyttäjäksi. Tervetuloa.</div>')
-  updateLoggedIn()
-} 
-
-function registerFailed(error) {
-  if(error.jqXHR.status == "409") { updateError("Kirjautumistunnus on varattu.") }
-  else updateError("Rekisteröinti epäonnistui jostain syystä. Yritä uudelleen.")
-  resetSubmitStatus()
-} 
 
 $(function() {
   var email = $('#email').changes()
