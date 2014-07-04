@@ -10,8 +10,7 @@ header { margin-bottom: 0.5em; }
 .busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 .clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
 
-form, table { -moz-border-radius: 3px; border-radius: 3px; }
-input {
+#page-content input {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
   background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
   background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
