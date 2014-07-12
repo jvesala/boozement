@@ -7,7 +7,7 @@ class Jetty
 
 object Jetty {
   def main(args: Array[String]) {
-    val server = new Server(if(args.length > 0) args(0).toInt else 8080)
+    val server = new Server(sys.env.getOrElse("PORT", "8080").toInt)
     val base = classOf[Jetty].getClassLoader().getResource("static").toExternalForm
 
     val context = new ServletContextHandler(ServletContextHandler.SESSIONS)
