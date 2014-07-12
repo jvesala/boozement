@@ -9,7 +9,6 @@ import scala.slick.direct.AnnotationMapper.column
 import scala.slick.lifted.{Query, SimpleFunction}
 import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
 import scala.slick.jdbc.StaticQuery._
-import JodaTypeMapperDelegates._
 import com.github.tototoshi.slick.MySQLJodaSupport._
 import org.scalatra._
 import org.scalatra.test.scalatest._
@@ -96,6 +95,16 @@ class ServletSpec extends ScalatraFunSuite with ShouldMatchers with BeforeAndAft
       get("/servings-interval?start=24.02.2011%2012:15&end=25.02.2011%2019:15") {
         status should equal(200)
         resultContainsIds(body, List(64, 65, 66))
+        resultCount(body, 3)
+      }
+    }
+  }
+
+  test("servingType suggestions") {
+    session {
+      login
+      get("/servings-suggestions?query=cor") {
+        status should equal(200)
         resultCount(body, 3)
       }
     }

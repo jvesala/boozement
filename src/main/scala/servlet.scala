@@ -100,7 +100,18 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     }
     servingsToJson(returnServings)
   }
-  
+
+  get("/servings-suggestions") {
+    failUnlessAuthenticated
+    stringParam("query") match {
+      case Some(string) =>
+        val suggestions = database.servingTypeSuggestions(string)
+        val json = ("query" -> string) ~ ("count" -> suggestions.length) ~ ("suggestions" -> suggestions)
+        compact(render(json))
+      case _ => halt(400)
+    }
+  }
+
   post("/update-user") {
     failUnlessAuthenticated
     (stringParam("password"), intParam("weight")) match {

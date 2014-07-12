@@ -72,6 +72,9 @@ header { margin-bottom: 0.5em; }
 .insert-form .units { float: left; clear: left; }
 .insert-form  #date { width: 120px; }
 .insert-form  #type { width: 150px; }
+.insert-form .type-suggestions { position: relative; clear: left; float: left; }
+.insert-form .type-suggestions-list { position: absolute; z-index: 10; width: 200px; height: 100px; overflow-x: scroll; background-color: white; opacity: 0.95; border: 1px solid black; }
+.insert-form .type-suggestions-list li { clear: left; float: left;  }
 .insert-form  #amount { width: 40px; }
 .insert-form  #units { width: 40px; }
 .insert-form  .unit { float: left; }

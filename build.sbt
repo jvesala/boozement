@@ -34,6 +34,8 @@ libraryDependencies ++= Seq(
 
 test in assembly := {}
 
+fork in Test := true
+
 autoScalaLibrary := true
 
 jarName in assembly := "boozement.jar"
