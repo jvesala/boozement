@@ -3,7 +3,7 @@ header { margin-bottom: 0.5em; }
 .session span { margin-right: 10px; }
 .session .button { font-size: 0.8em; padding: 0.4em; width: 120px; }
 
-.button { text-align: left; width: 200px; border: 0; font-size: 1em; padding: 0.8em; }
+.button { text-align: left; width: 200px; border: 0; font-size: 1em; padding: 0.8em !important; }
 .button[disabled] { background-color: #c9c9c9; }
 .button.fa:before {position: absolute; right: 0.15em; top: 50%; margin-top: -0.5em;}
 
