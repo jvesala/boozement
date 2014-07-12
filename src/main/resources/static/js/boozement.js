@@ -77,11 +77,12 @@ function trace(s) {
 }
 function debug(s) { console.log(s) }
 
+function tabFromHash() { return window.location.hash.split("#").pop() }
+function loadCurrentHashTab() { showTab("tab-header-" + tabFromHash()) }
+
 $(function () {
-  $(window).on('hashchange', function() {
-    showTab("tab-header-" + window.location.hash.split("#").pop())
-  })
+  $(window).on('hashchange', loadCurrentHashTab)
   $('#logout').onAsObservable('click').subscribe(logOut)
   updateLoggedIn().where(emptyData).subscribe(loadLogin)
-  updateLoggedIn().where(function(d) { return d.length > 0 }).subscribe(function() { showTab("tab-header-insert") })
+  updateLoggedIn().where(function(d) { return d.length > 0 }).subscribe(loadCurrentHashTab)
 })
