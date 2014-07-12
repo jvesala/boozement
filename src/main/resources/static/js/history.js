@@ -6,8 +6,6 @@ function showSummary(count, units) { $('#summary').show(); $('#summary .count').
 function hideSummary() { $('#summary').hide() }
 function clearServings() { tBody.empty("") }
 function clearSearch() { search.val("").keyup() }
-function showClear() { clear.show() }
-function hideClear() { clear.hide() }
 
 function highlight(s, terms) {
   if(terms != "") {

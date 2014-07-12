@@ -67,11 +67,12 @@ header { margin-bottom: 0.5em; }
 .insert-form .datetime { float: left; margin-top: 10px; }
 .insert-form label[for="time"] { width: 20px; margin: 7px 0 0 3px; }
 .insert-form #time { width: 40px; margin: 7px 0 0 3px; float: none; }
-.insert-form .type { float: left; clear: left; min-height: 50px; }
+.insert-form .type { position: relative; float: left; clear: left; min-height: 50px; }
 .insert-form .amount { float: left; clear: left; }
 .insert-form .units { float: left; clear: left; }
 .insert-form  #date { width: 120px; }
 .insert-form  #type { width: 150px; }
+.insert-form .type .clear { position: absolute; top: 28px; left: 135px; }
 .insert-form .type-suggestions { position: relative; clear: left; float: left; }
 .insert-form .type-suggestions-list { position: absolute; z-index: 10; width: 200px; height: 100px; overflow-x: scroll; background-color: white; opacity: 0.95; border: 1px solid black; }
 .insert-form .type-suggestions-list li { clear: left; float: left;  }

@@ -67,6 +67,8 @@ function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
 function preSubmit() { disableSubmitButton(); showBusy() }
 function resetSubmitStatus() { hideBusy(); enableSubmitButton() }
 function padZero(val) { return (val > 9) ? val : "0" + val }
+function showClear() { $('#clear').show() }
+function hideClear() { $('#clear').hide() }
 
 // String -> (a -> a)
 function trace(s) {

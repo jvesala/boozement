@@ -28,8 +28,15 @@ function updateSuggestions(result) {
     ul.append($("<li>").text(item))
   })
 }
-function handleSuggestionsError() { $(".insert-form .type-suggestions-list").html("").hide() }
+function handleSuggestionsError() { hideSuggestionsBox() }
 function suggestionText(event) { return event.target.textContent }
+function hideSuggestionsBox() { $(".insert-form .type-suggestions-list").html("").hide() }
+function selectSuggestion(suggestion) {
+  hideSuggestionsBox()
+  $('#type').val(suggestion)
+  $('#amount').focus()
+}
+function clearTypeField() { hideSuggestionsBox(); $('#type').val("").keyup().focus() }
 
 $(function() {
   $(".dateElement").continuousCalendar({weeksBefore: 60,weeksAfter: 1, isPopup: true, locale: DateLocale.FI, selectToday: true})
@@ -38,12 +45,16 @@ $(function() {
   updateLoggedIn()
   var type = $('#type')
   var typeInput = type.onAsObservable('keyup').throttle(50).select(targetValue).distinctUntilChanged()
+  var typeBlurs = type.onAsObservable('blur').throttle(150)
   var suggestions = typeInput.select(fetchSuggestions).switchLatest()
+  var selectedSuggestions = $('.insert-form ul').onAsObservable("click", "li").select(suggestionText)
+  var clearTypeValues = $('#clear').onAsObservable('click')
+
+  typeInput.where(emptyData).subscribe(hideClear)
+  typeInput.where(notF(emptyData)).subscribe(showClear)
+  typeBlurs.subscribe(hideSuggestionsBox)
   suggestions.subscribe(updateSuggestions)
-  $('.insert-form ul').onAsObservable("click", "li").select(suggestionText).subscribe(function(suggestion) {
-    $(".insert-form .type-suggestions-list").hide()
-    $('#type').val(suggestion)
-    $('#amount').focus()
-  })
+  selectedSuggestions.subscribe(selectSuggestion)
+  clearTypeValues.subscribe(clearTypeField)
   type.focus()
 })
