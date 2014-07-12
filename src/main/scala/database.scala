@@ -72,6 +72,17 @@ class BoozementDatabase {
     } yield s
     q.sortBy(_.date.desc).list
   }
+
+  def servingTypeSuggestions(prefix: String): List[String] = db withDynSession {
+    prefix.toList match {
+      case x :: xs =>
+        val lower = x.toString.toLowerCase + xs.mkString + "%"
+        val firstUpper = x.toString.toUpperCase + xs.mkString + "%"
+        val q = sql"select type from servings where type like $lower or type like $firstUpper group by type order by count(type) desc;".as[String]
+        q.list
+      case _ => List.empty
+    }
+  }
   
   def insertUser(email: String, password: String, gender: String, weight: Int): Int = 
     insertUser(User(None, email, password, gender, weight))

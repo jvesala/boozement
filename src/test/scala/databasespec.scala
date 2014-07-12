@@ -97,6 +97,23 @@ class ServingDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAnd
     assert(res.head.id == Some(3))
     assert(res.tail.head.id == Some(2))
   }
+
+  test("get serving suggestions") {
+    val drinkingTime = new DateTime(2010, 3, 26, 12, 0, 0, 0)
+    database.insertServing(user, drinkingTime, "Olut I", 33, 1.0)
+    database.insertServing(user, drinkingTime.plusHours(3), "Olut III", 50, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(6), "Lonkero", 40, 1.2)
+    database.insertServing(user, drinkingTime.plusHours(9), "Punaviini", 18, 1.5)
+    database.insertServing(user, drinkingTime.plusHours(12), "Gin tonic", 18, 1.5)
+    val res = database.servingTypeSuggestions("ol")
+    assert(res.size == 2)
+    assert(res.head == "Olut I")
+    assert(res.tail.head == "Olut III")
+
+    val res2 = database.servingTypeSuggestions("Gi")
+    assert(res2.size == 1)
+    assert(res2.head == "Gin tonic")
+  }
 }
 
 class UserDatabaseSpec extends FunSuite with BeforeAndAfterAll with BeforeAndAfterEach {
