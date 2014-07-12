@@ -1,5 +1,11 @@
 import AssemblyKeys._
 
+import com.typesafe.sbt.SbtNativePackager._
+
+import NativePackagerKeys._
+
+packageArchetype.java_application
+
 seq(assemblySettings: _*)
 
 name := "boozement"
