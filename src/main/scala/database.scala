@@ -12,7 +12,7 @@ import scala.slick.jdbc.StaticQuery._
 import com.github.tototoshi.slick.MySQLJodaSupport._
 
 class BoozementDatabase {
-  def dbUrl = sys.env.getOrElse("CLEARDB_DATABASE_URL", "jdbc:mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")
+  def dbUrl = "jdbc:" + sys.env.getOrElse("CLEARDB_DATABASE_URL", "mysql://127.0.0.1:3306/boozement?user=boozement&password=boozement")
   lazy val db = Database.forURL(dbUrl, driver = "com.mysql.jdbc.Driver")
   val lastId = SimpleFunction.nullary[Int]("last_insert_id")
   def init {
