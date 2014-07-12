@@ -79,6 +79,7 @@ function debug(s) { console.log(s) }
 
 function tabFromHash() { return window.location.hash.split("#").pop() }
 function loadCurrentHashTab() { showTab("tab-header-" + tabFromHash()) }
+function targetValue(e) { return $(e.target).val() }
 
 $(function () {
   $(window).on('hashchange', loadCurrentHashTab)

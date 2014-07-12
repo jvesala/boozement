@@ -43,12 +43,7 @@ function isScrolledToBottom(e) {
 }
 
 $(function() {
-  $.getScript("js/table.js", function () {})
-  $.getScript("js/validation-insert.js", function () {})
-  var input = search.onAsObservable('keyup')
-    .throttle(50)
-    .select(function(e) { return $(e.target).val() })
-    .distinctUntilChanged()
+  var input = search.onAsObservable('keyup').throttle(50).select(targetValue).distinctUntilChanged()
   var paging = function(term) {
     return scrollBottom
       .scan(0, function(current, x) { return current+1 })
