@@ -34,6 +34,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
         if (count == 0) halt(400)
         val message: JValue = "Juotu " + servingType + " kello " + time + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
+        logger.info(s"User ${user.email} drank $servingType, $amount cl - $units")
         compact(render(json))
       }
       case _ => halt(400)
@@ -136,6 +137,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
         val count = database.insertUser(email, PasswordSupport.encrypt(password), gender, weight)
         if(count == 0) halt(400)
         val json =  ("status" -> "ok") ~ ("message" -> "Käyttäjä luotu.")
+        logger.info(s"User $email registered.")
         compact(render(json))
       }
       case _ => halt(400)
