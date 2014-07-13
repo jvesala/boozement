@@ -6,7 +6,11 @@ function doLogin() {
 }
 
 function loginSuccessful() {
-  showTab("tab-header-insert")
+  if (window.location.hash == "") {
+    window.location.hash = "insert"
+  } else {
+    loadCurrentHashTab()
+  }
   updateLoggedIn()
 }
 
