@@ -165,9 +165,9 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   }
   
   post("/logout") {
+    logger.info(s"User ${user.email} logged out.")
     logOut
     val json =  ("status" -> "ok")
-    logger.info(s"User ${user.email} logged out.")
     compact(render(json))
   }
 
