@@ -1,3 +1,4 @@
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import java.net.URLDecoder
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -7,7 +8,7 @@ import org.json4s.JsonDSL._
 import org.json4s.native.JsonMethods._
 import java.text.DecimalFormat
 
-class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport {
+class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with LazyLogging {
   def this() = this(new BoozementDatabase)
 
   def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
@@ -159,12 +160,14 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     authenticate
     failUnlessAuthenticated
     val json =  ("status" -> "ok")
+    logger.info(s"User ${user.email} logged in.")
     compact(render(json))
   }
   
   post("/logout") {
     logOut
     val json =  ("status" -> "ok")
+    logger.info(s"User ${user.email} logged out.")
     compact(render(json))
   }
 

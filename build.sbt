@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.scalatra" %% "scalatra-auth" % "2.2.2",
   "org.json4s" %% "json4s-native" % "3.2.9",
   "com.typesafe.slick" %% "slick" % "2.0.1",
+  "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
   "mysql" % "mysql-connector-java" % "5.1.23",
   "org.mindrot" % "jbcrypt" % "0.3m",
   "joda-time" % "joda-time" % "2.3",
