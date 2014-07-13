@@ -75,7 +75,8 @@ header { margin-bottom: 0.5em; }
 .insert-form .type .clear { position: absolute; top: 28px; left: 135px; }
 .insert-form .type-suggestions { position: relative; clear: left; float: left; }
 .insert-form .type-suggestions-list { position: absolute; z-index: 10; width: 200px; height: 100px; overflow-x: scroll; background-color: white; opacity: 0.95; border: 1px solid black; }
-.insert-form .type-suggestions-list li { clear: left; float: left;  }
+.insert-form .type-suggestions-list li { clear: left; float: left; cursor: pointer; }
+.insert-form .type-suggestions-list li:hover { background-color: #c9c9c9; border-radius: 3px; }
 .insert-form  #amount { width: 40px; }
 .insert-form  #units { width: 40px; }
 .insert-form  .unit { float: left; }
