@@ -7,7 +7,7 @@ import org.json4s.JsonDSL._
 import org.json4s.native.JsonMethods._
 import java.text.DecimalFormat
 
-class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport with RemoteInfo {
+class BoozementServlet(protected val database: BoozementDatabase) extends ScalatraServlet with AuthenticationSupport {
   def this() = this(new BoozementDatabase)
 
   def getParam[T](convert: String => Option[T])(name: String) = if(params.contains(name)) convert(params(name)) else None
