@@ -42,8 +42,7 @@ function updateLoggedIn() {
 
 function id(e) { return e.target.id }
 function showTab(tabId) {
-  //setPageContent('<div class="busy"></div>')
-  //showBusy()
+  $('#page-content').html('<i class="page-loading fa fa-spinner fa-spin fa-5x"></i>')
   $('.tab-header').removeClass("current_page_item")
   $("#" + tabId).parent().addClass("current_page_item")
   var name = tabId.split("-").pop()
@@ -52,11 +51,7 @@ function showTab(tabId) {
 
 function loadTab(name) {
   var loader = $.ajaxAsObservable({ url: name + ".html"}).catch(Rx.Observable.return({data: "Virhetilanne"})).select(resultData)
-  loader.subscribe(function(html) {
-    $('#page-content').html(html)
-    //$('#page-content').hide().empty().html(html)
-    //$.getScript("js/" + name + ".js", function () { $('#page-content').show() })
-  })
+  loader.subscribe(function(html) { $('#page-content').html(html) })
   return loader
 }
 
