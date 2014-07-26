@@ -1,11 +1,7 @@
-function formatDate(date) {
-  return padZero(date.getDate()) + "." + padZero(date.getMonth() + 1) + "." + date.getFullYear() +
-    padZero(date.getHours()) + ":" + padZero(date.getMinutes())
-}
 function intervalStart() {
   var now = new Date()
   now.setDate(now.getDate() - 1)
-  return formatDate(now)
+  return now.toISOString()
 }
 function emptyResults(data) { return data[1] == 0 }
 function updateBac(bac) { $('.interval .bac').text(bac) }

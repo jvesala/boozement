@@ -1,7 +1,7 @@
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import java.net.URLDecoder
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.{ISODateTimeFormat, DateTimeFormat}
 import org.scalatra._
 import org.json4s._
 import org.json4s.JsonDSL._
@@ -20,7 +20,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   val stringParam = getParam(toSomeString) _
   val dateParam = getParam(jodaDate) _
 
-  def jodaDate(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
+  def jodaDate(source: String) = Some(ISODateTimeFormat.dateTimeParser().parseDateTime(source))
 
   before() {
     contentType = "applications/json; charset=utf-8"
