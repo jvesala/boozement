@@ -1,5 +1,5 @@
 import java.sql.{Date, Timestamp}
-import org.joda.time.DateTime
+import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.DateTimeFormat
 import org.json4s._
 import org.json4s.JsonDSL._
@@ -109,7 +109,7 @@ class BoozementDatabase {
 class Servings(tag: Tag) extends Table[Serving](tag, "servings") {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def userId = column[Option[Int]]("userid")
-  def date = column[DateTime]("date", O.Default(new DateTime))
+  def date = column[DateTime]("date", O.Default(DateTime.now(DateTimeZone.forID("Europe/Helsinki"))))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def units = column[Double]("units")

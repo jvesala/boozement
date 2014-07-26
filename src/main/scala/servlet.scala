@@ -1,6 +1,6 @@
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import java.net.URLDecoder
-import org.joda.time.DateTime
+import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.{ISODateTimeFormat, DateTimeFormat}
 import org.scalatra._
 import org.json4s._
@@ -97,10 +97,8 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     failUnlessAuthenticated
     val returnServings = (dateParam("start"), dateParam("end")) match {
       case(Some(start), Some(end)) => database.servingsInterval(user, start, end)
-      case(_, Some(end)) => database.servingsInterval(user, new DateTime, end)
-      case(Some(start), _) =>
-        logger.info(s"Fetching interval $start")
-        database.servingsInterval(user, start, DateTime.now)
+      case(_, Some(end)) => database.servingsInterval(user, DateTime.now(DateTimeZone.forID("Europe/Helsinki")), end)
+      case(Some(start), _) => database.servingsInterval(user, start, DateTime.now(DateTimeZone.forID("Europe/Helsinki")))
       case _ => halt(400)
     }
     servingsToJson(returnServings)

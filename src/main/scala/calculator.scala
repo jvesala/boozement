@@ -1,4 +1,4 @@
-import org.joda.time.{Duration, DateTime}
+import org.joda.time.{DateTimeZone, Duration, DateTime}
 import scala.math._
 import java.text.DecimalFormat
 
@@ -29,7 +29,7 @@ class Calculator {
   def formatBac(d: Double): String = new DecimalFormat("#0.00").format(d)
   
   def bacNow(user: User, servings: List[Serving]): String = 
-    formatBac(calculateBacHistory(user, new DateTime, servings).last._1)
+    formatBac(calculateBacHistory(user, DateTime.now(DateTimeZone.forID("Europe/Helsinki")), servings).last._1)
 }
 
 object Calculator extends Calculator
