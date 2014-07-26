@@ -98,10 +98,11 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     val returnServings = (dateParam("start"), dateParam("end")) match {
       case(Some(start), Some(end)) => database.servingsInterval(user, start, end)
       case(_, Some(end)) => database.servingsInterval(user, new DateTime, end)
-      case(Some(start), _) => database.servingsInterval(user, start, DateTime.now)
+      case(Some(start), _) =>
+        logger.info(s"Fetching interval $start")
+        database.servingsInterval(user, start, DateTime.now)
       case _ => halt(400)
     }
-    logger.info(s"Fetching interval $start - $end")
     servingsToJson(returnServings)
   }
 
