@@ -21,6 +21,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
   val dateParam = getParam(jodaDate) _
 
   def jodaDate(source: String) = Some(ISODateTimeFormat.dateTimeParser().parseDateTime(source))
+  def insertDateParser(source: String) = Some(DateTimeFormat.forPattern("dd.MM.yyyyHH:mm").parseDateTime(source.replace(" ", "")))
 
   before() {
     contentType = "applications/json; charset=utf-8"
@@ -30,7 +31,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
     failUnlessAuthenticated
     (stringParam("time"), stringParam("date"), stringParam("type"), intParam("amount"), doubleParam("units")) match {
       case (Some(time), Some(date), Some(servingType), Some(amount), Some(units)) => {
-        val count = database.insertServing(Some(user), jodaDate(date + time).get, servingType, amount, units)
+        val count = database.insertServing(Some(user), insertDateParser(date + time).get, servingType, amount, units)
         if (count == 0) halt(400)
         val message: JValue = "Juotu " + servingType + " kello " + time + "."
         val json =  ("status" -> "ok") ~ ("message" -> message)
@@ -49,7 +50,7 @@ class BoozementServlet(protected val database: BoozementDatabase) extends Scalat
           case Some(s) => {
             if (s.userId != user.id) halt(401)
             val count = field match {
-              case "date" => database.updateServing(s.id.get, jodaDate(value).get, s.servingType, s.amount, s.units, user)
+              case "date" => database.updateServing(s.id.get, insertDateParser(value).get, s.servingType, s.amount, s.units, user)
               case "servingType" => database.updateServing(s.id.get, s.date, value, s.amount, s.units, user)
               case "amount" => database.updateServing(s.id.get, s.date, s.servingType, value.replace(" cl", "").toInt, s.units, user)
               case "units" => database.updateServing(s.id.get, s.date, s.servingType, s.amount, value.toDouble, user)
