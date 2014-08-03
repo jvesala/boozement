@@ -72,8 +72,8 @@ class BoozementDatabase {
   implicit val getServingsResults = GetResult(r => Serving(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
 
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withDynSession  {
-    val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZone(DateTimeZone.forID("Europe/Helsinki"))
-    val q = sql"select * from servings where userid = ${user.id.get} and date between ${formatter.print(start)} and ${formatter.print(end)} order by date desc".as[Serving]
+    val mysqlFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZone(DateTimeZone.forID("Europe/Helsinki"))
+    val q = sql"select * from servings where userid = ${user.id.get} and date between ${mysqlFormatter.print(start)} and ${mysqlFormatter.print(end)} order by date desc".as[Serving]
     q.list
   }
 
