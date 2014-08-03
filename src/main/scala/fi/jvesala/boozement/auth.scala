@@ -1,3 +1,5 @@
+package fi.jvesala.boozement
+
 import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import org.scalatra.auth.{ScentryConfig, ScentrySupport, ScentryStrategy}
 import org.scalatra._

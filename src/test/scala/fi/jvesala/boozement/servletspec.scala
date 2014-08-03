@@ -1,3 +1,6 @@
+package fi.jvesala.boozement
+
+
 import java.sql.{Date, Timestamp}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

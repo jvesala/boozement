@@ -1,3 +1,5 @@
+package fi.jvesala.boozement
+
 import org.joda.time.DateTime
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.BeforeAndAfterEach

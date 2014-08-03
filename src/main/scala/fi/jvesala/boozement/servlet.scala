@@ -1,3 +1,5 @@
+package fi.jvesala.boozement
+
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import java.net.URLDecoder
 import org.joda.time.{DateTimeZone, DateTime}

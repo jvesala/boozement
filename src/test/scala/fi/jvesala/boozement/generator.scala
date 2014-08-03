@@ -1,3 +1,5 @@
+package fi.jvesala.boozement
+
 import org.joda.time.{Duration, DateTime}
 import scala.util.Random
 

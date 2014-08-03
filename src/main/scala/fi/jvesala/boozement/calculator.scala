@@ -1,3 +1,5 @@
+package fi.jvesala.boozement
+
 import org.joda.time.{DateTimeZone, Duration, DateTime}
 import scala.math._
 import java.text.DecimalFormat
