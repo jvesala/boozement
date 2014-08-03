@@ -113,7 +113,7 @@ class BoozementDatabase {
 class Servings(tag: Tag) extends Table[Serving](tag, "servings") {
   def id = column[Option[Int]]("id", O.NotNull, O.PrimaryKey, O.AutoInc)
   def userId = column[Option[Int]]("userid")
-  def date = column[DateTime]("date", O.Default(DateTime.now(DateTimeZone.forID("Europe/Helsinki"))))
+  def date = column[DateTime]("date", O.Default(now))
   def servingType = column[String]("type")
   def amount = column[Int]("amount")
   def units = column[Double]("units")
