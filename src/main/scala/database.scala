@@ -6,6 +6,7 @@ import org.json4s.JsonDSL._
 import org.json4s.native.JsonMethods._
 import scala.slick.driver.MySQLDriver.simple._
 import scala.slick.direct.AnnotationMapper.column
+import scala.slick.jdbc.GetResult
 import scala.slick.lifted.{Query, SimpleFunction}
 import scala.slick.jdbc.JdbcBackend.Database.dynamicSession
 import scala.slick.jdbc.StaticQuery._
@@ -65,12 +66,15 @@ class BoozementDatabase {
     }
     q.sortBy(_.date.desc).list
   }
-  
+
+  implicit val getServingsResults = GetResult(r => Serving(r.<<, r.<<, r.<<, r.<<, r.<<, r.<<))
+
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withDynSession  {
-    val q = for {
-      s <- Servings if ((s.userId is user.id) && (s.date > start) && (s.date < end))
-    } yield s
-    q.sortBy(_.date.desc).list
+    val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+    println("start" + formatter.print(start))
+    println("end" + formatter.print(end))
+    val q = sql"select * from servings where userid = ${user.id.get} and date between ${formatter.print(start)} and ${formatter.print(end)} order by date desc".as[Serving]
+    q.list
   }
 
   def servingTypeSuggestions(prefix: String): List[String] = db withDynSession {
