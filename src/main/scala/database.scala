@@ -71,8 +71,6 @@ class BoozementDatabase {
 
   def servingsInterval(user: User, start: DateTime, end: DateTime): List[Serving] = db withDynSession  {
     val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZone(DateTimeZone.forID("Europe/Helsinki"))
-    println("start" + formatter.print(start))
-    println("end" + formatter.print(end))
     val q = sql"select * from servings where userid = ${user.id.get} and date between ${formatter.print(start)} and ${formatter.print(end)} order by date desc".as[Serving]
     q.list
   }
