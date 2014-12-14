@@ -3,26 +3,28 @@
     <div class="insert">
       <form class="insert-form" id="form-insert" method="post">
         <h4>Syötä juoman tiedot</h4>
-        <div class="datetime">
+        <div class="insert-row date">
           <div class="dateElement"><input type="hidden" name="date" id="date" class="startDate"/></div>
-          <label for="time" class="time">klo</label><input id="time" name="time" maxlength="5" tabindex="1" />
-          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>        
         </div>
-        <div class="type">
+        <div class="insert-row time">
+          <label for="time" class="time">klo</label>
+          <input id="time" name="time" maxlength="5" tabindex="1" />
+          <em class="error time-error hidden">Anna aika muodossa HHMM tai HH:MM.</em>
+        </div>
+        <div class="insert-row type">
           <label for="type">Mitä joit</label>
-          <input id="type" name="type" tabindex="2" /><div class="clear hidden" id="clear"></div>
-          <em class="error type-error hidden">Juo jotain</em>
+          <div class="inputholder">
+            <input id="type" name="type" tabindex="2" /><div class="clear hidden" id="clear"></div>
+            <ul class="type-suggestions-list hidden">
+            </ul>
+          </div>
         </div>
-        <div class="type-suggestions">
-          <ul class="type-suggestions-list hidden">
-          </ul>
-        </div>
-        <div class="amount">
+        <div class="insert-row amount">
           <label for="amount">Tilavuus</label>
           <input id="amount" name="amount" tabindex="3" /><em class="unit">cl</em>
           <em class="error amount-error hidden">Annoskoko on 1-100 cl.</em>
         </div>
-        <div class="units">
+        <div class="insert-row units">
           <label for="units">Annokset</label>
           <input id="units" name="units" tabindex="4" /><em class="unit">aa</em>
           <em class="error units-error hidden">Alkoholimäärä 0.1-5 yksikköä</em>
