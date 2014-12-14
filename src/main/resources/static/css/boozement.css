@@ -1,27 +1,18 @@
-header { margin-bottom: 0.5em; }
+heeader { margin-bottom: 0.5em; }
 .session { text-align: right; margin-bottom: 10px; }
 .session span { margin-right: 10px; }
 .session .button { font-size: 0.8em; padding: 0.4em; width: 120px; }
 
 .button { text-align: left; width: 200px; border: 0; font-size: 1em; padding: 0.8em !important; }
 .button[disabled] { background-color: #c9c9c9; }
-.button.fa:before {position: absolute; right: 0.15em; top: 50%; margin-top: -0.5em;}
+.button.fa:before {position: absolute; right: 0.75em; top: 50%; margin-top: -0.5em;}
 
 .hidden { display: none; }
 .busy { background: url("../img/ajax_indicator.gif") no-repeat scroll 0 0 transparent; width: 16px; height: 16px; }
 .clear { background: url("../img/close.gif") no-repeat scroll 0 0 transparent; width: 14px; height: 14px; clear: none; cursor:pointer; }
 
-#page-content input {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6', endColorstr='white'); /* for IE */
-  background: -webkit-gradient(linear, center top, center bottom, from(#E6E6E6), to(white)); /* for webkit browsers */
-  background: -moz-linear-gradient(top, #E6E6E6,  white); /* for firefox 3.6+ */
-  border: 1px solid #c9c9c9;
-  padding: 0;
-  height: 20px;
-}
-
-#result { display: none; background: green; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
-#error { display: none; background: red; color: white; float: left; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+#result { display: none; background: green; color: white; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; font-size: 0.9em; }
+#error { display: none; background: red; color: white; -moz-border-radius: 3px; border-radius: 3px; padding: 3px; margin: 10px 0 10px 0; font-size: 0.9em; }
 .error { color: red; font-size: 0.8em; }
 .invalid { border: 1px solid red; }
 
@@ -45,13 +36,9 @@ header { margin-bottom: 0.5em; }
 .servingstable .servingType input { width: 290px; }
 .servingstable .highlight { background: #81F781; -moz-border-radius: 3px; border-radius: 3px; }
 
-#tab-login { margin: 10px 0 0 10px; }
-#tab-login-content h3 { float: left; clear: both; margin: 5px; }
-#tab-login-content label { float: left; clear: left; margin-left: 5px; width: 100px; margin-top: 5px;}
-#tab-login-content input { float: left; clear: right;  width: 150px; margin-top: 5px; }
-#tab-login-content button { float: left; clear: left; margin-top: 10px; }
-#tab-login-content .busy { float: left; margin-top: 15px; margin-left: 5px; }
-#tab-login-content #error { margin-top: 5px; }
+#tab-login-content input { margin: 10px 0 10px 0; }
+#tab-login-content #registration { clear: left; display: block; margin-top:10px; }
+#tab-login-content .busy { margin-top: 12px; margin-left: 5px; }
 
 #tab-welcome { padding: 5px 5px 5px 5px; margin: 10px 0 0 10px; }
 

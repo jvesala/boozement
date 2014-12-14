@@ -55,7 +55,7 @@ function loadTab(name) {
   return loader
 }
 
-function showBusy() { $('.busy').show() }
+function showBusy() { $('.busy').css('display', 'inline-block') }
 function hideBusy() { $('.busy').hide() }
 function enableSubmitButton() { $('#submit').removeAttr("disabled") }
 function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
