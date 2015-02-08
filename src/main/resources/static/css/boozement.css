@@ -1,3 +1,5 @@
+#content { overflow: auto; border: none; padding: 0; margin: 0;}
+
 .session { text-align: left; margin-bottom: 10px; }
 .session .button { font-size: 0.8em; padding: 0.4em; width: 120px; }
 
@@ -78,7 +80,8 @@
 .userdata span { float: left; }
 .userdata em { float: left; }
 .userdata input { float: left; clear: right;  width: 100px; margin-top: 5px; }
-.userdata #weight { width: 25px;}
+.userdata #weight { width: 35px; text-align: right; }
+.userdata .weightTitle { padding-top: 7px;  padding-left: 5px; display: inline-block; }
 .userdata .button { float: left; clear: left; }
 .userdata .busy { float: left; margin-top: 7px; margin-left: 3px; }
 .userdata #error { float:left; clear:left; }
