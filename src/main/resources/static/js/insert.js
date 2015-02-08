@@ -22,11 +22,13 @@ function fetchSuggestions(term) {
 }
 
 function updateSuggestions(result) {
-  var ul = $(".insert-form .type-suggestions-list")
-  if (result.data.suggestions.length == 0) { ul.html("").hide() } else { ul.html("").show() }
-  _.each(result.data.suggestions, function(item) {
-    ul.append($("<li>").text(item))
-  })
+  if ($('#type').is(":focus")) {
+    var ul = $(".insert-form .type-suggestions-list")
+    if (result.data.suggestions.length == 0) { ul.html("").hide() } else { ul.html("").show() }
+    _.each(result.data.suggestions, function(item) {
+      ul.append($("<li>").text(item))
+    })
+  }
 }
 function handleSuggestionsError() { hideSuggestionsBox() }
 function suggestionText(event) { return event.target.textContent }

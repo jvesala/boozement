@@ -24,7 +24,6 @@ $(function() {
 
   var type = $('#type').changes()
   var typeValidation = mkValidation(type, requiredValidator())
-  typeValidation.subscribe(toggleEffect($('.type-error')))
   typeValidation.subscribe(toggleClassEffect($('#type'), 'invalid'))
 
   var amount = $('#amount').changes()

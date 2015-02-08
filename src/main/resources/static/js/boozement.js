@@ -5,7 +5,7 @@ function handleUnauthorized(sourceObservable) { sourceObservable.subscribe(skip,
 function openLoginIfNotAuthenticated(error) { if(error.jqXHR.status == "401") { loadLogin() } }
 
 function loadLogin() { loadTab("login") }
-function showLoggedIn(email) { $('.session span').html(email); $('.session.valid').removeClass('hidden') }
+function showLoggedIn(email) { $('.session .loggedin').html(email); $('.session.valid').removeClass('hidden') }
 function showLoggedOut() { $('.session.valid').addClass('hidden') }
 function showLoggedError() { $('.session.valid').html("Virhe. Lataa sivu uudestaan...").show() }
 function logOut() {
@@ -55,7 +55,7 @@ function loadTab(name) {
   return loader
 }
 
-function showBusy() { $('.busy').show() }
+function showBusy() { $('.busy').css('display', 'inline-block') }
 function hideBusy() { $('.busy').hide() }
 function enableSubmitButton() { $('#submit').removeAttr("disabled") }
 function disableSubmitButton() { $('#submit').attr("disabled", "disabled") }
