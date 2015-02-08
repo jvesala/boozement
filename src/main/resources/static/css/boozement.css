@@ -22,11 +22,11 @@
 .servingstable th { font-weight: bold; text-align: left; }
 .servingstable th:first-child { padding-left: 5px; }
 .servingstable td:first-child { padding-left: 5px; }
-.servingstable th:last-child { padding-right: 5px; }
-.servingstable td:last-child { padding-right: 5px; }
+.servingstable th:last-child { padding-right: 5px; text-align: right; }
+.servingstable td:last-child { padding-right: 5px; text-align: right; }
 .servingstable .date { width: 150px; }
 .servingstable .date input { width: 140px; }
-.servingstable .amount { width: 75px; }
+.servingstable .amount { width: 75px; min-width: 25px; }
 .servingstable .amount input { width: 65px; }
 .servingstable .units { width: 73px; overflow: hidden; }
 .servingstable .units input { width: 40px; }
@@ -61,48 +61,18 @@
 .insert-form  .unit { margin-left: 5px; }
 
 
-/*
-.insert-form input { float: left; clear: left; }
-.insert-form em { float: left; margin-left: 5px; }
-.insert-form label { float: left; }
-.insert-form a.calendarIcon { height: 21px; width: 25px !important; }
-.insert-form .dateElement { float: left; margin: 5px; width: 125px; display: inline-block; }
-.insert-form .insert { min-height: 100px; overflow: auto; }
-.insert-form .datetime { float: left; margin-top: 10px; }
-.insert-form label[for="time"] { width: 20px; margin: 7px 0 0 3px; }
-.insert-form #time { width: 40px; margin: 7px 0 0 3px; float: none; }
-.insert-form .type { position: relative; float: left; clear: left; min-height: 50px; }
-.insert-form .amount { float: left; clear: left; }
-.insert-form .units { float: left; clear: left; }
-.insert-form  #date { width: 120px; }
-.insert-form  #type { width: 150px; }
-.insert-form .type .clear { position: absolute; top: 28px; left: 135px; }
-.insert-form .type-suggestions { position: relative; clear: left; float: left; }
-.insert-form .type-suggestions-list { position: absolute; z-index: 10; width: 200px; height: 100px; overflow-x: scroll; background-color: white; opacity: 0.95; border: 1px solid black; }
-.insert-form .type-suggestions-list li { clear: left; float: left; cursor: pointer; }
-.insert-form .type-suggestions-list li:hover { background-color: #c9c9c9; border-radius: 3px; }
-.insert-form  #amount { width: 40px; }
-.insert-form  #units { width: 40px; }
-.insert-form  .unit { float: left; }
-.insert-form .button { float: left; clear: left; margin-top: 10px; }
-.insert-form .busy { float: left; }
-.insert-form #result { float: left; clear: left; margin-top: 10px; }
-.insert-form #error { float: left; clear: left; margin-top: 10px; }
-*/
-
-
 .active .interval { float: left; clear: both; overflow: auto; display: block;  }
 .active .bac { font-weight: bold; }
 .active .bac-units { font-weight: bold; }
 
 #tab-history { position: relative; }
-#tab-history #search { position: absolute; top: 0; left: 10px; width: 100px; }
-#tab-history .clear { position: absolute; top: 5px; left: 115px; }
+#tab-history #search { position: absolute; top: 8px; left: 10px; width: 100px; }
+#tab-history .clear { position: absolute; top: 14px; left: 115px; }
 #tab-history .busy { position: absolute; top: 4px; left: 140px; }
 #tab-history #summary { position: absolute; left: 140px; }
 #tab-history #result { position: absolute; left: 350px; }
 #tab-history #error { position: absolute; left: 350px; }
-#tab-history table { margin-top: 30px; float: left; clear: left; }
+#tab-history table { margin-top: 50px; float: left; clear: left; }
 
 .userdata label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
 .userdata span { float: left; }
