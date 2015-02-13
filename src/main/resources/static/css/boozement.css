@@ -75,7 +75,7 @@
 #tab-history #summary { position: absolute; left: 140px; }
 #tab-history #result { position: absolute; left: 350px; }
 #tab-history #error { position: absolute; left: 350px; }
-#tab-history table { margin-top: 50px; float: left; clear: left; }
+#tab-history table { margin-top: 70px; float: left; clear: left; }
 
 .userdata label { float: left; clear: left; margin-left: 5px; width: 150px; margin-top: 5px;}
 .userdata span { float: left; }
