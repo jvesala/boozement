@@ -16,6 +16,7 @@
 .error { color: red; font-size: 0.8em; }
 .invalid { border: 1px solid red; }
 
+.servingstable { width: auto; }
 .servingstable thead { border: 1px solid black; display: block; }
 .servingstable tbody { max-height: 250px; border: 1px solid black; overflow-y: scroll; overflow-x: hidden; display: block; }
 .servingstable tbody tr:nth-child(even) { background: #E6E6E6; }
