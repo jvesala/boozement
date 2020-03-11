@@ -17,13 +17,16 @@
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --parser typescript --config package.json --write '**/*.ts*'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +48,17 @@
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1"
   },
-  "prettier": {}
+  "prettier": {
+    "tabWidth": 4,
+    "singleQuote": true,
+    "endOfLine": "lf",
+    "overrides": [
+      {
+        "files": "*.json",
+        "options": {
+          "tabWidth": 4
+        }
+      }
+    ]
+  }
 }

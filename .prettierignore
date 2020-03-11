@@ -1,0 +1,8 @@
+coverage;
+generated;
+node_modules.nyc_output;
+reports;
+package_lock;
+dist;
+db;
+scala;
