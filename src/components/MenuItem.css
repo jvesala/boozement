@@ -1,0 +1,10 @@
+.MenuItem {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  justify-items: center;
+  align-items: center;
+}
+.MenuItem a {
+  text-decoration: none;
+}

@@ -1,3 +1,4 @@
-.Menu {
-  text-align: center;
+.Menu-header > nav {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
 }
