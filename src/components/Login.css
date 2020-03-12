@@ -1,0 +1,13 @@
+.Login {
+  background-color: white;
+}
+
+.Login > Form {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.Login input {
+  width: 200px;
+}
