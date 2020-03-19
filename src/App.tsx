@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Menu } from './components/Menu';
-import { Login } from './components/Login';
+import { Login } from './features/login/Login';
 
 export const App = () => {
     return (
