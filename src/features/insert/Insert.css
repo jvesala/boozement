@@ -1,0 +1,13 @@
+.Insert {
+  background-color: white;
+}
+
+.Insert > Form {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.Insert input {
+  width: 200px;
+}

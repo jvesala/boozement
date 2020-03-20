@@ -12,7 +12,14 @@ export const Login = () => {
 
     return (
         <div className="Login">
-            <form action="api/login" method="post" className="Form" onSubmit={e => { e.preventDefault() }}>
+            <form
+                action="api/login"
+                method="post"
+                className="Form"
+                onSubmit={e => {
+                    e.preventDefault();
+                }}
+            >
                 <div className="Logout-message">Olet kirjautunut ulos.</div>
                 <h3>Kirjaudu sisään</h3>
                 <label htmlFor="email">Sähköpostiosoite</label>
@@ -29,8 +36,8 @@ export const Login = () => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <div id="result"></div>
-                <div id="error"></div>
+                <div id="result" />
+                <div id="error" />
                 <button
                     className="button"
                     type="submit"
@@ -39,7 +46,7 @@ export const Login = () => {
                 >
                     Kirjaudu
                 </button>
-                <div className="busy hidden"></div>
+                <div className="busy hidden" />
             </form>
         </div>
     );

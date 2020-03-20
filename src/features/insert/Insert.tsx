@@ -1,0 +1,84 @@
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectType, updateType } from './insertSlice';
+
+import './Insert.css';
+
+export const Insert = () => {
+    const dispatch = useDispatch();
+
+    const type = useSelector(selectType);
+
+    return (
+        <div className="Insert">
+            <form
+                className="insert-form"
+                id="form-insert"
+                method="post"
+                onSubmit={e => {
+                    e.preventDefault();
+                }}
+            >
+                <h4>Syötä juoman tiedot</h4>
+                <div className="insert-row date">
+                    <div className="dateElement">
+                        <input
+                            type="hidden"
+                            name="date"
+                            id="date"
+                            className="startDate"
+                        />
+                    </div>
+                </div>
+                <div className="insert-row time">
+                    <label htmlFor="time" className="time">
+                        klo
+                    </label>
+                    <input id="time" name="time" />
+                    <em className="error time-error hidden">
+                        Anna aika muodossa HHMM tai HH:MM.
+                    </em>
+                </div>
+                <div className="insert-row type">
+                    <label htmlFor="type">Mitä joit</label>
+                    <div className="inputholder">
+                        <input
+                            id="type"
+                            name="type"
+                            value={type}
+                            onChange={e => dispatch(updateType(e.target.value))}
+                        />
+                        <div className="clear hidden" id="clear" />
+                        <ul className="type-suggestions-list hidden" />
+                    </div>
+                </div>
+                <div className="insert-row amount">
+                    <label htmlFor="amount">Tilavuus</label>
+                    <input id="amount" name="amount" />
+                    <em className="unit">cl</em>
+                    <em className="error amount-error hidden">
+                        Annoskoko on 1-100 cl.
+                    </em>
+                </div>
+                <div className="insert-row units">
+                    <label htmlFor="units">Annokset</label>
+                    <input id="units" name="units" />
+                    <em className="unit">aa</em>
+                    <em className="error units-error hidden">
+                        Alkoholimäärä 0.1-5 yksikköä
+                    </em>
+                </div>
+                <button
+                    className="button fa fa-arrow-circle-right"
+                    type="submit"
+                    id="submit"
+                >
+                    Lisää annos
+                </button>
+                <div className="busy hidden" />
+                <div id="result" />
+                <div id="error" />
+            </form>
+        </div>
+    );
+};
