@@ -12,7 +12,7 @@ export const Login = () => {
 
     return (
         <div className="Login">
-            <form action="api/login" method="post" className="Form">
+            <form action="api/login" method="post" className="Form" onSubmit={e => { e.preventDefault() }}>
                 <div className="Logout-message">Olet kirjautunut ulos.</div>
                 <h3>Kirjaudu sisään</h3>
                 <label htmlFor="email">Sähköpostiosoite</label>
