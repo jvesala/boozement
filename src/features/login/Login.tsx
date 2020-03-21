@@ -3,8 +3,11 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from './loginSlice';
 
 import './Login.css';
+import { i18n, Language } from '../../app/localization';
 
 export const Login = () => {
+    const language: Language = 'fi';
+
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
@@ -13,23 +16,25 @@ export const Login = () => {
     return (
         <div className="Login">
             <form
-                action="api/login"
                 method="post"
-                className="Form"
                 onSubmit={e => {
                     e.preventDefault();
                 }}
             >
-                <div className="Logout-message">Olet kirjautunut ulos.</div>
-                <h3>Kirjaudu sisään</h3>
-                <label htmlFor="email">Sähköpostiosoite</label>
+                <div className="Logout-message">
+                    {i18n[language].loginForm.logoutMessage}
+                </div>
+                <h3>{i18n[language].loginForm.title}</h3>
+                <label htmlFor="email">{i18n[language].loginForm.email}</label>
                 <input
                     type="email"
                     name="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
-                <label htmlFor="password">Salasana</label>
+                <label htmlFor="password">
+                    {i18n[language].loginForm.password}
+                </label>
                 <input
                     type="password"
                     name="password"
@@ -44,7 +49,7 @@ export const Login = () => {
                     id="submit"
                     onClick={() => dispatch(loginUser(email + ':' + password))}
                 >
-                    Kirjaudu
+                    {i18n[language].loginForm.button}
                 </button>
                 <div className="busy hidden" />
             </form>
