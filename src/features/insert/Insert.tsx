@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectType, updateType } from './insertSlice';
+import { selectDate, selectType, updateDate, updateType } from './insertSlice';
 
 import './Insert.css';
 
 export const Insert = () => {
     const dispatch = useDispatch();
 
+    const date = useSelector(selectDate);
     const type = useSelector(selectType);
 
     return (
@@ -23,9 +24,10 @@ export const Insert = () => {
                 <div className="insert-row date">
                     <div className="dateElement">
                         <input
-                            type="hidden"
+                            type="date"
                             name="date"
-                            id="date"
+                            value={date}
+                            onChange={e => dispatch(updateDate(e.target.value))}
                             className="startDate"
                         />
                     </div>
@@ -34,7 +36,7 @@ export const Insert = () => {
                     <label htmlFor="time" className="time">
                         klo
                     </label>
-                    <input id="time" name="time" />
+                    <input type="time" name="time" />
                     <em className="error time-error hidden">
                         Anna aika muodossa HHMM tai HH:MM.
                     </em>
@@ -43,7 +45,6 @@ export const Insert = () => {
                     <label htmlFor="type">Mitä joit</label>
                     <div className="inputholder">
                         <input
-                            id="type"
                             name="type"
                             value={type}
                             onChange={e => dispatch(updateType(e.target.value))}
@@ -54,7 +55,7 @@ export const Insert = () => {
                 </div>
                 <div className="insert-row amount">
                     <label htmlFor="amount">Tilavuus</label>
-                    <input id="amount" name="amount" />
+                    <input type="number" name="amount" />
                     <em className="unit">cl</em>
                     <em className="error amount-error hidden">
                         Annoskoko on 1-100 cl.
@@ -62,7 +63,7 @@ export const Insert = () => {
                 </div>
                 <div className="insert-row units">
                     <label htmlFor="units">Annokset</label>
-                    <input id="units" name="units" />
+                    <input type="number" name="units" />
                     <em className="unit">aa</em>
                     <em className="error units-error hidden">
                         Alkoholimäärä 0.1-5 yksikköä
