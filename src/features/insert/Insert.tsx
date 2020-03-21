@@ -1,6 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDate, selectType, updateDate, updateType } from './insertSlice';
+import {
+    selectDate,
+    selectTime,
+    selectType,
+    updateDate,
+    updateTime,
+    updateType
+} from './insertSlice';
 
 import './Insert.css';
 
@@ -8,13 +15,12 @@ export const Insert = () => {
     const dispatch = useDispatch();
 
     const date = useSelector(selectDate);
+    const time = useSelector(selectTime);
     const type = useSelector(selectType);
 
     return (
         <div className="Insert">
             <form
-                className="insert-form"
-                id="form-insert"
                 method="post"
                 onSubmit={e => {
                     e.preventDefault();
@@ -28,7 +34,6 @@ export const Insert = () => {
                             name="date"
                             value={date}
                             onChange={e => dispatch(updateDate(e.target.value))}
-                            className="startDate"
                         />
                     </div>
                 </div>
@@ -36,10 +41,12 @@ export const Insert = () => {
                     <label htmlFor="time" className="time">
                         klo
                     </label>
-                    <input type="time" name="time" />
-                    <em className="error time-error hidden">
-                        Anna aika muodossa HHMM tai HH:MM.
-                    </em>
+                    <input
+                        type="time"
+                        name="time"
+                        value={time}
+                        onChange={e => dispatch(updateTime(e.target.value))}
+                    />
                 </div>
                 <div className="insert-row type">
                     <label htmlFor="type">Mitä joit</label>
