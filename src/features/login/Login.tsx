@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, selectLanguage } from './loginSlice';
+import { loginUser, selectLanguage, selectShowLoggedOut } from './loginSlice';
 
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
 
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
+    const showLoggedOut: Language = useSelector(selectShowLoggedOut);
 
     const dispatch = useDispatch();
 
@@ -21,9 +22,10 @@ export const Login = () => {
                     e.preventDefault();
                 }}
             >
-                <div className="Logout-message">
-                    {i18n[language].loginForm.logoutMessage}
-                </div>
+                { showLoggedOut ?
+                    ( <div className="Logout-message"> {i18n[language].loginForm.logoutMessage}</div> ): ('')
+                }
+
                 <h3>{i18n[language].loginForm.title}</h3>
                 <label htmlFor="email">{i18n[language].loginForm.email}</label>
                 <input
