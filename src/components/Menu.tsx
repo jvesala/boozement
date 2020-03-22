@@ -12,10 +12,10 @@ export const Menu = () => {
     return (
         <div className="Menu">
             <header className="Menu-header">
-                <nav id="nav">
-                    <div className="logo">
-                        <h1>{i18n[language].menu.title}</h1>
-                    </div>
+                <div className="logo">
+                    <h1>{i18n[language].menu.title}</h1>
+                </div>
+                <nav>
                     {user ? (
                         <MenuItem
                             href={'insert'}
