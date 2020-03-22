@@ -5,3 +5,19 @@
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
 }
+
+.Menu-header .logo {
+  overflow: hidden;
+}
+
+.Menu-header .logo  h1 {
+  background: #ff4486;
+  color: #fff;
+  border-radius: 6px;
+  font-family: 'Oleo Script', serif;
+  font-weight: 800;
+  font-size: 200%;
+  font-style: italic;
+  margin-left: 10%;
+  margin-right: 10%;
+}
