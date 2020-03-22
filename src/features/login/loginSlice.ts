@@ -20,7 +20,10 @@ export const slice = createSlice({
 
 export const { loginUser } = slice.actions;
 
-export  const doPostRequest = async (url: string, payload: { password: string; email: string }) => {
+export const doPostRequest = async (
+    url: string,
+    payload: { password: string; email: string }
+) => {
     const contentType = 'application/json;charset=utf-8';
     const response = await superagent
         .post(url)
@@ -30,9 +33,12 @@ export  const doPostRequest = async (url: string, payload: { password: string; e
     return response.body;
 };
 
-export const loginUserAsync = (email: string, password: string) => async (dispatch: any) => {
+export const loginUserAsync = (email: string, password: string) => async (
+    dispatch: any
+) => {
     const payload = {
-        email, password
+        email,
+        password
     };
     const url = '/login';
     const body = await doPostRequest(url, payload);
@@ -45,7 +51,6 @@ export const loginUserAsync = (email: string, password: string) => async (dispat
 //    }, 1000);
 //};
 //
-
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

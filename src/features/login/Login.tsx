@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserAsync, selectLanguage, selectShowLoggedOut } from './loginSlice';
+import {
+    loginUserAsync,
+    selectLanguage,
+    selectShowLoggedOut
+} from './loginSlice';
 
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
