@@ -27,6 +27,15 @@ export const en = {
         unitsError: 'Units size must be between 0.1-5 units.',
         unitsType: 'au',
         button: 'Add serving'
+    },
+    active: {
+        inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
+        statistics: (units: string, bac: string) =>
+            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`,
+        time: 'Time',
+        servingName: 'Serving',
+        amount: 'Amount',
+        units: 'Units'
     }
 };
 
@@ -56,6 +65,15 @@ export const fi: Localisation = {
         unitsError: 'Alkoholimäärä 0.1-5 yksikköä.',
         unitsType: 'aa',
         button: 'Lisää annos'
+    },
+    active: {
+        inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
+        statistics: (units: string, bac: string) =>
+            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`,
+        time: 'Kellonaika',
+        servingName: 'Mitä joit',
+        amount: 'Tilavuus',
+        units: 'Annokset'
     }
 };
 

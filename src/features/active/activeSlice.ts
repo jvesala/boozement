@@ -3,17 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 export const slice = createSlice({
     name: 'active',
     initialState: {
-        type: ''
+        activeUnits: '',
+        activeBac: ''
     },
     reducers: {
-        updateType: (state, action) => {
-            state.type = action.payload;
+        updateActiveUnits: (state, action) => {
+            state.activeUnits = action.payload;
+        },
+        updateActiveBac: (state, action) => {
+            state.activeBac = action.payload;
         }
     }
 });
 
-export const { updateType } = slice.actions;
+export const { updateActiveUnits, updateActiveBac } = slice.actions;
 
-export const selectType = (state: any) => state.insert.type;
+export const selectActiveUnits = (state: any) => state.active.activeUnits;
+export const selectActiveBac = (state: any) => state.active.activeBac;
 
 export default slice.reducer;
