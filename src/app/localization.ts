@@ -2,6 +2,13 @@ export type Language = 'en' | 'fi';
 export type Localisation = typeof en;
 
 export const en = {
+    menu: {
+        title: 'Boozement',
+        insert: 'Insert',
+        active: 'Now',
+        history: 'History',
+        userdata: 'Userdata'
+    },
     loginForm: {
         logoutMessage: 'You have logged out.',
         title: 'Login',
@@ -24,6 +31,13 @@ export const en = {
 };
 
 export const fi: Localisation = {
+    menu: {
+        title: 'Boozement',
+        insert: 'Syötä',
+        active: 'Nyt juonut',
+        history: 'Historia',
+        userdata: 'Omat tiedot'
+    },
     loginForm: {
         logoutMessage: 'Olet kirjautunut ulos.',
         title: 'Kirjaudu sisään',
