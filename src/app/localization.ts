@@ -44,6 +44,18 @@ export const en = {
         servingName: 'Serving',
         amount: 'Amount',
         units: 'Units'
+    },
+    userdata: {
+        email: 'Email',
+        gender: 'Gender',
+        weight: 'Weight',
+        weightTitle: 'kg',
+        weightError: 'Weight must be in kilograms.',
+        password: 'Salasana',
+        passwordRetry: 'Salasana uudelleen',
+        passwordError: 'Salasana on pakollinen.',
+        passwordErrorMismatch: 'Salasana on pakollinen.',
+        button: 'Salasana on pakollinen.'
     }
 };
 
@@ -90,6 +102,18 @@ export const fi: Localisation = {
         servingName: 'Mitä joit',
         amount: 'Tilavuus',
         units: 'Annokset'
+    },
+    userdata: {
+        email: 'Sähköpostiosoite',
+        gender: 'Sukupuoli',
+        weight: 'Paino',
+        weightTitle: 'kg',
+        weightError: 'Anna paino kiloissa.',
+        password: 'Salasana',
+        passwordRetry: 'Salasana uudelleen',
+        passwordError: 'Salasana on pakollinen.',
+        passwordErrorMismatch: 'Salasana on pakollinen.',
+        button: 'Salasana on pakollinen.'
     }
 };
 
