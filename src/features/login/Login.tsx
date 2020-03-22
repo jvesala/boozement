@@ -17,6 +17,12 @@ export const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showBusy, setShowBusy] = useState(false);
+
+    const doLogin = () => {
+        setShowBusy(true);
+        dispatch(loginUserAsync(email, password));
+    };
 
     return (
         <div className="Login">
@@ -54,12 +60,16 @@ export const Login = () => {
                 <button
                     className="button"
                     type="submit"
-                    onClick={() => dispatch(loginUserAsync(email, password))}
+                    onClick={doLogin}
                 >
                     {i18n[language].loginForm.button}
                 </button>
+                {showBusy ? (
+                    <img alt="busy" src="/ajax_indicator.gif" />
+                ) : (
+                    ''
+                )}
                 <div className="error" />
-                <div className="busy hidden" />
             </form>
         </div>
     );
