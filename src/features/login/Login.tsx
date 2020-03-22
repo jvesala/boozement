@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, selectLanguage, selectShowLoggedOut } from './loginSlice';
+import { loginUserAsync, selectLanguage, selectShowLoggedOut } from './loginSlice';
 
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
@@ -22,9 +22,13 @@ export const Login = () => {
                     e.preventDefault();
                 }}
             >
-                { showLoggedOut ?
-                    ( <div className="Logout-message"> {i18n[language].loginForm.logoutMessage}</div> ): ('')
-                }
+                {showLoggedOut ? (
+                    <div className="Logout-message">
+                        {i18n[language].loginForm.logoutMessage}
+                    </div>
+                ) : (
+                    ''
+                )}
 
                 <h3>{i18n[language].loginForm.title}</h3>
                 <label htmlFor="email">{i18n[language].loginForm.email}</label>
@@ -43,15 +47,14 @@ export const Login = () => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <div id="result" />
-                <div id="error" />
                 <button
                     className="button"
                     type="submit"
-                    onClick={() => dispatch(loginUser(email + ':' + password))}
+                    onClick={() => dispatch(loginUserAsync(email, password))}
                 >
                     {i18n[language].loginForm.button}
                 </button>
+                <div className="error" />
                 <div className="busy hidden" />
             </form>
         </div>
