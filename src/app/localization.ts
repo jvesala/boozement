@@ -36,6 +36,14 @@ export const en = {
         servingName: 'Serving',
         amount: 'Amount',
         units: 'Units'
+    },
+    history: {
+        hits: 'hits',
+        hitUnits: 'units',
+        date: 'Date',
+        servingName: 'Serving',
+        amount: 'Amount',
+        units: 'Units'
     }
 };
 
@@ -71,6 +79,14 @@ export const fi: Localisation = {
         statistics: (units: string, bac: string) =>
             `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`,
         time: 'Kellonaika',
+        servingName: 'Mitä joit',
+        amount: 'Tilavuus',
+        units: 'Annokset'
+    },
+    history: {
+        hits: 'osumaa',
+        hitUnits: 'annosta',
+        date: 'Päivämäärä',
         servingName: 'Mitä joit',
         amount: 'Tilavuus',
         units: 'Annokset'

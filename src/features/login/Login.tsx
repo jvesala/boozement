@@ -46,7 +46,6 @@ export const Login = () => {
                 <button
                     className="button"
                     type="submit"
-                    id="submit"
                     onClick={() => dispatch(loginUser(email + ':' + password))}
                 >
                     {i18n[language].loginForm.button}
