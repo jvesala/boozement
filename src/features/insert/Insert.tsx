@@ -10,8 +10,12 @@ import {
 } from './insertSlice';
 
 import './Insert.css';
+import { i18n, Language } from '../../app/localization';
+import { selectLanguage } from '../login/loginSlice';
 
 export const Insert = () => {
+    const language: Language = useSelector(selectLanguage);
+
     const dispatch = useDispatch();
 
     const date = useSelector(selectDate);
@@ -26,9 +30,9 @@ export const Insert = () => {
                     e.preventDefault();
                 }}
             >
-                <h4>Syötä juoman tiedot</h4>
-                <div className="insert-row date">
-                    <div className="dateElement">
+                <h4>{i18n[language].insertForm.title}</h4>
+                <div>
+                    <div>
                         <input
                             type="date"
                             name="date"
@@ -37,9 +41,9 @@ export const Insert = () => {
                         />
                     </div>
                 </div>
-                <div className="insert-row time">
-                    <label htmlFor="time" className="time">
-                        klo
+                <div>
+                    <label htmlFor="time">
+                        {i18n[language].insertForm.timeLabel}
                     </label>
                     <input
                         type="time"
@@ -48,41 +52,45 @@ export const Insert = () => {
                         onChange={e => dispatch(updateTime(e.target.value))}
                     />
                 </div>
-                <div className="insert-row type">
-                    <label htmlFor="type">Mitä joit</label>
-                    <div className="inputholder">
+                <div>
+                    <label htmlFor="type">
+                        {i18n[language].insertForm.serving}
+                    </label>
+                    <div>
                         <input
                             name="type"
                             value={type}
                             onChange={e => dispatch(updateType(e.target.value))}
                         />
-                        <div className="clear hidden" id="clear" />
+                        <div className="clear hidden" />
                         <ul className="type-suggestions-list hidden" />
                     </div>
                 </div>
-                <div className="insert-row amount">
-                    <label htmlFor="amount">Tilavuus</label>
+                <div>
+                    <label htmlFor="amount">
+                        {i18n[language].insertForm.amount}
+                    </label>
                     <input type="number" name="amount" />
-                    <em className="unit">cl</em>
+                    <em className="unit">
+                        {i18n[language].insertForm.amountType}
+                    </em>
                     <em className="error amount-error hidden">
-                        Annoskoko on 1-100 cl.
+                        {i18n[language].insertForm.amountError}
                     </em>
                 </div>
-                <div className="insert-row units">
-                    <label htmlFor="units">Annokset</label>
+                <div>
+                    <label htmlFor="units">
+                        {i18n[language].insertForm.units}
+                    </label>
                     <input type="number" name="units" />
-                    <em className="unit">aa</em>
+                    <em className="unit">
+                        {i18n[language].insertForm.unitsType}
+                    </em>
                     <em className="error units-error hidden">
-                        Alkoholimäärä 0.1-5 yksikköä
+                        {i18n[language].insertForm.unitsError}
                     </em>
                 </div>
-                <button
-                    className="button fa fa-arrow-circle-right"
-                    type="submit"
-                    id="submit"
-                >
-                    Lisää annos
-                </button>
+                <button type="submit">Lisää annos</button>
                 <div className="busy hidden" />
                 <div id="result" />
                 <div id="error" />

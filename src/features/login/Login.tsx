@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { loginUser } from './loginSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, selectLanguage } from './loginSlice';
 
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
 
 export const Login = () => {
-    const language: Language = 'fi';
+    const language: Language = useSelector(selectLanguage);
 
     const dispatch = useDispatch();
 
