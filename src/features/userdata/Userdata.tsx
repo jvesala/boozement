@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './History.css';
+import './Userdata.css';
 import { i18n, Language } from '../../app/localization';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';

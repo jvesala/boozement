@@ -5,6 +5,7 @@ import { App } from './App';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 store.subscribe(() => {
     console.log('STATE', store.getState());
@@ -12,7 +13,9 @@ store.subscribe(() => {
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router>
+            <App />
+        </Router>
     </Provider>,
     document.getElementById('root')
 );

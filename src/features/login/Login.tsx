@@ -57,18 +57,10 @@ export const Login = () => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <button
-                    className="button"
-                    type="submit"
-                    onClick={doLogin}
-                >
+                <button className="button" type="submit" onClick={doLogin}>
                     {i18n[language].loginForm.button}
                 </button>
-                {showBusy ? (
-                    <img alt="busy" src="/ajax_indicator.gif" />
-                ) : (
-                    ''
-                )}
+                {showBusy ? <img alt="busy" src="/ajax_indicator.gif" /> : ''}
                 <div className="error" />
             </form>
         </div>

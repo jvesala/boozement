@@ -19,3 +19,8 @@
 .MenuItem a:visited {
   color: white;
 }
+
+.MenuItem a.active {
+  color: white;
+  font-weight: 800;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import './MenuItem.css';
+import { NavLink } from 'react-router-dom';
 
 interface MenuItemProps {
     href: string;
@@ -9,7 +10,7 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({ href, title }) => {
     return (
         <div className="MenuItem">
-            <a href={href}>{title}</a>
+            <NavLink to={href}>{title}</NavLink>
         </div>
     );
 };
