@@ -20,10 +20,7 @@ export const slice = createSlice({
 
 export const { loginUser } = slice.actions;
 
-export const doPostRequest = async (
-    url: string,
-    payload: { password: string; email: string }
-) => {
+export const doPostRequest = async (url: string, payload: any) => {
     const contentType = 'application/json;charset=utf-8';
     const response = await superagent
         .post(url)
