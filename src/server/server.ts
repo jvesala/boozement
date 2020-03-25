@@ -44,18 +44,19 @@ app.post(
 
 app.post('/login', function(req: any, res: any, next: any) {
     passport.authenticate('local', function(err, user, info) {
-        console.log('authenticate callback');
         if (err) {
-            return res.send({ status: 'err', message: err.message });
+            return res.status(500).send({ message: err.message });
         }
         if (!user) {
-            return res.send({ status: 'fail', message: info.message });
+            return res.status(500).send({ message: info.message });
         }
         req.logIn(user, function(err: any) {
             if (err) {
-                return res.send({ status: 'err', message: err.message });
+                return res
+                    .status(500)
+                    .send({ status: 'err', message: err.message });
             }
-            return res.send({ status: 'ok' });
+            return res.send({ email: user.email });
         });
     })(req, res, next);
 });
