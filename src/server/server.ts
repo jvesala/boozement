@@ -30,35 +30,14 @@ app.get('/servings', (_req: Request, res: Response) => {
     res.send({ express: 'Hello From Express' });
 });
 
-//app.post('/login', (req: Request, res: Response) => {
 app.post(
-    '/login2',
+    '/login',
     passport.authenticate('local'),
     (req: Request, res: Response) => {
-        console.log('POST /login', req);
-        //res.send({ status: 'success', email: req.body.email });
+        console.log('POST /login', req.user);
         const { user } = req;
         res.json(user);
     }
 );
-
-app.post('/login', function(req: any, res: any, next: any) {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) {
-            return res.status(500).send({ message: err.message });
-        }
-        if (!user) {
-            return res.status(500).send({ message: info.message });
-        }
-        req.logIn(user, function(err: any) {
-            if (err) {
-                return res
-                    .status(500)
-                    .send({ status: 'err', message: err.message });
-            }
-            return res.send({ email: user.email });
-        });
-    })(req, res, next);
-});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
