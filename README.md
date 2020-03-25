@@ -1,3 +1,16 @@
+# Boozement
+
+
+## Docker
+
+    docker run -d \
+        --name postgres \
+        -e POSTGRES_HOST_AUTH_METHOD=trust \
+        -p 5432:5432 \
+        postgres:10
+
+
+# Generated
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
