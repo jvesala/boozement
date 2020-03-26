@@ -29,9 +29,9 @@ export const en = {
         button: 'Add serving'
     },
     active: {
-        inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
+        inactive: "You haven't drank anything during previous 24h",
         statistics: (units: string, bac: string) =>
-            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`,
+            `During last 24h you've drank <span class="bac-units">${units}</span> units. Your bac is around <span class="bac">${bac}</span> &#8240;.`,
         time: 'Time',
         servingName: 'Serving',
         amount: 'Amount',
@@ -51,11 +51,11 @@ export const en = {
         weight: 'Weight',
         weightTitle: 'kg',
         weightError: 'Weight must be in kilograms.',
-        password: 'Salasana',
-        passwordRetry: 'Salasana uudelleen',
-        passwordError: 'Salasana on pakollinen.',
-        passwordErrorMismatch: 'Salasana on pakollinen.',
-        button: 'Salasana on pakollinen.'
+        password: 'Password',
+        passwordRetry: 'Password again',
+        passwordError: 'Password is mandatory.',
+        passwordErrorMismatch: 'Passwords do not match.',
+        button: 'Update'
     }
 };
 
