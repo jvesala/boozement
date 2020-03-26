@@ -3,6 +3,7 @@ import session from 'express-session';
 import passport from 'passport';
 
 import { initPassport } from './passportUtils';
+import { initConnection } from './database';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -22,7 +23,11 @@ app.use(
         secret: 'topSecretSession'
     })
 );
-initPassport();
+//const connectionString = 'jdbc:postgresql://boozement-postgres:5432/boozement';
+const connectionString = 'postgres://postgres:@boozement-postgres:5432/boozement';
+
+const db = initConnection(connectionString);
+initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
 

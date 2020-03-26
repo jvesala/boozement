@@ -1,9 +1,13 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import { NextFunction, Response, Request } from 'express';
+import pgPromise from 'pg-promise';
+import * as pg from 'pg-promise/typescript/pg-subset';
+import { getUserByEmail, getUserById } from './database';
+
 const LocalStrategy = passportLocal.Strategy;
 
-export const initPassport = () => {
+export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
     passport.use(
         new LocalStrategy(
             {
@@ -13,7 +17,12 @@ export const initPassport = () => {
             },
             // @ts-ignore
             (req: any, email: any, password: any, done: any) => {
-                done(null, { email: 'jussi.vesala@iki.fi', id: 1 });
+                getUserByEmail(db, email).then(
+                    user => {
+                        console.log("USER", user);
+                        done(undefined, user);
+                    }
+                );
             }
         )
     );
@@ -23,7 +32,11 @@ export const initPassport = () => {
     });
 
     passport.deserializeUser((id, done) => {
-        done(undefined, { email: 'jussi.vesala@iki.fi', id });
+        getUserById(db, parseInt(id as any, 10)).then(
+            user => {
+                done(undefined, user);
+            }
+        );
     });
 };
 
