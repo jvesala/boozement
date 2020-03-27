@@ -17,14 +17,18 @@ app.use(bodyparser.urlencoded({ extended: false }));
 
 app.use(
     session({
-        name: 'boozement_cookie',
+        name: 'boozement',
         resave: false,
-        saveUninitialized: false,
-        secret: 'topSecretSession'
+        saveUninitialized: true,
+        secret: 'topSecretSession',
+        proxy: true,
+        cookie: {
+            domain: 'localhost'
+        }
     })
 );
-//const connectionString = 'jdbc:postgresql://boozement-postgres:5432/boozement';
-const connectionString = 'postgres://postgres:@boozement-postgres:5432/boozement';
+const connectionString =
+    'postgres://postgres:@boozement-postgres:5432/boozement';
 
 const db = initConnection(connectionString);
 initPassport(db);
@@ -39,8 +43,9 @@ app.post(
     '/login',
     passport.authenticate('local'),
     (req: Request, res: Response) => {
-        console.log('POST /login', req.user);
         const { user } = req;
+        res.cookie('boozement-username', (user as any).email);
+        console.log('POST /login', user);
         res.json(user);
     }
 );

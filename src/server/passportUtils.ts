@@ -4,6 +4,9 @@ import { NextFunction, Response, Request } from 'express';
 import pgPromise from 'pg-promise';
 import * as pg from 'pg-promise/typescript/pg-subset';
 import { getUserByEmail, getUserById } from './database';
+//const bcrypt = require('bcrypt');
+
+import * as bcrypt from 'bcrypt';
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -15,14 +18,20 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
                 passwordField: 'password',
                 passReqToCallback: true
             },
-            // @ts-ignore
-            (req: any, email: any, password: any, done: any) => {
-                getUserByEmail(db, email).then(
-                    user => {
-                        console.log("USER", user);
+            (_req: any, email: any, password: any, done: any) => {
+                getUserByEmail(db, email).then(user => {
+                    bcrypt.compare(password, user.password, function(
+                        err: Error,
+                        result: boolean
+                    ) {
+                        if (result) {
+                            done(undefined, user);
+                        } else {
+                            done(err, undefined);
+                        }
                         done(undefined, user);
-                    }
-                );
+                    });
+                });
             }
         )
     );
@@ -32,11 +41,9 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
     });
 
     passport.deserializeUser((id, done) => {
-        getUserById(db, parseInt(id as any, 10)).then(
-            user => {
-                done(undefined, user);
-            }
-        );
+        getUserById(db, parseInt(id as any, 10)).then(user => {
+            done(undefined, user);
+        });
     });
 };
 

@@ -27,7 +27,6 @@ export const getUserById = async (db: any, id: number) => {
         });
 };
 
-
 export const getUserByEmail = async (db: any, email: string) => {
     return db
         .any('SELECT * FROM users WHERE email = $1', [email])

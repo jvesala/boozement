@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
+import Cookies from 'js-cookie';
 
 const superagent = require('superagent');
 
@@ -9,7 +10,7 @@ export const slice = createSlice({
         language: 'fi' as Language,
         showLoggedOut: false,
         showLoginError: false,
-        username: undefined
+        username: Cookies.get('boozement-username')
     },
     reducers: {
         loginUser: (state, action) => {
