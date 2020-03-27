@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Menu } from './components/Menu';
+import { Footer } from './components/Footer';
 import { Login } from './features/login/Login';
 import { Insert } from './features/insert/Insert';
 import { Active } from './features/active/Active';
@@ -17,10 +18,8 @@ export const App = () => {
     return (
         <div className="App">
             <Menu />
-            {!user ? <Login /> : ''}
-
             {user ? (
-                <div>
+                <div className="content">
                     <Switch>
                         <Redirect exact from="/" to="/insert" />
                         <Route path="/insert" component={Insert} />
@@ -30,8 +29,9 @@ export const App = () => {
                     </Switch>
                 </div>
             ) : (
-                ''
+                <Login />
             )}
+            <Footer />
         </div>
     );
 };

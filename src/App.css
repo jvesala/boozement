@@ -2,6 +2,7 @@
   text-align: center;
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: 100px 1fr 100px;
   align-items: center;
 }
 
