@@ -1,7 +1,9 @@
 CREATE TYPE gender AS ENUM ('M', 'F');
 
 DROP TABLE IF EXISTS users;
-CREATE TABLE users
+DROP TABLE IF EXISTS servings;
+
+CREATE TABLE IF NOT EXISTS users
 (
     id       SERIAL PRIMARY KEY,
     email    VARCHAR(254) NOT NULL,
@@ -10,10 +12,9 @@ CREATE TABLE users
     weight   INT          NOT NULL
 );
 
-CREATE INDEX users_email_idx ON users USING btree (email);
+CREATE INDEX IF NOT EXISTS users_email_idx ON users USING btree (email);
 
-DROP TABLE IF EXISTS servings;
-CREATE TABLE servings
+CREATE TABLE IF NOT EXISTS servings
 (
     id      SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users (id),
@@ -23,4 +24,4 @@ CREATE TABLE servings
     units   NUMERIC      NOT NULL
 );
 
-CREATE INDEX servings_user_id_idx ON servings USING btree (user_id);
+CREATE INDEX IF NOT EXISTS servings_user_id_idx ON servings USING btree (user_id);
