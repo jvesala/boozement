@@ -1,3 +1,12 @@
 .Footer {
   background-color: whitesmoke;
 }
+
+.Footer footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.Footer .loggedIn {
+  margin-right: 10px;
+}

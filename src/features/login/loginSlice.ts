@@ -43,16 +43,12 @@ export const loginUserAsync = (email: string, password: string) => async (
     dispatch(loginUser(body.email));
 };
 
-//export const loginUserAsync = amount => dispatch => {
-//    setTimeout(() => {
-//        dispatch(loginUser(amount));
-//    }, 1000);
-//};
-//
+export const logoutUserAsync = () => async (dispatch: any) => {
+    const url = '/logout';
+    await doPostRequest(url, {});
+    dispatch(loginUser(undefined));
+};
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectLanguage = (state: any) => state.login.language;
 export const selectShowLoggedOut = (state: any) => state.login.showLoggedOut;
 export const selectUser = (state: any) => state.login.username;

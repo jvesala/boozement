@@ -9,6 +9,9 @@ export const en = {
         history: 'History',
         userdata: 'Userdata'
     },
+    footer: {
+        logout: 'Log out'
+    },
     loginForm: {
         logoutMessage: 'You have logged out.',
         title: 'Login',
@@ -66,6 +69,9 @@ export const fi: Localisation = {
         active: 'Nyt juonut',
         history: 'Historia',
         userdata: 'Omat tiedot'
+    },
+    footer: {
+        logout: 'Kirjaudu ulos'
     },
     loginForm: {
         logoutMessage: 'Olet kirjautunut ulos.',
