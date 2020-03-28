@@ -22,12 +22,16 @@ export const Footer = () => {
         <div className="Footer">
             <footer>
                 <div>&copy; Boozement 2020</div>
-                <div>
-                    <span className="loggedIn">{user}</span>
-                    <button type="submit" onClick={doLogout}>
-                        {i18n[language].footer.logout}
-                    </button>
-                </div>
+                {user ? (
+                    <div>
+                        <span className="loggedIn">{user}</span>
+                        <button type="submit" onClick={doLogout}>
+                            {i18n[language].footer.logout}
+                        </button>
+                    </div>
+                ) : (
+                    <div />
+                )}
             </footer>
         </div>
     );

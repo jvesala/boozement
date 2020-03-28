@@ -50,4 +50,12 @@ app.post(
     }
 );
 
+app.post('/logout', async (req: Request, res: Response) => {
+    console.log('POST /logout');
+    req.session?.destroy(() => {
+        res.clearCookie('boozement-username', undefined);
+        res.send({});
+    });
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
