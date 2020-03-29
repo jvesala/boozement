@@ -7,6 +7,12 @@
   grid-template-columns: 1fr 1fr;
 }
 
+.Footer .flag {
+  border: none;
+  background-color: whitesmoke;
+  cursor: pointer;
+}
+
 .Footer .loggedIn {
   margin-right: 10px;
 }

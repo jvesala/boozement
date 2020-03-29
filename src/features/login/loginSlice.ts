@@ -15,11 +15,14 @@ export const slice = createSlice({
     reducers: {
         loginUser: (state, action) => {
             state.username = action.payload;
+        },
+        setLanguage: (state, action) => {
+            state.language = action.payload;
         }
     }
 });
 
-export const { loginUser } = slice.actions;
+export const { loginUser, setLanguage } = slice.actions;
 
 export const doPostRequest = async (url: string, payload: any) => {
     const contentType = 'application/json;charset=utf-8';

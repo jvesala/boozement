@@ -5,7 +5,8 @@ import { i18n, Language } from '../app/localization';
 import {
     logoutUserAsync,
     selectLanguage,
-    selectUser
+    selectUser,
+    setLanguage
 } from '../features/login/loginSlice';
 
 export const Footer = () => {
@@ -18,12 +19,21 @@ export const Footer = () => {
         dispatch(logoutUserAsync());
     };
 
+    const updateLanguage = (language: Language) => () => {
+        dispatch(setLanguage(language));
+    };
     return (
         <div className="Footer">
             <footer>
                 <div>&copy; Boozement 2020</div>
                 {user ? (
                     <div>
+                        <button className="flag" onClick={updateLanguage('en')}>
+                            {'🇺🇲'}
+                        </button>
+                        <button className="flag" onClick={updateLanguage('fi')}>
+                            {'🇫🇮'}
+                        </button>
                         <span className="loggedIn">{user}</span>
                         <button type="submit" onClick={doLogout}>
                             {i18n[language].footer.logout}
