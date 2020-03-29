@@ -26,6 +26,7 @@ import {
     createFromUtcString,
     formatDateTime
 } from '../../app/date';
+import { Busy } from '../../components/Busy';
 
 export const Insert = () => {
     const language: Language = useSelector(selectLanguage);
@@ -148,12 +149,7 @@ export const Insert = () => {
                     <button className="button" type="submit" onClick={doInsert}>
                         {i18n[language].insertForm.button}
                     </button>
-
-                    {showBusy ? (
-                        <img alt="busy" src="/ajax_indicator.gif" />
-                    ) : (
-                        ''
-                    )}
+                    <Busy visible={showBusy} />
 
                     {insertResult ? (
                         <div>
