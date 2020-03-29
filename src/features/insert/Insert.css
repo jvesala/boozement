@@ -1,9 +1,5 @@
 .Insert {
-}
-
-.Insert > Form {
   display: grid;
-  grid-template-columns: 1fr;
   justify-items: center;
 }
 

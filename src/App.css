@@ -1,10 +1,18 @@
 .App {
   text-align: center;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-areas:
+      "menu menu menu"
+      "left center right"
+      "footer footer footer";
+  grid-template-columns: 1fr 5fr 1fr;
   grid-template-rows: 100px 1fr 100px;
   align-items: center;
   min-height: 100vh;
+}
+
+.App > .content {
+  grid-area: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -1,4 +1,5 @@
 .Footer {
+  grid-area: footer;
   background-color: whitesmoke;
 }
 
