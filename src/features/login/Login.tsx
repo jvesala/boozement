@@ -19,6 +19,8 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [showBusy, setShowBusy] = useState(false);
 
+    const disabled = email.length === 0 ||  password.length === 0;
+
     const doLogin = () => {
         setShowBusy(true);
         dispatch(loginUserAsync(email, password));
@@ -45,6 +47,7 @@ export const Login = () => {
                 <input
                     type="email"
                     name="email"
+                    required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
@@ -54,10 +57,11 @@ export const Login = () => {
                 <input
                     type="password"
                     name="password"
+                    required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <button className="button" type="submit" onClick={doLogin}>
+                <button className="button" type="submit" onClick={doLogin} disabled={disabled} >
                     {i18n[language].loginForm.button}
                 </button>
                 {showBusy ? <img alt="busy" src="/ajax_indicator.gif" /> : ''}
