@@ -70,6 +70,7 @@ export const Insert = () => {
                             type="date"
                             name="date"
                             value={date}
+                            required
                             onChange={e => dispatch(updateDate(e.target.value))}
                         />
                     </div>
@@ -82,6 +83,7 @@ export const Insert = () => {
                         type="time"
                         name="time"
                         value={time}
+                        required
                         onChange={e => dispatch(updateTime(e.target.value))}
                     />
                 </div>
@@ -93,6 +95,7 @@ export const Insert = () => {
                         <input
                             name="type"
                             value={type}
+                            required
                             onChange={e => dispatch(updateType(e.target.value))}
                         />
                         <div className="clear hidden" />
@@ -110,6 +113,7 @@ export const Insert = () => {
                         min={1}
                         max={100}
                         step={1}
+                        required
                         onChange={e => dispatch(updateAmount(e.target.value))}
                     />
                     <em className="unit">
@@ -130,6 +134,7 @@ export const Insert = () => {
                         min={0.1}
                         max={5}
                         step={0.1}
+                        required
                         onChange={e => dispatch(updateUnits(e.target.value))}
                     />
                     <em className="unit">
