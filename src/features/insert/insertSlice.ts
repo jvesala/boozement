@@ -13,7 +13,8 @@ export const slice = createSlice({
         amount: '',
         units: '',
         showError: false,
-        showBusy: false
+        showBusy: false,
+        result: undefined
     },
     reducers: {
         updateDate: (state, action) => {
@@ -34,9 +35,10 @@ export const slice = createSlice({
         setShowInsertBusy: (state, action) => {
             state.showBusy = action.payload;
         },
-        insertSuccess: (state, _action) => {
+        insertSuccess: (state, action) => {
             state.amount = '';
             state.units = '';
+            state.result = action.payload;
         }
     }
 });
@@ -65,5 +67,6 @@ export const selectAmount = (state: any) => state.insert.amount;
 export const selectUnits = (state: any) => state.insert.units;
 export const selectShowInsertBusy = (state: any) => state.insert.showBusy;
 export const selectShowInsertError = (state: any) => state.insert.showError;
+export const selectInsertResult = (state: any) => state.insert.result;
 
 export default slice.reducer;

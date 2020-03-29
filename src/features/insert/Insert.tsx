@@ -4,6 +4,7 @@ import {
     insertAsync,
     selectAmount,
     selectDate,
+    selectInsertResult,
     selectShowInsertBusy,
     selectShowInsertError,
     selectTime,
@@ -20,7 +21,11 @@ import {
 import './Insert.css';
 import { i18n, Language } from '../../app/localization';
 import { selectLanguage } from '../login/loginSlice';
-import { DateTime } from 'luxon';
+import {
+    createDate,
+    createFromUtcString,
+    formatDateTime
+} from '../../app/date';
 
 export const Insert = () => {
     const language: Language = useSelector(selectLanguage);
@@ -34,13 +39,13 @@ export const Insert = () => {
     const units = useSelector(selectUnits);
     const showBusy = useSelector(selectShowInsertBusy);
     const showError = useSelector(selectShowInsertError);
+    const insertResult = useSelector(selectInsertResult);
 
     const doInsert = () => {
         dispatch(setShowInsertBusy(true));
 
-        const fullDate = DateTime.fromISO(date + 'T' + time);
         const payload = {
-            date: fullDate,
+            date: createDate(date, time),
             type,
             amount,
             units
@@ -139,13 +144,24 @@ export const Insert = () => {
                         ''
                     )}
 
-                    {showError ? (
-                        <span>{i18n[language].insertForm.error}</span>
+                    {insertResult ? (
+                        <div>
+                            {i18n[language].insertForm.result(
+                                insertResult.type,
+                                formatDateTime(
+                                    createFromUtcString(insertResult.date)
+                                )
+                            )}
+                        </div>
                     ) : (
                         ''
                     )}
 
-                    <div id="result" />
+                    {showError ? (
+                        <div>{i18n[language].insertForm.error}</div>
+                    ) : (
+                        ''
+                    )}
                 </div>
             </form>
         </div>

@@ -30,7 +30,8 @@ export const en = {
         unitsError: 'Units size must be between 0.1-5 units.',
         unitsType: 'au',
         error: 'Insert error',
-        button: 'Add serving'
+        button: 'Add serving',
+        result: (type: string, date: string) => `Drank ${type} at ${date}.`
     },
     active: {
         inactive: "You haven't drank anything during previous 24h",
@@ -92,7 +93,9 @@ export const fi: Localisation = {
         unitsError: 'Alkoholimäärä 0.1-5 yksikköä.',
         unitsType: 'aa',
         error: 'Virhe syötössä.',
-        button: 'Lisää annos'
+        button: 'Lisää annos',
+        result: (type: string, date: string) =>
+            `Juotu ${type} ajanhetkellä ${date}.`
     },
     active: {
         inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
