@@ -107,6 +107,9 @@ export const Insert = () => {
                         type="number"
                         name="amount"
                         value={amount}
+                        min={1}
+                        max={100}
+                        step={1}
                         onChange={e => dispatch(updateAmount(e.target.value))}
                     />
                     <em className="unit">
@@ -124,6 +127,9 @@ export const Insert = () => {
                         type="number"
                         name="units"
                         value={units}
+                        min={0.1}
+                        max={5}
+                        step={0.1}
                         onChange={e => dispatch(updateUnits(e.target.value))}
                     />
                     <em className="unit">
