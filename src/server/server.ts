@@ -45,6 +45,7 @@ app.post(
     (req: Request, res: Response) => {
         const { user } = req;
         res.cookie('boozement-username', (user as any).email);
+        (user as any).password = '*****';
         console.log('POST /login', user);
         res.json(user);
     }
