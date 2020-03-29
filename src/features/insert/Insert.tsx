@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    selectAmount,
     selectDate,
     selectTime,
     selectType,
     updateDate,
     updateTime,
-    updateType
+    updateType,
+    updateAmount,
+    selectUnits,
+    updateUnits
 } from './insertSlice';
 
 import './Insert.css';
@@ -21,6 +25,15 @@ export const Insert = () => {
     const date = useSelector(selectDate);
     const time = useSelector(selectTime);
     const type = useSelector(selectType);
+    const amount = useSelector(selectAmount);
+    const units = useSelector(selectUnits);
+
+    const [showBusy, setShowBusy] = useState(false);
+
+    const doInsert = () => {
+        setShowBusy(true);
+        //dispatch(loginUserAsync(email, password));
+    };
 
     return (
         <div className="Insert">
@@ -30,7 +43,9 @@ export const Insert = () => {
                     e.preventDefault();
                 }}
             >
-                <h4>{i18n[language].insertForm.title}</h4>
+                <div>
+                    <h4>{i18n[language].insertForm.title}</h4>
+                </div>
                 <div>
                     <div>
                         <input
@@ -70,7 +85,12 @@ export const Insert = () => {
                     <label htmlFor="amount">
                         {i18n[language].insertForm.amount}
                     </label>
-                    <input type="number" name="amount" />
+                    <input
+                        type="number"
+                        name="amount"
+                        value={amount}
+                        onChange={e => dispatch(updateAmount(e.target.value))}
+                    />
                     <em className="unit">
                         {i18n[language].insertForm.amountType}
                     </em>
@@ -82,7 +102,12 @@ export const Insert = () => {
                     <label htmlFor="units">
                         {i18n[language].insertForm.units}
                     </label>
-                    <input type="number" name="units" />
+                    <input
+                        type="number"
+                        name="units"
+                        value={units}
+                        onChange={e => dispatch(updateUnits(e.target.value))}
+                    />
                     <em className="unit">
                         {i18n[language].insertForm.unitsType}
                     </em>
@@ -90,10 +115,18 @@ export const Insert = () => {
                         {i18n[language].insertForm.unitsError}
                     </em>
                 </div>
-                <button type="submit">Lisää annos</button>
-                <div className="busy hidden" />
-                <div id="result" />
-                <div id="error" />
+                <div>
+                    <button className="button" type="submit" onClick={doInsert}>
+                        {i18n[language].insertForm.button}
+                    </button>
+                    <div id="error" />
+                    <div id="result" />
+                    {showBusy ? (
+                        <img alt="busy" src="/ajax_indicator.gif" />
+                    ) : (
+                        ''
+                    )}
+                </div>
             </form>
         </div>
     );

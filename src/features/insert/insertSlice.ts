@@ -8,7 +8,9 @@ export const slice = createSlice({
     initialState: {
         date: now.toISODate(),
         time: now.hour + ':' + now.minute,
-        type: ''
+        type: '',
+        amount: '',
+        units: ''
     },
     reducers: {
         updateDate: (state, action) => {
@@ -19,14 +21,28 @@ export const slice = createSlice({
         },
         updateType: (state, action) => {
             state.type = action.payload;
+        },
+        updateAmount: (state, action) => {
+            state.amount = action.payload;
+        },
+        updateUnits: (state, action) => {
+            state.units = action.payload;
         }
     }
 });
 
-export const { updateDate, updateTime, updateType } = slice.actions;
+export const {
+    updateDate,
+    updateTime,
+    updateType,
+    updateAmount,
+    updateUnits
+} = slice.actions;
 
 export const selectDate = (state: any) => state.insert.date;
 export const selectTime = (state: any) => state.insert.time;
 export const selectType = (state: any) => state.insert.type;
+export const selectAmount = (state: any) => state.insert.amount;
+export const selectUnits = (state: any) => state.insert.units;
 
 export default slice.reducer;
