@@ -18,8 +18,8 @@ export const App = () => {
     return (
         <div className="App">
             <Menu />
-            {user ? (
-                <div className="content">
+            <div className="content">
+                {user ? (
                     <Switch>
                         <Redirect exact from="/" to="/insert" />
                         <Route path="/insert" component={Insert} />
@@ -27,10 +27,10 @@ export const App = () => {
                         <Route path="/history" component={History} />
                         <Route path="/userdata" component={Userdata} />
                     </Switch>
-                </div>
-            ) : (
-                <Login />
-            )}
+                ) : (
+                    <Login />
+                )}
+            </div>
             <Footer />
         </div>
     );
