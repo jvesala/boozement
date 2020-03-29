@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
 import Cookies from 'js-cookie';
-
-const superagent = require('superagent');
+import { doPostRequest } from '../../app/network';
 
 export const slice = createSlice({
     name: 'login',
@@ -23,16 +22,6 @@ export const slice = createSlice({
 });
 
 export const { loginUser, setLanguage } = slice.actions;
-
-export const doPostRequest = async (url: string, payload: any) => {
-    const contentType = 'application/json;charset=utf-8';
-    const response = await superagent
-        .post(url)
-        .type(contentType)
-        .send(payload)
-        .timeout(60000);
-    return response.body;
-};
 
 export const loginUserAsync = (email: string, password: string) => async (
     dispatch: any

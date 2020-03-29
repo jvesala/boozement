@@ -39,8 +39,8 @@ app.get('/servings', (_req: Request, res: Response) => {
     res.send({ express: 'Hello From Express' });
 });
 
-app.post('/serving', isAuthenticated, (req: Request, res: Response) => {
-    console.log('POST /serving', req.body);
+app.post('/insert', isAuthenticated, (req: Request, res: Response) => {
+    console.log('POST /insert', req.body);
     res.json({});
 });
 

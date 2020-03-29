@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
+import { doPostRequest } from '../../app/network';
 
 const now = DateTime.local();
 
@@ -27,6 +28,10 @@ export const slice = createSlice({
         },
         updateUnits: (state, action) => {
             state.units = action.payload;
+        },
+        insertSuccess: (state, _action) => {
+            state.amount = '';
+            state.units = '';
         }
     }
 });
@@ -36,8 +41,15 @@ export const {
     updateTime,
     updateType,
     updateAmount,
-    updateUnits
+    updateUnits,
+    insertSuccess
 } = slice.actions;
+
+export const insertAsync = (payload: any) => async (dispatch: any) => {
+    const url = '/insert';
+    const body = await doPostRequest(url, payload);
+    dispatch(insertSuccess(body));
+};
 
 export const selectDate = (state: any) => state.insert.date;
 export const selectTime = (state: any) => state.insert.time;

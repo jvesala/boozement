@@ -1,11 +1,9 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import pgPromise from 'pg-promise';
 import * as pg from 'pg-promise/typescript/pg-subset';
 import { getUserByEmail, getUserById } from './database';
-//const bcrypt = require('bcrypt');
-
 import * as bcrypt from 'bcrypt';
 
 const LocalStrategy = passportLocal.Strategy;

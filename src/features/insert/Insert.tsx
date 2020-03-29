@@ -10,7 +10,8 @@ import {
     updateType,
     updateAmount,
     selectUnits,
-    updateUnits
+    updateUnits,
+    insertAsync
 } from './insertSlice';
 
 import './Insert.css';
@@ -40,9 +41,7 @@ export const Insert = () => {
             amount,
             units
         };
-        console.log(payload);
-
-        //dispatch(loginUserAsync(email, password));
+        dispatch(insertAsync(payload));
     };
 
     return (
