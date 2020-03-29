@@ -53,5 +53,5 @@ export const isAuthenticated = (
     next: NextFunction
 ) => {
     if (req.isAuthenticated()) return next();
-    else res.redirect('/login');
+    else res.redirect('/');
 };

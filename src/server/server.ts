@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import session from 'express-session';
 import passport from 'passport';
 
-import { initPassport } from './passportUtils';
+import { initPassport, isAuthenticated } from './passportUtils';
 import { initConnection } from './database';
 
 const express = require('express');
@@ -37,6 +37,11 @@ app.use(passport.session());
 
 app.get('/servings', (_req: Request, res: Response) => {
     res.send({ express: 'Hello From Express' });
+});
+
+app.post('/serving', isAuthenticated, (req: Request, res: Response) => {
+    console.log('POST /serving', req.body);
+    res.json({});
 });
 
 app.post(

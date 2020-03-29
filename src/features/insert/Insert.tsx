@@ -16,6 +16,7 @@ import {
 import './Insert.css';
 import { i18n, Language } from '../../app/localization';
 import { selectLanguage } from '../login/loginSlice';
+import { DateTime } from 'luxon';
 
 export const Insert = () => {
     const language: Language = useSelector(selectLanguage);
@@ -32,6 +33,15 @@ export const Insert = () => {
 
     const doInsert = () => {
         setShowBusy(true);
+        const fullDate = DateTime.fromISO(date + 'T' + time);
+        const payload = {
+            date: fullDate,
+            type,
+            amount,
+            units
+        };
+        console.log(payload);
+
         //dispatch(loginUserAsync(email, password));
     };
 

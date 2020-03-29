@@ -3,6 +3,10 @@
   justify-items: center;
 }
 
+.Insert > form > div {
+  width: 100%;
+  text-align: left;
+}
 .Insert input {
   width: 200px;
 }
