@@ -41,7 +41,7 @@ app.get('/servings', (_req: Request, res: Response) => {
 
 app.post('/insert', isAuthenticated, (req: Request, res: Response) => {
     console.log('POST /insert', req.body);
-    res.json({});
+    res.json(req.body);
 });
 
 app.post(

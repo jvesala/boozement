@@ -11,7 +11,9 @@ export const slice = createSlice({
         time: now.hour + ':' + now.minute,
         type: '',
         amount: '',
-        units: ''
+        units: '',
+        showError: false,
+        showBusy: false
     },
     reducers: {
         updateDate: (state, action) => {
@@ -29,6 +31,9 @@ export const slice = createSlice({
         updateUnits: (state, action) => {
             state.units = action.payload;
         },
+        setShowInsertBusy: (state, action) => {
+            state.showBusy = action.payload;
+        },
         insertSuccess: (state, _action) => {
             state.amount = '';
             state.units = '';
@@ -42,12 +47,14 @@ export const {
     updateType,
     updateAmount,
     updateUnits,
+    setShowInsertBusy,
     insertSuccess
 } = slice.actions;
 
 export const insertAsync = (payload: any) => async (dispatch: any) => {
     const url = '/insert';
     const body = await doPostRequest(url, payload);
+    dispatch(setShowInsertBusy(false));
     dispatch(insertSuccess(body));
 };
 
@@ -56,5 +63,7 @@ export const selectTime = (state: any) => state.insert.time;
 export const selectType = (state: any) => state.insert.type;
 export const selectAmount = (state: any) => state.insert.amount;
 export const selectUnits = (state: any) => state.insert.units;
+export const selectShowInsertBusy = (state: any) => state.insert.showBusy;
+export const selectShowInsertError = (state: any) => state.insert.showError;
 
 export default slice.reducer;

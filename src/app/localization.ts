@@ -29,6 +29,7 @@ export const en = {
         units: 'Units',
         unitsError: 'Units size must be between 0.1-5 units.',
         unitsType: 'au',
+        error: 'Insert error',
         button: 'Add serving'
     },
     active: {
@@ -90,6 +91,7 @@ export const fi: Localisation = {
         units: 'Annokset',
         unitsError: 'Alkoholimäärä 0.1-5 yksikköä.',
         unitsType: 'aa',
+        error: 'Virhe syötössä.',
         button: 'Lisää annos'
     },
     active: {

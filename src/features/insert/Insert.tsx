@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    insertAsync,
     selectAmount,
     selectDate,
+    selectShowInsertBusy,
+    selectShowInsertError,
     selectTime,
     selectType,
+    selectUnits,
+    setShowInsertBusy,
+    updateAmount,
     updateDate,
     updateTime,
     updateType,
-    updateAmount,
-    selectUnits,
-    updateUnits,
-    insertAsync
+    updateUnits
 } from './insertSlice';
 
 import './Insert.css';
@@ -29,11 +32,12 @@ export const Insert = () => {
     const type = useSelector(selectType);
     const amount = useSelector(selectAmount);
     const units = useSelector(selectUnits);
-
-    const [showBusy, setShowBusy] = useState(false);
+    const showBusy = useSelector(selectShowInsertBusy);
+    const showError = useSelector(selectShowInsertError);
 
     const doInsert = () => {
-        setShowBusy(true);
+        dispatch(setShowInsertBusy(true));
+
         const fullDate = DateTime.fromISO(date + 'T' + time);
         const payload = {
             date: fullDate,
@@ -128,13 +132,20 @@ export const Insert = () => {
                     <button className="button" type="submit" onClick={doInsert}>
                         {i18n[language].insertForm.button}
                     </button>
-                    <div id="error" />
-                    <div id="result" />
+
                     {showBusy ? (
                         <img alt="busy" src="/ajax_indicator.gif" />
                     ) : (
                         ''
                     )}
+
+                    {showError ? (
+                        <span>{i18n[language].insertForm.error}</span>
+                    ) : (
+                        ''
+                    )}
+
+                    <div id="result" />
                 </div>
             </form>
         </div>
