@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     insertAsync,
@@ -42,7 +42,14 @@ export const Insert = () => {
     const showError = useSelector(selectShowInsertError);
     const insertResult = useSelector(selectInsertResult);
 
+    const [disabled, setDisabled] = useState(true);
+
+    const updateValidity = (e: any) => {
+        setDisabled(!e.target.closest('form').checkValidity());
+    };
+
     const doInsert = () => {
+        setDisabled(true);
         dispatch(setShowInsertBusy(true));
 
         const payload = {
@@ -58,6 +65,7 @@ export const Insert = () => {
         <div className="Insert">
             <form
                 method="post"
+                onChange={e => updateValidity(e)}
                 onSubmit={e => {
                     e.preventDefault();
                 }}
@@ -146,7 +154,12 @@ export const Insert = () => {
                     </em>
                 </div>
                 <div>
-                    <button className="button" type="submit" onClick={doInsert}>
+                    <button
+                        className="button"
+                        type="submit"
+                        onClick={doInsert}
+                        disabled={disabled}
+                    >
                         {i18n[language].insertForm.button}
                     </button>
                     <Busy visible={showBusy} />
