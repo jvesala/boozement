@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     loginUserAsync,
     selectLanguage,
-    selectShowLoggedOut
+    selectShowLoggedOut,
+    selectShowLoginBusy,
+    selectShowLoginError
 } from './loginSlice';
 
 import './Login.css';
@@ -13,17 +15,17 @@ import { Busy } from '../../components/Busy';
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
     const showLoggedOut: Language = useSelector(selectShowLoggedOut);
+    const showLoginError = useSelector(selectShowLoginError);
+    const showBusy = useSelector(selectShowLoginBusy);
 
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showBusy, setShowBusy] = useState(false);
 
     const disabled = email.length === 0 || password.length === 0;
 
     const doLogin = () => {
-        setShowBusy(true);
         dispatch(loginUserAsync(email, password));
     };
 
@@ -36,9 +38,7 @@ export const Login = () => {
                 }}
             >
                 {showLoggedOut ? (
-                    <div className="Logout-message">
-                        {i18n[language].loginForm.logoutMessage}
-                    </div>
+                    <div>{i18n[language].loginForm.logoutMessage}</div>
                 ) : (
                     ''
                 )}
@@ -71,7 +71,12 @@ export const Login = () => {
                     {i18n[language].loginForm.button}
                 </button>
                 <Busy visible={showBusy} />
-                <div className="error" />
+
+                {showLoginError ? (
+                    <div>{i18n[language].loginForm.error}</div>
+                ) : (
+                    ''
+                )}
             </form>
         </div>
     );

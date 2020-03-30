@@ -17,7 +17,8 @@ export const en = {
         title: 'Login',
         email: 'Email',
         password: 'Password',
-        button: 'Login'
+        button: 'Login',
+        error: 'Login failed'
     },
     insertForm: {
         title: 'Insert serving information',
@@ -80,7 +81,8 @@ export const fi: Localisation = {
         title: 'Kirjaudu sisään',
         email: 'Sähköpostiosoite',
         password: 'Salasana',
-        button: 'Kirjaudu'
+        button: 'Kirjaudu',
+        error: 'Kirjautuminen epäonnistui.'
     },
     insertForm: {
         title: 'Syötä juoman tiedot',
