@@ -197,11 +197,10 @@ export const Insert = () => {
                         ''
                     )}
 
-                    {showError ? (
-                        <div>{i18n[language].insertForm.error}</div>
-                    ) : (
-                        ''
-                    )}
+                    <Error
+                        visible={showError}
+                        text={i18n[language].insertForm.error}
+                    />
                 </div>
             </form>
         </div>
