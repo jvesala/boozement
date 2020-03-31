@@ -27,6 +27,7 @@ import {
     formatDateTime
 } from '../../app/date';
 import { Busy } from '../../components/Busy';
+import { Error } from '../../components/Error';
 
 export const Insert = () => {
     const language: Language = useSelector(selectLanguage);
@@ -143,13 +144,10 @@ export const Insert = () => {
                     <em className="unit">
                         {i18n[language].insertForm.amountType}
                     </em>
-                    {!amountValid ? (
-                        <div className="error">
-                            {i18n[language].insertForm.amountError}
-                        </div>
-                    ) : (
-                        <div />
-                    )}
+                    <Error
+                        visible={!amountValid}
+                        text={i18n[language].insertForm.amountError}
+                    />
                 </div>
                 <div>
                     <label htmlFor="units">
@@ -170,13 +168,10 @@ export const Insert = () => {
                     <em className="unit">
                         {i18n[language].insertForm.unitsType}
                     </em>
-                    {!unitsValid ? (
-                        <div className="error">
-                            {i18n[language].insertForm.unitsError}
-                        </div>
-                    ) : (
-                        <div />
-                    )}
+                    <Error
+                        visible={!unitsValid}
+                        text={i18n[language].insertForm.unitsError}
+                    />
                 </div>
                 <div>
                     <button
