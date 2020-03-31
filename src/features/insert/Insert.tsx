@@ -42,7 +42,20 @@ export const Insert = () => {
     const showError = useSelector(selectShowInsertError);
     const insertResult = useSelector(selectInsertResult);
 
+    const [amountValid, setAmountValid] = useState(true);
+    const [unitsValid, setUnitsValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
+
+    const handleFieldUpdate = (
+        e: any,
+        dispatchFunc: any,
+        validityFunc: any
+    ) => {
+        dispatch(dispatchFunc(e.target.value));
+        const fieldValid =
+            e.target.value.length === 0 || e.target.validity.valid;
+        validityFunc(fieldValid);
+    };
 
     const updateValidity = (e: any) => {
         setDisabled(!e.target.closest('form').checkValidity());
@@ -123,14 +136,20 @@ export const Insert = () => {
                         max={100}
                         step={1}
                         required
-                        onChange={e => dispatch(updateAmount(e.target.value))}
+                        onChange={e =>
+                            handleFieldUpdate(e, updateAmount, setAmountValid)
+                        }
                     />
                     <em className="unit">
                         {i18n[language].insertForm.amountType}
                     </em>
-                    <em className="error amount-error hidden">
-                        {i18n[language].insertForm.amountError}
-                    </em>
+                    {!amountValid ? (
+                        <div className="error">
+                            {i18n[language].insertForm.amountError}
+                        </div>
+                    ) : (
+                        <div />
+                    )}
                 </div>
                 <div>
                     <label htmlFor="units">
@@ -144,14 +163,20 @@ export const Insert = () => {
                         max={5}
                         step={0.1}
                         required
-                        onChange={e => dispatch(updateUnits(e.target.value))}
+                        onChange={e =>
+                            handleFieldUpdate(e, updateUnits, setUnitsValid)
+                        }
                     />
                     <em className="unit">
                         {i18n[language].insertForm.unitsType}
                     </em>
-                    <em className="error units-error hidden">
-                        {i18n[language].insertForm.unitsError}
-                    </em>
+                    {!unitsValid ? (
+                        <div className="error">
+                            {i18n[language].insertForm.unitsError}
+                        </div>
+                    ) : (
+                        <div />
+                    )}
                 </div>
                 <div>
                     <button
