@@ -11,6 +11,7 @@ import {
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
 import { Busy } from '../../components/Busy';
+import { Error } from '../../components/Error';
 
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
@@ -71,12 +72,10 @@ export const Login = () => {
                     {i18n[language].loginForm.button}
                 </button>
                 <Busy visible={showBusy} />
-
-                {showLoginError ? (
-                    <div>{i18n[language].loginForm.error}</div>
-                ) : (
-                    ''
-                )}
+                <Error
+                    visible={showLoginError}
+                    text={i18n[language].loginForm.error}
+                />
             </form>
         </div>
     );
