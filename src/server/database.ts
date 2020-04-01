@@ -5,7 +5,7 @@ import { IMain } from 'pg-promise';
 export type Gender = 'M' | 'F';
 
 export type User = {
-    id: number;
+    id?: number;
     email: string;
     password: string;
     gender: Gender;
@@ -15,6 +15,19 @@ export type User = {
 export const initConnection = (connectionString: string) => {
     const pgp: IMain = pgPromise({});
     return pgp(connectionString);
+};
+
+export const insertUser = async (db: any, user: User) => {
+    return db
+        .any(
+            'INSERT INTO users (email, password, gender, weight) VALUES (${email}, ${password}, ${gender}, ${weight}) RETURNING id',
+            user
+        )
+        .then((data: any[]) => data[0])
+        .catch((error: any) => {
+            console.log('DB error', error);
+            throw error;
+        });
 };
 
 export const getUserById = async (db: any, id: number) => {
