@@ -1,4 +1,5 @@
 import {
+    getUserByEmail,
     getUserById,
     initConnection,
     insertUser,
@@ -11,8 +12,8 @@ describe('database.spec.ts', () => {
     let db: any;
 
     const user: User = {
-        email: 'email',
-        password: 'password',
+        email: 'my.email@example.com',
+        password: 'passwordHash',
         gender: 'M',
         weight: 100
     };
@@ -31,6 +32,23 @@ describe('database.spec.ts', () => {
         it('gets existing user', async () => {
             const result = await getUserById(db, user.id!);
             expect(result).toEqual(user);
+        });
+
+        it('returns undefined for non-existing user', async () => {
+            const result = await getUserById(db, 100000);
+            expect(result).toEqual(undefined);
+        });
+    });
+
+    describe('getUserById', () => {
+        it('gets existing user', async () => {
+            const result = await getUserByEmail(db, user.email);
+            expect(result).toEqual(user);
+        });
+
+        it('returns undefined for non-existing user', async () => {
+            const result = await getUserByEmail(db, 'not-my-email@example.com');
+            expect(result).toEqual(undefined);
         });
     });
 });
