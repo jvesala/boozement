@@ -18,17 +18,18 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
             },
             (_req: any, email: any, password: any, done: any) => {
                 getUserByEmail(db, email).then(user => {
-                    bcrypt.compare(password, user.password, function(
-                        err: Error,
-                        result: boolean
-                    ) {
-                        if (result) {
+                    bcrypt.compare(
+                        password,
+                        user?.password ? user.password : '',
+                        function(err: Error, result: boolean) {
+                            if (result) {
+                                done(undefined, user);
+                            } else {
+                                done(err, undefined);
+                            }
                             done(undefined, user);
-                        } else {
-                            done(err, undefined);
                         }
-                        done(undefined, user);
-                    });
+                    );
                 });
             }
         )
