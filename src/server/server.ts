@@ -30,7 +30,7 @@ app.use(
 const connectionString =
     'postgres://postgres:@boozement-postgres:5432/boozement';
 
-const db = initConnection(connectionString);
+const { db } = initConnection(connectionString);
 initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
