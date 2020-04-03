@@ -57,7 +57,7 @@ describe('database.spec.ts', () => {
 
         it('returns undefined for non-existing user', async () => {
             const result = await getUserById(db, 100000);
-            expect(result).toEqual(undefined);
+            expect(result).toEqual(null);
         });
     });
 
@@ -69,7 +69,7 @@ describe('database.spec.ts', () => {
 
         it('returns undefined for non-existing user', async () => {
             const result = await getUserByEmail(db, 'not-my-email@example.com');
-            expect(result).toEqual(undefined);
+            expect(result).toEqual(null);
         });
     });
 

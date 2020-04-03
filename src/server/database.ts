@@ -59,20 +59,18 @@ export const insertUser = async (db: any, user: User) => {
 export const getUserById = async (
     db: any,
     id: number
-): Promise<User | undefined> => {
+): Promise<User | null> => {
     return db
-        .any('SELECT * FROM users WHERE id = $1', [id])
-        .then((data: any[]) => data[0])
+        .oneOrNone('SELECT * FROM users WHERE id = $1', [id])
         .catch(handleDbError('getUserById'));
 };
 
 export const getUserByEmail = async (
     db: any,
     email: string
-): Promise<User | undefined> => {
+): Promise<User | null> => {
     return db
-        .any('SELECT * FROM users WHERE email = $1', [email])
-        .then((data: any[]) => data[0])
+        .oneOrNone('SELECT * FROM users WHERE email = $1', [email])
         .catch(handleDbError('getUserByEmail'));
 };
 
