@@ -28,6 +28,24 @@ export const initConnection = (connectionString: string) => {
     return { pgp, db: pgp(connectionString) };
 };
 
+const handleDbError = (methodName: string) => (error: any) => {
+    console.log(`PostgreSQL error in ${methodName}`, error);
+    throw error;
+};
+
+export const mapRowsToServices = (data: any[]) => {
+    return data.map(val => {
+        return {
+            id: val.id,
+            userId: val.user_id,
+            date: DateTime.fromSQL(val.date).toUTC(),
+            type: val.type,
+            amount: val.amount,
+            units: parseFloat(val.units)
+        };
+    });
+};
+
 export const insertUser = async (db: any, user: User) => {
     return db
         .any(
@@ -35,10 +53,7 @@ export const insertUser = async (db: any, user: User) => {
             user
         )
         .then((data: any[]) => data[0])
-        .catch((error: any) => {
-            console.log('DB error', error);
-            throw error;
-        });
+        .catch(handleDbError('insertUser'));
 };
 
 export const getUserById = async (
@@ -48,10 +63,7 @@ export const getUserById = async (
     return db
         .any('SELECT * FROM users WHERE id = $1', [id])
         .then((data: any[]) => data[0])
-        .catch((error: any) => {
-            console.log('DB error', error);
-            throw error;
-        });
+        .catch(handleDbError('getUserById'));
 };
 
 export const getUserByEmail = async (
@@ -61,10 +73,7 @@ export const getUserByEmail = async (
     return db
         .any('SELECT * FROM users WHERE email = $1', [email])
         .then((data: any[]) => data[0])
-        .catch((error: any) => {
-            console.log('DB error', error);
-            throw error;
-        });
+        .catch(handleDbError('getUserByEmail'));
 };
 
 export const insertServing = async (db: any, serving: Serving) => {
@@ -74,10 +83,7 @@ export const insertServing = async (db: any, serving: Serving) => {
             serving
         )
         .then((data: any[]) => data[0])
-        .catch((error: any) => {
-            console.log('DB error', error);
-            throw error;
-        });
+        .catch(handleDbError('insertServing'));
 };
 
 export const getServings = async (
@@ -89,20 +95,6 @@ export const getServings = async (
             'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = $1',
             [userId]
         )
-        .then((data: any[]) => {
-            return data.map(val => {
-                return {
-                    id: val.id,
-                    userId: val.user_id,
-                    date: DateTime.fromSQL(val.date).toUTC(),
-                    type: val.type,
-                    amount: val.amount,
-                    units: parseFloat(val.units)
-                };
-            });
-        })
-        .catch((error: any) => {
-            console.log('DB error', error);
-            throw error;
-        });
+        .then(mapRowsToServices)
+        .catch(handleDbError('getServings'));
 };
