@@ -1,0 +1,11 @@
+.ServingsTable {
+  border: 1px solid black;
+}
+
+.ServingsTable td {
+  border: 1px solid black;
+}
+
+.ServingsTable .type {
+  text-align: left;
+}

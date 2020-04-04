@@ -11,7 +11,7 @@ import {
     selectActiveShowBusy,
     selectActiveUnits
 } from './activeSlice';
-import { formatDateTime } from '../../app/date';
+import { ServingsTable } from '../../components/ServingsTable';
 
 export const Active = () => {
     const language: Language = useSelector(selectLanguage);
@@ -49,38 +49,7 @@ export const Active = () => {
                 )}
             </div>
 
-            <table className="hidden">
-                <thead>
-                    <tr>
-                        <th className="date">{i18n[language].active.time}</th>
-                        <th className="servingType">
-                            {i18n[language].active.servingName}
-                        </th>
-                        <th className="amount">
-                            {i18n[language].active.amount}
-                        </th>
-                        <th className="units">{i18n[language].active.units}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {servings ? (
-                        servings.map((serving: any) => {
-                            return (
-                                <tr>
-                                    <td>{formatDateTime(serving.date)}</td>
-                                    <td>{serving.type}</td>
-                                    <td>{serving.amount}</td>
-                                    <td>{serving.units}</td>
-                                </tr>
-                            );
-                        })
-                    ) : (
-                        <tr>
-                            <td colSpan={4} />
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <ServingsTable servings={servings} />
         </div>
     );
 };
