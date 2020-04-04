@@ -90,7 +90,7 @@ export const getServings = async (
 ): Promise<Serving[]> => {
     return db
         .any(
-            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = $1',
+            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = $1 ORDER BY date DESC',
             [userId]
         )
         .then(mapRowsToServices)

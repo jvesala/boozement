@@ -8,7 +8,7 @@ import {
     Serving,
     User
 } from '../../server/database';
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 describe('database.spec.ts', () => {
     const connectionString =
@@ -22,6 +22,10 @@ describe('database.spec.ts', () => {
         gender: 'M',
         weight: 100
     };
+    const user2: User = {
+        ...user
+    };
+    user2.email = 'my2.email@example.com';
 
     const serving: Serving = {
         userId: 0,
@@ -30,14 +34,32 @@ describe('database.spec.ts', () => {
         amount: 33,
         units: 1.0
     };
+    const serving2: Serving = {
+        ...serving
+    };
+    serving2.type = 'Cider';
+    serving2.date = serving2.date.minus(Duration.fromISO('P1D'));
+
+    const serving3: Serving = {
+        ...serving
+    };
+    serving3.type = 'Cider';
+    serving3.date = serving3.date.minus(Duration.fromISO('P2D'));
 
     beforeAll(async () => {
         const res = await initConnection(connectionString);
         pgp = res.pgp;
         db = res.db;
+        await db.any('DELETE FROM servings');
+        await db.any('DELETE FROM users');
         user.id = (await insertUser(db, user)).id;
+        user2.id = (await insertUser(db, user2)).id;
         serving.userId = user.id!;
+        serving2.userId = user.id!;
+        serving3.userId = user2.id!;
         serving.id = (await insertServing(db, serving)).id;
+        serving2.id = (await insertServing(db, serving2)).id;
+        serving3.id = (await insertServing(db, serving3)).id;
     });
 
     afterEach(() => {
@@ -76,7 +98,7 @@ describe('database.spec.ts', () => {
     describe('getServings', () => {
         it('get servings', async () => {
             const result = await getServings(db, user.id!);
-            expect(result).toEqual([serving]);
+            expect(result).toEqual([serving, serving2]);
         });
 
         it('returns undefined for non-existing user', async () => {
