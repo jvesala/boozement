@@ -5,7 +5,6 @@ import passport from 'passport';
 import { initPassport, isAuthenticated } from './passportUtils';
 import {
     getServings,
-    getUserByEmail,
     getUserById,
     initConnection,
     insertServing
