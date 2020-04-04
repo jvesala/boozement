@@ -3,7 +3,13 @@ import session from 'express-session';
 import passport from 'passport';
 
 import { initPassport, isAuthenticated } from './passportUtils';
-import { initConnection } from './database';
+import {
+    getServings,
+    getUserByEmail,
+    getUserById,
+    initConnection,
+    insertServing
+} from './database';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -35,13 +41,20 @@ initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/servings', (_req: Request, res: Response) => {
-    res.send({ express: 'Hello From Express' });
+app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
+    console.log('POST /servings', req.params);
+    const user = await getUserById(db, req.session!.passport.user);
+    const servings = await getServings(db, user!.id!, 100, 0);
+    res.send(servings);
 });
 
-app.post('/insert', isAuthenticated, (req: Request, res: Response) => {
-    console.log('POST /insert', req.body);
-    res.json(req.body);
+app.post('/insert', isAuthenticated, async (req: Request, res: Response) => {
+    const body = req.body;
+    console.log('POST /insert', body);
+    const user = await getUserById(db, req.session!.passport.user);
+    body.userId = user!.id!;
+    await insertServing(db, body);
+    res.json(body);
 });
 
 app.post(
