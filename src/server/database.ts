@@ -86,12 +86,14 @@ export const insertServing = async (db: any, serving: Serving) => {
 
 export const getServings = async (
     db: any,
-    userId: number
+    userId: number,
+    limit: number,
+    offset: number
 ): Promise<Serving[]> => {
     return db
         .any(
-            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = $1 ORDER BY date DESC',
-            [userId]
+            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset} ',
+            { userId, limit, offset }
         )
         .then(mapRowsToServices)
         .catch(handleDbError('getServings'));

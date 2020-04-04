@@ -97,12 +97,12 @@ describe('database.spec.ts', () => {
 
     describe('getServings', () => {
         it('get servings', async () => {
-            const result = await getServings(db, user.id!);
+            const result = await getServings(db, user.id!, 100, 0);
             expect(result).toEqual([serving, serving2]);
         });
 
         it('returns undefined for non-existing user', async () => {
-            const result = await getServings(db, 100000);
+            const result = await getServings(db, 100000, 100, 0);
             expect(result).toEqual([]);
         });
     });
