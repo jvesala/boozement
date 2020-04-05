@@ -1,5 +1,10 @@
 .ServingsTable {
   border: 1px solid black;
+  border-spacing: 0;
+}
+
+.ServingsTable th {
+  border: 1px solid black;
 }
 
 .ServingsTable td {

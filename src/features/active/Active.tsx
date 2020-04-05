@@ -24,7 +24,6 @@ export const Active = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log('USE EFFECT');
         dispatch(activeServingsAsync(''));
     }, []);
 

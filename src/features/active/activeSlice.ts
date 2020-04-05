@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest } from '../../app/network';
+import { DateTime } from 'luxon';
+import { Serving } from '../../server/database';
 
 export const slice = createSlice({
     name: 'active',
@@ -36,8 +38,18 @@ export const activeServingsAsync = (query: any) => async (dispatch: any) => {
     const url = '/servings';
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, query);
+    const json: Serving[] = body.map((serving: any) => {
+        return {
+            id: serving.id,
+            date: DateTime.fromISO(serving.date),
+            userId: serving.userId,
+            type: serving.type,
+            amount: serving.amount,
+            units: serving.units
+        };
+    });
     dispatch(setShowActiveBusy(false));
-    dispatch(setActiveServings(body));
+    dispatch(setActiveServings(json));
 };
 
 export const selectActiveUnits = (state: any) => state.active.activeUnits;

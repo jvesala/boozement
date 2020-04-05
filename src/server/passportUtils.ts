@@ -52,5 +52,6 @@ export const isAuthenticated = (
     next: NextFunction
 ) => {
     if (req.isAuthenticated()) return next();
+    // else res.sendStatus(401)
     else res.redirect('/');
 };
