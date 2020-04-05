@@ -4,6 +4,7 @@ import passport from 'passport';
 
 import { initPassport, isAuthenticated } from './passportUtils';
 import {
+    getRecentServings,
     getServings,
     getUserById,
     initConnection,
@@ -46,6 +47,21 @@ app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
     const servings = await getServings(db, user!.id!, 100, 0);
     res.send(servings);
 });
+
+app.get(
+    '/recentServings',
+    isAuthenticated,
+    async (req: Request, res: Response) => {
+        console.log('POST /recentServings', req.query);
+        const user = await getUserById(db, req.session!.passport.user);
+        const servings = await getRecentServings(
+            db,
+            user!.id!,
+            parseInt(req.query.hours)
+        );
+        res.send(servings);
+    }
+);
 
 app.post('/insert', isAuthenticated, async (req: Request, res: Response) => {
     const body = req.body;

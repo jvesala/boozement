@@ -24,7 +24,7 @@ export const Active = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(activeServingsAsync(''));
+        dispatch(activeServingsAsync('24'));
     }, []);
 
     return (

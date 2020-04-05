@@ -34,8 +34,9 @@ export const {
     setActiveServings
 } = slice.actions;
 
-export const activeServingsAsync = (query: any) => async (dispatch: any) => {
-    const url = '/servings';
+export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
+    const url = '/recentServings';
+    const query = `hours=${hours}`;
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, query);
     const json: Serving[] = body.map((serving: any) => {

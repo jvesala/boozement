@@ -1,4 +1,5 @@
 import {
+    getRecentServings,
     getServings,
     getUserByEmail,
     getUserById,
@@ -98,6 +99,23 @@ describe('database.spec.ts', () => {
     describe('getServings', () => {
         it('get servings', async () => {
             const result = await getServings(db, user.id!, 100, 0);
+            expect(result).toEqual([serving, serving2]);
+        });
+
+        it('returns undefined for non-existing user', async () => {
+            const result = await getServings(db, 100000, 100, 0);
+            expect(result).toEqual([]);
+        });
+    });
+
+    describe('getRecentServings', () => {
+        it('get servings 1h', async () => {
+            const result = await getRecentServings(db, user.id!, 1);
+            expect(result).toEqual([serving]);
+        });
+
+        it('get servings 25h', async () => {
+            const result = await getRecentServings(db, user.id!, 25);
             expect(result).toEqual([serving, serving2]);
         });
 

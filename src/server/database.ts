@@ -92,9 +92,23 @@ export const getServings = async (
 ): Promise<Serving[]> => {
     return db
         .any(
-            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset} ',
+            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
             { userId, limit, offset }
         )
         .then(mapRowsToServices)
         .catch(handleDbError('getServings'));
+};
+
+export const getRecentServings = async (
+    db: any,
+    userId: number,
+    hours: number
+): Promise<Serving[]> => {
+    return db
+        .any(
+            "SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
+            { userId, hours }
+        )
+        .then(mapRowsToServices)
+        .catch(handleDbError('getRecentServings'));
 };
