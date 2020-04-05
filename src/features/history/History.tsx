@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './History.css';
 import { i18n, Language } from '../../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
-import { updateSearch } from './historySlice';
+import {
+    historyServingsAsync,
+    selectHistoryServings,
+    selectHistoryShowBusy
+} from './historySlice';
+import { ServingsTable } from '../../components/ServingsTable';
+import { Busy } from '../../components/Busy';
 
 export const History = () => {
     const language: Language = useSelector(selectLanguage);
+    const showBusy = useSelector(selectHistoryShowBusy);
+    const servings = useSelector(selectHistoryServings);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(historyServingsAsync(''));
+    }, []);
 
     return (
         <div className="History">
@@ -17,35 +29,21 @@ export const History = () => {
                 <input
                     type="text"
                     name="search"
-                    onChange={e => dispatch(updateSearch(e.target.value))}
+                    onChange={e =>
+                        dispatch(historyServingsAsync(e.target.value))
+                    }
                 />
                 <div className="clear" />
-                <div className="busy" />
+                <Busy visible={showBusy} />
                 <div id="summary">
                     <span className="count"></span>{' '}
-                    {i18n[language].history.hits} / <br />
+                    {i18n[language].history.hits} /
                     <span className="units"></span>{' '}
                     {i18n[language].history.hitUnits}
                 </div>
-
-                <div id="result" />
                 <div id="error" />
-                <table>
-                    <thead>
-                        <th className="date">{i18n[language].history.date}</th>
-                        <th className="servingType">
-                            {i18n[language].history.servingName}
-                        </th>
-                        <th className="amount">
-                            {i18n[language].history.amount}
-                        </th>
-                        <th className="units">
-                            {i18n[language].history.units}
-                        </th>
-                    </thead>
-                    <tbody></tbody>
-                </table>
             </div>
+            <ServingsTable servings={servings} />
         </div>
     );
 };
