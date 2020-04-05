@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
-    console.log('POST /servings', req.params);
+    console.log('GET /servings', req.query);
     const user = await getUserById(db, req.session!.passport.user);
     const servings = await getServings(db, user!.id!, 100, 0);
     res.send(servings);
@@ -52,7 +52,7 @@ app.get(
     '/recentServings',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('POST /recentServings', req.query);
+        console.log('GET /recentServings', req.query);
         const user = await getUserById(db, req.session!.passport.user);
         const servings = await getRecentServings(
             db,

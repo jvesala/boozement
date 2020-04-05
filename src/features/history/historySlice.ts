@@ -29,9 +29,10 @@ export const {
     setHistoryServings
 } = slice.actions;
 
-export const historyServingsAsync = (query: any) => async (dispatch: any) => {
+export const historyServingsAsync = (search: any) => async (dispatch: any) => {
     const url = '/servings';
-    dispatch(updateHistorySearch(query));
+    const query = `search=${search}`;
+    dispatch(updateHistorySearch(search));
     dispatch(setShowHistoryBusy(true));
     const body = await doGetRequest(url, query);
     const json: Serving[] = body.map((serving: any) => {
