@@ -1,6 +1,9 @@
 .ServingsTable {
   border: 1px solid black;
   border-spacing: 0;
+  display: block;
+  overflow-y: scroll;
+  height: 50vh;
 }
 
 .ServingsTable th {
