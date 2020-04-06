@@ -44,12 +44,18 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
         <table className="ServingsTable" onScroll={scrolled}>
             <thead>
                 <tr>
-                    <th className="date">{i18n[language].active.time}</th>
-                    <th className="servingType">
-                        {i18n[language].active.servingName}
+                    <th className="date">
+                        {i18n[language].servingsTable.date}
                     </th>
-                    <th className="amount">{i18n[language].active.amount}</th>
-                    <th className="units">{i18n[language].active.units}</th>
+                    <th className="servingType">
+                        {i18n[language].servingsTable.servingName}
+                    </th>
+                    <th className="amount">
+                        {i18n[language].servingsTable.amount}
+                    </th>
+                    <th className="units">
+                        {i18n[language].servingsTable.units}
+                    </th>
                 </tr>
             </thead>
             <tbody>

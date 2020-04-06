@@ -37,15 +37,13 @@ export const en = {
     active: {
         inactive: "You haven't drank anything during previous 24h",
         statistics: (units: string, bac: string) =>
-            `During last 24h you've drank <span class="bac-units">${units}</span> units. Your bac is around <span class="bac">${bac}</span> &#8240;.`,
-        time: 'Time',
-        servingName: 'Serving',
-        amount: 'Amount',
-        units: 'Units'
+            `During last 24h you've drank <span class="bac-units">${units}</span> units. Your bac is around <span class="bac">${bac}</span> &#8240;.`
     },
     history: {
         hits: 'hits',
-        hitUnits: 'units',
+        hitUnits: 'units'
+    },
+    servingsTable: {
         date: 'Date',
         servingName: 'Serving',
         amount: 'Amount',
@@ -102,15 +100,13 @@ export const fi: Localisation = {
     active: {
         inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
         statistics: (units: string, bac: string) =>
-            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`,
-        time: 'Kellonaika',
-        servingName: 'Mitä joit',
-        amount: 'Tilavuus',
-        units: 'Annokset'
+            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`
     },
     history: {
         hits: 'osumaa',
-        hitUnits: 'annosta',
+        hitUnits: 'annosta'
+    },
+    servingsTable: {
         date: 'Päivämäärä',
         servingName: 'Mitä joit',
         amount: 'Tilavuus',
