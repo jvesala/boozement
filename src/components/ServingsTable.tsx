@@ -34,8 +34,9 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
             e.target.scrollTop + e.target.offsetHeight + scrollTolerance >
             e.target.scrollHeight;
         if (scrolledDown) {
-            dispatch(updateServingsFunction(search, offset + limit, limit));
-            dispatch(updateOffsetFunction(limit));
+            const newOffset = offset + limit;
+            dispatch(updateServingsFunction(search, newOffset, limit));
+            dispatch(updateOffsetFunction(newOffset));
         }
     };
 

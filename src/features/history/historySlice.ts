@@ -22,8 +22,8 @@ export const slice = createSlice({
         setHistoryServings: (state, action) => {
             state.historyServings = action.payload;
         },
-        increaseScrollOffset: (state, action) => {
-            state.offset = state.offset + action.payload;
+        setServingsOffset: (state, action) => {
+            state.offset = action.payload;
         },
         appendHistoryServings: (state, action) => {
             state.historyServings = [].concat(
@@ -38,7 +38,7 @@ export const {
     updateHistorySearch,
     setShowHistoryBusy,
     setHistoryServings,
-    increaseScrollOffset,
+    setServingsOffset,
     appendHistoryServings
 } = slice.actions;
 

@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import {
     historyServingsAsync,
-    increaseScrollOffset,
     selectHistoryLimit,
     selectHistoryOffset,
     selectHistorySearch,
     selectHistoryServings,
-    selectHistoryShowBusy
+    selectHistoryShowBusy,
+    setServingsOffset
 } from './historySlice';
 import { ServingsTable } from '../../components/ServingsTable';
 import { Busy } from '../../components/Busy';
@@ -28,20 +28,19 @@ export const History = () => {
 
     useEffect(() => {
         dispatch(historyServingsAsync(search, offset, limit));
+        dispatch(setServingsOffset(0));
     }, []);
+
+    const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newOffset = 0;
+        historyServingsAsync(e.target.value, newOffset, limit);
+        dispatch(setServingsOffset(newOffset));
+    };
 
     return (
         <div className="History">
             <div>
-                <input
-                    type="text"
-                    name="search"
-                    onChange={e =>
-                        dispatch(
-                            historyServingsAsync(e.target.value, offset, limit) // todo fix offset
-                        )
-                    }
-                />
+                <input type="text" name="search" onChange={searchChange} />
                 <div className="clear" />
                 <Busy visible={showBusy} />
                 <div id="summary">
@@ -57,7 +56,7 @@ export const History = () => {
                 search={search}
                 offset={offset}
                 limit={limit}
-                updateOffsetFunction={increaseScrollOffset}
+                updateOffsetFunction={setServingsOffset}
                 updateServingsFunction={historyServingsAsync}
             />
         </div>
