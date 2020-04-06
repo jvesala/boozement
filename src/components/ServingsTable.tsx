@@ -13,8 +13,17 @@ interface ServingsTableProps {
 export const ServingsTable: React.FC<ServingsTableProps> = ({ servings }) => {
     const language: Language = useSelector(selectLanguage);
 
+    const scrollTolerance = 10;
+
+    const scrolled = (e: any) => {
+        const scrolledDown =
+            e.target.scrollTop + e.target.offsetHeight + scrollTolerance >
+            e.target.scrollHeight;
+        console.log('SCROLLED down', scrolledDown);
+    };
+
     return (
-        <table className="ServingsTable">
+        <table className="ServingsTable" onScroll={scrolled}>
             <thead>
                 <tr>
                     <th className="date">{i18n[language].active.time}</th>
