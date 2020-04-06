@@ -2,16 +2,30 @@ import React from 'react';
 import './ServingsTable.css';
 import { Serving } from '../server/database';
 import { i18n, Language } from '../app/localization';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../features/login/loginSlice';
 import { ServingsTableRow } from './ServingsTableRow';
 
 interface ServingsTableProps {
     servings: Serving[];
+    search: string;
+    offset: number;
+    limit: number;
+    updateOffsetFunction: any;
+    updateServingsFunction: any;
 }
 
-export const ServingsTable: React.FC<ServingsTableProps> = ({ servings }) => {
+export const ServingsTable: React.FC<ServingsTableProps> = ({
+    servings,
+    search,
+    offset,
+    limit,
+    updateOffsetFunction,
+    updateServingsFunction
+}) => {
     const language: Language = useSelector(selectLanguage);
+
+    const dispatch = useDispatch();
 
     const scrollTolerance = 10;
 
@@ -19,7 +33,10 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({ servings }) => {
         const scrolledDown =
             e.target.scrollTop + e.target.offsetHeight + scrollTolerance >
             e.target.scrollHeight;
-        console.log('SCROLLED down', scrolledDown);
+        if (scrolledDown) {
+            dispatch(updateServingsFunction(search, offset + limit, limit));
+            dispatch(updateOffsetFunction(limit));
+        }
     };
 
     return (

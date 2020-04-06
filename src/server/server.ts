@@ -44,7 +44,12 @@ app.use(passport.session());
 app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
     console.log('GET /servings', req.query);
     const user = await getUserById(db, req.session!.passport.user);
-    const servings = await getServings(db, user!.id!, 100, 0);
+    const servings = await getServings(
+        db,
+        user!.id!,
+        req.query.limit,
+        req.query.offset
+    );
     res.send(servings);
 });
 

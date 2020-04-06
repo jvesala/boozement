@@ -48,7 +48,14 @@ export const Active = () => {
                 )}
             </div>
 
-            <ServingsTable servings={servings} />
+            <ServingsTable
+                servings={servings}
+                search={''}
+                offset={0}
+                limit={0}
+                updateOffsetFunction={undefined}
+                updateServingsFunction={undefined}
+            />
         </div>
     );
 };
