@@ -65,6 +65,7 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
                             <ServingsTableRow
                                 serving={serving}
                                 key={serving.id}
+                                id={serving.id}
                             />
                         );
                     })
