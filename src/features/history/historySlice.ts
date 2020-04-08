@@ -9,6 +9,7 @@ export const slice = createSlice({
         search: '',
         showBusy: true,
         historyServings: [],
+        editServing: undefined,
         offset: 0,
         limit: 100
     },
@@ -21,6 +22,9 @@ export const slice = createSlice({
         },
         setHistoryServings: (state, action) => {
             state.historyServings = action.payload;
+        },
+        setHistoryEditServing: (state, action) => {
+            state.editServing = action.payload;
         },
         setServingsOffset: (state, action) => {
             state.offset = action.payload;
@@ -38,6 +42,7 @@ export const {
     updateHistorySearch,
     setShowHistoryBusy,
     setHistoryServings,
+    setHistoryEditServing,
     setServingsOffset,
     appendHistoryServings
 } = slice.actions;
@@ -78,6 +83,8 @@ export const selectHistorySearch = (state: any) => state.history.search;
 export const selectHistoryShowBusy = (state: any) => state.history.showBusy;
 export const selectHistoryServings = (state: any) =>
     state.history.historyServings;
+export const selectHistoryEditServing = (state: any) =>
+    state.history.editServing;
 export const selectHistoryOffset = (state: any) => state.history.offset;
 export const selectHistoryLimit = (state: any) => state.history.limit;
 

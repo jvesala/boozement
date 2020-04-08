@@ -55,6 +55,8 @@ export const Active = () => {
                 limit={0}
                 updateOffsetFunction={undefined}
                 updateServingsFunction={undefined}
+                selectHistoryEditServing={undefined}
+                updateEditServingFunction={undefined}
             />
         </div>
     );

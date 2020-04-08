@@ -11,7 +11,9 @@ import {
     selectHistorySearch,
     selectHistoryServings,
     selectHistoryShowBusy,
-    setServingsOffset
+    setServingsOffset,
+    setHistoryEditServing,
+    selectHistoryEditServing
 } from './historySlice';
 import { ServingsTable } from '../../components/ServingsTable';
 import { Busy } from '../../components/Busy';
@@ -58,6 +60,8 @@ export const History = () => {
                 limit={limit}
                 updateOffsetFunction={setServingsOffset}
                 updateServingsFunction={historyServingsAsync}
+                selectHistoryEditServing={selectHistoryEditServing}
+                updateEditServingFunction={setHistoryEditServing}
             />
         </div>
     );

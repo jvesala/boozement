@@ -13,6 +13,8 @@ interface ServingsTableProps {
     limit: number;
     updateOffsetFunction: any;
     updateServingsFunction: any;
+    selectHistoryEditServing: any;
+    updateEditServingFunction: any;
 }
 
 export const ServingsTable: React.FC<ServingsTableProps> = ({
@@ -21,7 +23,9 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
     offset,
     limit,
     updateOffsetFunction,
-    updateServingsFunction
+    updateServingsFunction,
+    selectHistoryEditServing,
+    updateEditServingFunction
 }) => {
     const language: Language = useSelector(selectLanguage);
 
@@ -66,6 +70,12 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
                                 serving={serving}
                                 key={serving.id}
                                 id={serving.id}
+                                selectHistoryEditServing={
+                                    selectHistoryEditServing
+                                }
+                                updateEditServingFunction={
+                                    updateEditServingFunction
+                                }
                             />
                         );
                     })
