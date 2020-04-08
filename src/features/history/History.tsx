@@ -42,7 +42,7 @@ export const History = () => {
     return (
         <div className="History">
             <div>
-                <input type="text" name="search" onChange={searchChange} />
+                <input className="search" type="text" name="search" onChange={searchChange} />
                 <div className="clear" />
                 <Busy visible={showBusy} />
                 <div id="summary">

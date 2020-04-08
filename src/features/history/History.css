@@ -2,5 +2,9 @@
 }
 
 .History input {
+  width: 80%;
+}
+
+.History input.search {
   width: 200px;
 }

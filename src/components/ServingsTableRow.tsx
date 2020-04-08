@@ -32,6 +32,10 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
         );
     };
 
+    const onChange = (e: any) => {
+        console.log(e.target.value)
+    };
+
     const isCellEditable = (field: string) =>
         selectedCell && selectedCell.id === id && selectedCell.field === field;
 
@@ -41,10 +45,11 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                 {isCellEditable('date') ? (
                     <input
                         type="text"
-                        value={formatDateTimeWithLanguage(
+                        defaultValue={formatDateTimeWithLanguage(
                             language,
                             serving.date
                         )}
+                        onChange={onChange}
                     />
                 ) : (
                     formatDateTimeWithLanguage(language, serving.date)
@@ -52,21 +57,21 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
             </td>
             <td className="type" onClickCapture={handleClick('type')}>
                 {isCellEditable('type') ? (
-                    <input type="text" value={serving.type} />
+                    <input type="text" defaultValue={serving.type}  onChange={onChange}/>
                 ) : (
                     serving.type
                 )}
             </td>
             <td className="amount" onClickCapture={handleClick('amount')}>
                 {isCellEditable('amount') ? (
-                    <input type="text" value={serving.amount} />
+                    <input type="text" defaultValue={serving.amount}  onChange={onChange} />
                 ) : (
                     serving.amount
                 )}
             </td>
             <td className="units" onClickCapture={handleClick('units')}>
                 {isCellEditable('units') ? (
-                    <input type="text" value={serving.units} />
+                    <input type="text" defaultValue={serving.units}  onChange={onChange} />
                 ) : (
                     serving.units
                 )}
