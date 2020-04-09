@@ -32,8 +32,13 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
         );
     };
 
-    const onChange = (e: any) => {
-        console.log(e.target.value);
+    const onKeyup = (e: any) => {
+        if (e.keyCode === 13) {
+            console.log(
+                'Updating id ' + id,
+                e.target.name + '=' + e.target.value
+            );
+        }
     };
 
     const isCellEditable = (field: string) =>
@@ -45,11 +50,12 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                 {isCellEditable('date') ? (
                     <input
                         type="text"
+                        name="date"
                         defaultValue={formatDateTimeWithLanguage(
                             language,
                             DateTime.fromISO(serving.date)
                         )}
-                        onChange={onChange}
+                        onKeyUpCapture={onKeyup}
                     />
                 ) : (
                     formatDateTimeWithLanguage(
@@ -62,8 +68,9 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                 {isCellEditable('type') ? (
                     <input
                         type="text"
+                        name="type"
                         defaultValue={serving.type}
-                        onChange={onChange}
+                        onKeyUpCapture={onKeyup}
                     />
                 ) : (
                     serving.type
@@ -73,8 +80,9 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                 {isCellEditable('amount') ? (
                     <input
                         type="text"
+                        name="amount"
                         defaultValue={serving.amount}
-                        onChange={onChange}
+                        onKeyUpCapture={onKeyup}
                     />
                 ) : (
                     serving.amount
@@ -84,8 +92,9 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                 {isCellEditable('units') ? (
                     <input
                         type="text"
+                        name="units"
                         defaultValue={serving.units}
-                        onChange={onChange}
+                        onKeyUpCapture={onKeyup}
                     />
                 ) : (
                     serving.units
