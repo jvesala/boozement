@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest } from '../../app/network';
-import { DateTime } from 'luxon';
-import { Serving } from '../../server/database';
 
 export const slice = createSlice({
     name: 'active',
