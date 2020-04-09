@@ -7,6 +7,7 @@ import {
     insertServing,
     insertUser,
     Serving,
+    updateField,
     User
 } from '../../server/database';
 import { DateTime, Duration } from 'luxon';
@@ -47,6 +48,10 @@ describe('database.spec.ts', () => {
     serving3.type = 'Cider';
     serving3.date = serving3.date.minus(Duration.fromISO('P2D'));
 
+    const servingUpdate: Serving = {
+        ...serving
+    };
+
     beforeAll(async () => {
         const res = await initConnection(connectionString);
         pgp = res.pgp;
@@ -58,9 +63,11 @@ describe('database.spec.ts', () => {
         serving.userId = user.id!;
         serving2.userId = user.id!;
         serving3.userId = user2.id!;
+        servingUpdate.userId = user2.id!;
         serving.id = (await insertServing(db, serving)).id;
         serving2.id = (await insertServing(db, serving2)).id;
         serving3.id = (await insertServing(db, serving3)).id;
+        servingUpdate.id = (await insertServing(db, servingUpdate)).id;
     });
 
     afterEach(() => {
@@ -93,6 +100,33 @@ describe('database.spec.ts', () => {
         it('returns undefined for non-existing user', async () => {
             const result = await getUserByEmail(db, 'not-my-email@example.com');
             expect(result).toEqual(null);
+        });
+    });
+
+    describe('updateField', () => {
+        it('update all fields', async () => {
+            const newDate = DateTime.utc();
+            await updateField(
+                db,
+                String(servingUpdate.id),
+                'date',
+                newDate.toISO()
+            );
+            await updateField(db, String(servingUpdate.id), 'type', 'newBeer');
+            await updateField(db, String(servingUpdate.id), 'amount', '111');
+            const result = await updateField(
+                db,
+                String(servingUpdate.id),
+                'units',
+                '666'
+            );
+            expect(result).toEqual({
+                type: 'newBeer',
+                units: '666',
+                user_id: servingUpdate.userId,
+                date: newDate.toSQL().replace(' Z', '+00'),
+                amount: 111
+            });
         });
     });
 

@@ -61,7 +61,10 @@ export const getUserById = async (
     id: number
 ): Promise<User | null> => {
     return db
-        .oneOrNone('SELECT * FROM users WHERE id = $1', [id])
+        .oneOrNone(
+            'SELECT id, email, password, gender, weight FROM users WHERE id = $1',
+            [id]
+        )
         .catch(handleDbError('getUserById'));
 };
 
@@ -70,7 +73,10 @@ export const getUserByEmail = async (
     email: string
 ): Promise<User | null> => {
     return db
-        .oneOrNone('SELECT * FROM users WHERE email = $1', [email])
+        .oneOrNone(
+            'SELECT id, email, password, gender, weight FROM users WHERE email = $1',
+            [email]
+        )
         .catch(handleDbError('getUserByEmail'));
 };
 
@@ -79,6 +85,21 @@ export const insertServing = async (db: any, serving: Serving) => {
         .any(
             'INSERT INTO servings (user_id, date, type, amount, units) VALUES (${userId}, ${date}, ${type}, ${amount}, ${units}) RETURNING id',
             serving
+        )
+        .then((data: any[]) => data[0])
+        .catch(handleDbError('insertServing'));
+};
+
+export const updateField = async (
+    db: any,
+    id: string,
+    field: string,
+    value: string
+) => {
+    return db
+        .any(
+            'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} RETURNING user_id, date, type, amount, units',
+            { field, value, id }
         )
         .then((data: any[]) => data[0])
         .catch(handleDbError('insertServing'));
