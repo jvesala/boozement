@@ -92,14 +92,15 @@ export const insertServing = async (db: any, serving: Serving) => {
 
 export const updateField = async (
     db: any,
+    userId: string,
     id: string,
     field: string,
     value: string
 ) => {
     return db
         .any(
-            'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} RETURNING user_id, date, type, amount, units',
-            { field, value, id }
+            'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId} RETURNING user_id, date, type, amount, units',
+            { userId, id, field, value }
         )
         .then((data: any[]) => data[0])
         .catch(handleDbError('insertServing'));

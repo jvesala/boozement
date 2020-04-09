@@ -8,7 +8,8 @@ import {
     getServings,
     getUserById,
     initConnection,
-    insertServing
+    insertServing,
+    updateField
 } from './database';
 
 const express = require('express');
@@ -75,6 +76,25 @@ app.post('/insert', isAuthenticated, async (req: Request, res: Response) => {
     body.userId = user!.id!;
     await insertServing(db, body);
     res.json(body);
+});
+
+app.put('/insert', isAuthenticated, async (req: Request, res: Response) => {
+    const body = req.body;
+    console.log('POST /put', body);
+    const user = await getUserById(db, req.session!.passport.user);
+
+    const servingId = req.body.id;
+    const field = req.body.field;
+    const value = req.body.value;
+
+    const result = await updateField(
+        db,
+        String(user!.id!),
+        servingId,
+        field,
+        value
+    );
+    res.json(result);
 });
 
 app.post(

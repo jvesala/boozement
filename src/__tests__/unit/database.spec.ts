@@ -108,14 +108,28 @@ describe('database.spec.ts', () => {
             const newDate = DateTime.utc();
             await updateField(
                 db,
+                String(servingUpdate.userId),
                 String(servingUpdate.id),
                 'date',
                 newDate.toISO()
             );
-            await updateField(db, String(servingUpdate.id), 'type', 'newBeer');
-            await updateField(db, String(servingUpdate.id), 'amount', '111');
+            await updateField(
+                db,
+                String(servingUpdate.userId),
+                String(servingUpdate.id),
+                'type',
+                'newBeer'
+            );
+            await updateField(
+                db,
+                String(servingUpdate.userId),
+                String(servingUpdate.id),
+                'amount',
+                '111'
+            );
             const result = await updateField(
                 db,
+                String(servingUpdate.userId),
                 String(servingUpdate.id),
                 'units',
                 '666'
