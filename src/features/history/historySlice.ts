@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest } from '../../app/network';
-import { Serving } from '../../server/database';
-import { DateTime } from 'luxon';
 
 export const slice = createSlice({
     name: 'history',
@@ -47,17 +45,6 @@ export const {
     appendHistoryServings
 } = slice.actions;
 
-export const parseServing = (serving: any) => {
-    return {
-        id: serving.id,
-        date: DateTime.fromISO(serving.date),
-        userId: serving.userId,
-        type: serving.type,
-        amount: serving.amount,
-        units: serving.units
-    };
-};
-
 export const historyServingsAsync = (
     search: any,
     offset: number,
@@ -69,13 +56,12 @@ export const historyServingsAsync = (
     dispatch(updateHistorySearch(search));
     dispatch(setShowHistoryBusy(true));
     const body = await doGetRequest(url, query);
-    const json: Serving[] = body.map(parseServing);
     dispatch(setShowHistoryBusy(false));
 
     if (offset === 0) {
-        dispatch(setHistoryServings(json));
+        dispatch(setHistoryServings(body));
     } else {
-        dispatch(appendHistoryServings(json));
+        dispatch(appendHistoryServings(body));
     }
 };
 

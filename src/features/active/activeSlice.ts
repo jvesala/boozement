@@ -39,18 +39,8 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     const query = `hours=${hours}`;
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, query);
-    const json: Serving[] = body.map((serving: any) => {
-        return {
-            id: serving.id,
-            date: DateTime.fromISO(serving.date),
-            userId: serving.userId,
-            type: serving.type,
-            amount: serving.amount,
-            units: serving.units
-        };
-    });
     dispatch(setShowActiveBusy(false));
-    dispatch(setActiveServings(json));
+    dispatch(setActiveServings(body));
 };
 
 export const selectActiveUnits = (state: any) => state.active.activeUnits;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { formatDateTimeWithLanguage } from '../app/date';
-import { Serving } from '../server/database';
 import { Language } from '../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../features/login/loginSlice';
+import { DateTime } from 'luxon';
 
 interface ServingsTableRowProps {
-    serving: Serving;
+    serving: any;
     id: string;
     selectHistoryEditServing: any;
     updateEditServingFunction: any;
@@ -33,7 +33,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
     };
 
     const onChange = (e: any) => {
-        console.log(e.target.value)
+        console.log(e.target.value);
     };
 
     const isCellEditable = (field: string) =>
@@ -47,31 +47,46 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                         type="text"
                         defaultValue={formatDateTimeWithLanguage(
                             language,
-                            serving.date
+                            DateTime.fromISO(serving.date)
                         )}
                         onChange={onChange}
                     />
                 ) : (
-                    formatDateTimeWithLanguage(language, serving.date)
+                    formatDateTimeWithLanguage(
+                        language,
+                        DateTime.fromISO(serving.date)
+                    )
                 )}
             </td>
             <td className="type" onClickCapture={handleClick('type')}>
                 {isCellEditable('type') ? (
-                    <input type="text" defaultValue={serving.type}  onChange={onChange}/>
+                    <input
+                        type="text"
+                        defaultValue={serving.type}
+                        onChange={onChange}
+                    />
                 ) : (
                     serving.type
                 )}
             </td>
             <td className="amount" onClickCapture={handleClick('amount')}>
                 {isCellEditable('amount') ? (
-                    <input type="text" defaultValue={serving.amount}  onChange={onChange} />
+                    <input
+                        type="text"
+                        defaultValue={serving.amount}
+                        onChange={onChange}
+                    />
                 ) : (
                     serving.amount
                 )}
             </td>
             <td className="units" onClickCapture={handleClick('units')}>
                 {isCellEditable('units') ? (
-                    <input type="text" defaultValue={serving.units}  onChange={onChange} />
+                    <input
+                        type="text"
+                        defaultValue={serving.units}
+                        onChange={onChange}
+                    />
                 ) : (
                     serving.units
                 )}
