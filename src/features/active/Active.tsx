@@ -25,7 +25,7 @@ export const Active = () => {
 
     useEffect(() => {
         dispatch(activeServingsAsync('24'));
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="Active">
@@ -50,11 +50,10 @@ export const Active = () => {
 
             <ServingsTable
                 servings={servings}
-                search={''}
                 offset={0}
                 limit={0}
+                busy={false}
                 updateOffsetFunction={undefined}
-                updateServingsFunction={undefined}
                 selectHistoryEditServing={undefined}
                 updateEditServingFunction={undefined}
             />

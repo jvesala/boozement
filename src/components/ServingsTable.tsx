@@ -8,22 +8,20 @@ import { ServingsTableRow } from './ServingsTableRow';
 
 interface ServingsTableProps {
     servings: Serving[];
-    search: string;
     offset: number;
     limit: number;
+    busy: boolean;
     updateOffsetFunction: any;
-    updateServingsFunction: any;
     selectHistoryEditServing: any;
     updateEditServingFunction: any;
 }
 
 export const ServingsTable: React.FC<ServingsTableProps> = ({
     servings,
-    search,
     offset,
     limit,
+    busy,
     updateOffsetFunction,
-    updateServingsFunction,
     selectHistoryEditServing,
     updateEditServingFunction
 }) => {
@@ -37,9 +35,8 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
         const scrolledDown =
             e.target.scrollTop + e.target.offsetHeight + scrollTolerance >
             e.target.scrollHeight;
-        if (scrolledDown) {
+        if (scrolledDown && !busy) {
             const newOffset = offset + limit;
-            dispatch(updateServingsFunction(search, newOffset, limit));
             dispatch(updateOffsetFunction(newOffset));
         }
     };

@@ -13,6 +13,7 @@ export const slice = createSlice({
     },
     reducers: {
         updateHistorySearch: (state, action) => {
+            state.offset = 0;
             state.search = action.payload;
         },
         setShowHistoryBusy: (state, action) => {
@@ -53,7 +54,6 @@ export const historyServingsAsync = (
     const url = '/servings';
     const query = `search=${search}&offset=${offset}&limit=${limit}`;
 
-    dispatch(updateHistorySearch(search));
     dispatch(setShowHistoryBusy(true));
     const body = await doGetRequest(url, query);
     dispatch(setShowHistoryBusy(false));

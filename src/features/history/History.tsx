@@ -13,7 +13,8 @@ import {
     selectHistoryShowBusy,
     setServingsOffset,
     setHistoryEditServing,
-    selectHistoryEditServing
+    selectHistoryEditServing,
+    updateHistorySearch
 } from './historySlice';
 import { ServingsTable } from '../../components/ServingsTable';
 import { Busy } from '../../components/Busy';
@@ -30,13 +31,10 @@ export const History = () => {
 
     useEffect(() => {
         dispatch(historyServingsAsync(search, offset, limit));
-        dispatch(setServingsOffset(0));
-    }, []);
+    }, [dispatch, limit, offset, search]);
 
-    const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newOffset = 0;
-        historyServingsAsync(e.target.value, newOffset, limit);
-        dispatch(setServingsOffset(newOffset));
+    const searchChange = (_e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(updateHistorySearch(search));
     };
 
     return (
@@ -60,11 +58,10 @@ export const History = () => {
             </div>
             <ServingsTable
                 servings={servings}
-                search={search}
                 offset={offset}
                 limit={limit}
+                busy={showBusy}
                 updateOffsetFunction={setServingsOffset}
-                updateServingsFunction={historyServingsAsync}
                 selectHistoryEditServing={selectHistoryEditServing}
                 updateEditServingFunction={setHistoryEditServing}
             />
