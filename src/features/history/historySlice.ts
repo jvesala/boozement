@@ -35,17 +35,10 @@ export const slice = createSlice({
             );
         },
         updateHistoryServing: (state, action) => {
-            state.historyServings = state.historyServings.map(serving => {
-                if ((serving as any).id === action.payload.id) {
-                    (serving as any).date = action.payload.date;
-                    (serving as any).type = action.payload.type;
-                    (serving as any).amount = action.payload.amount;
-                    (serving as any).units = action.payload.units;
-                    return serving;
-                } else {
-                    return serving;
-                }
-            });
+            state.historyServings = updateServingInServingsArrays(
+                state.historyServings as any,
+                action.payload
+            );
         }
     }
 });
@@ -97,3 +90,16 @@ export const selectHistoryOffset = (state: any) => state.history.offset;
 export const selectHistoryLimit = (state: any) => state.history.limit;
 
 export default slice.reducer;
+
+export const updateServingInServingsArrays = (servings: [], updated: any) =>
+    servings.map(serving => {
+        if ((serving as any).id === updated.id) {
+            (serving as any).date = updated.date;
+            (serving as any).type = updated.type;
+            (serving as any).amount = updated.amount;
+            (serving as any).units = updated.units;
+            return serving;
+        } else {
+            return serving;
+        }
+    });

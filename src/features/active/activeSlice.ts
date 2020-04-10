@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest, doPutRequest } from '../../app/network';
+import { updateServingInServingsArrays } from '../history/historySlice';
 
 export const slice = createSlice({
     name: 'active',
@@ -27,17 +28,10 @@ export const slice = createSlice({
             state.editServing = action.payload;
         },
         updateActiveServing: (state, action) => {
-            state.activeServings = state.activeServings.map(serving => {
-                if ((serving as any).id === action.payload.id) {
-                    (serving as any).date = action.payload.date;
-                    (serving as any).type = action.payload.type;
-                    (serving as any).amount = action.payload.amount;
-                    (serving as any).units = action.payload.units;
-                    return serving;
-                } else {
-                    return serving;
-                }
-            });
+            state.activeServings = updateServingInServingsArrays(
+                state.activeServings as any,
+                action.payload
+            );
         }
     }
 });
