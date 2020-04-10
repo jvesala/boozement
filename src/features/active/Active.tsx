@@ -6,10 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import {
     activeServingsAsync,
+    activeUpdateAsync,
     selectActiveBac,
+    selectActiveEditServing,
     selectActiveServings,
     selectActiveShowBusy,
-    selectActiveUnits
+    selectActiveUnits,
+    setActiveEditServing
 } from './activeSlice';
 import { ServingsTable } from '../../components/ServingsTable';
 
@@ -54,8 +57,9 @@ export const Active = () => {
                 limit={0}
                 busy={false}
                 updateOffsetFunction={undefined}
-                selectHistoryEditServing={undefined}
-                updateEditServingFunction={undefined}
+                selectHistoryEditServing={selectActiveEditServing}
+                updateEditServingFunction={setActiveEditServing}
+                updateServingFunction={activeUpdateAsync}
             />
         </div>
     );

@@ -14,6 +14,7 @@ interface ServingsTableProps {
     updateOffsetFunction: any;
     selectHistoryEditServing: any;
     updateEditServingFunction: any;
+    updateServingFunction: any;
 }
 
 export const ServingsTable: React.FC<ServingsTableProps> = ({
@@ -23,7 +24,8 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
     busy,
     updateOffsetFunction,
     selectHistoryEditServing,
-    updateEditServingFunction
+    updateEditServingFunction,
+    updateServingFunction
 }) => {
     const language: Language = useSelector(selectLanguage);
 
@@ -73,6 +75,7 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
                                 updateEditServingFunction={
                                     updateEditServingFunction
                                 }
+                                updateServingFunction={updateServingFunction}
                             />
                         );
                     })

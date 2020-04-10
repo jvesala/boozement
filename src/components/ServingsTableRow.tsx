@@ -10,13 +10,15 @@ interface ServingsTableRowProps {
     id: string;
     selectHistoryEditServing: any;
     updateEditServingFunction: any;
+    updateServingFunction: any;
 }
 
 export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
     serving,
     id,
     selectHistoryEditServing,
-    updateEditServingFunction
+    updateEditServingFunction,
+    updateServingFunction
 }) => {
     const language: Language = useSelector(selectLanguage);
     const selectedCell: any = useSelector(selectHistoryEditServing);
@@ -34,10 +36,13 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
 
     const onKeyup = (e: any) => {
         if (e.keyCode === 13) {
-            console.log(
-                'Updating id ' + id,
-                e.target.name + '=' + e.target.value
-            );
+            const payload = {
+                id,
+                field: e.target.name,
+                value: e.target.value
+            };
+            dispatch(updateEditServingFunction(undefined));
+            dispatch(updateServingFunction(payload));
         }
     };
 

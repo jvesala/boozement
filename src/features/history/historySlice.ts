@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doGetRequest } from '../../app/network';
+import { doGetRequest, doPutRequest } from '../../app/network';
 
 export const slice = createSlice({
     name: 'history',
@@ -33,6 +33,19 @@ export const slice = createSlice({
                 ...state.historyServings,
                 ...action.payload
             );
+        },
+        updateHistoryServing: (state, action) => {
+            state.historyServings = state.historyServings.map(serving => {
+                if ((serving as any).id === action.payload.id) {
+                    (serving as any).date = action.payload.date;
+                    (serving as any).type = action.payload.type;
+                    (serving as any).amount = action.payload.amount;
+                    (serving as any).units = action.payload.units;
+                    return serving;
+                } else {
+                    return serving;
+                }
+            });
         }
     }
 });
@@ -43,7 +56,8 @@ export const {
     setHistoryServings,
     setHistoryEditServing,
     setServingsOffset,
-    appendHistoryServings
+    appendHistoryServings,
+    updateHistoryServing
 } = slice.actions;
 
 export const historyServingsAsync = (
@@ -63,6 +77,14 @@ export const historyServingsAsync = (
     } else {
         dispatch(appendHistoryServings(body));
     }
+};
+
+export const historyUpdateAsync = (payload: any) => async (dispatch: any) => {
+    const url = '/insert';
+    dispatch(setShowHistoryBusy(true));
+    const body = await doPutRequest(url, payload);
+    dispatch(setShowHistoryBusy(false));
+    dispatch(updateHistoryServing(body));
 };
 
 export const selectHistorySearch = (state: any) => state.history.search;
