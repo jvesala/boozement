@@ -56,10 +56,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                     <input
                         type="text"
                         name="date"
-                        defaultValue={formatDateTimeWithLanguage(
-                            language,
-                            DateTime.fromISO(serving.date)
-                        )}
+                        defaultValue={DateTime.fromISO(serving.date).toISO()}
                         onKeyUpCapture={onKeyup}
                     />
                 ) : (

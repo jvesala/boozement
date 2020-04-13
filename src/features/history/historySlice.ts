@@ -37,7 +37,7 @@ export const slice = createSlice({
         updateHistoryServing: (state, action) => {
             state.historyServings = updateServingInServingsArrays(
                 state.historyServings as any,
-                action.payload
+                action.payload[0]
             );
         }
     }

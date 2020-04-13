@@ -102,7 +102,7 @@ export const updateField = async (
             'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId} RETURNING id, user_id, date, type, amount, units',
             { userId, id, field, value }
         )
-        .then((data: any[]) => data[0])
+        .then(mapRowsToServices)
         .catch(handleDbError('insertServing'));
 };
 
