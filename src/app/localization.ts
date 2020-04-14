@@ -37,7 +37,7 @@ export const en = {
     active: {
         inactive: "You haven't drank anything during previous 24h",
         statistics: (units: string, bac: string) =>
-            `During last 24h you've drank <span class="bac-units">${units}</span> units. Your bac is around <span class="bac">${bac}</span> &#8240;.`
+            `During last 24h you've drank ${units} units. Your bac is around ${bac}.`
     },
     history: {
         hits: 'hits',
@@ -100,7 +100,7 @@ export const fi: Localisation = {
     active: {
         inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
         statistics: (units: string, bac: string) =>
-            `Edellisen 24 tunnin aikana olet juonut <span class="bac-units">${units}</span> annosta. Promillemääräsi on noin <span class="bac">${bac}</span> &#8240;.`
+            `Edellisen 24 tunnin aikana olet juonut ${units} annosta. Promillemääräsi on noin ${bac}.`
     },
     history: {
         hits: 'osumaa',

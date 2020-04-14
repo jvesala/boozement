@@ -21,6 +21,12 @@ export type Serving = {
     units: number;
 };
 
+export type ServingsResponse = {
+    servings: Serving[];
+    totalCount: number;
+    totalUnits: number;
+};
+
 export const initConnection = (connectionString: string) => {
     const pgp: IMain = pgPromise({});
     var types = pgp.pg.types;
@@ -44,6 +50,24 @@ export const mapRowsToServices = (data: any[]) => {
             units: parseFloat(val.units)
         };
     });
+};
+
+export const mapRowsToServicesResponse = (data: any[]) => {
+    const first = data[0];
+    const totalCount = first ? parseInt(first.totalcount) : 0;
+    const totalUnits = first ? parseFloat(first.totalunits) : 0;
+
+    const servings = data.map(val => {
+        return {
+            id: val.id,
+            userId: val.user_id,
+            date: DateTime.fromSQL(val.date).toUTC(),
+            type: val.type,
+            amount: val.amount,
+            units: parseFloat(val.units)
+        };
+    });
+    return { totalCount, totalUnits, servings };
 };
 
 export const insertUser = async (db: any, user: User) => {
@@ -111,13 +135,13 @@ export const getServings = async (
     userId: number,
     limit: number,
     offset: number
-): Promise<Serving[]> => {
+): Promise<ServingsResponse> => {
     return db
         .any(
-            'SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
+            'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
             { userId, limit, offset }
         )
-        .then(mapRowsToServices)
+        .then(mapRowsToServicesResponse)
         .catch(handleDbError('getServings'));
 };
 
@@ -128,9 +152,9 @@ export const getRecentServings = async (
 ): Promise<Serving[]> => {
     return db
         .any(
-            "SELECT id, user_id, date, type, amount, units FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
+            "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
             { userId, hours }
         )
-        .then(mapRowsToServices)
+        .then(mapRowsToServicesResponse)
         .catch(handleDbError('getRecentServings'));
 };

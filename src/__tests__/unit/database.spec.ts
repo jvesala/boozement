@@ -134,25 +134,36 @@ describe('database.spec.ts', () => {
                 'units',
                 '666'
             );
-            expect(result).toEqual({
-                type: 'newBeer',
-                units: '666',
-                user_id: servingUpdate.userId,
-                date: newDate.toSQL().replace(' Z', '+00'),
-                amount: 111
-            });
+            expect(result).toEqual([
+                {
+                    id: servingUpdate.id,
+                    type: 'newBeer',
+                    units: 666,
+                    userId: servingUpdate.userId,
+                    date: newDate,
+                    amount: 111
+                }
+            ]);
         });
     });
 
     describe('getServings', () => {
         it('get servings', async () => {
             const result = await getServings(db, user.id!, 100, 0);
-            expect(result).toEqual([serving, serving2]);
+            expect(result).toEqual({
+                totalCount: 2,
+                totalUnits: 2,
+                servings: [serving, serving2]
+            });
         });
 
         it('returns undefined for non-existing user', async () => {
             const result = await getServings(db, 100000, 100, 0);
-            expect(result).toEqual([]);
+            expect(result).toEqual({
+                totalCount: 0,
+                servings: [],
+                totalUnits: 0
+            });
         });
     });
 
@@ -169,7 +180,11 @@ describe('database.spec.ts', () => {
 
         it('returns undefined for non-existing user', async () => {
             const result = await getServings(db, 100000, 100, 0);
-            expect(result).toEqual([]);
+            expect(result).toEqual({
+                totalCount: 0,
+                servings: [],
+                totalUnits: 0
+            });
         });
     });
 });

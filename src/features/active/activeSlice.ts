@@ -5,16 +5,14 @@ import { updateServingInServingsArrays } from '../history/historySlice';
 export const slice = createSlice({
     name: 'active',
     initialState: {
-        activeUnits: '',
         activeBac: '',
         showBusy: true,
         activeServings: [],
+        totalCount: 0,
+        totalUnits: 0,
         editServing: undefined
     },
     reducers: {
-        updateActiveUnits: (state, action) => {
-            state.activeUnits = action.payload;
-        },
         updateActiveBac: (state, action) => {
             state.activeBac = action.payload;
         },
@@ -22,7 +20,9 @@ export const slice = createSlice({
             state.showBusy = action.payload;
         },
         setActiveServings: (state, action) => {
-            state.activeServings = action.payload;
+            state.activeServings = action.payload.servings;
+            state.totalCount = action.payload.totalCount;
+            state.totalUnits = action.payload.totalUnits;
         },
         setActiveEditServing: (state, action) => {
             state.editServing = action.payload;
@@ -37,7 +37,6 @@ export const slice = createSlice({
 });
 
 export const {
-    updateActiveUnits,
     updateActiveBac,
     setShowActiveBusy,
     setActiveServings,
@@ -62,10 +61,11 @@ export const activeUpdateAsync = (payload: any) => async (dispatch: any) => {
     dispatch(updateActiveServing(body));
 };
 
-export const selectActiveUnits = (state: any) => state.active.activeUnits;
 export const selectActiveBac = (state: any) => state.active.activeBac;
 export const selectActiveShowBusy = (state: any) => state.active.showBusy;
 export const selectActiveServings = (state: any) => state.active.activeServings;
+export const selectActiveTotalCount = (state: any) => state.active.totalCount;
+export const selectActiveTotalUnits = (state: any) => state.active.totalUnits;
 export const selectActiveEditServing = (state: any) => state.active.editServing;
 
 export default slice.reducer;

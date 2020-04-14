@@ -15,7 +15,9 @@ import {
     setHistoryEditServing,
     selectHistoryEditServing,
     updateHistorySearch,
-    historyUpdateAsync
+    historyUpdateAsync,
+    selectHistoryTotalCount,
+    selectHistoryTotalUnits
 } from './historySlice';
 import { ServingsTable } from '../../components/ServingsTable';
 import { Busy } from '../../components/Busy';
@@ -24,6 +26,8 @@ export const History = () => {
     const language: Language = useSelector(selectLanguage);
     const showBusy = useSelector(selectHistoryShowBusy);
     const servings = useSelector(selectHistoryServings);
+    const totalCount = useSelector(selectHistoryTotalCount);
+    const totalUnits = useSelector(selectHistoryTotalUnits);
     const search = useSelector(selectHistorySearch);
     const offset = useSelector(selectHistoryOffset);
     const limit = useSelector(selectHistoryLimit);
@@ -50,9 +54,9 @@ export const History = () => {
                 <div className="clear" />
                 <Busy visible={showBusy} />
                 <div id="summary">
-                    <span className="count"></span>{' '}
+                    <span className="count">{totalCount}</span>
                     {i18n[language].history.hits} /
-                    <span className="units"></span>{' '}
+                    <span className="units">{totalUnits}</span>
                     {i18n[language].history.hitUnits}
                 </div>
                 <div id="error" />

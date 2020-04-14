@@ -11,7 +11,7 @@ import {
     selectActiveEditServing,
     selectActiveServings,
     selectActiveShowBusy,
-    selectActiveUnits,
+    selectActiveTotalUnits,
     setActiveEditServing
 } from './activeSlice';
 import { ServingsTable } from '../../components/ServingsTable';
@@ -19,10 +19,10 @@ import { ServingsTable } from '../../components/ServingsTable';
 export const Active = () => {
     const language: Language = useSelector(selectLanguage);
 
-    const activeUnits = useSelector(selectActiveUnits);
     const activeBac = useSelector(selectActiveBac);
     const showBusy = useSelector(selectActiveShowBusy);
     const servings = useSelector(selectActiveServings);
+    const totalUnits = useSelector(selectActiveTotalUnits);
 
     const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ export const Active = () => {
                 {!showBusy && servings && servings.length > 0 ? (
                     <p className="statistics">
                         {i18n[language].active.statistics(
-                            activeUnits,
+                            totalUnits,
                             activeBac
                         )}
                     </p>
