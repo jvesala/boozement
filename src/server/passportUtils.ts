@@ -40,7 +40,7 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
     });
 
     passport.deserializeUser((id, done) => {
-        getUserById(db, parseInt(id as any, 10)).then(user => {
+        getUserById(db, id as string).then(user => {
             done(undefined, user);
         });
     });

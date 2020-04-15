@@ -30,7 +30,7 @@ describe('database.spec.ts', () => {
     user2.email = 'my2.email@example.com';
 
     const serving: Serving = {
-        userId: 0,
+        userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc(),
         type: 'Beer',
         amount: 33,
@@ -86,7 +86,10 @@ describe('database.spec.ts', () => {
         });
 
         it('returns undefined for non-existing user', async () => {
-            const result = await getUserById(db, 100000);
+            const result = await getUserById(
+                db,
+                'ffef775a-ffb3-454b-a4f1-c9883977415b'
+            );
             expect(result).toEqual(null);
         });
     });
@@ -158,7 +161,12 @@ describe('database.spec.ts', () => {
         });
 
         it('returns undefined for non-existing user', async () => {
-            const result = await getServings(db, 100000, 100, 0);
+            const result = await getServings(
+                db,
+                'acf556cc-72ab-4a04-922b-829116ab7638',
+                100,
+                0
+            );
             expect(result).toEqual({
                 totalCount: 0,
                 servings: [],
@@ -170,16 +178,29 @@ describe('database.spec.ts', () => {
     describe('getRecentServings', () => {
         it('get servings 1h', async () => {
             const result = await getRecentServings(db, user.id!, 1);
-            expect(result).toEqual([serving]);
+            expect(result).toEqual({
+                totalCount: 1,
+                totalUnits: 1,
+                servings: [serving]
+            });
         });
 
         it('get servings 25h', async () => {
             const result = await getRecentServings(db, user.id!, 25);
-            expect(result).toEqual([serving, serving2]);
+            expect(result).toEqual({
+                totalCount: 2,
+                totalUnits: 2,
+                servings: [serving, serving2]
+            });
         });
 
         it('returns undefined for non-existing user', async () => {
-            const result = await getServings(db, 100000, 100, 0);
+            const result = await getServings(
+                db,
+                'acf556cc-72ab-4a04-922b-829116ab7638',
+                100,
+                0
+            );
             expect(result).toEqual({
                 totalCount: 0,
                 servings: [],

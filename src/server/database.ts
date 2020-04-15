@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 export type Gender = 'M' | 'F';
 
 export type User = {
-    id?: number;
+    id?: string;
     email: string;
     password: string;
     gender: Gender;
@@ -13,8 +13,8 @@ export type User = {
 };
 
 export type Serving = {
-    id?: number;
-    userId: number;
+    id?: string;
+    userId: string;
     date: DateTime;
     type: string;
     amount: number;
@@ -82,7 +82,7 @@ export const insertUser = async (db: any, user: User) => {
 
 export const getUserById = async (
     db: any,
-    id: number
+    id: string
 ): Promise<User | null> => {
     return db
         .oneOrNone(
@@ -132,7 +132,7 @@ export const updateField = async (
 
 export const getServings = async (
     db: any,
-    userId: number,
+    userId: string,
     limit: number,
     offset: number
 ): Promise<ServingsResponse> => {
@@ -147,7 +147,7 @@ export const getServings = async (
 
 export const getRecentServings = async (
     db: any,
-    userId: number,
+    userId: string,
     hours: number
 ): Promise<Serving[]> => {
     return db
