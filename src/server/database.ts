@@ -107,7 +107,19 @@ export const getUserByEmail = async (
 export const insertServing = async (db: any, serving: Serving) => {
     return db
         .any(
-            'INSERT INTO servings (user_id, date, type, amount, units) VALUES (${userId}, ${date}, ${type}, ${amount}, ${units}) RETURNING id',
+            `
+WITH created_token AS (
+  SELECT
+    setweight(to_tsvector('simple', lower(\${type})), 'A') ||
+    setweight(to_tsvector('simple', to_char(\${date}::timestamptz, 'YYYY:DD:MM')), 'B') ||
+    setweight(to_tsvector('simple', to_char(\${date}::timestamptz, 'HH24:MI')), 'C') ||
+    setweight(to_tsvector('simple', to_char(\${date}::timestamptz, 'HH12:MI')), 'D')
+    AS tokens
+    )
+INSERT INTO servings (user_id, date, type, amount, units, tokens)
+  SELECT \${userId}, \${date}, \${type}, \${amount}, \${units}, tokens
+  FROM created_token
+RETURNING id`,
             serving
         )
         .then((data: any[]) => data[0])
