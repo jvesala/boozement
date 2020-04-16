@@ -38,8 +38,8 @@ export const History = () => {
         dispatch(historyServingsAsync(search, offset, limit));
     }, [dispatch, limit, offset, search]);
 
-    const searchChange = (_e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateHistorySearch(search));
+    const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(updateHistorySearch(e.target.value));
     };
 
     return (

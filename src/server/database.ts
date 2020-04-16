@@ -158,3 +158,20 @@ export const getRecentServings = async (
         .then(mapRowsToServicesResponse)
         .catch(handleDbError('getRecentServings'));
 };
+
+export const searchServings = async (
+    db: any,
+    userId: string,
+    search: string,
+    limit: number,
+    offset: number
+): Promise<ServingsResponse> => {
+    const searchFormatted = search.replace(' ', '&');
+    return db
+        .any(
+            'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
+            { userId, searchFormatted, limit, offset }
+        )
+        .then(mapRowsToServicesResponse)
+        .catch(handleDbError('getServings'));
+};
