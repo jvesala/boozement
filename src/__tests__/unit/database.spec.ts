@@ -121,7 +121,7 @@ describe('database.spec.ts', () => {
                 String(servingUpdate.userId),
                 String(servingUpdate.id),
                 'type',
-                'newBeer'
+                'New Hipster Beer'
             );
             await updateField(
                 db,
@@ -140,7 +140,7 @@ describe('database.spec.ts', () => {
             expect(result).toEqual([
                 {
                     id: servingUpdate.id,
-                    type: 'newBeer',
+                    type: 'New Hipster Beer',
                     units: 666,
                     userId: servingUpdate.userId,
                     date: newDate,

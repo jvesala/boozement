@@ -134,10 +134,25 @@ export const updateField = async (
     value: string
 ) => {
     return db
-        .any(
-            'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId} RETURNING id, user_id, date, type, amount, units',
-            { userId, id, field, value }
-        )
+        .tx(async (t: any) => {
+            await t.none(
+                'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId}',
+                { userId, id, field, value }
+            );
+            const result = await t.one(
+                `
+UPDATE servings
+  SET tokens = setweight(to_tsvector('simple', lower(type)), 'A') ||
+               setweight(to_tsvector('simple', to_char(date, 'YYYY:DD:MM')), 'B') ||
+               setweight(to_tsvector('simple', to_char(date, 'HH24:MI')), 'C') ||
+               setweight(to_tsvector('simple', to_char(date, 'HH12:MI')), 'D')
+WHERE id = \${id} AND user_id = \${userId}
+RETURNING id, user_id, date, type, amount, units
+        `,
+                { userId, id }
+            );
+            return [{ ...result }];
+        })
         .then(mapRowsToServices)
         .catch(handleDbError('insertServing'));
 };
