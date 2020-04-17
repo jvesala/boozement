@@ -29,4 +29,6 @@ CREATE TABLE IF NOT EXISTS servings
 
 CREATE INDEX IF NOT EXISTS servings_user_id_idx ON servings USING btree (user_id);
 
+CREATE INDEX IF NOT EXISTS servings_tokens_idx ON servings USING GIN (tokens);
+
 INSERT INTO users VALUES ('acf556cc-72ab-4a04-922b-829116ab7638', 'jussi.vesala@iki.fi','$2b$10$rzoPH7qKbNSzFVsozEbxpOoaTQjuEeBD88OB0QF6v8A.4FbQKiLpW','M', 73000);

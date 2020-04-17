@@ -50,7 +50,7 @@ app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
         const servings = await searchServings(
             db,
             user!.id!,
-            req.query.search.toLowerCase(),
+            req.query.search,
             req.query.limit,
             req.query.offset
         );
