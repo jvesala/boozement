@@ -15,6 +15,7 @@ export const slice = createSlice({
     },
     reducers: {
         updateHistorySearch: (state, action) => {
+            state.historyServings = [];
             state.offset = 0;
             state.search = action.payload;
         },
