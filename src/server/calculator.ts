@@ -7,9 +7,9 @@ export const hourInMillis = 3600 * 1000;
 const alcoholInGramsInServing = (serving: Serving) =>
     serving.units * gramsInUnit;
 
-const weightInKilos = (weight: number) => weight / 1000;
+export const weightInKilos = (weight: number) => weight / 1000;
 
-const genderFactor = (gender: String) => (gender == 'M' ? 0.75 : 0.66);
+const genderFactor = (gender: String) => (gender === 'M' ? 0.75 : 0.66);
 
 const burnRateInMillis = (weight: number) =>
     (0.1 * weightInKilos(weight)) / hourInMillis;

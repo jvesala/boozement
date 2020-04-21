@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Userdata.css';
 import { i18n, Language } from '../../app/localization';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage, selectUsername } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
-import { selectShowUserdataBusy } from './userdataSlice';
+import {
+    selectGender,
+    selectShowUserdataBusy,
+    selectWeight,
+    userDataAsync
+} from './userdataSlice';
+import { weightInKilos } from '../../server/calculator';
 
 export const Userdata = () => {
     const language: Language = useSelector(selectLanguage);
-    const username: Language = useSelector(selectUsername);
+    const weight = useSelector(selectWeight);
+    const gender = useSelector(selectGender);
+    const username = useSelector(selectUsername);
     const showBusy = useSelector(selectShowUserdataBusy);
 
     const [disabled, setDisabled] = useState(true);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(userDataAsync());
+    }, [dispatch]);
 
     const updateValidity = (e: any) => {
         setDisabled(!e.target.closest('form').checkValidity());
@@ -42,7 +56,7 @@ export const Userdata = () => {
                     <label>{i18n[language].userdata.gender}</label>
                 </div>
                 <div>
-                    <input type="text" value={''} readOnly={true} />
+                    <input type="text" value={gender} readOnly={true} />
                 </div>
 
                 <div>
@@ -51,7 +65,11 @@ export const Userdata = () => {
                     </label>
                 </div>
                 <div>
-                    <input id="weight" name="weight" />
+                    <input
+                        id="weight"
+                        name="weight"
+                        value={weightInKilos(weight)}
+                    />
                     <em className="weightTitle">
                         {i18n[language].userdata.weightTitle}
                     </em>

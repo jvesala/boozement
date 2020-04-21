@@ -124,6 +124,12 @@ app.post(
     }
 );
 
+app.get('/userdata', isAuthenticated, async (req: Request, res: Response) => {
+    console.log('GET /userdata');
+    const user = await getUserById(db, req.session!.passport.user);
+    res.send({ weight: user?.weight, gender: user?.gender });
+});
+
 app.post('/logout', async (req: Request, res: Response) => {
     console.log('POST /logout');
     req.session?.destroy(() => {

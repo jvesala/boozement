@@ -122,7 +122,7 @@ export const fi: Localisation = {
         passwordRetry: 'Salasana uudelleen',
         passwordError: 'Salasana on pakollinen.',
         passwordErrorMismatch: 'Salasana on pakollinen.',
-        button: 'Salasana on pakollinen.'
+        button: 'Päivitä'
     }
 };
 
