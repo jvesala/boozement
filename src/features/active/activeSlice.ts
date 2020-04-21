@@ -50,7 +50,8 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, query);
     dispatch(setShowActiveBusy(false));
-    dispatch(setActiveServings(body));
+    dispatch(setActiveServings(body.servings));
+    dispatch(updateActiveBac(body.bac));
 };
 
 export const activeUpdateAsync = (payload: any) => async (dispatch: any) => {

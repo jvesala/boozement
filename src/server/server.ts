@@ -12,6 +12,7 @@ import {
     searchServings,
     updateField
 } from './database';
+import { bacNow } from './calculator';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -77,7 +78,8 @@ app.get(
             user!.id!,
             parseInt(req.query.hours)
         );
-        res.send(servings);
+        const bac = bacNow(user!, servings);
+        res.send({ servings, bac });
     }
 );
 
