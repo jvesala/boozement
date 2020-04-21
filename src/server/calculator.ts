@@ -42,7 +42,6 @@ const calculateBacHistory = (
     now: DateTime,
     servings: Serving[]
 ) => {
-    const startTime = servings.length > 0 ? servings[0].date : DateTime.utc();
     const endServing: Serving = {
         date: now,
         userId: '',
@@ -51,6 +50,7 @@ const calculateBacHistory = (
         units: 0
     };
     const servingsUntilNow = [...servings, endServing];
+    const startTime = servingsUntilNow[0].date;
     const startEntry: GramsAt = { at: startTime, grams: 0 };
 
     const gramHistory = servingsUntilNow.reduce(

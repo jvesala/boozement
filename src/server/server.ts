@@ -78,7 +78,8 @@ app.get(
             user!.id!,
             parseInt(req.query.hours)
         );
-        const bac = bacNow(user!, servings);
+        const reversed = [...servings.servings].reverse();
+        const bac = bacNow(user!, reversed);
         res.send({ servings, bac });
     }
 );

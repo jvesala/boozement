@@ -36,8 +36,8 @@ describe('calculator.spec.ts', () => {
         });
 
         it('works with 73kg male having two units two hour ago and two unit one hour ago', () => {
-            const result = bacNow(user, [serving, serving2]);
-            expect(result).toEqual('0.74');
+            const result = bacNow(user, [serving2, serving]);
+            expect(result).toEqual('0.61');
         });
 
         it('works with 73kg male having nothing', () => {

@@ -176,7 +176,7 @@ export const getRecentServings = async (
     db: any,
     userId: string,
     hours: number
-): Promise<Serving[]> => {
+): Promise<ServingsResponse> => {
     return db
         .any(
             "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
