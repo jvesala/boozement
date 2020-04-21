@@ -9,9 +9,10 @@ import {
     selectGender,
     selectShowUserdataBusy,
     selectWeight,
+    updateWeight,
     userDataAsync
 } from './userdataSlice';
-import { weightInKilos } from '../../server/calculator';
+import { Error } from '../../components/Error';
 
 export const Userdata = () => {
     const language: Language = useSelector(selectLanguage);
@@ -20,6 +21,8 @@ export const Userdata = () => {
     const username = useSelector(selectUsername);
     const showBusy = useSelector(selectShowUserdataBusy);
 
+    const [weightValid, setWeightValid] = useState(true);
+
     const [disabled, setDisabled] = useState(true);
 
     const dispatch = useDispatch();
@@ -27,6 +30,17 @@ export const Userdata = () => {
     useEffect(() => {
         dispatch(userDataAsync());
     }, [dispatch]);
+
+    const handleFieldUpdate = (
+        e: any,
+        dispatchFunc: any,
+        validityFunc: any
+    ) => {
+        dispatch(dispatchFunc(e.target.value));
+        const fieldValid =
+            e.target.value.length === 0 || e.target.validity.valid;
+        validityFunc(fieldValid);
+    };
 
     const updateValidity = (e: any) => {
         setDisabled(!e.target.closest('form').checkValidity());
@@ -66,16 +80,24 @@ export const Userdata = () => {
                 </div>
                 <div>
                     <input
-                        id="weight"
                         name="weight"
-                        value={weightInKilos(weight)}
+                        type="number"
+                        value={weight}
+                        min={1}
+                        max={200}
+                        step={0.1}
+                        required
+                        onChange={e =>
+                            handleFieldUpdate(e, updateWeight, setWeightValid)
+                        }
                     />
                     <em className="weightTitle">
                         {i18n[language].userdata.weightTitle}
                     </em>
-                    <em className="error weight-error hidden">
-                        {i18n[language].userdata.weightError}
-                    </em>
+                    <Error
+                        visible={!weightValid}
+                        text={i18n[language].userdata.weightError}
+                    />
                 </div>
 
                 <div>

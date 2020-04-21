@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest } from '../../app/network';
+import { weightInKilos } from '../../server/calculator';
 
 export const slice = createSlice({
     name: 'userdata',
@@ -28,7 +29,7 @@ export const userDataAsync = () => async (dispatch: any) => {
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, {});
     dispatch(setShowActiveBusy(false));
-    dispatch(updateWeight(body.weight));
+    dispatch(updateWeight(weightInKilos(body.weight)));
     dispatch(updateGender(body.gender));
 };
 
