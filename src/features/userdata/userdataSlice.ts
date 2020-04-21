@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const slice = createSlice({
     name: 'userdata',
     initialState: {
-        weight: ''
+        weight: '',
+        showBusy: false
     },
     reducers: {
         updateWeight: (state, action) => {
@@ -15,5 +16,6 @@ export const slice = createSlice({
 export const { updateWeight } = slice.actions;
 
 export const selectWeight = (state: any) => state.userdata.weight;
+export const selectShowUserdataBusy = (state: any) => state.userdata.showBusy;
 
 export default slice.reducer;
