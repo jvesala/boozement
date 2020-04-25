@@ -8,6 +8,8 @@ import { Busy } from '../../components/Busy';
 import {
     selectGender,
     selectShowUserdataBusy,
+    selectUserdataError,
+    selectUserdataResult,
     selectWeight,
     setShowUserdataBusy,
     updateUserdataAsync,
@@ -23,6 +25,8 @@ export const UserdataForm = () => {
     const gender = useSelector(selectGender);
     const username = useSelector(selectUsername);
     const showBusy = useSelector(selectShowUserdataBusy);
+    const userdataResult = useSelector(selectUserdataResult);
+    const userdataError = useSelector(selectUserdataError);
 
     const [weightValid, setWeightValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
@@ -110,8 +114,16 @@ export const UserdataForm = () => {
                 </button>
                 <Busy visible={showBusy} />
 
-                <div id="result"></div>
-                <div id="error"></div>
+                {userdataResult ? (
+                    <div>{i18n[language].userdata.result}</div>
+                ) : (
+                    ''
+                )}
+
+                <Error
+                    visible={userdataError}
+                    text={i18n[language].userdata.error}
+                />
             </form>
         </div>
     );

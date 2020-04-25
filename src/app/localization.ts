@@ -55,7 +55,9 @@ export const en = {
         weight: 'Weight',
         weightTitle: 'kg',
         weightError: 'Weight must be in kilograms.',
-        button: 'Update'
+        button: 'Update',
+        result: 'Updated.',
+        error: 'Error in update.'
     },
     password: {
         current: 'Current password',
@@ -122,7 +124,9 @@ export const fi: Localisation = {
         weight: 'Paino',
         weightTitle: 'kg',
         weightError: 'Anna paino kiloissa.',
-        button: 'Päivitä'
+        button: 'Päivitä',
+        result: 'Päivitetty.',
+        error: 'Tietojen päivitys epäonnistui.'
     },
     password: {
         current: 'Nykyinen salasana',

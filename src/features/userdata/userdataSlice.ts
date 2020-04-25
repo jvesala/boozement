@@ -7,7 +7,9 @@ export const slice = createSlice({
     initialState: {
         weight: '',
         gender: '',
-        showBusy: false
+        showError: false,
+        showBusy: false,
+        result: undefined
     },
     reducers: {
         updateWeight: (state, action) => {
@@ -18,6 +20,12 @@ export const slice = createSlice({
         },
         setShowUserdataBusy: (state, action) => {
             state.showBusy = action.payload;
+        },
+        setUserdataResult: (state, action) => {
+            state.result = action.payload;
+        },
+        setShowUserdataError: (state, action) => {
+            state.showError = action.payload;
         }
     }
 });
@@ -25,7 +33,9 @@ export const slice = createSlice({
 export const {
     updateWeight,
     updateGender,
-    setShowUserdataBusy
+    setShowUserdataBusy,
+    setUserdataResult,
+    setShowUserdataError
 } = slice.actions;
 
 export const userDataAsync = () => async (dispatch: any) => {
@@ -39,13 +49,15 @@ export const userDataAsync = () => async (dispatch: any) => {
 
 export const updateUserdataAsync = (payload: any) => async (dispatch: any) => {
     const url = '/userdata';
-    const body = await doPutRequest(url, payload);
+    await doPutRequest(url, payload);
     dispatch(setShowUserdataBusy(false));
-    dispatch(updateWeight(weightInKilos(body.weight)));
+    dispatch(setUserdataResult(true));
 };
 
 export const selectWeight = (state: any) => state.userdata.weight;
 export const selectGender = (state: any) => state.userdata.gender;
 export const selectShowUserdataBusy = (state: any) => state.userdata.showBusy;
+export const selectUserdataError = (state: any) => state.userdata.showError;
+export const selectUserdataResult = (state: any) => state.userdata.result;
 
 export default slice.reducer;
