@@ -9,6 +9,8 @@ import {
     selectGender,
     selectShowUserdataBusy,
     selectWeight,
+    setShowUserdataBusy,
+    updateUserdataAsync,
     updateWeight,
     userDataAsync
 } from './userdataSlice';
@@ -31,7 +33,15 @@ export const UserdataForm = () => {
         dispatch(userDataAsync());
     }, [dispatch]);
 
-    const doSubmit = () => {};
+    const doSubmit = () => {
+        setDisabled(true);
+        dispatch(setShowUserdataBusy(true));
+
+        const payload = {
+            weight: weight * 1000
+        };
+        dispatch(updateUserdataAsync(payload));
+    };
 
     return (
         <div className="UserdataForm">

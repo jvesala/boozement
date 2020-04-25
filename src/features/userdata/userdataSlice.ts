@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doGetRequest } from '../../app/network';
+import { doGetRequest, doPutRequest } from '../../app/network';
 import { weightInKilos } from '../../server/calculator';
 
 export const slice = createSlice({
@@ -16,21 +16,32 @@ export const slice = createSlice({
         updateGender: (state, action) => {
             state.gender = action.payload;
         },
-        setShowActiveBusy: (state, action) => {
+        setShowUserdataBusy: (state, action) => {
             state.showBusy = action.payload;
         }
     }
 });
 
-export const { updateWeight, updateGender, setShowActiveBusy } = slice.actions;
+export const {
+    updateWeight,
+    updateGender,
+    setShowUserdataBusy
+} = slice.actions;
 
 export const userDataAsync = () => async (dispatch: any) => {
     const url = '/userdata';
-    dispatch(setShowActiveBusy(true));
+    dispatch(setShowUserdataBusy(true));
     const body = await doGetRequest(url, {});
-    dispatch(setShowActiveBusy(false));
+    dispatch(setShowUserdataBusy(false));
     dispatch(updateWeight(weightInKilos(body.weight)));
     dispatch(updateGender(body.gender));
+};
+
+export const updateUserdataAsync = (payload: any) => async (dispatch: any) => {
+    const url = '/userdata';
+    const body = await doPutRequest(url, payload);
+    dispatch(setShowUserdataBusy(false));
+    dispatch(updateWeight(weightInKilos(body.weight)));
 };
 
 export const selectWeight = (state: any) => state.userdata.weight;
