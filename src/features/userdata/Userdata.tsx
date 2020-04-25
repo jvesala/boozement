@@ -13,6 +13,7 @@ import {
     userDataAsync
 } from './userdataSlice';
 import { Error } from '../../components/Error';
+import { handleFieldUpdate, updateValidity } from '../../app/form';
 
 export const Userdata = () => {
     const language: Language = useSelector(selectLanguage);
@@ -22,8 +23,9 @@ export const Userdata = () => {
     const showBusy = useSelector(selectShowUserdataBusy);
 
     const [weightValid, setWeightValid] = useState(true);
+    const [disabledUserdata, setDisabledUserData] = useState(true);
 
-    const [disabled, setDisabled] = useState(true);
+    const [disabledPassword, setDisabledPassword] = useState(true);
 
     const dispatch = useDispatch();
 
@@ -31,28 +33,13 @@ export const Userdata = () => {
         dispatch(userDataAsync());
     }, [dispatch]);
 
-    const handleFieldUpdate = (
-        e: any,
-        dispatchFunc: any,
-        validityFunc: any
-    ) => {
-        dispatch(dispatchFunc(e.target.value));
-        const fieldValid =
-            e.target.value.length === 0 || e.target.validity.valid;
-        validityFunc(fieldValid);
-    };
-
-    const updateValidity = (e: any) => {
-        setDisabled(!e.target.closest('form').checkValidity());
-    };
-
     const doSubmit = () => {};
 
     return (
         <div className="Userdata">
             <form
                 method="post"
-                onChange={e => updateValidity(e)}
+                onChange={e => updateValidity(e, setDisabledUserData)}
                 onSubmit={e => {
                     e.preventDefault();
                 }}
@@ -88,7 +75,12 @@ export const Userdata = () => {
                         step={0.1}
                         required
                         onChange={e =>
-                            handleFieldUpdate(e, updateWeight, setWeightValid)
+                            handleFieldUpdate(
+                                e,
+                                dispatch,
+                                updateWeight,
+                                setWeightValid
+                            )
                         }
                     />
                     <em className="weightTitle">
@@ -100,9 +92,30 @@ export const Userdata = () => {
                     />
                 </div>
 
+                <button
+                    className="button"
+                    type="submit"
+                    onClick={doSubmit}
+                    disabled={disabledUserdata}
+                >
+                    {i18n[language].userdata.button}
+                </button>
+                <Busy visible={showBusy} />
+
+                <div id="result"></div>
+                <div id="error"></div>
+            </form>
+
+            <form
+                method="post"
+                onChange={e => updateValidity(e, setDisabledPassword)}
+                onSubmit={e => {
+                    e.preventDefault();
+                }}
+            >
                 <div>
                     <label htmlFor="password">
-                        {i18n[language].userdata.password}
+                        {i18n[language].userdata.passwordCurrent}
                     </label>
                 </div>
                 <div>
@@ -110,6 +123,14 @@ export const Userdata = () => {
                     <em className="error password-error hidden">
                         {i18n[language].userdata.passwordError}
                     </em>
+                </div>
+                <div>
+                    <label htmlFor="password">
+                        {i18n[language].userdata.password}
+                    </label>
+                </div>
+                <div>
+                    <input type="password" name="password" />
                 </div>
                 <div>
                     <label htmlFor="password-copy">
@@ -126,7 +147,7 @@ export const Userdata = () => {
                     className="button"
                     type="submit"
                     onClick={doSubmit}
-                    disabled={disabled}
+                    disabled={disabledPassword}
                 >
                     {i18n[language].userdata.button}
                 </button>

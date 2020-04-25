@@ -28,6 +28,7 @@ import {
 } from '../../app/date';
 import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
+import { handleFieldUpdate, updateValidity } from '../../app/form';
 
 export const Insert = () => {
     const language: Language = useSelector(selectLanguage);
@@ -47,21 +48,6 @@ export const Insert = () => {
     const [unitsValid, setUnitsValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
 
-    const handleFieldUpdate = (
-        e: any,
-        dispatchFunc: any,
-        validityFunc: any
-    ) => {
-        dispatch(dispatchFunc(e.target.value));
-        const fieldValid =
-            e.target.value.length === 0 || e.target.validity.valid;
-        validityFunc(fieldValid);
-    };
-
-    const updateValidity = (e: any) => {
-        setDisabled(!e.target.closest('form').checkValidity());
-    };
-
     const doInsert = () => {
         setDisabled(true);
         dispatch(setShowInsertBusy(true));
@@ -79,7 +65,7 @@ export const Insert = () => {
         <div className="Insert">
             <form
                 method="post"
-                onChange={e => updateValidity(e)}
+                onChange={e => updateValidity(e, setDisabled)}
                 onSubmit={e => {
                     e.preventDefault();
                 }}
@@ -138,7 +124,12 @@ export const Insert = () => {
                         step={1}
                         required
                         onChange={e =>
-                            handleFieldUpdate(e, updateAmount, setAmountValid)
+                            handleFieldUpdate(
+                                e,
+                                dispatch,
+                                updateAmount,
+                                setAmountValid
+                            )
                         }
                     />
                     <em className="unit">
@@ -162,7 +153,12 @@ export const Insert = () => {
                         step={0.1}
                         required
                         onChange={e =>
-                            handleFieldUpdate(e, updateUnits, setUnitsValid)
+                            handleFieldUpdate(
+                                e,
+                                dispatch,
+                                updateUnits,
+                                setUnitsValid
+                            )
                         }
                     />
                     <em className="unit">
