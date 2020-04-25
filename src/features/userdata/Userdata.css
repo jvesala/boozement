@@ -2,11 +2,3 @@
   display: grid;
   justify-items: center;
 }
-
-.Userdata > form > div {
-  width: 100%;
-  text-align: left;
-}
-.Userdata input {
-  width: 200px;
-}

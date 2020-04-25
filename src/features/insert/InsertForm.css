@@ -1,0 +1,7 @@
+.InsertForm > div {
+  width: 100%;
+  text-align: left;
+}
+.InsertForm input {
+  width: 200px;
+}

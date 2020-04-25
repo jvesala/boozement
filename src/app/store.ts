@@ -4,6 +4,7 @@ import insertReducer from '../features/insert/insertSlice';
 import activeReducer from '../features/active/activeSlice';
 import historyReducer from '../features/history/historySlice';
 import userdataSlice from '../features/userdata/userdataSlice';
+import passwordSlice from '../features/userdata/passwordSlice';
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         insert: insertReducer,
         active: activeReducer,
         history: historyReducer,
-        userdata: userdataSlice
+        userdata: userdataSlice,
+        password: passwordSlice
     }
 });

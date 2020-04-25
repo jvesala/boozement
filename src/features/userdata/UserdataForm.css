@@ -1,0 +1,7 @@
+.UserdataForm > div {
+  width: 100%;
+  text-align: left;
+}
+.UserdataForm input {
+  width: 200px;
+}
