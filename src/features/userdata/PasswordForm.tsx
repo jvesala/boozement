@@ -2,34 +2,55 @@ import React, { useState } from 'react';
 
 import './PasswordForm.css';
 import { i18n, Language } from '../../app/localization';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import { updateValidity } from '../../app/form';
 import {
+    selectCopyPassword,
+    selectCurrentPassword,
+    selectNewPassword,
     selectPasswordResult,
     selectShowPasswordBusy,
-    selectShowPasswordError
+    selectShowPasswordError,
+    setCopyPassword,
+    setCurrentPassword,
+    setNewPassword,
+    setShowPasswordBusy
 } from './passwordSlice';
 import { Error } from '../../components/Error';
+import { updateUserdataAsync } from './userdataSlice';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
+
+    const currentPassword = useSelector(selectCurrentPassword);
+    const newPassword = useSelector(selectNewPassword);
+    const copyPassword = useSelector(selectCopyPassword);
+
     const showBusy = useSelector(selectShowPasswordBusy);
-    const [disabledPassword, setDisabledPassword] = useState(true);
+    const [disabled, setDisabled] = useState(true);
 
     const passwordResult = useSelector(selectPasswordResult);
     const passwordError = useSelector(selectShowPasswordError);
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    const doSubmit = () => {};
+    const doSubmit = () => {
+        setDisabled(true);
+        dispatch(setShowPasswordBusy(true));
+        const payload = {
+            currentPassword,
+            newPassword
+        };
+        dispatch(updateUserdataAsync(payload));
+    };
 
     return (
         <div className="PasswordForm">
             <form
                 method="post"
-                onChange={e => updateValidity(e, setDisabledPassword)}
+                onChange={e => updateValidity(e, setDisabled)}
                 onSubmit={e => {
                     e.preventDefault();
                 }}
@@ -40,7 +61,15 @@ export const PasswordForm = () => {
                     </label>
                 </div>
                 <div>
-                    <input type="password" name="current" />
+                    <input
+                        type="password"
+                        name="current"
+                        value={currentPassword}
+                        required
+                        onChange={e =>
+                            dispatch(setCurrentPassword(e.target.value))
+                        }
+                    />
                 </div>
                 <div>
                     <label htmlFor="password">
@@ -48,22 +77,41 @@ export const PasswordForm = () => {
                     </label>
                 </div>
                 <div>
-                    <input type="password" name="new" />
+                    <input
+                        type="password"
+                        name="new"
+                        value={newPassword}
+                        minLength={10}
+                        maxLength={200}
+                        required
+                        onChange={e => dispatch(setNewPassword(e.target.value))}
+                    />
                 </div>
                 <div>
                     <label htmlFor="copy">{i18n[language].password.copy}</label>
                 </div>
                 <div>
-                    <input type="password" name="copy" />
-                    <em className="error password-match-error hidden">
-                        {i18n[language].password.errorMatch}
-                    </em>
+                    <input
+                        type="password"
+                        name="copy"
+                        value={copyPassword}
+                        minLength={10}
+                        maxLength={200}
+                        required
+                        onChange={e =>
+                            dispatch(setCopyPassword(e.target.value))
+                        }
+                    />
+                    <Error
+                        visible={newPassword !== copyPassword}
+                        text={i18n[language].password.errorMatch}
+                    />
                 </div>
                 <button
                     className="button"
                     type="submit"
                     onClick={doSubmit}
-                    disabled={disabledPassword}
+                    disabled={disabled}
                 >
                     {i18n[language].password.button}
                 </button>
