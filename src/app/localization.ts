@@ -55,12 +55,15 @@ export const en = {
         weight: 'Weight',
         weightTitle: 'kg',
         weightError: 'Weight must be in kilograms.',
-        passwordCurrent: 'Current password',
-        password: 'New password',
-        passwordRetry: 'Password again',
-        passwordError: 'Password is mandatory.',
-        passwordErrorMismatch: 'Passwords do not match.',
         button: 'Update'
+    },
+    password: {
+        current: 'Current password',
+        new: 'New password',
+        copy: 'Password again',
+        error: 'Password update failed.',
+        errorMatch: 'Passwords do not match.',
+        button: 'Change password'
     }
 };
 
@@ -119,12 +122,15 @@ export const fi: Localisation = {
         weight: 'Paino',
         weightTitle: 'kg',
         weightError: 'Anna paino kiloissa.',
-        passwordCurrent: 'Nykyinen salasana',
-        password: 'Uusi salasana',
-        passwordRetry: 'Salasana uudelleen',
-        passwordError: 'Salasana on pakollinen.',
-        passwordErrorMismatch: 'Salasana on pakollinen.',
         button: 'Päivitä'
+    },
+    password: {
+        current: 'Nykyinen salasana',
+        new: 'Uusi salasana',
+        copy: 'Salasana uudelleen',
+        error: 'Salasanan vaihto epäonnistui',
+        errorMatch: 'Uusi salasana eri',
+        button: 'Vaihda salasana'
     }
 };
 

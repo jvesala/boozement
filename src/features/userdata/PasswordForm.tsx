@@ -28,32 +28,27 @@ export const PasswordForm = () => {
             >
                 <div>
                     <label htmlFor="password">
-                        {i18n[language].userdata.passwordCurrent}
+                        {i18n[language].password.current}
                     </label>
                 </div>
                 <div>
-                    <input type="password" name="password" />
-                    <em className="error password-error hidden">
-                        {i18n[language].userdata.passwordError}
-                    </em>
+                    <input type="password" name="current" />
                 </div>
                 <div>
                     <label htmlFor="password">
-                        {i18n[language].userdata.password}
+                        {i18n[language].password.new}
                     </label>
                 </div>
                 <div>
-                    <input type="password" name="password" />
+                    <input type="password" name="new" />
                 </div>
                 <div>
-                    <label htmlFor="password-copy">
-                        {i18n[language].userdata.passwordRetry}
-                    </label>
+                    <label htmlFor="copy">{i18n[language].password.copy}</label>
                 </div>
                 <div>
-                    <input type="password" name="password-copy" />
+                    <input type="password" name="copy" />
                     <em className="error password-match-error hidden">
-                        {i18n[language].userdata.passwordErrorMismatch}
+                        {i18n[language].password.errorMatch}
                     </em>
                 </div>
                 <button
@@ -62,7 +57,7 @@ export const PasswordForm = () => {
                     onClick={doSubmit}
                     disabled={disabledPassword}
                 >
-                    {i18n[language].userdata.button}
+                    {i18n[language].password.button}
                 </button>
                 <Busy visible={showBusy} />
 
