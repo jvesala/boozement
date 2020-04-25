@@ -6,12 +6,20 @@ import { useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import { updateValidity } from '../../app/form';
-import { selectShowPasswordBusy } from './passwordSlice';
+import {
+    selectPasswordResult,
+    selectShowPasswordBusy,
+    selectShowPasswordError
+} from './passwordSlice';
+import { Error } from '../../components/Error';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
     const showBusy = useSelector(selectShowPasswordBusy);
     const [disabledPassword, setDisabledPassword] = useState(true);
+
+    const passwordResult = useSelector(selectPasswordResult);
+    const passwordError = useSelector(selectShowPasswordError);
 
     // const dispatch = useDispatch();
 
@@ -61,8 +69,16 @@ export const PasswordForm = () => {
                 </button>
                 <Busy visible={showBusy} />
 
-                <div id="result"></div>
-                <div id="error"></div>
+                {passwordResult ? (
+                    <div>{i18n[language].password.result}</div>
+                ) : (
+                    ''
+                )}
+
+                <Error
+                    visible={passwordError}
+                    text={i18n[language].password.error}
+                />
             </form>
         </div>
     );

@@ -65,7 +65,8 @@ export const en = {
         copy: 'Password again',
         error: 'Password update failed.',
         errorMatch: 'Passwords do not match.',
-        button: 'Change password'
+        button: 'Change password',
+        result: 'Updated.'
     }
 };
 
@@ -134,7 +135,8 @@ export const fi: Localisation = {
         copy: 'Salasana uudelleen',
         error: 'Salasanan vaihto epäonnistui',
         errorMatch: 'Uusi salasana eri',
-        button: 'Vaihda salasana'
+        button: 'Vaihda salasana',
+        result: 'Salasana vaihdettu.'
     }
 };
 
