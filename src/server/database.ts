@@ -22,6 +22,7 @@ export type Serving = {
 };
 
 export type ServingsResponse = {
+    search: string;
     servings: Serving[];
     totalCount: number;
     totalUnits: number;
@@ -52,7 +53,7 @@ export const mapRowsToServices = (data: any[]) => {
     });
 };
 
-export const mapRowsToServicesResponse = (data: any[]) => {
+export const mapRowsToServicesResponse = (search: string) => (data: any[]) => {
     const first = data[0];
     const totalCount = first ? parseInt(first.totalcount) : 0;
     const totalUnits = first ? parseFloat(first.totalunits) : 0;
@@ -67,7 +68,7 @@ export const mapRowsToServicesResponse = (data: any[]) => {
             units: parseFloat(val.units)
         };
     });
-    return { totalCount, totalUnits, servings };
+    return { search, totalCount, totalUnits, servings };
 };
 
 export const insertUser = async (db: any, user: User) => {
@@ -178,7 +179,7 @@ export const getServings = async (
             'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
             { userId, limit, offset }
         )
-        .then(mapRowsToServicesResponse)
+        .then(mapRowsToServicesResponse(''))
         .catch(handleDbError('getServings'));
 };
 
@@ -192,7 +193,7 @@ export const getRecentServings = async (
             "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
             { userId, hours }
         )
-        .then(mapRowsToServicesResponse)
+        .then(mapRowsToServicesResponse(''))
         .catch(handleDbError('getRecentServings'));
 };
 
@@ -213,6 +214,6 @@ export const searchServings = async (
             'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
             { userId, searchFormatted, limit, offset }
         )
-        .then(mapRowsToServicesResponse)
+        .then(mapRowsToServicesResponse(search))
         .catch(handleDbError('getServings'));
 };

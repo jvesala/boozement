@@ -178,6 +178,7 @@ describe('database.spec.ts', () => {
         it('get servings', async () => {
             const result = await getServings(db, user.id!, 100, 0);
             expect(result).toEqual({
+                search: '',
                 totalCount: 2,
                 totalUnits: 2,
                 servings: [serving, serving2]
@@ -192,6 +193,7 @@ describe('database.spec.ts', () => {
                 0
             );
             expect(result).toEqual({
+                search: '',
                 totalCount: 0,
                 servings: [],
                 totalUnits: 0
@@ -203,6 +205,7 @@ describe('database.spec.ts', () => {
         it('get servings 1h', async () => {
             const result = await getRecentServings(db, user.id!, 1);
             expect(result).toEqual({
+                search: '',
                 totalCount: 1,
                 totalUnits: 1,
                 servings: [serving]
@@ -212,6 +215,7 @@ describe('database.spec.ts', () => {
         it('get servings 25h', async () => {
             const result = await getRecentServings(db, user.id!, 25);
             expect(result).toEqual({
+                search: '',
                 totalCount: 2,
                 totalUnits: 2,
                 servings: [serving, serving2]
@@ -226,6 +230,7 @@ describe('database.spec.ts', () => {
                 0
             );
             expect(result).toEqual({
+                search: '',
                 totalCount: 0,
                 servings: [],
                 totalUnits: 0
