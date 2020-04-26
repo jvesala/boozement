@@ -16,10 +16,10 @@ import {
     setCopyPassword,
     setCurrentPassword,
     setNewPassword,
-    setShowPasswordBusy
+    setShowPasswordBusy,
+    updatePasswordAsync
 } from './passwordSlice';
 import { Error } from '../../components/Error';
-import { updateUserdataAsync } from './userdataSlice';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -43,7 +43,7 @@ export const PasswordForm = () => {
             currentPassword,
             newPassword
         };
-        dispatch(updateUserdataAsync(payload));
+        dispatch(updatePasswordAsync(payload));
     };
 
     return (

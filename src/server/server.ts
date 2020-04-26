@@ -10,9 +10,11 @@ import {
     initConnection,
     insertServing,
     searchServings,
-    updateField
+    updateField,
+    updateUser
 } from './database';
 import { bacNow } from './calculator';
+import * as bcrypt from 'bcrypt';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -128,6 +130,28 @@ app.get('/userdata', isAuthenticated, async (req: Request, res: Response) => {
     console.log('GET /userdata');
     const user = await getUserById(db, req.session!.passport.user);
     res.send({ weight: user?.weight, gender: user?.gender });
+});
+
+app.put('/userdata', isAuthenticated, async (req: Request, res: Response) => {
+    const body = req.body;
+    console.log('PUT /userdata', body);
+    const user = await getUserById(db, req.session!.passport.user);
+    user!.weight = body.weight;
+    await updateUser(db, user!);
+    res.json({});
+});
+
+app.post('/password', isAuthenticated, async (req: Request, res: Response) => {
+    const body = req.body;
+    console.log('POST /password', body);
+    const user = await getUserById(db, req.session!.passport.user);
+    if (bcrypt.compareSync(body.currentPassword, user!.password)) {
+        user!.password = await bcrypt.hash(body.newPassword, 10);
+        await updateUser(db, user!);
+        res.json({});
+    } else {
+        res.sendStatus(401);
+    }
 });
 
 app.post('/logout', async (req: Request, res: Response) => {

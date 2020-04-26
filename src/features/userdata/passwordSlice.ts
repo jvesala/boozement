@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doPutRequest } from '../../app/network';
+import { doPostRequest } from '../../app/network';
 
 export const slice = createSlice({
     name: 'password',
@@ -44,9 +44,12 @@ export const {
 
 export const updatePasswordAsync = (payload: any) => async (dispatch: any) => {
     const url = '/password';
-    await doPutRequest(url, payload);
+    await doPostRequest(url, payload);
     dispatch(setShowPasswordBusy(false));
     dispatch(setPasswordResult(true));
+    dispatch(setCurrentPassword(''));
+    dispatch(setNewPassword(''));
+    dispatch(setCopyPassword(''));
 };
 
 export const selectCurrentPassword = (state: any) =>
