@@ -8,6 +8,7 @@ import {
     insertUser,
     Serving,
     updateField,
+    updateUser,
     User
 } from '../../server/database';
 import { DateTime, Duration } from 'luxon';
@@ -28,6 +29,10 @@ describe('database.spec.ts', () => {
         ...user
     };
     user2.email = 'my2.email@example.com';
+    const userUpdate: User = {
+        ...user
+    };
+    userUpdate.email = 'myUpdate.email@example.com';
 
     const serving: Serving = {
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
@@ -60,6 +65,7 @@ describe('database.spec.ts', () => {
         await db.any('DELETE FROM users');
         user.id = (await insertUser(db, user)).id;
         user2.id = (await insertUser(db, user2)).id;
+        userUpdate.id = (await insertUser(db, userUpdate)).id;
         serving.userId = user.id!;
         serving2.userId = user.id!;
         serving3.userId = user2.id!;
@@ -103,6 +109,24 @@ describe('database.spec.ts', () => {
         it('returns undefined for non-existing user', async () => {
             const result = await getUserByEmail(db, 'not-my-email@example.com');
             expect(result).toEqual(null);
+        });
+    });
+
+    describe('updateUser', () => {
+        it('update all fields', async () => {
+            const userUpdated: User = {
+                id: userUpdate.id,
+                email: 'myUpdate.email3@example.com',
+                password: 'passwordHashUpdated',
+                gender: 'F',
+                weight: 12222
+            };
+            await updateUser(db, userUpdated);
+            const result = await getUserByEmail(
+                db,
+                'myUpdate.email3@example.com'
+            );
+            expect(result).toEqual(userUpdated);
         });
     });
 

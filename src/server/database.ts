@@ -80,6 +80,16 @@ export const insertUser = async (db: any, user: User) => {
         .catch(handleDbError('insertUser'));
 };
 
+export const updateUser = async (db: any, user: User) => {
+    return db
+        .any(
+            'UPDATE users SET email = ${email}, password = ${password}, gender = ${gender}, weight = ${weight} WHERE id = ${id}',
+            user
+        )
+        .then((data: any[]) => data[0])
+        .catch(handleDbError('insertUser'));
+};
+
 export const getUserById = async (
     db: any,
     id: string
