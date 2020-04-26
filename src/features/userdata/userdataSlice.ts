@@ -52,6 +52,7 @@ export const updateUserdataAsync = (payload: any) => async (dispatch: any) => {
     await doPutRequest(url, payload);
     dispatch(setShowUserdataBusy(false));
     dispatch(setUserdataResult(true));
+    dispatch(setShowUserdataError(false));
 };
 
 export const selectWeight = (state: any) => state.userdata.weight;

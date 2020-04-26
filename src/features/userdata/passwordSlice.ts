@@ -50,6 +50,7 @@ export const updatePasswordAsync = (payload: any) => async (dispatch: any) => {
     dispatch(setCurrentPassword(''));
     dispatch(setNewPassword(''));
     dispatch(setCopyPassword(''));
+    dispatch(setShowPasswordError(false));
 };
 
 export const selectCurrentPassword = (state: any) =>
