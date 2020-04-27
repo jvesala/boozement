@@ -53,7 +53,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
         selectedCell && selectedCell.id === id && selectedCell.field === field;
 
     const highlight = (value: any) => {
-        if (search != '') {
+        if (search !== '') {
             const regExp = new RegExp(
                 '(' + search.split(' ').join(')|(') + ')',
                 'gi'
