@@ -1,9 +1,11 @@
 import React from 'react';
+import './ServingsTableRow.css';
 import { formatDateTimeWithLanguage } from '../app/date';
 import { Language } from '../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../features/login/loginSlice';
 import { DateTime } from 'luxon';
+import { selectHistorySearch } from '../features/history/historySlice';
 
 interface ServingsTableRowProps {
     serving: any;
@@ -22,6 +24,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
 }) => {
     const language: Language = useSelector(selectLanguage);
     const selectedCell: any = useSelector(selectHistoryEditServing);
+    const search: any = useSelector(selectHistorySearch);
 
     const dispatch = useDispatch();
 
@@ -49,6 +52,36 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
     const isCellEditable = (field: string) =>
         selectedCell && selectedCell.id === id && selectedCell.field === field;
 
+    const highlight = (value: any) => {
+        if (search != '') {
+            const regExp = new RegExp(
+                '(' + search.split(' ').join(')|(') + ')',
+                'gi'
+            );
+            const replacement = '<span class="highlight">$&</span>';
+            return value.replace(regExp, replacement);
+        } else {
+            return value;
+        }
+    };
+
+    const setDate = () => {
+        return {
+            __html: highlight(
+                formatDateTimeWithLanguage(
+                    language,
+                    DateTime.fromISO(serving.date)
+                )
+            )
+        };
+    };
+
+    const setType = () => {
+        return {
+            __html: highlight(serving.type)
+        };
+    };
+
     return (
         <tr>
             <td className="date" onClickCapture={handleClick('date')}>
@@ -60,10 +93,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                         onKeyUpCapture={onKeyup}
                     />
                 ) : (
-                    formatDateTimeWithLanguage(
-                        language,
-                        DateTime.fromISO(serving.date)
-                    )
+                    <div dangerouslySetInnerHTML={setDate()} />
                 )}
             </td>
             <td className="type" onClickCapture={handleClick('type')}>
@@ -75,7 +105,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                         onKeyUpCapture={onKeyup}
                     />
                 ) : (
-                    serving.type
+                    <div dangerouslySetInnerHTML={setType()} />
                 )}
             </td>
             <td className="amount" onClickCapture={handleClick('amount')}>
