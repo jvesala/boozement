@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
-import { doPostRequest } from '../../app/network';
+import { doGetRequest, doPostRequest } from '../../app/network';
 
 const now = DateTime.local();
 
@@ -10,6 +10,7 @@ export const slice = createSlice({
         date: now.toISODate(),
         time: now.hour + ':' + now.minute,
         type: '',
+        suggestions: [],
         amount: '',
         units: '',
         showError: false,
@@ -25,6 +26,9 @@ export const slice = createSlice({
         },
         updateType: (state, action) => {
             state.type = action.payload;
+        },
+        updateSuggestions: (state, action) => {
+            state.suggestions = action.payload;
         },
         updateAmount: (state, action) => {
             state.amount = action.payload;
@@ -47,6 +51,7 @@ export const {
     updateDate,
     updateTime,
     updateType,
+    updateSuggestions,
     updateAmount,
     updateUnits,
     setShowInsertBusy,
@@ -60,9 +65,16 @@ export const insertAsync = (payload: any) => async (dispatch: any) => {
     dispatch(insertSuccess(body));
 };
 
+export const suggestionsAsync = (payload: any) => async (dispatch: any) => {
+    const url = '/suggestions';
+    const body = await doGetRequest(url, payload);
+    dispatch(updateSuggestions(body));
+};
+
 export const selectDate = (state: any) => state.insert.date;
 export const selectTime = (state: any) => state.insert.time;
 export const selectType = (state: any) => state.insert.type;
+export const selectSuggestions = (state: any) => state.insert.suggestions;
 export const selectAmount = (state: any) => state.insert.amount;
 export const selectUnits = (state: any) => state.insert.units;
 export const selectShowInsertBusy = (state: any) => state.insert.showBusy;

@@ -10,6 +10,7 @@ import {
     initConnection,
     insertServing,
     searchServings,
+    searchSuggestion,
     updateField,
     updateUser
 } from './database';
@@ -83,6 +84,20 @@ app.get(
         const reversed = [...servings.servings].reverse();
         const bac = bacNow(user!, reversed);
         res.send({ servings, bac });
+    }
+);
+
+app.get(
+    '/suggestions',
+    isAuthenticated,
+    async (req: Request, res: Response) => {
+        console.log('GET /suggestions', req.query);
+        const suggestions = await searchSuggestion(
+            db,
+            req.query.limit,
+            req.query.search
+        );
+        res.send(suggestions);
     }
 );
 

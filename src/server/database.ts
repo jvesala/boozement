@@ -217,3 +217,21 @@ export const searchServings = async (
         .then(mapRowsToServicesResponse(search))
         .catch(handleDbError('getServings'));
 };
+
+export const searchSuggestion = async (
+    db: any,
+    limit: string,
+    search: string
+): Promise<ServingsResponse> => {
+    const searchFormatted = search.trim().toLowerCase() + '%';
+    return db
+        .any(
+            `
+SELECT word, ndoc FROM ts_stat('select tokens from servings', 'a')
+WHERE word LIKE '${searchFormatted}'
+ORDER BY nentry DESC, ndoc DESC, word
+LIMIT ${limit}`,
+            { searchFormatted, limit }
+        )
+        .catch(handleDbError('getServings'));
+};

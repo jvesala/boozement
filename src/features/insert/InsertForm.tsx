@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     insertAsync,
@@ -7,10 +7,12 @@ import {
     selectInsertResult,
     selectShowInsertBusy,
     selectShowInsertError,
+    selectSuggestions,
     selectTime,
     selectType,
     selectUnits,
     setShowInsertBusy,
+    suggestionsAsync,
     updateAmount,
     updateDate,
     updateTime,
@@ -38,6 +40,7 @@ export const InsertForm = () => {
     const date = useSelector(selectDate);
     const time = useSelector(selectTime);
     const type = useSelector(selectType);
+    const suggestions = useSelector(selectSuggestions);
     const amount = useSelector(selectAmount);
     const units = useSelector(selectUnits);
     const showBusy = useSelector(selectShowInsertBusy);
@@ -47,6 +50,14 @@ export const InsertForm = () => {
     const [amountValid, setAmountValid] = useState(true);
     const [unitsValid, setUnitsValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        const payload = {
+            limit: 10,
+            search: type
+        };
+        dispatch(suggestionsAsync(payload));
+    }, [dispatch, type]);
 
     const doInsert = () => {
         setDisabled(true);
@@ -105,10 +116,15 @@ export const InsertForm = () => {
                         name="type"
                         value={type}
                         required
+                        list="suggestionsList"
                         onChange={e => dispatch(updateType(e.target.value))}
                     />
                     <div className="clear hidden" />
-                    <ul className="type-suggestions-list hidden" />
+                    <datalist id="suggestionsList">
+                        {suggestions.map((value: any, index: any) => {
+                            return <option key={index} value={value.word} />;
+                        })}
+                    </datalist>
                 </div>
             </div>
             <div>
