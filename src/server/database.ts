@@ -223,14 +223,21 @@ export const searchSuggestion = async (
     limit: string,
     search: string
 ): Promise<ServingsResponse> => {
-    const searchFormatted = search.trim().toLowerCase() + '%';
+    const searchFormatted =
+        search
+            .trim()
+            .toLowerCase()
+            .replace(' ', ':* & ') + ':*';
     return db
         .any(
             `
-SELECT word, ndoc FROM ts_stat('select tokens from servings', 'a')
-WHERE word LIKE '${searchFormatted}'
-ORDER BY nentry DESC, ndoc DESC, word
-LIMIT ${limit}`,
+WITH hits AS (
+  SELECT type, '1' AS number FROM servings WHERE tokens @@ to_tsquery(\${searchFormatted})
+),
+grouped AS (
+  SELECT type, count(number) FROM hits GROUP BY type ORDER BY count DESC
+)
+SELECT type FROM grouped LIMIT \${limit}`,
             { searchFormatted, limit }
         )
         .catch(handleDbError('getServings'));

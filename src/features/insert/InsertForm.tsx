@@ -122,7 +122,7 @@ export const InsertForm = () => {
                     <div className="clear hidden" />
                     <datalist id="suggestionsList">
                         {suggestions?.map((value: any, index: any) => {
-                            return <option key={index} value={value.word} />;
+                            return <option key={index} value={value.type} />;
                         })}
                     </datalist>
                 </div>

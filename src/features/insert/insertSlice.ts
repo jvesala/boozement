@@ -8,7 +8,10 @@ export const slice = createSlice({
     name: 'insert',
     initialState: {
         date: now.toISODate(),
-        time: String(now.hour).padStart(2, "0") + ':' + String(now.minute).padStart(2, "0"),
+        time:
+            String(now.hour).padStart(2, '0') +
+            ':' +
+            String(now.minute).padStart(2, '0'),
         type: '',
         suggestions: [],
         amount: '',

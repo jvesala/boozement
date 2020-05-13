@@ -92,12 +92,16 @@ app.get(
     isAuthenticated,
     async (req: Request, res: Response) => {
         console.log('GET /suggestions', req.query);
-        const suggestions = await searchSuggestion(
-            db,
-            req.query.limit,
-            req.query.search
-        );
-        res.send(suggestions);
+        if (req.query.search === '') {
+            res.send([]);
+        } else {
+            const suggestions = await searchSuggestion(
+                db,
+                req.query.limit,
+                req.query.search
+            );
+            res.send(suggestions);
+        }
     }
 );
 
