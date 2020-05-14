@@ -21,8 +21,9 @@ const express = require('express');
 const bodyparser = require('body-parser');
 
 const app = express();
-// const port = process.env.PORT || 5000;
-const port = 5000;
+const port = process.env.PORT || 5000;
+
+const databaseUrl = process.env.DATABASE_URL || 'postgres://postgres:@boozement-postgres:5432/boozement';
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -39,10 +40,8 @@ app.use(
         }
     })
 );
-const connectionString =
-    'postgres://postgres:@boozement-postgres:5432/boozement';
 
-const { db } = initConnection(connectionString);
+const { db } = initConnection(databaseUrl);
 initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());

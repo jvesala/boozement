@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/boozement
+web: npm run heroku
