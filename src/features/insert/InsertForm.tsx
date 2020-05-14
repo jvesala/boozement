@@ -117,6 +117,7 @@ export const InsertForm = () => {
                         value={type}
                         required
                         list="suggestionsList"
+                        autoComplete="off"
                         onChange={e => dispatch(updateType(e.target.value))}
                     />
                     <div className="clear hidden" />
