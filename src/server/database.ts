@@ -220,7 +220,7 @@ export const searchServings = async (
 
 export const searchSuggestion = async (
     db: any,
-    limit: string,
+    limit: number,
     search: string
 ): Promise<ServingsResponse> => {
     const searchFormatted =

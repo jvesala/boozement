@@ -48,22 +48,23 @@ app.use(passport.session());
 
 app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
     console.log('GET /servings', req.query);
+    const { search, limit, offset } = req.query;
     const user = await getUserById(db, req.session!.passport.user);
     if (req.query.search) {
         const servings = await searchServings(
             db,
             user!.id!,
-            req.query.search,
-            req.query.limit,
-            req.query.offset
+            search as string,
+            parseInt(limit as string),
+            parseInt(offset as string)
         );
         res.send(servings);
     } else {
         const servings = await getServings(
             db,
             user!.id!,
-            req.query.limit,
-            req.query.offset
+            parseInt(limit as string),
+            parseInt(offset as string)
         );
         res.send(servings);
     }
@@ -78,7 +79,7 @@ app.get(
         const servings = await getRecentServings(
             db,
             user!.id!,
-            parseInt(req.query.hours)
+            parseInt(req.query.hours as string)
         );
         const reversed = [...servings.servings].reverse();
         const bac = bacNow(user!, reversed);
@@ -96,8 +97,8 @@ app.get(
         } else {
             const suggestions = await searchSuggestion(
                 db,
-                req.query.limit,
-                req.query.search
+                parseInt(req.query.limit as string),
+                req.query.search as string
             );
             res.send(suggestions);
         }
