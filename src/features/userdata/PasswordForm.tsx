@@ -17,7 +17,7 @@ import {
     setCurrentPassword,
     setNewPassword,
     setShowPasswordBusy,
-    updatePasswordAsync
+    updatePasswordAsync,
 } from './passwordSlice';
 import { Error } from '../../components/Error';
 
@@ -41,7 +41,7 @@ export const PasswordForm = () => {
         dispatch(setShowPasswordBusy(true));
         const payload = {
             currentPassword,
-            newPassword
+            newPassword,
         };
         dispatch(updatePasswordAsync(payload));
     };
@@ -50,8 +50,8 @@ export const PasswordForm = () => {
         <div className="PasswordForm">
             <form
                 method="post"
-                onChange={e => updateValidity(e, setDisabled)}
-                onSubmit={e => {
+                onChange={(e) => updateValidity(e, setDisabled)}
+                onSubmit={(e) => {
                     e.preventDefault();
                 }}
             >
@@ -66,7 +66,7 @@ export const PasswordForm = () => {
                         name="current"
                         value={currentPassword}
                         required
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(setCurrentPassword(e.target.value))
                         }
                     />
@@ -84,7 +84,9 @@ export const PasswordForm = () => {
                         minLength={10}
                         maxLength={200}
                         required
-                        onChange={e => dispatch(setNewPassword(e.target.value))}
+                        onChange={(e) =>
+                            dispatch(setNewPassword(e.target.value))
+                        }
                     />
                 </div>
                 <div>
@@ -98,7 +100,7 @@ export const PasswordForm = () => {
                         minLength={10}
                         maxLength={200}
                         required
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(setCopyPassword(e.target.value))
                         }
                     />

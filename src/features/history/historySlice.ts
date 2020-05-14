@@ -11,7 +11,7 @@ export const slice = createSlice({
         totalUnits: 0,
         editServing: undefined,
         offset: 0,
-        limit: 100
+        limit: 100,
     },
     reducers: {
         updateHistorySearch: (state, action) => {
@@ -44,8 +44,8 @@ export const slice = createSlice({
                 state.historyServings as any,
                 action.payload[0]
             );
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -55,7 +55,7 @@ export const {
     setHistoryEditServing,
     setServingsOffset,
     appendHistoryServings,
-    updateHistoryServing
+    updateHistoryServing,
 } = slice.actions;
 
 export const historyServingsAsync = (
@@ -99,7 +99,7 @@ export const selectHistoryLimit = (state: any) => state.history.limit;
 export default slice.reducer;
 
 export const updateServingInServingsArrays = (servings: [], updated: any) =>
-    servings.map(serving => {
+    servings.map((serving) => {
         if ((serving as any).id === updated.id) {
             (serving as any).date = updated.date;
             (serving as any).type = updated.type;

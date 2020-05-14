@@ -6,7 +6,7 @@ import {
     logoutUserAsync,
     selectLanguage,
     selectUser,
-    setLanguage
+    setLanguage,
 } from '../features/login/loginSlice';
 
 export const Footer = () => {

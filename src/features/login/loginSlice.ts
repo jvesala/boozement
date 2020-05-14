@@ -10,7 +10,7 @@ export const slice = createSlice({
         showLoggedOut: false,
         showLoginError: false,
         showBusy: false,
-        username: Cookies.get('boozement-username')
+        username: Cookies.get('boozement-username'),
     },
     reducers: {
         loginUser: (state, action) => {
@@ -27,8 +27,8 @@ export const slice = createSlice({
         },
         setLanguage: (state, action) => {
             state.language = action.payload;
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -36,7 +36,7 @@ export const {
     setShowLoginBusy,
     setShowLoginError,
     setShowLoggedOut,
-    setLanguage
+    setLanguage,
 } = slice.actions;
 
 export const loginUserAsync = (email: string, password: string) => async (
@@ -44,7 +44,7 @@ export const loginUserAsync = (email: string, password: string) => async (
 ) => {
     const payload = {
         email,
-        password
+        password,
     };
     const url = '/login';
     try {

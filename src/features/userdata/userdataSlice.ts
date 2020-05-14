@@ -9,7 +9,7 @@ export const slice = createSlice({
         gender: '',
         showError: false,
         showBusy: false,
-        result: undefined
+        result: undefined,
     },
     reducers: {
         updateWeight: (state, action) => {
@@ -26,8 +26,8 @@ export const slice = createSlice({
         },
         setShowUserdataError: (state, action) => {
             state.showError = action.payload;
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -35,7 +35,7 @@ export const {
     updateGender,
     setShowUserdataBusy,
     setUserdataResult,
-    setShowUserdataError
+    setShowUserdataError,
 } = slice.actions;
 
 export const userDataAsync = () => async (dispatch: any) => {

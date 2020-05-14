@@ -14,14 +14,14 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
             {
                 usernameField: 'email',
                 passwordField: 'password',
-                passReqToCallback: true
+                passReqToCallback: true,
             },
             (_req: any, email: any, password: any, done: any) => {
-                getUserByEmail(db, email).then(user => {
+                getUserByEmail(db, email).then((user) => {
                     bcrypt.compare(
                         password,
                         user?.password ? user.password : '',
-                        function(err: Error, result: boolean) {
+                        function (err: Error, result: boolean) {
                             if (result) {
                                 done(undefined, user);
                             } else {
@@ -40,7 +40,7 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
     });
 
     passport.deserializeUser((id, done) => {
-        getUserById(db, id as string).then(user => {
+        getUserById(db, id as string).then((user) => {
             done(undefined, user);
         });
     });

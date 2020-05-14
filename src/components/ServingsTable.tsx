@@ -25,7 +25,7 @@ export const ServingsTable: React.FC<ServingsTableProps> = ({
     updateOffsetFunction,
     selectHistoryEditServing,
     updateEditServingFunction,
-    updateServingFunction
+    updateServingFunction,
 }) => {
     const language: Language = useSelector(selectLanguage);
 

@@ -18,7 +18,7 @@ export const slice = createSlice({
         units: '',
         showError: false,
         showBusy: false,
-        result: undefined
+        result: undefined,
     },
     reducers: {
         updateDate: (state, action) => {
@@ -46,8 +46,8 @@ export const slice = createSlice({
             state.amount = '';
             state.units = '';
             state.result = action.payload;
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -58,7 +58,7 @@ export const {
     updateAmount,
     updateUnits,
     setShowInsertBusy,
-    insertSuccess
+    insertSuccess,
 } = slice.actions;
 
 export const insertAsync = (payload: any) => async (dispatch: any) => {

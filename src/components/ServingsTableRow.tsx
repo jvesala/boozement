@@ -20,7 +20,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
     id,
     selectHistoryEditServing,
     updateEditServingFunction,
-    updateServingFunction
+    updateServingFunction,
 }) => {
     const language: Language = useSelector(selectLanguage);
     const selectedCell: any = useSelector(selectHistoryEditServing);
@@ -32,7 +32,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
         dispatch(
             updateEditServingFunction({
                 id,
-                field
+                field,
             })
         );
     };
@@ -42,7 +42,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
             const payload = {
                 id,
                 field: e.target.name,
-                value: e.target.value
+                value: e.target.value,
             };
             dispatch(updateEditServingFunction(undefined));
             dispatch(updateServingFunction(payload));
@@ -72,13 +72,13 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
                     language,
                     DateTime.fromISO(serving.date)
                 )
-            )
+            ),
         };
     };
 
     const setType = () => {
         return {
-            __html: highlight(serving.type)
+            __html: highlight(serving.type),
         };
     };
 

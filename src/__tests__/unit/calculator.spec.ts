@@ -7,21 +7,21 @@ describe('calculator.spec.ts', () => {
         email: 'my.email@example.com',
         password: 'passwordHash',
         gender: 'M',
-        weight: 73000
+        weight: 73000,
     };
     const serving: Serving = {
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc().minus({ seconds: 3600 }),
         type: 'Beer',
         amount: 66,
-        units: 2.0
+        units: 2.0,
     };
     const serving2: Serving = {
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc().minus({ seconds: 7200 }),
         type: 'Beer',
         amount: 66,
-        units: 2.0
+        units: 2.0,
     };
 
     describe('bacNow', () => {

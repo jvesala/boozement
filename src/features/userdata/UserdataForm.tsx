@@ -14,7 +14,7 @@ import {
     setShowUserdataBusy,
     updateUserdataAsync,
     updateWeight,
-    userDataAsync
+    userDataAsync,
 } from './userdataSlice';
 import { Error } from '../../components/Error';
 import { handleFieldUpdate, updateValidity } from '../../app/form';
@@ -42,7 +42,7 @@ export const UserdataForm = () => {
         dispatch(setShowUserdataBusy(true));
 
         const payload = {
-            weight: weight * 1000
+            weight: weight * 1000,
         };
         dispatch(updateUserdataAsync(payload));
     };
@@ -51,8 +51,8 @@ export const UserdataForm = () => {
         <div className="UserdataForm">
             <form
                 method="post"
-                onChange={e => updateValidity(e, setDisabled)}
-                onSubmit={e => {
+                onChange={(e) => updateValidity(e, setDisabled)}
+                onSubmit={(e) => {
                     e.preventDefault();
                 }}
             >
@@ -86,7 +86,7 @@ export const UserdataForm = () => {
                         max={200}
                         step={0.1}
                         required
-                        onChange={e =>
+                        onChange={(e) =>
                             handleFieldUpdate(
                                 e,
                                 dispatch,

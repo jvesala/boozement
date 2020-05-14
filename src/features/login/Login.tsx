@@ -5,7 +5,7 @@ import {
     selectLanguage,
     selectShowLoggedOut,
     selectShowLoginBusy,
-    selectShowLoginError
+    selectShowLoginError,
 } from './loginSlice';
 
 import './Login.css';
@@ -34,7 +34,7 @@ export const Login = () => {
         <div className="Login">
             <form
                 method="post"
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                 }}
             >
@@ -51,7 +51,7 @@ export const Login = () => {
                     name="email"
                     required
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <label htmlFor="password">
                     {i18n[language].loginForm.password}
@@ -61,7 +61,7 @@ export const Login = () => {
                     name="password"
                     required
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                     className="button"

@@ -12,7 +12,7 @@ import {
     searchServings,
     searchSuggestion,
     updateField,
-    updateUser
+    updateUser,
 } from './database';
 import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
@@ -23,7 +23,9 @@ const bodyparser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const databaseUrl = process.env.DATABASE_URL || 'postgres://postgres:@boozement-postgres:5432/boozement';
+const databaseUrl =
+    process.env.DATABASE_URL ||
+    'postgres://postgres:@boozement-postgres:5432/boozement';
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -36,8 +38,8 @@ app.use(
         secret: 'topSecretSession',
         proxy: true,
         cookie: {
-            domain: 'localhost'
-        }
+            domain: 'localhost',
+        },
     })
 );
 

@@ -47,7 +47,7 @@ const calculateBacHistory = (
         userId: '',
         type: '',
         amount: 0,
-        units: 0
+        units: 0,
     };
     const servingsUntilNow = [...servings, endServing];
     const startTime = servingsUntilNow[0].date;
@@ -64,13 +64,13 @@ const calculateBacHistory = (
                         lastEntry.at,
                         next.date
                     ) + alcoholInGramsInServing(next),
-                at: next.date
+                at: next.date,
             };
             return [...bacHistory, nextEntry];
         },
         [startEntry]
     );
-    return gramHistory.map(entry => {
+    return gramHistory.map((entry) => {
         return gramsToBac(user, entry.grams);
     });
 };

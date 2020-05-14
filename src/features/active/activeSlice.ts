@@ -10,7 +10,7 @@ export const slice = createSlice({
         activeServings: [],
         totalCount: 0,
         totalUnits: 0,
-        editServing: undefined
+        editServing: undefined,
     },
     reducers: {
         updateActiveBac: (state, action) => {
@@ -32,8 +32,8 @@ export const slice = createSlice({
                 state.activeServings as any,
                 action.payload[0]
             );
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -41,7 +41,7 @@ export const {
     setShowActiveBusy,
     setActiveServings,
     setActiveEditServing,
-    updateActiveServing
+    updateActiveServing,
 } = slice.actions;
 
 export const activeServingsAsync = (hours: any) => async (dispatch: any) => {

@@ -17,7 +17,7 @@ import {
     updateDate,
     updateTime,
     updateType,
-    updateUnits
+    updateUnits,
 } from './insertSlice';
 
 import './InsertForm.css';
@@ -26,7 +26,7 @@ import { selectLanguage } from '../login/loginSlice';
 import {
     createDate,
     createFromUtcString,
-    formatDateTime
+    formatDateTime,
 } from '../../app/date';
 import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
@@ -54,7 +54,7 @@ export const InsertForm = () => {
     useEffect(() => {
         const payload = {
             limit: 10,
-            search: type
+            search: type,
         };
         dispatch(suggestionsAsync(payload));
     }, [dispatch, type]);
@@ -67,7 +67,7 @@ export const InsertForm = () => {
             date: createDate(date, time),
             type,
             amount,
-            units
+            units,
         };
         dispatch(insertAsync(payload));
     };
@@ -76,8 +76,8 @@ export const InsertForm = () => {
         <form
             className="InsertForm"
             method="post"
-            onChange={e => updateValidity(e, setDisabled)}
-            onSubmit={e => {
+            onChange={(e) => updateValidity(e, setDisabled)}
+            onSubmit={(e) => {
                 e.preventDefault();
             }}
         >
@@ -91,7 +91,7 @@ export const InsertForm = () => {
                         name="date"
                         value={date}
                         required
-                        onChange={e => dispatch(updateDate(e.target.value))}
+                        onChange={(e) => dispatch(updateDate(e.target.value))}
                     />
                 </div>
             </div>
@@ -104,7 +104,7 @@ export const InsertForm = () => {
                     name="time"
                     value={time}
                     required
-                    onChange={e => dispatch(updateTime(e.target.value))}
+                    onChange={(e) => dispatch(updateTime(e.target.value))}
                 />
             </div>
             <div>
@@ -118,7 +118,7 @@ export const InsertForm = () => {
                         required
                         list="suggestionsList"
                         autoComplete="off"
-                        onChange={e => dispatch(updateType(e.target.value))}
+                        onChange={(e) => dispatch(updateType(e.target.value))}
                     />
                     <div className="clear hidden" />
                     <datalist id="suggestionsList">
@@ -140,7 +140,7 @@ export const InsertForm = () => {
                     max={100}
                     step={1}
                     required
-                    onChange={e =>
+                    onChange={(e) =>
                         handleFieldUpdate(
                             e,
                             dispatch,
@@ -165,7 +165,7 @@ export const InsertForm = () => {
                     max={5}
                     step={0.1}
                     required
-                    onChange={e =>
+                    onChange={(e) =>
                         handleFieldUpdate(
                             e,
                             dispatch,

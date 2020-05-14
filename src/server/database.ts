@@ -31,7 +31,7 @@ export type ServingsResponse = {
 export const initConnection = (connectionString: string) => {
     const pgp: IMain = pgPromise({});
     var types = pgp.pg.types;
-    types.setTypeParser(1184, str => str);
+    types.setTypeParser(1184, (str) => str);
     return { pgp, db: pgp(connectionString) };
 };
 
@@ -41,14 +41,14 @@ const handleDbError = (methodName: string) => (error: any) => {
 };
 
 export const mapRowsToServices = (data: any[]) => {
-    return data.map(val => {
+    return data.map((val) => {
         return {
             id: val.id,
             userId: val.user_id,
             date: DateTime.fromSQL(val.date).toUTC(),
             type: val.type,
             amount: val.amount,
-            units: parseFloat(val.units)
+            units: parseFloat(val.units),
         };
     });
 };
@@ -58,14 +58,14 @@ export const mapRowsToServicesResponse = (search: string) => (data: any[]) => {
     const totalCount = first ? parseInt(first.totalcount) : 0;
     const totalUnits = first ? parseFloat(first.totalunits) : 0;
 
-    const servings = data.map(val => {
+    const servings = data.map((val) => {
         return {
             id: val.id,
             userId: val.user_id,
             date: DateTime.fromSQL(val.date).toUTC(),
             type: val.type,
             amount: val.amount,
-            units: parseFloat(val.units)
+            units: parseFloat(val.units),
         };
     });
     return { search, totalCount, totalUnits, servings };
@@ -205,10 +205,7 @@ export const searchServings = async (
     offset: number
 ): Promise<ServingsResponse> => {
     const searchFormatted =
-        search
-            .trim()
-            .toLowerCase()
-            .replace(' ', ':* & ') + ':*';
+        search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
     return db
         .any(
             'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
@@ -224,10 +221,7 @@ export const searchSuggestion = async (
     search: string
 ): Promise<ServingsResponse> => {
     const searchFormatted =
-        search
-            .trim()
-            .toLowerCase()
-            .replace(' ', ':* & ') + ':*';
+        search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
     return db
         .any(
             `

@@ -12,7 +12,7 @@ import {
     selectActiveServings,
     selectActiveShowBusy,
     selectActiveTotalUnits,
-    setActiveEditServing
+    setActiveEditServing,
 } from './activeSlice';
 import { ServingsTable } from '../../components/ServingsTable';
 

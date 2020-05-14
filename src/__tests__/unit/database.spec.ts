@@ -9,7 +9,7 @@ import {
     Serving,
     updateField,
     updateUser,
-    User
+    User,
 } from '../../server/database';
 import { DateTime, Duration } from 'luxon';
 
@@ -23,14 +23,14 @@ describe('database.spec.ts', () => {
         email: 'my.email@example.com',
         password: 'passwordHash',
         gender: 'M',
-        weight: 100
+        weight: 100,
     };
     const user2: User = {
-        ...user
+        ...user,
     };
     user2.email = 'my2.email@example.com';
     const userUpdate: User = {
-        ...user
+        ...user,
     };
     userUpdate.email = 'myUpdate.email@example.com';
 
@@ -39,22 +39,22 @@ describe('database.spec.ts', () => {
         date: DateTime.utc(),
         type: 'Beer',
         amount: 33,
-        units: 1.0
+        units: 1.0,
     };
     const serving2: Serving = {
-        ...serving
+        ...serving,
     };
     serving2.type = 'Cider';
     serving2.date = serving2.date.minus(Duration.fromISO('P1D'));
 
     const serving3: Serving = {
-        ...serving
+        ...serving,
     };
     serving3.type = 'Cider';
     serving3.date = serving3.date.minus(Duration.fromISO('P2D'));
 
     const servingUpdate: Serving = {
-        ...serving
+        ...serving,
     };
 
     beforeAll(async () => {
@@ -119,7 +119,7 @@ describe('database.spec.ts', () => {
                 email: 'myUpdate.email3@example.com',
                 password: 'passwordHashUpdated',
                 gender: 'F',
-                weight: 12222
+                weight: 12222,
             };
             await updateUser(db, userUpdated);
             const result = await getUserByEmail(
@@ -168,8 +168,8 @@ describe('database.spec.ts', () => {
                     units: 666,
                     userId: servingUpdate.userId,
                     date: newDate,
-                    amount: 111
-                }
+                    amount: 111,
+                },
             ]);
         });
     });
@@ -181,7 +181,7 @@ describe('database.spec.ts', () => {
                 search: '',
                 totalCount: 2,
                 totalUnits: 2,
-                servings: [serving, serving2]
+                servings: [serving, serving2],
             });
         });
 
@@ -196,7 +196,7 @@ describe('database.spec.ts', () => {
                 search: '',
                 totalCount: 0,
                 servings: [],
-                totalUnits: 0
+                totalUnits: 0,
             });
         });
     });
@@ -208,7 +208,7 @@ describe('database.spec.ts', () => {
                 search: '',
                 totalCount: 1,
                 totalUnits: 1,
-                servings: [serving]
+                servings: [serving],
             });
         });
 
@@ -218,7 +218,7 @@ describe('database.spec.ts', () => {
                 search: '',
                 totalCount: 2,
                 totalUnits: 2,
-                servings: [serving, serving2]
+                servings: [serving, serving2],
             });
         });
 
@@ -233,7 +233,7 @@ describe('database.spec.ts', () => {
                 search: '',
                 totalCount: 0,
                 servings: [],
-                totalUnits: 0
+                totalUnits: 0,
             });
         });
     });

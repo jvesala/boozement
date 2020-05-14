@@ -13,6 +13,6 @@ export default configureStore({
         active: activeReducer,
         history: historyReducer,
         userdata: userdataSlice,
-        password: passwordSlice
-    }
+        password: passwordSlice,
+    },
 });

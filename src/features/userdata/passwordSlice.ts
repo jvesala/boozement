@@ -9,7 +9,7 @@ export const slice = createSlice({
         copyPassword: '',
         showError: false,
         showBusy: false,
-        result: undefined
+        result: undefined,
     },
     reducers: {
         setCurrentPassword: (state, action) => {
@@ -29,8 +29,8 @@ export const slice = createSlice({
         },
         setShowPasswordError: (state, action) => {
             state.showError = action.payload;
-        }
-    }
+        },
+    },
 });
 
 export const {
@@ -39,7 +39,7 @@ export const {
     setCopyPassword,
     setShowPasswordBusy,
     setPasswordResult,
-    setShowPasswordError
+    setShowPasswordError,
 } = slice.actions;
 
 export const updatePasswordAsync = (payload: any) => async (dispatch: any) => {

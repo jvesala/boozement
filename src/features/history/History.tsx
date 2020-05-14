@@ -17,7 +17,7 @@ import {
     updateHistorySearch,
     historyUpdateAsync,
     selectHistoryTotalCount,
-    selectHistoryTotalUnits
+    selectHistoryTotalUnits,
 } from './historySlice';
 import { ServingsTable } from '../../components/ServingsTable';
 import { Busy } from '../../components/Busy';

@@ -7,10 +7,10 @@ export const en = {
         insert: 'Insert',
         active: 'Now',
         history: 'History',
-        userdata: 'Userdata'
+        userdata: 'Userdata',
     },
     footer: {
-        logout: 'Log out'
+        logout: 'Log out',
     },
     loginForm: {
         logoutMessage: 'You have logged out.',
@@ -18,7 +18,7 @@ export const en = {
         email: 'Email',
         password: 'Password',
         button: 'Login',
-        error: 'Login failed'
+        error: 'Login failed',
     },
     insertForm: {
         title: 'Insert serving information',
@@ -32,22 +32,22 @@ export const en = {
         unitsType: 'au',
         error: 'Insert error',
         button: 'Add serving',
-        result: (type: string, date: string) => `Drank ${type} at ${date}.`
+        result: (type: string, date: string) => `Drank ${type} at ${date}.`,
     },
     active: {
         inactive: "You haven't drank anything during previous 24h",
         statistics: (units: string, bac: string) =>
-            `During last 24h you've drank ${units} units. Your bac is around ${bac}.`
+            `During last 24h you've drank ${units} units. Your bac is around ${bac}.`,
     },
     history: {
         hits: 'hits',
-        hitUnits: 'units'
+        hitUnits: 'units',
     },
     servingsTable: {
         date: 'Date',
         servingName: 'Serving',
         amount: 'Amount',
-        units: 'Units'
+        units: 'Units',
     },
     userdata: {
         email: 'Email',
@@ -57,7 +57,7 @@ export const en = {
         weightError: 'Weight must be in kilograms.',
         button: 'Update',
         result: 'Updated.',
-        error: 'Error in update.'
+        error: 'Error in update.',
     },
     password: {
         current: 'Current password',
@@ -66,8 +66,8 @@ export const en = {
         error: 'Password update failed.',
         errorMatch: 'Passwords do not match.',
         button: 'Change password',
-        result: 'Updated.'
-    }
+        result: 'Updated.',
+    },
 };
 
 export const fi: Localisation = {
@@ -76,10 +76,10 @@ export const fi: Localisation = {
         insert: 'Syötä',
         active: 'Nyt juonut',
         history: 'Historia',
-        userdata: 'Omat tiedot'
+        userdata: 'Omat tiedot',
     },
     footer: {
-        logout: 'Kirjaudu ulos'
+        logout: 'Kirjaudu ulos',
     },
     loginForm: {
         logoutMessage: 'Olet kirjautunut ulos.',
@@ -87,7 +87,7 @@ export const fi: Localisation = {
         email: 'Sähköpostiosoite',
         password: 'Salasana',
         button: 'Kirjaudu',
-        error: 'Kirjautuminen epäonnistui.'
+        error: 'Kirjautuminen epäonnistui.',
     },
     insertForm: {
         title: 'Syötä juoman tiedot',
@@ -102,22 +102,22 @@ export const fi: Localisation = {
         error: 'Virhe syötössä.',
         button: 'Lisää annos',
         result: (type: string, date: string) =>
-            `Juotu ${type} ajanhetkellä ${date}.`
+            `Juotu ${type} ajanhetkellä ${date}.`,
     },
     active: {
         inactive: 'Et ole juonut mitään viimeisen vuorokauden aikana.',
         statistics: (units: string, bac: string) =>
-            `Edellisen 24 tunnin aikana olet juonut ${units} annosta. Promillemääräsi on noin ${bac}.`
+            `Edellisen 24 tunnin aikana olet juonut ${units} annosta. Promillemääräsi on noin ${bac}.`,
     },
     history: {
         hits: 'osumaa',
-        hitUnits: 'annosta'
+        hitUnits: 'annosta',
     },
     servingsTable: {
         date: 'Päivämäärä',
         servingName: 'Mitä joit',
         amount: 'Tilavuus',
-        units: 'Annokset'
+        units: 'Annokset',
     },
     userdata: {
         email: 'Sähköpostiosoite',
@@ -127,7 +127,7 @@ export const fi: Localisation = {
         weightError: 'Anna paino kiloissa.',
         button: 'Päivitä',
         result: 'Päivitetty.',
-        error: 'Tietojen päivitys epäonnistui.'
+        error: 'Tietojen päivitys epäonnistui.',
     },
     password: {
         current: 'Nykyinen salasana',
@@ -136,8 +136,8 @@ export const fi: Localisation = {
         error: 'Salasanan vaihto epäonnistui',
         errorMatch: 'Uusi salasana eri',
         button: 'Vaihda salasana',
-        result: 'Salasana vaihdettu.'
-    }
+        result: 'Salasana vaihdettu.',
+    },
 };
 
 export const i18n: Record<Language, Localisation> = { en, fi };
