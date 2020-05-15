@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "incremental": true,
+    "incremental": false,
     "alwaysStrict": true,
     "declaration": false,
     "module": "esnext",
