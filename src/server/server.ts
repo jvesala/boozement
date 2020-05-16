@@ -16,6 +16,7 @@ import {
 } from './database';
 import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
+import * as path from 'path';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -47,6 +48,8 @@ const { db } = initConnection(databaseUrl);
 initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(path.join(__dirname, '/../')));
 
 app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
     console.log('GET /servings', req.query);

@@ -51,7 +51,7 @@
     "compile": "tsc -p tsconfig-server.json",
     "server": "node_modules/nodemon/bin/nodemon.js build/server/server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
-    "heroku": "NODE_ENV=production concurrently --kill-others-on-fail \"npm run server\" \"npm run start\""
+    "heroku": "node build/server/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
