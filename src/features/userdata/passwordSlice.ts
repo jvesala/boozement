@@ -43,7 +43,7 @@ export const {
 } = slice.actions;
 
 export const updatePasswordAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/password';
+    const url = '/api/password';
     await doPostRequest(url, payload);
     dispatch(setShowPasswordBusy(false));
     dispatch(setPasswordResult(true));

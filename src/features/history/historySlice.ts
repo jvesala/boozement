@@ -63,7 +63,7 @@ export const historyServingsAsync = (
     offset: number,
     limit: number
 ) => async (dispatch: any) => {
-    const url = '/servings';
+    const url = '/api/servings';
     const query = `search=${search}&offset=${offset}&limit=${limit}`;
 
     dispatch(setShowHistoryBusy(true));
@@ -78,7 +78,7 @@ export const historyServingsAsync = (
 };
 
 export const historyUpdateAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/insert';
+    const url = '/api/insert';
     dispatch(setShowHistoryBusy(true));
     const body = await doPutRequest(url, payload);
     dispatch(setShowHistoryBusy(false));

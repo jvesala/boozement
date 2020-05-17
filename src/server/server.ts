@@ -51,8 +51,8 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/../')));
 
-app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
-    console.log('GET /servings', req.query);
+app.get('/api/servings', isAuthenticated, async (req: Request, res: Response) => {
+    console.log('GET /api/servings', req.query);
     const { search, limit, offset } = req.query;
     const user = await getUserById(db, req.session!.passport.user);
     if (req.query.search) {
@@ -76,10 +76,10 @@ app.get('/servings', isAuthenticated, async (req: Request, res: Response) => {
 });
 
 app.get(
-    '/recentServings',
+    '/api/recentServings',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /recentServings', req.query);
+        console.log('GET /api/recentServings', req.query);
         const user = await getUserById(db, req.session!.passport.user);
         const servings = await getRecentServings(
             db,
@@ -93,10 +93,10 @@ app.get(
 );
 
 app.get(
-    '/suggestions',
+    '/api/suggestions',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /suggestions', req.query);
+        console.log('GET /api/suggestions', req.query);
         if (req.query.search === '') {
             res.send([]);
         } else {
@@ -110,18 +110,18 @@ app.get(
     }
 );
 
-app.post('/insert', isAuthenticated, async (req: Request, res: Response) => {
+app.post('/api/insert', isAuthenticated, async (req: Request, res: Response) => {
     const body = req.body;
-    console.log('POST /insert', body);
+    console.log('POST /api/insert', body);
     const user = await getUserById(db, req.session!.passport.user);
     body.userId = user!.id!;
     await insertServing(db, body);
     res.json(body);
 });
 
-app.put('/insert', isAuthenticated, async (req: Request, res: Response) => {
+app.put('/api/insert', isAuthenticated, async (req: Request, res: Response) => {
     const body = req.body;
-    console.log('POST /put', body);
+    console.log('POST /api/insert', body);
     const user = await getUserById(db, req.session!.passport.user);
 
     const servingId = req.body.id;
@@ -139,35 +139,35 @@ app.put('/insert', isAuthenticated, async (req: Request, res: Response) => {
 });
 
 app.post(
-    '/login',
+    '/api/login',
     passport.authenticate('local'),
     (req: Request, res: Response) => {
         const { user } = req;
         res.cookie('boozement-username', (user as any).email);
         (user as any).password = '*****';
-        console.log('POST /login', user);
+        console.log('POST /api/login', user);
         res.json(user);
     }
 );
 
-app.get('/userdata', isAuthenticated, async (req: Request, res: Response) => {
-    console.log('GET /userdata');
+app.get('/api/userdata', isAuthenticated, async (req: Request, res: Response) => {
+    console.log('GET /api/userdata');
     const user = await getUserById(db, req.session!.passport.user);
     res.send({ weight: user?.weight, gender: user?.gender });
 });
 
-app.put('/userdata', isAuthenticated, async (req: Request, res: Response) => {
+app.put('/api/userdata', isAuthenticated, async (req: Request, res: Response) => {
     const body = req.body;
-    console.log('PUT /userdata', body);
+    console.log('PUT /api/userdata', body);
     const user = await getUserById(db, req.session!.passport.user);
     user!.weight = body.weight;
     await updateUser(db, user!);
     res.json({});
 });
 
-app.post('/password', isAuthenticated, async (req: Request, res: Response) => {
+app.post('/api/password', isAuthenticated, async (req: Request, res: Response) => {
     const body = req.body;
-    console.log('POST /password', body);
+    console.log('POST /api/password', body);
     const user = await getUserById(db, req.session!.passport.user);
     if (bcrypt.compareSync(body.currentPassword, user!.password)) {
         user!.password = await bcrypt.hash(body.newPassword, 10);
@@ -178,12 +178,16 @@ app.post('/password', isAuthenticated, async (req: Request, res: Response) => {
     }
 });
 
-app.post('/logout', async (req: Request, res: Response) => {
-    console.log('POST /logout');
+app.post('/api/logout', async (req: Request, res: Response) => {
+    console.log('POST /api/logout');
     req.session?.destroy(() => {
         res.clearCookie('boozement-username', undefined);
         res.send({});
     });
+});
+
+app.use('*',  isAuthenticated, async (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '/../', 'index.html'));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

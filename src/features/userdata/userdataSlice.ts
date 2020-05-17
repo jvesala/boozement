@@ -39,7 +39,7 @@ export const {
 } = slice.actions;
 
 export const userDataAsync = () => async (dispatch: any) => {
-    const url = '/userdata';
+    const url = '/api/userdata';
     dispatch(setShowUserdataBusy(true));
     const body = await doGetRequest(url, {});
     dispatch(setShowUserdataBusy(false));
@@ -48,7 +48,7 @@ export const userDataAsync = () => async (dispatch: any) => {
 };
 
 export const updateUserdataAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/userdata';
+    const url = '/api/userdata';
     await doPutRequest(url, payload);
     dispatch(setShowUserdataBusy(false));
     dispatch(setUserdataResult(true));

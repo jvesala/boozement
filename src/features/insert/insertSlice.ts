@@ -62,14 +62,14 @@ export const {
 } = slice.actions;
 
 export const insertAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/insert';
+    const url = '/api/insert';
     const body = await doPostRequest(url, payload);
     dispatch(setShowInsertBusy(false));
     dispatch(insertSuccess(body));
 };
 
 export const suggestionsAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/suggestions';
+    const url = '/api/suggestions';
     const body = await doGetRequest(url, payload);
     dispatch(updateSuggestions(body));
 };

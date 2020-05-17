@@ -46,7 +46,7 @@ export const loginUserAsync = (email: string, password: string) => async (
         email,
         password,
     };
-    const url = '/login';
+    const url = '/api/login';
     try {
         dispatch(setShowLoginBusy(true));
         const body = await doPostRequest(url, payload);
@@ -60,7 +60,7 @@ export const loginUserAsync = (email: string, password: string) => async (
 };
 
 export const logoutUserAsync = () => async (dispatch: any) => {
-    const url = '/logout';
+    const url = '/api/logout';
     await doPostRequest(url, {});
     dispatch(loginUser(undefined));
     dispatch(setShowLoggedOut(true));

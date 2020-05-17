@@ -45,7 +45,7 @@ export const {
 } = slice.actions;
 
 export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
-    const url = '/recentServings';
+    const url = '/api/recentServings';
     const query = `hours=${hours}`;
     dispatch(setShowActiveBusy(true));
     const body = await doGetRequest(url, query);
@@ -55,7 +55,7 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
 };
 
 export const activeUpdateAsync = (payload: any) => async (dispatch: any) => {
-    const url = '/insert';
+    const url = '/api/insert';
     dispatch(setShowActiveBusy(true));
     const body = await doPutRequest(url, payload);
     dispatch(setShowActiveBusy(false));
