@@ -85,17 +85,13 @@ export const InsertForm = () => {
                 <h4>{i18n[language].insertForm.title}</h4>
             </div>
             <div>
-                <div>
-                    <input
-                        type="date"
-                        name="date"
-                        value={date}
-                        required
-                        onChange={(e) => dispatch(updateDate(e.target.value))}
-                    />
-                </div>
-            </div>
-            <div>
+                <input
+                    type="date"
+                    name="date"
+                    value={date}
+                    required
+                    onChange={(e) => dispatch(updateDate(e.target.value))}
+                />
                 <label htmlFor="time">
                     {i18n[language].insertForm.timeLabel}
                 </label>
@@ -132,6 +128,8 @@ export const InsertForm = () => {
                 <label htmlFor="amount">
                     {i18n[language].insertForm.amount}
                 </label>
+            </div>
+            <div>
                 <input
                     type="number"
                     name="amount"
@@ -157,6 +155,8 @@ export const InsertForm = () => {
             </div>
             <div>
                 <label htmlFor="units">{i18n[language].insertForm.units}</label>
+            </div>
+            <div>
                 <input
                     type="number"
                     name="units"

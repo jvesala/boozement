@@ -2,6 +2,37 @@
   width: 100%;
   text-align: left;
 }
-.InsertForm input {
-  width: 200px;
+
+.InsertForm > div:nth-child(2), .InsertForm > div:nth-child(3) {
+  padding-bottom: 15px;
+}
+
+.InsertForm input[name=type] {
+  width: 265px;
+}
+
+.InsertForm input[name=date] {
+  width: 140px;
+}
+
+.InsertForm label[for=time] {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.InsertForm input[name=time] {
+  width: 80px;
+}
+
+.InsertForm label[for=amount], .InsertForm label[for=units] {
+  width: 95px;
+  display: inline-block;
+}
+
+.InsertForm input[name=amount], .InsertForm input[name=units] {
+  width: 45px;
+}
+
+.InsertForm em {
+  padding-left: 5px;
 }
