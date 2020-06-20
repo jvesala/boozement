@@ -3,7 +3,6 @@
 }
 
 .Menu-header {
-  background-color: whitesmoke;
 }
 
 .Menu-header > nav {
@@ -17,7 +16,7 @@
 }
 
 .Menu-header .logo  h1 {
-  background: #ff4486;
+  background: darkslategray;
   color: #fff;
   border-radius: 6px;
   font-family: 'Oleo Script', serif;

@@ -6,21 +6,20 @@
   align-items: center;
 }
 .MenuItem a {
-  color: white;
+  color: whitesmoke;
   width: 85%;
-  font-family: 'Oleo Script', serif;
   text-decoration: none;
   font-weight: 200;
-  background-color: green;
+  background-color: darkslategray;
   border-radius: 3px;
   padding: 3px;
 }
 
 .MenuItem a:visited {
-  color: white;
+  color: whitesmoke;
 }
 
 .MenuItem a.active {
-  color: white;
+  color: whitesmoke;
   font-weight: 800;
 }

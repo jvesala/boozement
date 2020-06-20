@@ -1,6 +1,5 @@
 .Footer {
   grid-area: footer;
-  background-color: whitesmoke;
 }
 
 .Footer footer {
@@ -10,8 +9,8 @@
 
 .Footer .flag {
   border: none;
-  background-color: whitesmoke;
   cursor: pointer;
+  background-color: unset;
 }
 
 .Footer .loggedIn {
