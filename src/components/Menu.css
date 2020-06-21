@@ -16,13 +16,12 @@
 }
 
 .Menu-header .logo  h1 {
-  background: darkslategray;
   color: #fff;
   border-radius: 6px;
-  font-family: 'Oleo Script', serif;
+  font-family: 'DkCrayonCrumble', serif;
   font-weight: 800;
   font-size: 200%;
-  font-style: italic;
   margin-left: 10%;
   margin-right: 10%;
+  text-transform: uppercase;
 }

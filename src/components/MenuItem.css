@@ -7,10 +7,13 @@
 }
 .MenuItem a {
   color: whitesmoke;
-  width: 85%;
-  text-decoration: none;
-  font-weight: 200;
+  text-transform: uppercase;
   background-color: darkslategray;
+  width: 60%;
+  text-decoration: none;
+  font-family: 'DkCrayonCrumble', sans-serif;
+  font-weight: 400;
+  font-size: 150%;
   border-radius: 3px;
   padding: 3px;
 }
