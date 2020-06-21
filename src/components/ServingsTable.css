@@ -1,17 +1,50 @@
 .ServingsTable {
-  border: 1px solid black;
+  border: none;
   border-spacing: 0;
-  display: block;
-  overflow-y: scroll;
+  display: table;
   height: 50vh;
+  width: 800px;
+  padding: 0;
+  margin: 0;
+}
+
+.ServingsTable thead {
+  display: block;
+}
+.ServingsTable tbody {
+  display: block;
+  height: 49vh;
+  overflow-y: scroll;
 }
 
 .ServingsTable th {
-  border: 1px solid black;
+  border: none;
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.ServingsTable th[class=date], .ServingsTable td[class=date] {
+  width: 200px;
+}
+.ServingsTable th[class=servingType], .ServingsTable td[class=type] {
+  width: 400px;
+}
+.ServingsTable th[class=amount], .ServingsTable td[class=amount] {
+  width: 100px;
+}
+.ServingsTable th[class=units] {
+  width: 100px;
+}
+.ServingsTable td[class=units] {
+  width: 100px;
 }
 
 .ServingsTable td {
   border: 1px solid black;
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .ServingsTable .type {
