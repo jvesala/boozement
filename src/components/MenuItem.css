@@ -1,28 +1,30 @@
 .MenuItem {
   display: inline-grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
   justify-items: center;
   align-items: center;
+  background-image: url("/chalk.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: top;
+  background-position-x: center;
+  height: 55px;
 }
 .MenuItem a {
-  color: whitesmoke;
+  color: darkslategray;
   text-transform: uppercase;
-  background-color: darkslategray;
-  width: 60%;
+  width: 50%;
   text-decoration: none;
   font-family: 'DkCrayonCrumble', sans-serif;
   font-weight: 400;
   font-size: 150%;
   border-radius: 3px;
-  padding: 3px;
 }
 
 .MenuItem a:visited {
-  color: whitesmoke;
+  color: darkslategray;
 }
 
 .MenuItem a.active {
-  color: whitesmoke;
+  color: darkslategray;
   font-weight: 800;
 }

@@ -15,13 +15,12 @@
   grid-template-columns: 1fr;
 }
 
-.Menu-header .logo  h1 {
+.Menu-header .logo h1 {
   color: #fff;
   border-radius: 6px;
   font-family: 'DkCrayonCrumble', serif;
   font-weight: 800;
   font-size: 200%;
-  margin-left: 10%;
-  margin-right: 10%;
   text-transform: uppercase;
+  margin: 0;
 }
