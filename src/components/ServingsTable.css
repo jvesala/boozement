@@ -47,6 +47,14 @@
   margin: 0;
 }
 
+.ServingsTable tbody tr:nth-child(even) {
+  background: #E6E6E6;
+}
+
+.ServingsTable tbody tr:nth-child(even) {
+  background: #E6E6E6;
+}
+
 .ServingsTable .type {
   text-align: left;
 }
