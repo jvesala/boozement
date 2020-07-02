@@ -1,32 +1,7 @@
 import pgPromise, { IMain } from 'pg-promise';
 import { DateTime } from 'luxon';
+import { Serving, ServingsResponse, User } from './domain';
 //import * as pg from 'pg-promise/typescript/pg-subset';
-
-export type Gender = 'M' | 'F';
-
-export type User = {
-    id?: string;
-    email: string;
-    password: string;
-    gender: Gender;
-    weight: number;
-};
-
-export type Serving = {
-    id?: string;
-    userId: string;
-    date: DateTime;
-    type: string;
-    amount: number;
-    units: number;
-};
-
-export type ServingsResponse = {
-    search: string;
-    servings: Serving[];
-    totalCount: number;
-    totalUnits: number;
-};
 
 export const initConnection = (connectionString: string) => {
     const pgp: IMain = pgPromise({});

@@ -1,15 +1,17 @@
-import { Serving, User } from '../../server/database';
-import { DateTime, Duration } from 'luxon';
+import { Serving, User } from '../../server/domain';
+import { DateTime } from 'luxon';
 import { bacNow } from '../../server/calculator';
 
 describe('calculator.spec.ts', () => {
     const user: User = {
+        id: undefined,
         email: 'my.email@example.com',
         password: 'passwordHash',
         gender: 'M',
         weight: 73000,
     };
     const serving: Serving = {
+        id: undefined,
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc().minus({ seconds: 3600 }),
         type: 'Beer',
@@ -17,6 +19,7 @@ describe('calculator.spec.ts', () => {
         units: 2.0,
     };
     const serving2: Serving = {
+        id: undefined,
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc().minus({ seconds: 7200 }),
         type: 'Beer',

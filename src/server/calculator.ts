@@ -1,5 +1,5 @@
-import { Serving, User } from './database';
 import { DateTime } from 'luxon';
+import { Serving, User } from './domain';
 
 export const gramsInUnit = 12;
 export const hourInMillis = 3600 * 1000;
@@ -43,6 +43,7 @@ const calculateBacHistory = (
     servings: Serving[]
 ) => {
     const endServing: Serving = {
+        id: undefined,
         date: now,
         userId: '',
         type: '',

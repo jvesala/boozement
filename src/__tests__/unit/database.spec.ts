@@ -6,12 +6,11 @@ import {
     initConnection,
     insertServing,
     insertUser,
-    Serving,
     updateField,
-    updateUser,
-    User,
+    updateUser
 } from '../../server/database';
 import { DateTime, Duration } from 'luxon';
+import { Serving, User } from '../../server/domain';
 
 describe('database.spec.ts', () => {
     const connectionString =
@@ -20,6 +19,7 @@ describe('database.spec.ts', () => {
     let db: any;
 
     const user: User = {
+        id: undefined,
         email: 'my.email@example.com',
         password: 'passwordHash',
         gender: 'M',
@@ -35,6 +35,7 @@ describe('database.spec.ts', () => {
     userUpdate.email = 'myUpdate.email@example.com';
 
     const serving: Serving = {
+        id: undefined,
         userId: 'ffef775a-ffb3-454b-a4f1-c9883977415c',
         date: DateTime.utc(),
         type: 'Beer',
