@@ -18,7 +18,12 @@ import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
 import * as path from 'path';
 import { validateBody } from './validator';
-import { Serving, UpdatePassword, UpdateServing, UpdateUserData } from './domain';
+import {
+    Serving,
+    UpdatePassword,
+    UpdateServing,
+    UpdateUserData,
+} from './domain';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -53,29 +58,33 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/../')));
 
-app.get('/api/servings', isAuthenticated, async (req: Request, res: Response) => {
-    console.log('GET /api/servings', req.query);
-    const { search, limit, offset } = req.query;
-    const user = await getUserById(db, req.session!.passport.user);
-    if (req.query.search) {
-        const servings = await searchServings(
-            db,
-            user!.id!,
-            search as string,
-            parseInt(limit as string),
-            parseInt(offset as string)
-        );
-        res.send(servings);
-    } else {
-        const servings = await getServings(
-            db,
-            user!.id!,
-            parseInt(limit as string),
-            parseInt(offset as string)
-        );
-        res.send(servings);
+app.get(
+    '/api/servings',
+    isAuthenticated,
+    async (req: Request, res: Response) => {
+        console.log('GET /api/servings', req.query);
+        const { search, limit, offset } = req.query;
+        const user = await getUserById(db, req.session!.passport.user);
+        if (req.query.search) {
+            const servings = await searchServings(
+                db,
+                user!.id!,
+                search as string,
+                parseInt(limit as string),
+                parseInt(offset as string)
+            );
+            res.send(servings);
+        } else {
+            const servings = await getServings(
+                db,
+                user!.id!,
+                parseInt(limit as string),
+                parseInt(offset as string)
+            );
+            res.send(servings);
+        }
     }
-});
+);
 
 app.get(
     '/api/recentServings',
@@ -112,29 +121,39 @@ app.get(
     }
 );
 
-app.post('/api/insert', isAuthenticated, validateBody(Serving), async (req: Request, res: Response) => {
-    const body: Serving = req.body;
-    console.log('POST /api/insert', body);
-    const user = await getUserById(db, req.session!.passport.user);
-    body.userId = user!.id!;
-    await insertServing(db, body);
-    res.json(body);
-});
+app.post(
+    '/api/insert',
+    isAuthenticated,
+    validateBody(Serving),
+    async (req: Request, res: Response) => {
+        const body: Serving = req.body;
+        console.log('POST /api/insert', body);
+        const user = await getUserById(db, req.session!.passport.user);
+        body.userId = user!.id!;
+        await insertServing(db, body);
+        res.json(body);
+    }
+);
 
-app.put('/api/insert', isAuthenticated, validateBody(UpdateServing), async (req: Request, res: Response) => {
-    const body: UpdateServing = req.body;
-    console.log('POST /api/insert', body);
-    const user = await getUserById(db, req.session!.passport.user);
+app.put(
+    '/api/insert',
+    isAuthenticated,
+    validateBody(UpdateServing),
+    async (req: Request, res: Response) => {
+        const body: UpdateServing = req.body;
+        console.log('POST /api/insert', body);
+        const user = await getUserById(db, req.session!.passport.user);
 
-    const result = await updateField(
-        db,
-        String(user!.id!),
-        body.id,
-        body.field,
-        body.value
-    );
-    res.json(result);
-});
+        const result = await updateField(
+            db,
+            String(user!.id!),
+            body.id,
+            body.field,
+            body.value
+        );
+        res.json(result);
+    }
+);
 
 app.post(
     '/api/login',
@@ -148,33 +167,47 @@ app.post(
     }
 );
 
-app.get('/api/userdata', isAuthenticated, async (req: Request, res: Response) => {
-    console.log('GET /api/userdata');
-    const user = await getUserById(db, req.session!.passport.user);
-    res.send({ weight: user?.weight, gender: user?.gender });
-});
+app.get(
+    '/api/userdata',
+    isAuthenticated,
+    async (req: Request, res: Response) => {
+        console.log('GET /api/userdata');
+        const user = await getUserById(db, req.session!.passport.user);
+        res.send({ weight: user?.weight, gender: user?.gender });
+    }
+);
 
-app.put('/api/userdata', isAuthenticated, validateBody(UpdateUserData), async (req: Request, res: Response) => {
-    const body: UpdateUserData = req.body;
-    console.log('PUT /api/userdata', body);
-    const user = await getUserById(db, req.session!.passport.user);
-    user!.weight = body.weight;
-    await updateUser(db, user!);
-    res.json({});
-});
-
-app.post('/api/password', isAuthenticated, validateBody(UpdatePassword), async (req: Request, res: Response) => {
-    const body: UpdatePassword = req.body;
-    console.log('POST /api/password', body);
-    const user = await getUserById(db, req.session!.passport.user);
-    if (bcrypt.compareSync(body.currentPassword, user!.password)) {
-        user!.password = await bcrypt.hash(body.newPassword, 10);
+app.put(
+    '/api/userdata',
+    isAuthenticated,
+    validateBody(UpdateUserData),
+    async (req: Request, res: Response) => {
+        const body: UpdateUserData = req.body;
+        console.log('PUT /api/userdata', body);
+        const user = await getUserById(db, req.session!.passport.user);
+        user!.weight = body.weight;
         await updateUser(db, user!);
         res.json({});
-    } else {
-        res.sendStatus(401);
     }
-});
+);
+
+app.post(
+    '/api/password',
+    isAuthenticated,
+    validateBody(UpdatePassword),
+    async (req: Request, res: Response) => {
+        const body: UpdatePassword = req.body;
+        console.log('POST /api/password', body);
+        const user = await getUserById(db, req.session!.passport.user);
+        if (bcrypt.compareSync(body.currentPassword, user!.password)) {
+            user!.password = await bcrypt.hash(body.newPassword, 10);
+            await updateUser(db, user!);
+            res.json({});
+        } else {
+            res.sendStatus(401);
+        }
+    }
+);
 
 app.post('/api/logout', async (req: Request, res: Response) => {
     console.log('POST /api/logout');

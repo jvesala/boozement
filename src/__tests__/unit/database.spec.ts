@@ -7,7 +7,7 @@ import {
     insertServing,
     insertUser,
     updateField,
-    updateUser
+    updateUser,
 } from '../../server/database';
 import { DateTime, Duration } from 'luxon';
 import { Serving, User } from '../../server/domain';
