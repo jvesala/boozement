@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doPostRequest } from '../../app/network';
+import { UpdatePassword } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'password',
@@ -42,7 +43,7 @@ export const {
     setShowPasswordError,
 } = slice.actions;
 
-export const updatePasswordAsync = (payload: any) => async (dispatch: any) => {
+export const updatePasswordAsync = (payload: UpdatePassword) => async (dispatch: any) => {
     const url = '/api/password';
     await doPostRequest(url, payload);
     dispatch(setShowPasswordBusy(false));

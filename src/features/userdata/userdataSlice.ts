@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest, doPutRequest } from '../../app/network';
 import { weightInKilos } from '../../server/calculator';
+import { UpdateUserData } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'userdata',
@@ -47,7 +48,7 @@ export const userDataAsync = () => async (dispatch: any) => {
     dispatch(updateGender(body.gender));
 };
 
-export const updateUserdataAsync = (payload: any) => async (dispatch: any) => {
+export const updateUserdataAsync = (payload: UpdateUserData) => async (dispatch: any) => {
     const url = '/api/userdata';
     await doPutRequest(url, payload);
     dispatch(setShowUserdataBusy(false));

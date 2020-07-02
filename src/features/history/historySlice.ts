@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest, doPutRequest } from '../../app/network';
+import { UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'history',
@@ -77,7 +78,7 @@ export const historyServingsAsync = (
     }
 };
 
-export const historyUpdateAsync = (payload: any) => async (dispatch: any) => {
+export const historyUpdateAsync = (payload: UpdateServing) => async (dispatch: any) => {
     const url = '/api/insert';
     dispatch(setShowHistoryBusy(true));
     const body = await doPutRequest(url, payload);

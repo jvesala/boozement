@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest, doPutRequest } from '../../app/network';
 import { updateServingInServingsArrays } from '../history/historySlice';
+import { UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'active',
@@ -54,7 +55,7 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     dispatch(updateActiveBac(body.bac));
 };
 
-export const activeUpdateAsync = (payload: any) => async (dispatch: any) => {
+export const activeUpdateAsync = (payload: UpdateServing) => async (dispatch: any) => {
     const url = '/api/insert';
     dispatch(setShowActiveBusy(true));
     const body = await doPutRequest(url, payload);
