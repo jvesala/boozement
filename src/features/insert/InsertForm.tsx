@@ -66,8 +66,8 @@ export const InsertForm = () => {
         const payload = {
             date: createDate(date, time),
             type,
-            amount,
-            units,
+            amount: parseInt(amount),
+            units: parseFloat(units),
         };
         dispatch(insertAsync(payload));
     };

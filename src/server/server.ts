@@ -17,6 +17,8 @@ import {
 import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
 import * as path from 'path';
+import { validateBody } from './validator';
+import { Serving, UpdatePassword, UpdateServing, UpdateUserData } from './domain';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -110,8 +112,8 @@ app.get(
     }
 );
 
-app.post('/api/insert', isAuthenticated, async (req: Request, res: Response) => {
-    const body = req.body;
+app.post('/api/insert', isAuthenticated, validateBody(Serving), async (req: Request, res: Response) => {
+    const body: Serving = req.body;
     console.log('POST /api/insert', body);
     const user = await getUserById(db, req.session!.passport.user);
     body.userId = user!.id!;
@@ -119,21 +121,17 @@ app.post('/api/insert', isAuthenticated, async (req: Request, res: Response) => 
     res.json(body);
 });
 
-app.put('/api/insert', isAuthenticated, async (req: Request, res: Response) => {
-    const body = req.body;
+app.put('/api/insert', isAuthenticated, validateBody(UpdateServing), async (req: Request, res: Response) => {
+    const body: UpdateServing = req.body;
     console.log('POST /api/insert', body);
     const user = await getUserById(db, req.session!.passport.user);
-
-    const servingId = req.body.id;
-    const field = req.body.field;
-    const value = req.body.value;
 
     const result = await updateField(
         db,
         String(user!.id!),
-        servingId,
-        field,
-        value
+        body.id,
+        body.field,
+        body.value
     );
     res.json(result);
 });
@@ -156,8 +154,8 @@ app.get('/api/userdata', isAuthenticated, async (req: Request, res: Response) =>
     res.send({ weight: user?.weight, gender: user?.gender });
 });
 
-app.put('/api/userdata', isAuthenticated, async (req: Request, res: Response) => {
-    const body = req.body;
+app.put('/api/userdata', isAuthenticated, validateBody(UpdateUserData), async (req: Request, res: Response) => {
+    const body: UpdateUserData = req.body;
     console.log('PUT /api/userdata', body);
     const user = await getUserById(db, req.session!.passport.user);
     user!.weight = body.weight;
@@ -165,8 +163,8 @@ app.put('/api/userdata', isAuthenticated, async (req: Request, res: Response) =>
     res.json({});
 });
 
-app.post('/api/password', isAuthenticated, async (req: Request, res: Response) => {
-    const body = req.body;
+app.post('/api/password', isAuthenticated, validateBody(UpdatePassword), async (req: Request, res: Response) => {
+    const body: UpdatePassword = req.body;
     console.log('POST /api/password', body);
     const user = await getUserById(db, req.session!.passport.user);
     if (bcrypt.compareSync(body.currentPassword, user!.password)) {
@@ -186,7 +184,7 @@ app.post('/api/logout', async (req: Request, res: Response) => {
     });
 });
 
-app.use('*',  isAuthenticated, async (_req: Request, res: Response) => {
+app.use('*', isAuthenticated, async (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '/../', 'index.html'));
 });
 

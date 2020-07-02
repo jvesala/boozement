@@ -26,21 +26,39 @@ const IdType = t.union([t.string, t.undefined])
 const GenderType = t.union([t.literal('M'), t.literal('F')])
 export type Gender = t.TypeOf<typeof GenderType>
 
-const ServingType = t.strict({
+export const Serving = t.strict({
     id: IdType,
-    userId: t.string,
+    userId: IdType,
     date: DateTimeFromString,
     type: t.string,
     amount: t.number,
     units: t.number
 });
-export type Serving = t.TypeOf<typeof ServingType>
+export type Serving = t.TypeOf<typeof Serving>
 
-const UserType = t.strict({
+export const User = t.strict({
     id: IdType,
     email: t.string,
     password: t.string,
     gender: GenderType,
     weight: t.number,
 });
-export type User = t.TypeOf<typeof UserType>
+export type User = t.TypeOf<typeof User>
+
+export const UpdateServing = t.strict({
+    id: t.string,
+    field: t.string,
+    value: t.string
+});
+export type UpdateServing = t.TypeOf<typeof UpdateServing>
+
+export const UpdateUserData = t.strict({
+    weight: t.number,
+});
+export type UpdateUserData = t.TypeOf<typeof UpdateUserData>
+
+export const UpdatePassword = t.strict({
+    currentPassword: t.string,
+    newPassword: t.string,
+});
+export type UpdatePassword = t.TypeOf<typeof UpdatePassword>
