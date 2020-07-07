@@ -1,33 +1,45 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    loginUserAsync,
-    selectLanguage,
-    selectShowLoggedOut,
-    selectShowLoginBusy,
-    selectShowLoginError,
-} from './loginSlice';
+import { loginUser, selectLanguage, selectShowLoggedOut } from './loginSlice';
 
 import './Login.css';
 import { i18n, Language } from '../../app/localization';
 import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
+import { doPostRequest } from '../../app/network';
 
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
     const showLoggedOut: Language = useSelector(selectShowLoggedOut);
-    const showLoginError = useSelector(selectShowLoginError);
-    const showBusy = useSelector(selectShowLoginBusy);
 
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showBusy, setShowBusy] = useState(false);
+    const [showLoginError, setShowLoginError] = useState(false);
 
     const disabled = email.length === 0 || password.length === 0;
 
-    const doLogin = () => {
-        dispatch(loginUserAsync(email, password));
+    const doLogin = async () => {
+        const payload = {
+            email,
+            password,
+        };
+        const url = '/api/login';
+
+        setShowBusy(true);
+        const successHandler = (success: any) => {
+            setShowBusy(false);
+            setShowLoginError(false);
+            dispatch(loginUser(success.body.email));
+        };
+        const errorHandler = (err: any) => {
+            console.error(err);
+            setShowBusy(false);
+            setShowLoginError(true);
+        };
+        await doPostRequest(url, payload, successHandler, errorHandler);
     };
 
     return (
