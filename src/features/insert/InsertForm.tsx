@@ -1,24 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    insertAsync,
-    selectAmount,
-    selectDate,
-    selectInsertResult,
-    selectShowInsertBusy,
-    selectShowInsertError,
-    selectSuggestions,
-    selectTime,
-    selectType,
-    selectUnits,
-    setShowInsertBusy,
-    suggestionsAsync,
-    updateAmount,
-    updateDate,
-    updateTime,
-    updateType,
-    updateUnits,
-} from './insertSlice';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import './InsertForm.css';
 import { i18n, Language } from '../../app/localization';
@@ -30,46 +11,73 @@ import {
 } from '../../app/date';
 import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
-import { handleFieldUpdate, updateValidity } from '../../app/form';
+import { updateValidity } from '../../app/form';
+import { DateTime } from 'luxon';
+import { doGetRequest, doPostRequest } from '../../app/network';
 
 export const InsertForm = () => {
     const language: Language = useSelector(selectLanguage);
+    const now = DateTime.local();
+    const dateNow = now.toISODate();
+    const timeNow =
+        String(now.hour).padStart(2, '0') +
+        ':' +
+        String(now.minute).padStart(2, '0');
 
-    const dispatch = useDispatch();
+    const [date, setDate] = useState(dateNow);
+    const [time, setTime] = useState(timeNow);
+    const [type, setType] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [amount, setAmount] = useState(0);
+    const [units, setUnits] = useState(0.0);
 
-    const date = useSelector(selectDate);
-    const time = useSelector(selectTime);
-    const type = useSelector(selectType);
-    const suggestions = useSelector(selectSuggestions);
-    const amount = useSelector(selectAmount);
-    const units = useSelector(selectUnits);
-    const showBusy = useSelector(selectShowInsertBusy);
-    const showError = useSelector(selectShowInsertError);
-    const insertResult = useSelector(selectInsertResult);
+    const [showBusy, setShowBusy] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [result, setResult] = useState({});
 
     const [amountValid, setAmountValid] = useState(true);
     const [unitsValid, setUnitsValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
 
-    useEffect(() => {
+    const updateSuggestions = async () => {
         const payload = {
             limit: 10,
             search: type,
         };
-        dispatch(suggestionsAsync(payload));
-    }, [dispatch, type]);
+        const url = '/api/suggestions';
+        const successHandler = (success: any) => {
+            setSuggestions(success.body);
+        };
+        const errorHandler = (err: any) => {
+            console.error(err);
+        };
+        await doGetRequest(url, payload, successHandler, errorHandler);
+    };
 
-    const doInsert = () => {
+    const doInsert = async () => {
         setDisabled(true);
-        dispatch(setShowInsertBusy(true));
+        setShowBusy(true);
 
         const payload = {
             date: createDate(date, time),
             type,
-            amount: parseInt(amount),
-            units: parseFloat(units),
+            amount,
+            units,
         };
-        dispatch(insertAsync(payload));
+        const url = '/api/insert';
+        const successHandler = (success: any) => {
+            setShowBusy(false);
+            setAmount(0);
+            setUnits(0.0);
+            setShowError(false);
+            setResult(success.body);
+        };
+        const errorHandler = (err: any) => {
+            console.error(err);
+            setShowError(true);
+            setResult({});
+        };
+        await doPostRequest(url, payload, successHandler, errorHandler);
     };
 
     return (
@@ -90,7 +98,7 @@ export const InsertForm = () => {
                     name="date"
                     value={date}
                     required
-                    onChange={(e) => dispatch(updateDate(e.target.value))}
+                    onChange={(e) => setDate(e.target.value)}
                 />
                 <label htmlFor="time">
                     {i18n[language].insertForm.timeLabel}
@@ -100,7 +108,7 @@ export const InsertForm = () => {
                     name="time"
                     value={time}
                     required
-                    onChange={(e) => dispatch(updateTime(e.target.value))}
+                    onChange={(e) => setTime(e.target.value)}
                 />
             </div>
             <div>
@@ -114,7 +122,10 @@ export const InsertForm = () => {
                         required
                         list="suggestionsList"
                         autoComplete="off"
-                        onChange={(e) => dispatch(updateType(e.target.value))}
+                        onChange={async (e) => {
+                            setType(e.target.value);
+                            await updateSuggestions();
+                        }}
                     />
                     <div className="clear hidden" />
                     <datalist id="suggestionsList">
@@ -138,14 +149,13 @@ export const InsertForm = () => {
                     max={100}
                     step={1}
                     required
-                    onChange={(e) =>
-                        handleFieldUpdate(
-                            e,
-                            dispatch,
-                            updateAmount,
-                            setAmountValid
-                        )
-                    }
+                    onChange={(e) => {
+                        setAmount(parseInt(e.target.value));
+                        const fieldValid =
+                            e.target.value.length === 0 ||
+                            e.target.validity.valid;
+                        setAmountValid(fieldValid);
+                    }}
                 />
                 <em className="unit">{i18n[language].insertForm.amountType}</em>
                 <Error
@@ -165,14 +175,13 @@ export const InsertForm = () => {
                     max={5}
                     step={0.1}
                     required
-                    onChange={(e) =>
-                        handleFieldUpdate(
-                            e,
-                            dispatch,
-                            updateUnits,
-                            setUnitsValid
-                        )
-                    }
+                    onChange={(e) => {
+                        setUnits(parseFloat(e.target.value));
+                        const fieldValid =
+                            e.target.value.length === 0 ||
+                            e.target.validity.valid;
+                        setUnitsValid(fieldValid);
+                    }}
                 />
                 <em className="unit">{i18n[language].insertForm.unitsType}</em>
                 <Error
@@ -191,12 +200,12 @@ export const InsertForm = () => {
                 </button>
                 <Busy visible={showBusy} />
 
-                {insertResult ? (
+                {result && (result as any).type && (result as any).date ? (
                     <div>
                         {i18n[language].insertForm.result(
-                            insertResult.type,
+                            (result as any).type,
                             formatDateTime(
-                                createFromUtcString(insertResult.date)
+                                createFromUtcString((result as any).date)
                             )
                         )}
                     </div>
