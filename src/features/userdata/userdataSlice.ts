@@ -48,12 +48,19 @@ export const userDataAsync = () => async (dispatch: any) => {
     dispatch(updateGender(body.gender));
 };
 
-export const updateUserdataAsync = (payload: UpdateUserData) => async (dispatch: any) => {
+export const updateUserdataAsync = (payload: UpdateUserData) => async (
+    dispatch: any
+) => {
     const url = '/api/userdata';
-    await doPutRequest(url, payload);
-    dispatch(setShowUserdataBusy(false));
-    dispatch(setUserdataResult(true));
-    dispatch(setShowUserdataError(false));
+    const successHandler = (_: any) => {
+        dispatch(setShowUserdataBusy(false));
+        dispatch(setUserdataResult(true));
+        dispatch(setShowUserdataError(false));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPutRequest(url, payload, successHandler, errorHandler);
 };
 
 export const selectWeight = (state: any) => state.userdata.weight;

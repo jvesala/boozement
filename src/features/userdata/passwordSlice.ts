@@ -43,15 +43,22 @@ export const {
     setShowPasswordError,
 } = slice.actions;
 
-export const updatePasswordAsync = (payload: UpdatePassword) => async (dispatch: any) => {
+export const updatePasswordAsync = (payload: UpdatePassword) => async (
+    dispatch: any
+) => {
     const url = '/api/password';
-    await doPostRequest(url, payload);
-    dispatch(setShowPasswordBusy(false));
-    dispatch(setPasswordResult(true));
-    dispatch(setCurrentPassword(''));
-    dispatch(setNewPassword(''));
-    dispatch(setCopyPassword(''));
-    dispatch(setShowPasswordError(false));
+    const successHandler = (_: any) => {
+        dispatch(setShowPasswordBusy(false));
+        dispatch(setPasswordResult(true));
+        dispatch(setCurrentPassword(''));
+        dispatch(setNewPassword(''));
+        dispatch(setCopyPassword(''));
+        dispatch(setShowPasswordError(false));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPostRequest(url, payload, successHandler, errorHandler);
 };
 
 export const selectCurrentPassword = (state: any) =>

@@ -78,12 +78,19 @@ export const historyServingsAsync = (
     }
 };
 
-export const historyUpdateAsync = (payload: UpdateServing) => async (dispatch: any) => {
+export const historyUpdateAsync = (payload: UpdateServing) => async (
+    dispatch: any
+) => {
     const url = '/api/insert';
     dispatch(setShowHistoryBusy(true));
-    const body = await doPutRequest(url, payload);
-    dispatch(setShowHistoryBusy(false));
-    dispatch(updateHistoryServing(body));
+    const successHandler = (success: any) => {
+        dispatch(setShowHistoryBusy(false));
+        dispatch(updateHistoryServing(success.body));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPutRequest(url, payload, successHandler, errorHandler);
 };
 
 export const selectHistorySearch = (state: any) => state.history.search;

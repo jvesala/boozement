@@ -1,10 +1,7 @@
-import * as E from 'fp-ts/lib/Either';
-
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
 import Cookies from 'js-cookie';
-import { doPostRequest, doPostRequest2 } from '../../app/network';
-import { pipe } from 'fp-ts/lib/pipeable';
+import { doPostRequest } from '../../app/network';
 
 export const slice = createSlice({
     name: 'login',
@@ -51,29 +48,29 @@ export const loginUserAsync = (email: string, password: string) => async (
     };
     const url = '/api/login';
     dispatch(setShowLoginBusy(true));
-    await doPostRequest2(url, payload).then((e) =>
-        pipe(
-            e,
-            E.fold(
-                (err) => {
-                    console.error(err);
-                    dispatch(setShowLoginBusy(false));
-                    dispatch(setShowLoginError(true));
-                },
-                (success: any) => {
-                    dispatch(setShowLoginBusy(false));
-                    dispatch(setShowLoginError(false));
-                    dispatch(loginUser(success.body.email));
-                }
-            )
-    ));
+    const successHandler = (success: any) => {
+        dispatch(setShowLoginBusy(false));
+        dispatch(setShowLoginError(false));
+        dispatch(loginUser(success.body.email));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+        dispatch(setShowLoginBusy(false));
+        dispatch(setShowLoginError(true));
+    };
+    await doPostRequest(url, payload, successHandler, errorHandler);
 };
 
 export const logoutUserAsync = () => async (dispatch: any) => {
     const url = '/api/logout';
-    await doPostRequest(url, {});
-    dispatch(loginUser(undefined));
-    dispatch(setShowLoggedOut(true));
+    const successHandler = (_: any) => {
+        dispatch(loginUser(undefined));
+        dispatch(setShowLoggedOut(true));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPostRequest(url, {}, successHandler, errorHandler);
 };
 
 export const selectLanguage = (state: any) => state.login.language;

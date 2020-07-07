@@ -55,12 +55,19 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     dispatch(updateActiveBac(body.bac));
 };
 
-export const activeUpdateAsync = (payload: UpdateServing) => async (dispatch: any) => {
+export const activeUpdateAsync = (payload: UpdateServing) => async (
+    dispatch: any
+) => {
     const url = '/api/insert';
     dispatch(setShowActiveBusy(true));
-    const body = await doPutRequest(url, payload);
-    dispatch(setShowActiveBusy(false));
-    dispatch(updateActiveServing(body));
+    const successHandler = (success: any) => {
+        dispatch(setShowActiveBusy(false));
+        dispatch(updateActiveServing(success.body));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPutRequest(url, payload, successHandler, errorHandler);
 };
 
 export const selectActiveBac = (state: any) => state.active.activeBac;

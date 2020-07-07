@@ -63,9 +63,14 @@ export const {
 
 export const insertAsync = (payload: any) => async (dispatch: any) => {
     const url = '/api/insert';
-    const body = await doPostRequest(url, payload);
-    dispatch(setShowInsertBusy(false));
-    dispatch(insertSuccess(body));
+    const successHandler = (success: any) => {
+        dispatch(setShowInsertBusy(false));
+        dispatch(insertSuccess(success.body));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doPostRequest(url, payload, successHandler, errorHandler);
 };
 
 export const suggestionsAsync = (payload: any) => async (dispatch: any) => {
