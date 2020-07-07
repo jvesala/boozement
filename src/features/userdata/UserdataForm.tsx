@@ -37,7 +37,7 @@ export const UserdataForm = () => {
     const doSubmit = async () => {
         setDisabled(true);
         setShowBusy(true);
-        setUserdataResult(false)
+        setUserdataResult(false);
 
         const payload = {
             weight: weight * 1000,
@@ -45,15 +45,14 @@ export const UserdataForm = () => {
         const url = '/api/userdata';
         const successHandler = (_: any) => {
             setShowBusy(false);
-            setUserdataResult(true)
-            setUserdataError(false)
+            setUserdataResult(true);
+            setUserdataError(false);
         };
         const errorHandler = (err: any) => {
             console.error(err);
             setShowBusy(false);
-            setUserdataResult(false)
-            setUserdataError(true)
-
+            setUserdataResult(false);
+            setUserdataError(true);
         };
         await doPutRequest(url, payload, successHandler, errorHandler);
     };

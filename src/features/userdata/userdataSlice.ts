@@ -18,10 +18,7 @@ export const slice = createSlice({
     },
 });
 
-export const {
-    updateWeight,
-    updateGender,
-} = slice.actions;
+export const { updateWeight, updateGender } = slice.actions;
 
 export const userDataAsync = () => async (dispatch: any) => {
     const url = '/api/userdata';
