@@ -2,48 +2,50 @@ import React, { useState } from 'react';
 
 import './PasswordForm.css';
 import { i18n, Language } from '../../app/localization';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import { updateValidity } from '../../app/form';
-import {
-    selectCopyPassword,
-    selectCurrentPassword,
-    selectNewPassword,
-    selectPasswordResult,
-    selectShowPasswordBusy,
-    selectShowPasswordError,
-    setCopyPassword,
-    setCurrentPassword,
-    setNewPassword,
-    setShowPasswordBusy,
-    updatePasswordAsync,
-} from './passwordSlice';
 import { Error } from '../../components/Error';
+import { doPostRequest } from '../../app/network';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
 
-    const currentPassword = useSelector(selectCurrentPassword);
-    const newPassword = useSelector(selectNewPassword);
-    const copyPassword = useSelector(selectCopyPassword);
-
-    const showBusy = useSelector(selectShowPasswordBusy);
     const [disabled, setDisabled] = useState(true);
 
-    const passwordResult = useSelector(selectPasswordResult);
-    const passwordError = useSelector(selectShowPasswordError);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [copyPassword, setCopyPassword] = useState('');
+    const [showBusy, setShowBusy] = useState(false);
 
-    const dispatch = useDispatch();
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordResult, setPasswordResult] = useState(false);
 
-    const doSubmit = () => {
+    const doSubmit = async () => {
         setDisabled(true);
-        dispatch(setShowPasswordBusy(true));
+
+        setShowBusy(true);
         const payload = {
             currentPassword,
             newPassword,
         };
-        dispatch(updatePasswordAsync(payload));
+        const url = '/api/password';
+        const successHandler = (_: any) => {
+            setShowBusy(false);
+            setPasswordResult(true);
+            setPasswordError(false);
+            setCurrentPassword('');
+            setNewPassword('');
+            setCopyPassword('');
+        };
+        const errorHandler = (err: any) => {
+            setShowBusy(false);
+            setPasswordResult(false);
+            setPasswordError(true);
+            console.error(err);
+        };
+        await doPostRequest(url, payload, successHandler, errorHandler);
     };
 
     return (
@@ -66,9 +68,7 @@ export const PasswordForm = () => {
                         name="current"
                         value={currentPassword}
                         required
-                        onChange={(e) =>
-                            dispatch(setCurrentPassword(e.target.value))
-                        }
+                        onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                 </div>
                 <div>
@@ -84,9 +84,7 @@ export const PasswordForm = () => {
                         minLength={10}
                         maxLength={200}
                         required
-                        onChange={(e) =>
-                            dispatch(setNewPassword(e.target.value))
-                        }
+                        onChange={(e) => setNewPassword(e.target.value)}
                     />
                 </div>
                 <div>
@@ -100,9 +98,7 @@ export const PasswordForm = () => {
                         minLength={10}
                         maxLength={200}
                         required
-                        onChange={(e) =>
-                            dispatch(setCopyPassword(e.target.value))
-                        }
+                        onChange={(e) => setCopyPassword(e.target.value)}
                     />
                     <Error
                         visible={newPassword !== copyPassword}
