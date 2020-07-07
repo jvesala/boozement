@@ -7,26 +7,23 @@ import { selectLanguage, selectUsername } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import {
     selectGender,
-    selectShowUserdataBusy,
-    selectUserdataError,
-    selectUserdataResult,
     selectWeight,
-    setShowUserdataBusy,
-    updateUserdataAsync,
     updateWeight,
     userDataAsync,
 } from './userdataSlice';
 import { Error } from '../../components/Error';
 import { handleFieldUpdate, updateValidity } from '../../app/form';
+import { doPutRequest } from '../../app/network';
 
 export const UserdataForm = () => {
     const language: Language = useSelector(selectLanguage);
     const weight = useSelector(selectWeight);
     const gender = useSelector(selectGender);
     const username = useSelector(selectUsername);
-    const showBusy = useSelector(selectShowUserdataBusy);
-    const userdataResult = useSelector(selectUserdataResult);
-    const userdataError = useSelector(selectUserdataError);
+
+    const [showBusy, setShowBusy] = useState(false);
+    const [userdataError, setUserdataError] = useState(false);
+    const [userdataResult, setUserdataResult] = useState(false);
 
     const [weightValid, setWeightValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
@@ -37,14 +34,28 @@ export const UserdataForm = () => {
         dispatch(userDataAsync());
     }, [dispatch]);
 
-    const doSubmit = () => {
+    const doSubmit = async () => {
         setDisabled(true);
-        dispatch(setShowUserdataBusy(true));
+        setShowBusy(true);
+        setUserdataResult(false)
 
         const payload = {
             weight: weight * 1000,
         };
-        dispatch(updateUserdataAsync(payload));
+        const url = '/api/userdata';
+        const successHandler = (_: any) => {
+            setShowBusy(false);
+            setUserdataResult(true)
+            setUserdataError(false)
+        };
+        const errorHandler = (err: any) => {
+            console.error(err);
+            setShowBusy(false);
+            setUserdataResult(false)
+            setUserdataError(true)
+
+        };
+        await doPutRequest(url, payload, successHandler, errorHandler);
     };
 
     return (
