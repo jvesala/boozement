@@ -1,7 +1,10 @@
+import * as E from 'fp-ts/lib/Either';
+
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
 import Cookies from 'js-cookie';
-import { doPostRequest } from '../../app/network';
+import { doPostRequest, doPostRequest2 } from '../../app/network';
+import { pipe } from 'fp-ts/lib/pipeable';
 
 export const slice = createSlice({
     name: 'login',
@@ -47,16 +50,23 @@ export const loginUserAsync = (email: string, password: string) => async (
         password,
     };
     const url = '/api/login';
-    try {
-        dispatch(setShowLoginBusy(true));
-        const body = await doPostRequest(url, payload);
-        dispatch(setShowLoginBusy(false));
-        dispatch(setShowLoginError(false));
-        dispatch(loginUser(body.email));
-    } catch (e) {
-        dispatch(setShowLoginBusy(false));
-        dispatch(setShowLoginError(true));
-    }
+    dispatch(setShowLoginBusy(true));
+    await doPostRequest2(url, payload).then((e) =>
+        pipe(
+            e,
+            E.fold(
+                (err) => {
+                    console.error(err);
+                    dispatch(setShowLoginBusy(false));
+                    dispatch(setShowLoginError(true));
+                },
+                (success: any) => {
+                    dispatch(setShowLoginBusy(false));
+                    dispatch(setShowLoginError(false));
+                    dispatch(loginUser(success.body.email));
+                }
+            )
+    ));
 };
 
 export const logoutUserAsync = () => async (dispatch: any) => {
