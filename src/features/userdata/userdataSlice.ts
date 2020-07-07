@@ -42,10 +42,15 @@ export const {
 export const userDataAsync = () => async (dispatch: any) => {
     const url = '/api/userdata';
     dispatch(setShowUserdataBusy(true));
-    const body = await doGetRequest(url, {});
-    dispatch(setShowUserdataBusy(false));
-    dispatch(updateWeight(weightInKilos(body.weight)));
-    dispatch(updateGender(body.gender));
+    const successHandler = (success: any) => {
+        dispatch(setShowUserdataBusy(false));
+        dispatch(updateWeight(weightInKilos(success.body.weight)));
+        dispatch(updateGender(success.body.gender));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doGetRequest(url, {}, successHandler, errorHandler);
 };
 
 export const updateUserdataAsync = (payload: UpdateUserData) => async (

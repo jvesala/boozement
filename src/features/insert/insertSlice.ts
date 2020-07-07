@@ -75,8 +75,13 @@ export const insertAsync = (payload: any) => async (dispatch: any) => {
 
 export const suggestionsAsync = (payload: any) => async (dispatch: any) => {
     const url = '/api/suggestions';
-    const body = await doGetRequest(url, payload);
-    dispatch(updateSuggestions(body));
+    const successHandler = (success: any) => {
+        dispatch(updateSuggestions(success.body));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doGetRequest(url, payload, successHandler, errorHandler);
 };
 
 export const selectDate = (state: any) => state.insert.date;

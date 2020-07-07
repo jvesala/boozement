@@ -52,12 +52,25 @@ export const doPutRequest = async <T>(
     );
 };
 
-export const doGetRequest = async (url: string, query: any) => {
+export const doGetRequest = async <T>(
+    url: string,
+    query: any,
+    successHandler: (s: T) => void,
+    errorHandler: (err: any) => void
+) => {
     const contentType = 'application/json;charset=utf-8';
-    const response = await superagent
-        .get(url)
-        .type(contentType)
-        .query(query)
-        .timeout(30000);
-    return response.body;
+
+    const doRequest = TE.tryCatch<Error, any>(
+        () => superagent.get(url).type(contentType).query(query).timeout(30000),
+        (reason) => new Error(String(reason))
+    );
+    return doRequest().then((e) =>
+        pipe(
+            e,
+            E.fold(
+                (err) => errorHandler(err),
+                (success: T) => successHandler(success)
+            )
+        )
+    );
 };

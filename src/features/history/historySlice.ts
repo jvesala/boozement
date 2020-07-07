@@ -68,14 +68,18 @@ export const historyServingsAsync = (
     const query = `search=${search}&offset=${offset}&limit=${limit}`;
 
     dispatch(setShowHistoryBusy(true));
-    const body = await doGetRequest(url, query);
-    dispatch(setShowHistoryBusy(false));
-
-    if (offset === 0) {
-        dispatch(setHistoryServings(body));
-    } else {
-        dispatch(appendHistoryServings(body));
-    }
+    const successHandler = (success: any) => {
+        dispatch(setShowHistoryBusy(false));
+        if (offset === 0) {
+            dispatch(setHistoryServings(success.body));
+        } else {
+            dispatch(appendHistoryServings(success.body));
+        }
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doGetRequest(url, query, successHandler, errorHandler);
 };
 
 export const historyUpdateAsync = (payload: UpdateServing) => async (

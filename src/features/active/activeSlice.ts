@@ -49,10 +49,15 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     const url = '/api/recentServings';
     const query = `hours=${hours}`;
     dispatch(setShowActiveBusy(true));
-    const body = await doGetRequest(url, query);
-    dispatch(setShowActiveBusy(false));
-    dispatch(setActiveServings(body.servings));
-    dispatch(updateActiveBac(body.bac));
+    const successHandler = (success: any) => {
+        dispatch(setShowActiveBusy(false));
+        dispatch(setActiveServings(success.body.servings));
+        dispatch(updateActiveBac(success.body.bac));
+    };
+    const errorHandler = (err: any) => {
+        console.error(err);
+    };
+    await doGetRequest(url, query, successHandler, errorHandler);
 };
 
 export const activeUpdateAsync = (payload: UpdateServing) => async (
