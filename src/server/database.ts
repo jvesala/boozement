@@ -105,9 +105,10 @@ WITH created_token AS (
 INSERT INTO servings (user_id, date, type, amount, units, tokens)
   SELECT \${userId}, \${date}, \${type}, \${amount}, \${units}, tokens
   FROM created_token
-RETURNING id`,
+RETURNING id, user_id, date, type, amount, units`,
             serving
         )
+        .then(mapRowsToServices)
         .then((data: any[]) => data[0])
         .catch(handleDbError('insertServing'));
 };
@@ -118,7 +119,7 @@ export const updateField = async (
     id: string,
     field: string,
     value: string
-) => {
+): Promise<Serving> => {
     return db
         .tx(async (t: any) => {
             await t.none(
@@ -140,6 +141,7 @@ RETURNING id, user_id, date, type, amount, units
             return [{ ...result }];
         })
         .then(mapRowsToServices)
+        .then((data: any[]) => data[0])
         .catch(handleDbError('insertServing'));
 };
 

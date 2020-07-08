@@ -4,7 +4,7 @@ import {
     doPutRequest,
     forwardLoginIfUnauthorized,
 } from '../../app/network';
-import { ServingsResponse, UpdateServing } from '../../server/domain';
+import { Serving, ServingsResponse, UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'history',
@@ -47,7 +47,7 @@ export const slice = createSlice({
         updateHistoryServing: (state, action) => {
             state.historyServings = updateServingInServingsArrays(
                 state.historyServings as any,
-                action.payload[0]
+                action.payload
             );
         },
     },
@@ -92,11 +92,11 @@ export const historyUpdateAsync = (payload: UpdateServing) => async (
 ) => {
     const url = '/api/insert';
     dispatch(setShowHistoryBusy(true));
-    const successHandler = (success: any) => {
+    const successHandler = (success: Serving) => {
         dispatch(setShowHistoryBusy(false));
-        dispatch(updateHistoryServing(success.body));
+        dispatch(updateHistoryServing(success));
     };
-    const errorHandler = (err: any) => {
+    const errorHandler = (err: Error) => {
         forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };

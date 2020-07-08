@@ -48,7 +48,7 @@ export const UserdataForm = () => {
             setUserdataResult(true);
             setUserdataError(false);
         };
-        const errorHandler = (err: any) => {
+        const errorHandler = (err: Error) => {
             forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
             setShowBusy(false);

@@ -134,8 +134,8 @@ app.post(
         console.log('POST /api/insert', body);
         const user = await getUserById(db, req.session!.passport.user);
         body.userId = user!.id!;
-        await insertServing(db, body);
-        res.json(body);
+        const result: Serving = await insertServing(db, body);
+        res.json(result);
     }
 );
 
