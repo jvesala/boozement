@@ -14,6 +14,7 @@ import {
 import { Error } from '../../components/Error';
 import { handleFieldUpdate, updateValidity } from '../../app/form';
 import { doPutRequest, forwardLoginIfUnauthorized } from '../../app/network';
+import { Button } from '../../components/Button';
 
 export const UserdataForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -115,14 +116,12 @@ export const UserdataForm = () => {
                     />
                 </div>
 
-                <button
-                    className="button"
-                    type="submit"
+                <Button
                     onClick={doSubmit}
                     disabled={disabled}
-                >
-                    {i18n[language].userdata.button}
-                </button>
+                    text={i18n[language].userdata.button}
+                />
+
                 <Busy visible={showBusy} />
 
                 {userdataResult ? (

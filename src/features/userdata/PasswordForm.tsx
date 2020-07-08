@@ -8,6 +8,7 @@ import { Busy } from '../../components/Busy';
 import { updateValidity } from '../../app/form';
 import { Error } from '../../components/Error';
 import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
+import { Button } from '../../components/Button';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -108,14 +109,11 @@ export const PasswordForm = () => {
                         text={i18n[language].password.errorMatch}
                     />
                 </div>
-                <button
-                    className="button"
-                    type="submit"
+                <Button
                     onClick={doSubmit}
                     disabled={disabled}
-                >
-                    {i18n[language].password.button}
-                </button>
+                    text={i18n[language].password.button}
+                />
                 <Busy visible={showBusy} />
 
                 {passwordResult ? (

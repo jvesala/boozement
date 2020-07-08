@@ -8,6 +8,7 @@ import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
 import { doPostRequest } from '../../app/network';
 import { User } from '../../server/domain';
+import { Button } from '../../components/Button';
 
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
@@ -76,14 +77,11 @@ export const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button
-                    className="button"
-                    type="submit"
+                <Button
                     onClick={doLogin}
                     disabled={disabled}
-                >
-                    {i18n[language].loginForm.button}
-                </button>
+                    text={i18n[language].loginForm.button}
+                />
                 <Busy visible={showBusy} />
                 <Error
                     visible={showLoginError}

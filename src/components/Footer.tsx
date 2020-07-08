@@ -8,6 +8,7 @@ import {
     selectUser,
     setLanguage,
 } from '../features/login/loginSlice';
+import { Button } from './Button';
 
 export const Footer = () => {
     const language: Language = useSelector(selectLanguage);
@@ -35,9 +36,11 @@ export const Footer = () => {
                             {'🇫🇮'}
                         </button>
                         <span className="loggedIn">{user}</span>
-                        <button type="submit" onClick={doLogout}>
-                            {i18n[language].footer.logout}
-                        </button>
+                        <Button
+                            onClick={doLogout}
+                            disabled={false}
+                            text={i18n[language].footer.logout}
+                        />
                     </div>
                 ) : (
                     <div />

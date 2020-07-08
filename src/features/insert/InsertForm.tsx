@@ -19,6 +19,7 @@ import {
     forwardLoginIfUnauthorized,
 } from '../../app/network';
 import { Serving, SuggestionsResponse } from '../../server/domain';
+import { Button } from '../../components/Button';
 
 export const InsertForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -199,14 +200,12 @@ export const InsertForm = () => {
                 />
             </div>
             <div>
-                <button
-                    className="button"
-                    type="submit"
+                <Button
                     onClick={doInsert}
                     disabled={disabled}
-                >
-                    {i18n[language].insertForm.button}
-                </button>
+                    text={i18n[language].insertForm.button}
+                />
+
                 <Busy visible={showBusy} />
 
                 {result && (result as any).type && (result as any).date ? (
