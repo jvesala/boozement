@@ -13,7 +13,7 @@ import {
 } from './userdataSlice';
 import { Error } from '../../components/Error';
 import { handleFieldUpdate, updateValidity } from '../../app/form';
-import { doPutRequest } from '../../app/network';
+import { doPutRequest, forwardLoginIfUnauthorized } from '../../app/network';
 
 export const UserdataForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -49,6 +49,7 @@ export const UserdataForm = () => {
             setUserdataError(false);
         };
         const errorHandler = (err: any) => {
+            forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
             setShowBusy(false);
             setUserdataResult(false);

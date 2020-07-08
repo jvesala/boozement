@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doGetRequest, doPutRequest } from '../../app/network';
+import {
+    doGetRequest,
+    doPutRequest,
+    forwardLoginIfUnauthorized,
+} from '../../app/network';
 import { updateServingInServingsArrays } from '../history/historySlice';
 import { UpdateServing } from '../../server/domain';
 
@@ -55,6 +59,7 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
         dispatch(updateActiveBac(success.body.bac));
     };
     const errorHandler = (err: any) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doGetRequest(url, query, successHandler, errorHandler);
@@ -70,6 +75,7 @@ export const activeUpdateAsync = (payload: UpdateServing) => async (
         dispatch(updateActiveServing(success.body));
     };
     const errorHandler = (err: any) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doPutRequest(url, payload, successHandler, errorHandler);

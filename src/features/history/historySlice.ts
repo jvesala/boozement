@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doGetRequest, doPutRequest } from '../../app/network';
+import {
+    doGetRequest,
+    doPutRequest,
+    forwardLoginIfUnauthorized,
+} from '../../app/network';
 import { UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
@@ -77,6 +81,7 @@ export const historyServingsAsync = (
         }
     };
     const errorHandler = (err: any) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doGetRequest(url, query, successHandler, errorHandler);
@@ -92,6 +97,7 @@ export const historyUpdateAsync = (payload: UpdateServing) => async (
         dispatch(updateHistoryServing(success.body));
     };
     const errorHandler = (err: any) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doPutRequest(url, payload, successHandler, errorHandler);

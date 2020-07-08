@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './InsertForm.css';
 import { i18n, Language } from '../../app/localization';
@@ -13,7 +13,11 @@ import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
 import { updateValidity } from '../../app/form';
 import { DateTime } from 'luxon';
-import { doGetRequest, doPostRequest } from '../../app/network';
+import {
+    doGetRequest,
+    doPostRequest,
+    forwardLoginIfUnauthorized,
+} from '../../app/network';
 
 export const InsertForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -39,6 +43,8 @@ export const InsertForm = () => {
     const [unitsValid, setUnitsValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
 
+    const dispatch = useDispatch();
+
     const updateSuggestions = async () => {
         const payload = {
             limit: 10,
@@ -49,6 +55,7 @@ export const InsertForm = () => {
             setSuggestions(success.body);
         };
         const errorHandler = (err: any) => {
+            forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
         };
         await doGetRequest(url, payload, successHandler, errorHandler);
@@ -73,6 +80,7 @@ export const InsertForm = () => {
             setResult(success.body);
         };
         const errorHandler = (err: any) => {
+            forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
             setShowError(true);
             setResult({});

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
 import Cookies from 'js-cookie';
-import { doPostRequest } from '../../app/network';
+import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
 
 export const slice = createSlice({
     name: 'login',
@@ -32,6 +32,7 @@ export const logoutUserAsync = () => async (dispatch: any) => {
         dispatch(setShowLoggedOut(true));
     };
     const errorHandler = (err: any) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doPostRequest(url, {}, successHandler, errorHandler);

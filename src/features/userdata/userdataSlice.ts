@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { doGetRequest } from '../../app/network';
+import { doGetRequest, forwardLoginIfUnauthorized } from '../../app/network';
 import { weightInKilos } from '../../server/calculator';
 
 export const slice = createSlice({
@@ -26,7 +26,8 @@ export const userDataAsync = () => async (dispatch: any) => {
         dispatch(updateWeight(weightInKilos(success.body.weight)));
         dispatch(updateGender(success.body.gender));
     };
-    const errorHandler = (err: any) => {
+    const errorHandler = (err: Error) => {
+        forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };
     await doGetRequest(url, {}, successHandler, errorHandler);

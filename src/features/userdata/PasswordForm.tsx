@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 
 import './PasswordForm.css';
 import { i18n, Language } from '../../app/localization';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import { updateValidity } from '../../app/form';
 import { Error } from '../../components/Error';
-import { doPostRequest } from '../../app/network';
+import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
 
 export const PasswordForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -21,6 +21,8 @@ export const PasswordForm = () => {
 
     const [passwordError, setPasswordError] = useState(false);
     const [passwordResult, setPasswordResult] = useState(false);
+
+    const dispatch = useDispatch();
 
     const doSubmit = async () => {
         setDisabled(true);
@@ -40,6 +42,7 @@ export const PasswordForm = () => {
             setCopyPassword('');
         };
         const errorHandler = (err: any) => {
+            forwardLoginIfUnauthorized(dispatch, err);
             setShowBusy(false);
             setPasswordResult(false);
             setPasswordError(true);
