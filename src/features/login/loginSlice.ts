@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
 import Cookies from 'js-cookie';
 import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
+import { User } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'login',
@@ -27,11 +28,11 @@ export const { loginUser, setShowLoggedOut, setLanguage } = slice.actions;
 
 export const logoutUserAsync = () => async (dispatch: any) => {
     const url = '/api/logout';
-    const successHandler = (_: any) => {
+    const successHandler = (_: User) => {
         dispatch(loginUser(undefined));
         dispatch(setShowLoggedOut(true));
     };
-    const errorHandler = (err: any) => {
+    const errorHandler = (err: Error) => {
         forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };

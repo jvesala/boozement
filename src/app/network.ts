@@ -9,13 +9,18 @@ export const doPostRequest = async <T>(
     url: string,
     payload: any,
     successHandler: (s: T) => void,
-    errorHandler: (err: any) => void
+    errorHandler: (err: Error) => void
 ) => {
     const contentType = 'application/json;charset=utf-8';
 
-    const doRequest = TE.tryCatch<Error, any>(
+    const doRequest = TE.tryCatch<Error, T>(
         () =>
-            superagent.post(url).type(contentType).send(payload).timeout(30000),
+            superagent
+                .post(url)
+                .type(contentType)
+                .send(payload)
+                .timeout(30000)
+                .then((r: any) => r.body),
         (reason: any) => new Error(`${reason.status}:${reason.message}`)
     );
     return doRequest().then((e) =>

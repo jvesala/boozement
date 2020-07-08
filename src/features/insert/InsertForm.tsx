@@ -18,7 +18,7 @@ import {
     doPostRequest,
     forwardLoginIfUnauthorized,
 } from '../../app/network';
-import { SuggestionsResponse } from '../../server/domain';
+import { Serving, SuggestionsResponse } from '../../server/domain';
 
 export const InsertForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -73,14 +73,14 @@ export const InsertForm = () => {
             units,
         };
         const url = '/api/insert';
-        const successHandler = (success: any) => {
+        const successHandler = (success: Serving) => {
             setShowBusy(false);
             setAmount(0);
             setUnits(0.0);
             setShowError(false);
-            setResult(success.body);
+            setResult(success);
         };
-        const errorHandler = (err: any) => {
+        const errorHandler = (err: Error) => {
             forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
             setShowError(true);

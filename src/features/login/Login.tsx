@@ -7,6 +7,7 @@ import { i18n, Language } from '../../app/localization';
 import { Busy } from '../../components/Busy';
 import { Error } from '../../components/Error';
 import { doPostRequest } from '../../app/network';
+import { User } from '../../server/domain';
 
 export const Login = () => {
     const language: Language = useSelector(selectLanguage);
@@ -29,12 +30,12 @@ export const Login = () => {
         const url = '/api/login';
 
         setShowBusy(true);
-        const successHandler = (success: any) => {
+        const successHandler = (success: User) => {
             setShowBusy(false);
             setShowLoginError(false);
-            dispatch(loginUser(success.body.email));
+            dispatch(loginUser(success.email));
         };
-        const errorHandler = (err: any) => {
+        const errorHandler = (err: Error) => {
             console.error(err);
             setShowBusy(false);
             setShowLoginError(true);

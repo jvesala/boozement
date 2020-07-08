@@ -41,7 +41,7 @@ export const PasswordForm = () => {
             setNewPassword('');
             setCopyPassword('');
         };
-        const errorHandler = (err: any) => {
+        const errorHandler = (err: Error) => {
             forwardLoginIfUnauthorized(dispatch, err);
             setShowBusy(false);
             setPasswordResult(false);
