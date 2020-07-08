@@ -194,7 +194,7 @@ export const searchSuggestion = async (
     db: any,
     limit: number,
     search: string
-): Promise<ServingsResponse> => {
+): Promise<String[]> => {
     const searchFormatted =
         search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
     return db

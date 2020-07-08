@@ -4,7 +4,7 @@ import {
     doPutRequest,
     forwardLoginIfUnauthorized,
 } from '../../app/network';
-import { UpdateServing } from '../../server/domain';
+import { ServingsResponse, UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'history',
@@ -72,15 +72,15 @@ export const historyServingsAsync = (
     const query = `search=${search}&offset=${offset}&limit=${limit}`;
 
     dispatch(setShowHistoryBusy(true));
-    const successHandler = (success: any) => {
+    const successHandler = (success: ServingsResponse) => {
         dispatch(setShowHistoryBusy(false));
         if (offset === 0) {
-            dispatch(setHistoryServings(success.body));
+            dispatch(setHistoryServings(success));
         } else {
-            dispatch(appendHistoryServings(success.body));
+            dispatch(appendHistoryServings(success));
         }
     };
-    const errorHandler = (err: any) => {
+    const errorHandler = (err: Error) => {
         forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };

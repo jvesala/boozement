@@ -5,7 +5,7 @@ import {
     forwardLoginIfUnauthorized,
 } from '../../app/network';
 import { updateServingInServingsArrays } from '../history/historySlice';
-import { UpdateServing } from '../../server/domain';
+import { RecentServingsResponse, UpdateServing } from '../../server/domain';
 
 export const slice = createSlice({
     name: 'active',
@@ -53,12 +53,12 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     const url = '/api/recentServings';
     const query = `hours=${hours}`;
     dispatch(setShowActiveBusy(true));
-    const successHandler = (success: any) => {
+    const successHandler = (success: RecentServingsResponse) => {
         dispatch(setShowActiveBusy(false));
-        dispatch(setActiveServings(success.body.servings));
-        dispatch(updateActiveBac(success.body.bac));
+        dispatch(setActiveServings(success.servings));
+        dispatch(updateActiveBac(success.bac));
     };
-    const errorHandler = (err: any) => {
+    const errorHandler = (err: Error) => {
         forwardLoginIfUnauthorized(dispatch, err);
         console.error(err);
     };

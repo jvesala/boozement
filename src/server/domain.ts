@@ -9,6 +9,18 @@ export type ServingsResponse = {
     totalUnits: number;
 };
 
+export type RecentServingsResponse = {
+    servings: ServingsResponse;
+    bac: string;
+};
+
+export type SuggestionsResponse = String[];
+
+export type UserDataResponse = {
+    weight: number;
+    gender: Gender;
+};
+
 export interface DateTimeFromStringC
     extends t.Type<DateTime, string, unknown> {}
 

@@ -57,12 +57,18 @@ export const doGetRequest = async <T>(
     url: string,
     query: any,
     successHandler: (s: T) => void,
-    errorHandler: (err: any) => void
+    errorHandler: (err: Error) => void
 ) => {
     const contentType = 'application/json;charset=utf-8';
 
-    const doRequest = TE.tryCatch<Error, any>(
-        () => superagent.get(url).type(contentType).query(query).timeout(30000),
+    const doRequest = TE.tryCatch<Error, T>(
+        () =>
+            superagent
+                .get(url)
+                .type(contentType)
+                .query(query)
+                .timeout(30000)
+                .then((r: any) => r.body),
         (reason: any) => new Error(`${reason.status}:${reason.message}`)
     );
     return doRequest().then((e) =>

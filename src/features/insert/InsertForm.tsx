@@ -18,6 +18,7 @@ import {
     doPostRequest,
     forwardLoginIfUnauthorized,
 } from '../../app/network';
+import { SuggestionsResponse } from '../../server/domain';
 
 export const InsertForm = () => {
     const language: Language = useSelector(selectLanguage);
@@ -31,7 +32,7 @@ export const InsertForm = () => {
     const [date, setDate] = useState(dateNow);
     const [time, setTime] = useState(timeNow);
     const [type, setType] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
+    const [suggestions, setSuggestions] = useState([] as SuggestionsResponse);
     const [amount, setAmount] = useState(0);
     const [units, setUnits] = useState(0.0);
 
@@ -51,10 +52,10 @@ export const InsertForm = () => {
             search: type,
         };
         const url = '/api/suggestions';
-        const successHandler = (success: any) => {
-            setSuggestions(success.body);
+        const successHandler = (success: SuggestionsResponse) => {
+            setSuggestions(success);
         };
-        const errorHandler = (err: any) => {
+        const errorHandler = (err: Error) => {
             forwardLoginIfUnauthorized(dispatch, err);
             console.error(err);
         };

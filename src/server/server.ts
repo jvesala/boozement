@@ -19,10 +19,13 @@ import * as bcrypt from 'bcrypt';
 import * as path from 'path';
 import { validateBody } from './validator';
 import {
+    RecentServingsResponse,
     Serving,
+    SuggestionsResponse,
     UpdatePassword,
     UpdateServing,
     UpdateUserData,
+    UserDataResponse,
 } from './domain';
 
 const express = require('express');
@@ -99,7 +102,8 @@ app.get(
         );
         const reversed = [...servings.servings].reverse();
         const bac = bacNow(user!, reversed);
-        res.send({ servings, bac });
+        const response: RecentServingsResponse = { servings, bac };
+        res.send(response);
     }
 );
 
@@ -111,7 +115,7 @@ app.get(
         if (req.query.search === '') {
             res.send([]);
         } else {
-            const suggestions = await searchSuggestion(
+            const suggestions: SuggestionsResponse = await searchSuggestion(
                 db,
                 parseInt(req.query.limit as string),
                 req.query.search as string
@@ -173,7 +177,11 @@ app.get(
     async (req: Request, res: Response) => {
         console.log('GET /api/userdata');
         const user = await getUserById(db, req.session!.passport.user);
-        res.send({ weight: user?.weight, gender: user?.gender });
+        const response: UserDataResponse = {
+            weight: user?.weight!,
+            gender: user?.gender!,
+        };
+        res.send({ ...response });
     }
 );
 
