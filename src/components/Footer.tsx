@@ -26,15 +26,18 @@ export const Footer = () => {
     return (
         <div className="Footer">
             <footer>
+                <div />
                 <div>&copy; Boozement 2020</div>
+                <div>
+                    <button className="flag" onClick={updateLanguage('en')}>
+                        {'🇺🇲'}
+                    </button>
+                    <button className="flag" onClick={updateLanguage('fi')}>
+                        {'🇫🇮'}
+                    </button>
+                </div>
                 {user ? (
                     <div>
-                        <button className="flag" onClick={updateLanguage('en')}>
-                            {'🇺🇲'}
-                        </button>
-                        <button className="flag" onClick={updateLanguage('fi')}>
-                            {'🇫🇮'}
-                        </button>
                         <span className="loggedIn">{user}</span>
                         <Button
                             onClick={doLogout}
@@ -45,6 +48,7 @@ export const Footer = () => {
                 ) : (
                     <div />
                 )}
+                <div />
             </footer>
         </div>
     );
