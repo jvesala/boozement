@@ -29,10 +29,16 @@ export const Footer = () => {
                 <div />
                 <div>&copy; Boozement 2020</div>
                 <div>
-                    <button className="flag" onClick={updateLanguage('en')}>
+                    <button
+                        className="flag flagEN"
+                        onClick={updateLanguage('en')}
+                    >
                         {'🇺🇲'}
                     </button>
-                    <button className="flag" onClick={updateLanguage('fi')}>
+                    <button
+                        className="flag flagFI"
+                        onClick={updateLanguage('fi')}
+                    >
                         {'🇫🇮'}
                     </button>
                 </div>

@@ -50,9 +50,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --parser typescript --config package.json --write '**/*.ts*'",
-    "compile": "tsc -p tsconfig-server.json",
+    "compile:server": "tsc -p tsconfig-server.json",
+    "compile:cypress": "tsc --project cypress",
+    "compile": "concurrently \"npm run compile:server\" \"npm run compile:cypress\"",
     "server": "node_modules/nodemon/bin/nodemon.js build/server/server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
+    "cypress:open": "cypress open",
     "heroku": "node build/server/server.js"
   },
   "eslintConfig": {
