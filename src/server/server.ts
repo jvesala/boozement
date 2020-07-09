@@ -61,6 +61,26 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/../')));
 
+app.post(
+    '/api/login',
+    passport.authenticate('local'),
+    (req: Request, res: Response) => {
+        const { user } = req;
+        res.cookie('boozement-username', (user as any).email);
+        (user as any).password = '*****';
+        console.log('POST /api/login', user);
+        res.json(user);
+    }
+);
+
+app.post('/api/logout', async (req: Request, res: Response) => {
+    console.log('POST /api/logout');
+    req.session?.destroy(() => {
+        res.clearCookie('boozement-username', undefined);
+        res.send({});
+    });
+});
+
 app.get(
     '/api/servings',
     isAuthenticated,
@@ -159,18 +179,6 @@ app.put(
     }
 );
 
-app.post(
-    '/api/login',
-    passport.authenticate('local'),
-    (req: Request, res: Response) => {
-        const { user } = req;
-        res.cookie('boozement-username', (user as any).email);
-        (user as any).password = '*****';
-        console.log('POST /api/login', user);
-        res.json(user);
-    }
-);
-
 app.get(
     '/api/userdata',
     isAuthenticated,
@@ -216,14 +224,6 @@ app.post(
         }
     }
 );
-
-app.post('/api/logout', async (req: Request, res: Response) => {
-    console.log('POST /api/logout');
-    req.session?.destroy(() => {
-        res.clearCookie('boozement-username', undefined);
-        res.send({});
-    });
-});
 
 app.use('*', isAuthenticated, async (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '/../', 'index.html'));
