@@ -79,3 +79,11 @@ export const UpdatePassword = t.strict({
     newPassword: t.string,
 });
 export type UpdatePassword = t.TypeOf<typeof UpdatePassword>;
+
+export const RegisterUser = t.strict({
+    email: t.string,
+    password: t.string,
+    gender: GenderType,
+    weight: t.number,
+});
+export type RegisterUser = t.TypeOf<typeof RegisterUser>;

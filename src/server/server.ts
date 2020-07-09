@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import session from 'express-session';
 import passport from 'passport';
 
-import { initPassport, isAuthenticated } from './passportUtils';
+import { hashPassword, initPassport, isAuthenticated } from './passportUtils';
 import {
     getRecentServings,
     getServings,
     getUserById,
     initConnection,
     insertServing,
+    insertUser,
     searchServings,
     searchSuggestion,
     updateField,
@@ -20,11 +21,13 @@ import * as path from 'path';
 import { validateBody } from './validator';
 import {
     RecentServingsResponse,
+    RegisterUser,
     Serving,
     SuggestionsResponse,
     UpdatePassword,
     UpdateServing,
     UpdateUserData,
+    User,
     UserDataResponse,
 } from './domain';
 
@@ -80,6 +83,24 @@ app.post('/api/logout', async (req: Request, res: Response) => {
         res.send({});
     });
 });
+
+app.post(
+    '/api/register',
+    validateBody(RegisterUser),
+    async (req: Request, res: Response) => {
+        const body: RegisterUser = req.body;
+        console.log('POST /api/register', body);
+        const newUser: User = {
+            id: undefined,
+            email: body.email,
+            gender: body.gender,
+            weight: body.weight,
+            password: await hashPassword(body.password),
+        };
+        await insertUser(db, newUser);
+        res.json({});
+    }
+);
 
 app.get(
     '/api/servings',

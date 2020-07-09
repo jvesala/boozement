@@ -54,3 +54,7 @@ export const isAuthenticated = (
     if (req.isAuthenticated()) return next();
     else res.sendStatus(401);
 };
+
+export const hashPassword = async (plaintext: string): Promise<string> => {
+    return bcrypt.hash(plaintext, 10);
+};
