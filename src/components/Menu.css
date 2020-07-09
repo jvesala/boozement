@@ -1,5 +1,7 @@
 .Menu {
   grid-area: menu;
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
 }
 
 .Menu-header {
@@ -15,7 +17,7 @@
   grid-template-columns: 1fr;
 }
 
-.Menu-header .logo h1 {
+.Menu .logo h1 {
   color: #fff;
   border-radius: 6px;
   font-family: 'DkCrayonCrumble', serif;

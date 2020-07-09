@@ -7,16 +7,15 @@
   background-repeat: no-repeat;
   background-position-y: top;
   background-position-x: center;
-  height: 55px;
+  height: 40px;
 }
 .MenuItem a {
   color: darkslategray;
   text-transform: uppercase;
-  width: 50%;
   text-decoration: none;
   font-family: 'DkCrayonCrumble', sans-serif;
-  font-weight: 400;
-  font-size: 150%;
+  font-weight: 300;
+  font-size: 100%;
   border-radius: 3px;
 }
 

@@ -6,7 +6,7 @@
       "left center right"
       "footer footer footer";
   grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: 120px 1fr 100px;
+  grid-template-rows: 90px 1fr 90px;
   align-items: center;
   min-height: 100vh;
 }
