@@ -162,16 +162,14 @@ describe('database.spec.ts', () => {
                 'units',
                 '666'
             );
-            expect(result).toEqual([
-                {
-                    id: servingUpdate.id,
-                    type: 'New Hipster Beer',
-                    units: 666,
-                    userId: servingUpdate.userId,
-                    date: newDate,
-                    amount: 111,
-                },
-            ]);
+            expect(result).toEqual({
+                id: servingUpdate.id,
+                type: 'New Hipster Beer',
+                units: 666,
+                userId: servingUpdate.userId,
+                date: newDate,
+                amount: 111,
+            });
         });
     });
 
