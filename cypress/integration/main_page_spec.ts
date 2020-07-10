@@ -1,6 +1,6 @@
 import { RegisterUser } from '../../src/server/domain';
 
-describe('Boozement main page test', () => {
+describe('Main page test', () => {
     it('Opens main page - FI', () => {
         cy.visit('/');
         cy.get('h3').contains('Kirjaudu sisään');

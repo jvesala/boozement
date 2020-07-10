@@ -117,7 +117,9 @@ export const PasswordForm = () => {
                 <Busy visible={showBusy} />
 
                 {passwordResult ? (
-                    <div>{i18n[language].password.result}</div>
+                    <div className="result">
+                        {i18n[language].password.result}
+                    </div>
                 ) : (
                     ''
                 )}

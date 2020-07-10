@@ -125,7 +125,9 @@ export const UserdataForm = () => {
                 <Busy visible={showBusy} />
 
                 {userdataResult ? (
-                    <div>{i18n[language].userdata.result}</div>
+                    <div className="result">
+                        {i18n[language].userdata.result}
+                    </div>
                 ) : (
                     ''
                 )}

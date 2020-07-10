@@ -1,4 +1,4 @@
-describe('Boozement insert test', () => {
+describe('Insert test', () => {
     it('Inserts serving', () => {
         cy.registerAndLogin();
 
