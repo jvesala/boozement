@@ -30,6 +30,7 @@ import {
     User,
     UserDataResponse,
 } from './domain';
+import { tryCatchHandler } from './handler';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -67,20 +68,22 @@ app.use(express.static(path.join(__dirname, '/../')));
 app.post(
     '/api/login',
     passport.authenticate('local'),
-    (req: Request, res: Response) => {
-        const { user } = req;
-        res.cookie('boozement-username', (user as any).email);
-        (user as any).password = '*****';
-        console.log('POST /api/login', user);
-        res.json(user);
+    async (req: Request, res: Response) => {
+        await tryCatchHandler(req, res, async () => {
+            const { user } = req;
+            res.cookie('boozement-username', (user as any).email);
+            (user as any).password = '*****';
+            res.json(user);
+        });
     }
 );
 
 app.post('/api/logout', async (req: Request, res: Response) => {
-    console.log('POST /api/logout');
-    req.session?.destroy(() => {
-        res.clearCookie('boozement-username', undefined);
-        res.send({});
+    await tryCatchHandler(req, res, async () => {
+        req.session?.destroy(() => {
+            res.clearCookie('boozement-username', undefined);
+            res.send({});
+        });
     });
 });
 
@@ -88,17 +91,18 @@ app.post(
     '/api/register',
     validateBody(RegisterUser),
     async (req: Request, res: Response) => {
-        const body: RegisterUser = req.body;
-        console.log('POST /api/register', body);
-        const newUser: User = {
-            id: undefined,
-            email: body.email,
-            gender: body.gender,
-            weight: body.weight,
-            password: await hashPassword(body.password),
-        };
-        await insertUser(db, newUser);
-        res.json({});
+        await tryCatchHandler(req, res, async () => {
+            const body: RegisterUser = req.body;
+            const newUser: User = {
+                id: undefined,
+                email: body.email,
+                gender: body.gender,
+                weight: body.weight,
+                password: await hashPassword(body.password),
+            };
+            await insertUser(db, newUser);
+            res.json({});
+        });
     }
 );
 
@@ -106,27 +110,28 @@ app.get(
     '/api/servings',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /api/servings', req.query);
-        const { search, limit, offset } = req.query;
-        const user = await getUserById(db, req.session!.passport.user);
-        if (req.query.search) {
-            const servings = await searchServings(
-                db,
-                user!.id!,
-                search as string,
-                parseInt(limit as string),
-                parseInt(offset as string)
-            );
-            res.send(servings);
-        } else {
-            const servings = await getServings(
-                db,
-                user!.id!,
-                parseInt(limit as string),
-                parseInt(offset as string)
-            );
-            res.send(servings);
-        }
+        await tryCatchHandler(req, res, async () => {
+            const { search, limit, offset } = req.query;
+            const user = await getUserById(db, req.session!.passport.user);
+            if (req.query.search) {
+                const servings = await searchServings(
+                    db,
+                    user!.id!,
+                    search as string,
+                    parseInt(limit as string),
+                    parseInt(offset as string)
+                );
+                res.send(servings);
+            } else {
+                const servings = await getServings(
+                    db,
+                    user!.id!,
+                    parseInt(limit as string),
+                    parseInt(offset as string)
+                );
+                res.send(servings);
+            }
+        });
     }
 );
 
@@ -134,17 +139,18 @@ app.get(
     '/api/recentServings',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /api/recentServings', req.query);
-        const user = await getUserById(db, req.session!.passport.user);
-        const servings = await getRecentServings(
-            db,
-            user!.id!,
-            parseInt(req.query.hours as string)
-        );
-        const reversed = [...servings.servings].reverse();
-        const bac = bacNow(user!, reversed);
-        const response: RecentServingsResponse = { servings, bac };
-        res.send(response);
+        await tryCatchHandler(req, res, async () => {
+            const user = await getUserById(db, req.session!.passport.user);
+            const servings = await getRecentServings(
+                db,
+                user!.id!,
+                parseInt(req.query.hours as string)
+            );
+            const reversed = [...servings.servings].reverse();
+            const bac = bacNow(user!, reversed);
+            const response: RecentServingsResponse = { servings, bac };
+            res.send(response);
+        });
     }
 );
 
@@ -152,17 +158,18 @@ app.get(
     '/api/suggestions',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /api/suggestions', req.query);
-        if (req.query.search === '') {
-            res.send([]);
-        } else {
-            const suggestions: SuggestionsResponse = await searchSuggestion(
-                db,
-                parseInt(req.query.limit as string),
-                req.query.search as string
-            );
-            res.send(suggestions);
-        }
+        await tryCatchHandler(req, res, async () => {
+            if (req.query.search === '') {
+                res.send([]);
+            } else {
+                const suggestions: SuggestionsResponse = await searchSuggestion(
+                    db,
+                    parseInt(req.query.limit as string),
+                    req.query.search as string
+                );
+                res.send(suggestions);
+            }
+        });
     }
 );
 
@@ -171,12 +178,13 @@ app.post(
     isAuthenticated,
     validateBody(Serving),
     async (req: Request, res: Response) => {
-        const body: Serving = req.body;
-        console.log('POST /api/insert', body);
-        const user = await getUserById(db, req.session!.passport.user);
-        body.userId = user!.id!;
-        const result: Serving = await insertServing(db, body);
-        res.json(result);
+        await tryCatchHandler(req, res, async () => {
+            const body: Serving = req.body;
+            const user = await getUserById(db, req.session!.passport.user);
+            body.userId = user!.id!;
+            const result: Serving = await insertServing(db, body);
+            res.json(result);
+        });
     }
 );
 
@@ -185,18 +193,18 @@ app.put(
     isAuthenticated,
     validateBody(UpdateServing),
     async (req: Request, res: Response) => {
-        const body: UpdateServing = req.body;
-        console.log('POST /api/insert', body);
-        const user = await getUserById(db, req.session!.passport.user);
-
-        const result = await updateField(
-            db,
-            String(user!.id!),
-            body.id,
-            body.field,
-            body.value
-        );
-        res.json(result);
+        await tryCatchHandler(req, res, async () => {
+            const body: UpdateServing = req.body;
+            const user = await getUserById(db, req.session!.passport.user);
+            const result = await updateField(
+                db,
+                String(user!.id!),
+                body.id,
+                body.field,
+                body.value
+            );
+            res.json(result);
+        });
     }
 );
 
@@ -204,13 +212,14 @@ app.get(
     '/api/userdata',
     isAuthenticated,
     async (req: Request, res: Response) => {
-        console.log('GET /api/userdata');
-        const user = await getUserById(db, req.session!.passport.user);
-        const response: UserDataResponse = {
-            weight: user?.weight!,
-            gender: user?.gender!,
-        };
-        res.send({ ...response });
+        await tryCatchHandler(req, res, async () => {
+            const user = await getUserById(db, req.session!.passport.user);
+            const response: UserDataResponse = {
+                weight: user?.weight!,
+                gender: user?.gender!,
+            };
+            res.send({ ...response });
+        });
     }
 );
 
@@ -219,12 +228,13 @@ app.put(
     isAuthenticated,
     validateBody(UpdateUserData),
     async (req: Request, res: Response) => {
-        const body: UpdateUserData = req.body;
-        console.log('PUT /api/userdata', body);
-        const user = await getUserById(db, req.session!.passport.user);
-        user!.weight = body.weight;
-        await updateUser(db, user!);
-        res.json({});
+        await tryCatchHandler(req, res, async () => {
+            const body: UpdateUserData = req.body;
+            const user = await getUserById(db, req.session!.passport.user);
+            user!.weight = body.weight;
+            await updateUser(db, user!);
+            res.json({});
+        });
     }
 );
 
@@ -233,16 +243,17 @@ app.post(
     isAuthenticated,
     validateBody(UpdatePassword),
     async (req: Request, res: Response) => {
-        const body: UpdatePassword = req.body;
-        console.log('POST /api/password', body);
-        const user = await getUserById(db, req.session!.passport.user);
-        if (bcrypt.compareSync(body.currentPassword, user!.password)) {
-            user!.password = await bcrypt.hash(body.newPassword, 10);
-            await updateUser(db, user!);
-            res.json({});
-        } else {
-            res.sendStatus(401);
-        }
+        await tryCatchHandler(req, res, async () => {
+            const body: UpdatePassword = req.body;
+            const user = await getUserById(db, req.session!.passport.user);
+            if (bcrypt.compareSync(body.currentPassword, user!.password)) {
+                user!.password = await bcrypt.hash(body.newPassword, 10);
+                await updateUser(db, user!);
+                res.json({});
+            } else {
+                res.sendStatus(401);
+            }
+        });
     }
 );
 
