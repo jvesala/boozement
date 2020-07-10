@@ -27,7 +27,6 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
                             } else {
                                 done(err, undefined);
                             }
-                            done(undefined, user);
                         }
                     );
                 });
