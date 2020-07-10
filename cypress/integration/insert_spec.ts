@@ -1,25 +1,7 @@
-import { RegisterUser } from '../../src/server/domain';
-
 describe('Boozement insert test', () => {
-    const now = Date.now();
-    const email = `test.email+${now}@example.com`;
-    const password = 'passwordPassword';
-
-    before(() => {
-        const user: RegisterUser = {
-            email,
-            gender: 'M',
-            password,
-            weight: 75000,
-        };
-        cy.request('POST', '/api/register', user);
-        cy.request('POST', '/api/login', {
-            email: user.email,
-            password: user.password,
-        });
-    });
-
     it('Inserts serving', () => {
+        cy.registerAndLogin();
+
         cy.visit('/insert');
 
         cy.get('input[name=type]').type('Beer');

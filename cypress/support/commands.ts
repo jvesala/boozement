@@ -23,3 +23,25 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import { RegisterUser } from '../../src/server/domain';
+
+const registerAndLogin = () => {
+    const now = Date.now();
+    const email = `test.email+${now}@example.com`;
+    const password = 'passwordPassword';
+
+    const user: RegisterUser = {
+        email,
+        gender: 'M',
+        password,
+        weight: 75000,
+    };
+    cy.request('POST', '/api/register', user);
+    cy.request('POST', '/api/login', {
+        email: user.email,
+        password: user.password,
+    });
+};
+
+Cypress.Commands.add('registerAndLogin', registerAndLogin);

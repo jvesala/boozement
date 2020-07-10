@@ -16,7 +16,7 @@ describe('Boozement main page test', () => {
 
     it('Logs in to system', () => {
         const now = Date.now();
-        const email = `test.email+${now}@example.com`;
+        const email = `test.email.login+${now}@example.com`;
         const password = 'passwordPassword';
 
         const user: RegisterUser = {
