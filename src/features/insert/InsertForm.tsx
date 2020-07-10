@@ -209,7 +209,7 @@ export const InsertForm = () => {
                 <Busy visible={showBusy} />
 
                 {result && (result as any).type && (result as any).date ? (
-                    <div>
+                    <div className="result">
                         {i18n[language].insertForm.result(
                             (result as any).type,
                             formatDateTime(

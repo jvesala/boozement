@@ -12,15 +12,21 @@ describe('Boozement insert test', () => {
             password,
             weight: 75000,
         };
-        cy.request('POST', 'http://localhost:3000/api/register', user);
+        cy.request('POST', '/api/register', user);
+        cy.request('POST', '/api/login', {
+            email: user.email,
+            password: user.password,
+        });
     });
 
     it('Inserts serving', () => {
-        cy.visit('http://localhost:3000');
-        cy.get('input[name=email]').type(email);
-        cy.get('input[name=password]').type(password);
-        cy.get('button[type=submit]').click();
+        cy.visit('/insert');
 
-        cy.get('.loggedIn').contains(email);
+        cy.get('input[name=type]').type('Beer');
+        cy.get('input[name=amount]').type('33');
+        cy.get('input[name=units]').type('1');
+        cy.get('button[type=submit]:nth(0)').click();
+
+        cy.get('.result').contains('Beer');
     });
 });
