@@ -1,5 +1,5 @@
 describe('Insert test', () => {
-    it('Inserts serving', () => {
+    it('Inserts serving and checks active', () => {
         cy.registerAndLogin();
 
         cy.visit('/insert');
@@ -10,5 +10,9 @@ describe('Insert test', () => {
         cy.get('button[type=submit]:nth(0)').click();
 
         cy.get('.result').contains('Beer');
+
+        cy.visit('/active');
+        cy.get('.statistics').contains('1');
+        cy.get('.statistics').contains('0.21');
     });
 });
