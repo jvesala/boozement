@@ -72,25 +72,35 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const htmlHandler = () => async (req: Request, res: Response) => {
-    const uuid = req.session && req.session.passport ? req.session.passport.user : undefined
+    const uuid =
+        req.session && req.session.passport
+            ? req.session.passport.user
+            : undefined;
     const user = uuid ? await getUserById(db, uuid) : undefined;
     const state = {
         login: {
             language: 'fi' as Language,
-            username: user?.email
-        }
+            username: user?.email,
+        },
     };
 
     const updatedStore = configureStoreWithState(state);
-    const application = React.createElement(App, {})
-    const router = React.createElement(StaticRouter, { }, application)
-    const provider = React.createElement(Provider, { store: updatedStore }, router);
+    const application = React.createElement(App, {});
+    const router = React.createElement(StaticRouter, {}, application);
+    const provider = React.createElement(
+        Provider,
+        { store: updatedStore },
+        router
+    );
     const component = renderToString(provider);
     const preloadedState = JSON.stringify(state).replace(/</g, '\\u003c');
-    const file = await fs.readFileSync("./build/index.html").toString();
+    const file = await fs.readFileSync('./build/index.html').toString();
     const html = file
-        .replace("window.__PRELOADED_STATE__", `window.__PRELOADED_STATE__ = ${preloadedState}`)
-        .replace("YYY", component);
+        .replace(
+            'window.__PRELOADED_STATE__',
+            `window.__PRELOADED_STATE__ = ${preloadedState}`
+        )
+        .replace('YYY', component);
     res.send(html);
 };
 
@@ -291,6 +301,6 @@ app.post(
     }
 );
 
-app.use(express.static("./build/"));
+app.use(express.static('./build/'));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
