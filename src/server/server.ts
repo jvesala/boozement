@@ -29,16 +29,7 @@ import {
     User,
     UserDataResponse,
 } from './domain';
-import { tryCatchHandler } from './handler';
-import { Provider } from 'react-redux';
-import { App } from '../App';
-import { configureStoreWithState } from '../app/store';
-import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-
-import * as React from 'react';
-import * as fs from 'fs';
-import { Language } from '../app/localization';
+import { htmlHandler, tryCatchHandler } from './handler';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -71,44 +62,11 @@ initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const htmlHandler = () => async (req: Request, res: Response) => {
-    const uuid =
-        req.session && req.session.passport
-            ? req.session.passport.user
-            : undefined;
-    const user = uuid ? await getUserById(db, uuid) : undefined;
-    const state = {
-        login: {
-            language: 'fi' as Language,
-            username: user?.email,
-        },
-    };
-
-    const updatedStore = configureStoreWithState(state);
-    const application = React.createElement(App, {});
-    const router = React.createElement(StaticRouter, {}, application);
-    const provider = React.createElement(
-        Provider,
-        { store: updatedStore },
-        router
-    );
-    const component = renderToString(provider);
-    const preloadedState = JSON.stringify(state).replace(/</g, '\\u003c');
-    const file = await fs.readFileSync('./build/index.html').toString();
-    const html = file
-        .replace(
-            'window.__PRELOADED_STATE__',
-            `window.__PRELOADED_STATE__ = ${preloadedState}`
-        )
-        .replace('YYY', component);
-    res.send(html);
-};
-
-app.get('/', htmlHandler());
-app.get('/insert', htmlHandler());
-app.get('/active', htmlHandler());
-app.get('/history', htmlHandler());
-app.get('/userdata', htmlHandler());
+app.get('/', htmlHandler(db));
+app.get('/insert', htmlHandler(db));
+app.get('/active', htmlHandler(db));
+app.get('/history', htmlHandler(db));
+app.get('/userdata', htmlHandler(db));
 
 app.post(
     '/api/login',
