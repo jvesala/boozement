@@ -17,7 +17,6 @@ import {
 } from './database';
 import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
-import * as path from 'path';
 import { validateBody } from './validator';
 import {
     RecentServingsResponse,
@@ -292,10 +291,6 @@ app.post(
     }
 );
 
-app.use(express.static(path.join(__dirname, '/../')));
-
-app.use('*', isAuthenticated, async (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '/../', 'index.html'));
-});
+app.use(express.static("./build/"));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

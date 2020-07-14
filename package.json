@@ -1,6 +1,6 @@
 {
   "name": "boozement",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
@@ -46,17 +46,18 @@
   "proxy": "http://localhost:5000/",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npm run compile",
+    "build": "react-scripts build && npm run compile:webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --parser typescript --config package.json --write '**/*.ts*'",
+    "compile:webpack": "webpack --config webpack.config.js",
     "compile:server": "tsc -p tsconfig-server.json",
     "compile:cypress": "tsc --project cypress",
     "compile": "concurrently \"npm run compile:server\" \"npm run compile:cypress\"",
-    "server": "node_modules/nodemon/bin/nodemon.js build/server/server.js",
+    "server": "nodemon build/server/main.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
     "cypress:open": "cypress open",
-    "heroku": "node build/server/server.js"
+    "heroku": "node build/server/main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -75,11 +76,15 @@
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
+    "css-loader": "^3.6.0",
     "cypress": "^4.10.0",
     "husky": "^4.2.3",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.1"
+    "pretty-quick": "^2.0.1",
+    "ts-loader": "^8.0.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.0"
   },
   "prettier": {
     "tabWidth": 4,
