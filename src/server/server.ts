@@ -31,6 +31,15 @@ import {
     UserDataResponse,
 } from './domain';
 import { tryCatchHandler } from './handler';
+import { Provider } from 'react-redux';
+import { App } from '../App';
+import { configureStoreWithState } from '../app/store';
+import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
+
+import * as React from 'react';
+import * as fs from 'fs';
+import { Language } from '../app/localization';
 
 const express = require('express');
 const bodyparser = require('body-parser');
@@ -63,7 +72,34 @@ initPassport(db);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, '/../')));
+const htmlHandler = () => async (req: Request, res: Response) => {
+    const uuid = req.session && req.session.passport ? req.session.passport.user : undefined
+    const user = uuid ? await getUserById(db, uuid) : undefined;
+    const state = {
+        login: {
+            language: 'fi' as Language,
+            username: user?.email
+        }
+    };
+
+    const updatedStore = configureStoreWithState(state);
+    const application = React.createElement(App, {})
+    const router = React.createElement(StaticRouter, { }, application)
+    const provider = React.createElement(Provider, { store: updatedStore }, router);
+    const component = renderToString(provider);
+    const preloadedState = JSON.stringify(state).replace(/</g, '\\u003c');
+    const file = await fs.readFileSync("./build/index.html").toString();
+    const html = file
+        .replace("window.__PRELOADED_STATE__", `window.__PRELOADED_STATE__ = ${preloadedState}`)
+        .replace("YYY", component);
+    res.send(html);
+};
+
+app.get('/', htmlHandler());
+app.get('/insert', htmlHandler());
+app.get('/active', htmlHandler());
+app.get('/history', htmlHandler());
+app.get('/userdata', htmlHandler());
 
 app.post(
     '/api/login',
@@ -71,7 +107,6 @@ app.post(
     async (req: Request, res: Response) => {
         await tryCatchHandler(req, res, async () => {
             const { user } = req;
-            res.cookie('boozement-username', (user as any).email);
             (user as any).password = '*****';
             res.json(user);
         });
@@ -256,6 +291,8 @@ app.post(
         });
     }
 );
+
+app.use(express.static(path.join(__dirname, '/../')));
 
 app.use('*', isAuthenticated, async (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '/../', 'index.html'));

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Language } from '../../app/localization';
-import Cookies from 'js-cookie';
 import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
 import { User } from '../../server/domain';
 
@@ -9,7 +8,7 @@ export const slice = createSlice({
     initialState: {
         language: 'fi' as Language,
         showLoggedOut: false,
-        username: Cookies.get('boozement-username'),
+        username: undefined,
     },
     reducers: {
         loginUser: (state, action) => {
