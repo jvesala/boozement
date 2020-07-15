@@ -33,6 +33,10 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'source-map-loader',
             },
+            {
+                test: /\.ttf$/i,
+                use: ['file-loader'],
+            },
         ],
     },
 };
