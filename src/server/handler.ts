@@ -38,7 +38,11 @@ export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
 
     const updatedStore = configureStoreWithState(state);
     const application = React.createElement(App, {});
-    const router = React.createElement(StaticRouter, { location: req.url }, application);
+    const router = React.createElement(
+        StaticRouter,
+        { location: req.url },
+        application
+    );
     const provider = React.createElement(
         Provider,
         { store: updatedStore },
