@@ -23,16 +23,25 @@ export const tryCatchHandler = async (
     }
 };
 
-export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
+const getLoggedInEmail = async (
+    req: Request,
+    db: any
+): Promise<string | undefined> => {
     const uuid =
         req.session && req.session.passport
             ? req.session.passport.user
             : undefined;
     const user = uuid ? await getUserById(db, uuid) : undefined;
+    return user?.email;
+};
+
+export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
+    const email = await getLoggedInEmail(req, db);
+
     const state = {
         login: {
             language: 'fi' as Language,
-            username: user?.email,
+            username: email,
         },
     };
 
