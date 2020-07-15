@@ -39,7 +39,6 @@ export const logoutUserAsync = () => async (dispatch: any) => {
 };
 
 export const selectLanguage = (state: any) => state.login.language;
-export const selectUsername = (state: any) => state.login.username;
 export const selectShowLoggedOut = (state: any) => state.login.showLoggedOut;
 export const selectUser = (state: any) => state.login.username;
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './UserdataForm.css';
 import { i18n, Language } from '../../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLanguage, selectUsername } from '../login/loginSlice';
+import { selectLanguage, selectUser } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
 import {
     selectGender,
@@ -20,7 +20,7 @@ export const UserdataForm = () => {
     const language: Language = useSelector(selectLanguage);
     const weight = useSelector(selectWeight);
     const gender = useSelector(selectGender);
-    const username = useSelector(selectUsername);
+    const username = useSelector(selectUser);
 
     const [showBusy, setShowBusy] = useState(false);
     const [userdataError, setUserdataError] = useState(false);
