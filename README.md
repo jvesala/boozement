@@ -22,7 +22,7 @@ To run local PostgreSQL inside Docker, run the following
         --name postgres \
         -e POSTGRES_HOST_AUTH_METHOD=trust \
         -p 5432:5432 \
-        postgres:10
+        postgres
 
 Additionally, add following lines to `/etc/hosts`
 
