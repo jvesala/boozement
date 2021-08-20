@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './Insert.css';
 import { InsertForm } from './InsertForm';
 

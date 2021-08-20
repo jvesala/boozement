@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import './PasswordForm.css';
 import { i18n, Language } from '../../app/localization';

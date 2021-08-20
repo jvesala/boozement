@@ -1,4 +1,3 @@
-import React from 'react';
 import './Menu.css';
 import MenuItem from './MenuItem';
 import { useSelector } from 'react-redux';

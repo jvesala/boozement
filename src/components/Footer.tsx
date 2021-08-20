@@ -1,4 +1,3 @@
-import React from 'react';
 import './Footer.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { i18n, Language } from '../app/localization';
