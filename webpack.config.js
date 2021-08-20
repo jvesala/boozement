@@ -34,7 +34,7 @@ module.exports = {
                 loader: 'source-map-loader',
             },
             {
-                test: /\.ttf$/i,
+                test: /\.(png|jpe?g|gif|tff)$/i,
                 use: ['file-loader'],
             },
         ],
