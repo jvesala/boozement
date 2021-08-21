@@ -18,7 +18,7 @@
     "sourceMap": true,
     "typeRoots": [
       "node_modules/@types",
-      "./types"
+      "./src/types"
     ],
     "types": [
       "node",
@@ -38,6 +38,7 @@
   },
   "baseUrl": "./src/server",
   "include": [
-    "src/server"
+    "src/server",
+    "src/types"
   ]
 }
