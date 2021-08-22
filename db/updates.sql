@@ -8,5 +8,3 @@ FROM servings s2;
 
 
 
--- \(\d+,\d+,
--- ('acf556cc-72ab-4a04-922b-829116ab7638',
