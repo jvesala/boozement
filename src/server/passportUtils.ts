@@ -34,9 +34,11 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
         )
     );
 
-    passport.serializeUser<string>((user: Express.User, done: (err: any, id?: string) => void) => {
-        done(undefined, (user as any).id);
-    });
+    passport.serializeUser<string>(
+        (user: Express.User, done: (err: any, id?: string) => void) => {
+            done(undefined, (user as any).id);
+        }
+    );
 
     passport.deserializeUser<string>((id, done) => {
         getUserById(db, id).then((user) => {

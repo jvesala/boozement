@@ -69,21 +69,20 @@ export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
     await doGetRequest(url, query, successHandler, errorHandler);
 };
 
-export const activeUpdateAsync = (payload: UpdateServing) => async (
-    dispatch: any
-) => {
-    const url = '/api/insert';
-    dispatch(setShowActiveBusy(true));
-    const successHandler = (success: Serving) => {
-        dispatch(setShowActiveBusy(false));
-        dispatch(updateActiveServing(success));
+export const activeUpdateAsync =
+    (payload: UpdateServing) => async (dispatch: any) => {
+        const url = '/api/insert';
+        dispatch(setShowActiveBusy(true));
+        const successHandler = (success: Serving) => {
+            dispatch(setShowActiveBusy(false));
+            dispatch(updateActiveServing(success));
+        };
+        const errorHandler = (err: Error) => {
+            forwardLoginIfUnauthorized(dispatch, err);
+            console.error(err);
+        };
+        await doPutRequest(url, payload, successHandler, errorHandler);
     };
-    const errorHandler = (err: Error) => {
-        forwardLoginIfUnauthorized(dispatch, err);
-        console.error(err);
-    };
-    await doPutRequest(url, payload, successHandler, errorHandler);
-};
 
 export const selectActiveBac = (state: any) => state.active.activeBac;
 export const selectActiveShowBusy = (state: any) => state.active.showBusy;

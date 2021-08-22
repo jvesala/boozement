@@ -37,24 +37,24 @@ const getLoggedInEmail = async (
 };
 
 const getUserdata = async (db: any, email?: string) => {
-    const user = email ? await getUserByEmail(db, email) : undefined
-    const weight = user?.weight ? weightInKilos(user?.weight) : undefined
-    return  {
+    const user = email ? await getUserByEmail(db, email) : undefined;
+    const weight = user?.weight ? weightInKilos(user?.weight) : undefined;
+    return {
         weight,
         gender: user?.gender,
-    }
-}
+    };
+};
 
 export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
     const email = await getLoggedInEmail(req, db);
-    const userdata = await getUserdata(db, email)
+    const userdata = await getUserdata(db, email);
 
     const state = {
         login: {
             language: 'fi' as Language,
             username: email,
         },
-        userdata
+        userdata,
     };
 
     const updatedStore = configureStoreWithState(state);
