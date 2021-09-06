@@ -21,6 +21,10 @@ export type UserDataResponse = {
     gender: Gender;
 };
 
+export type WhoAmIResponse = {
+    email: string;
+};
+
 export interface DateTimeFromStringC
     extends t.Type<DateTime, string, unknown> {}
 

@@ -7,12 +7,19 @@ import { Active } from './features/active/Active';
 import { History } from './features/history/History';
 import { Userdata } from './features/userdata/Userdata';
 import { selectUser } from './features/login/loginSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { whoAmIAsync } from './features/whoami/whoAmISlice';
 
 export const App = () => {
     const user = useSelector(selectUser);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(whoAmIAsync());
+    }, [dispatch]);
 
     return (
         <div className="App">

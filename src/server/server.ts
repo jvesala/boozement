@@ -27,7 +27,7 @@ import {
     UpdateServing,
     UpdateUserData,
     User,
-    UserDataResponse,
+    UserDataResponse, WhoAmIResponse
 } from './domain';
 import { htmlHandler, tryCatchHandler } from './handler';
 
@@ -219,6 +219,20 @@ app.get(
             const response: UserDataResponse = {
                 weight: user?.weight!,
                 gender: user?.gender!,
+            };
+            res.send({ ...response });
+        });
+    }
+);
+
+app.get(
+    '/api/whoami',
+    isAuthenticated,
+    async (req: Request, res: Response) => {
+        await tryCatchHandler(req, res, async () => {
+            const user = await getUserById(db, req.session!.passport.user);
+            const response: WhoAmIResponse = {
+                email: user?.email!,
             };
             res.send({ ...response });
         });
