@@ -42,6 +42,8 @@ const databaseUrl =
     process.env.DATABASE_URL ||
     'postgres://postgres:@boozement-postgres:5432/boozement';
 
+const cookieDomain = process.env.COOKIE_DOMAIN || 'localhost';
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
@@ -53,7 +55,7 @@ app.use(
         secret: 'topSecretSession',
         proxy: true,
         cookie: {
-            domain: 'localhost',
+            domain: cookieDomain,
         },
     })
 );
