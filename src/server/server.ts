@@ -28,6 +28,7 @@ import {
     UpdateUserData,
     User,
     UserDataResponse,
+    WhoAmIResponse,
 } from './domain';
 import { htmlHandler, tryCatchHandler } from './handler';
 
@@ -224,6 +225,16 @@ app.get(
         });
     }
 );
+
+app.get('/api/whoami', isAuthenticated, async (req: Request, res: Response) => {
+    await tryCatchHandler(req, res, async () => {
+        const user = await getUserById(db, req.session!.passport.user);
+        const response: WhoAmIResponse = {
+            email: user?.email!,
+        };
+        res.send({ ...response });
+    });
+});
 
 app.put(
     '/api/userdata',

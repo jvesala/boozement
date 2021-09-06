@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './UserdataForm.css';
 import { i18n, Language } from '../../app/localization';

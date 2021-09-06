@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserById } from './database';
+import { getUserByEmail, getUserById } from './database';
 import { Language } from '../app/localization';
 import { configureStoreWithState } from '../app/store';
 import * as React from 'react';
@@ -8,6 +8,7 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import fs from 'fs';
+import { weightInKilos } from './calculator';
 
 export const tryCatchHandler = async (
     req: Request,
@@ -35,14 +36,25 @@ const getLoggedInEmail = async (
     return user?.email;
 };
 
+const getUserdata = async (db: any, email?: string) => {
+    const user = email ? await getUserByEmail(db, email) : undefined;
+    const weight = user?.weight ? weightInKilos(user?.weight) : undefined;
+    return {
+        weight,
+        gender: user?.gender,
+    };
+};
+
 export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
     const email = await getLoggedInEmail(req, db);
+    const userdata = await getUserdata(db, email);
 
     const state = {
         login: {
             language: 'fi' as Language,
             username: email,
         },
+        userdata,
     };
 
     const updatedStore = configureStoreWithState(state);

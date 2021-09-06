@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './Userdata.css';
 import { UserdataForm } from './UserdataForm';
 import { PasswordForm } from './PasswordForm';

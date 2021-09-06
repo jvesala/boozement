@@ -63,45 +63,41 @@ export const {
     updateHistoryServing,
 } = slice.actions;
 
-export const historyServingsAsync = (
-    search: any,
-    offset: number,
-    limit: number
-) => async (dispatch: any) => {
-    const url = '/api/servings';
-    const query = `search=${search}&offset=${offset}&limit=${limit}`;
+export const historyServingsAsync =
+    (search: any, offset: number, limit: number) => async (dispatch: any) => {
+        const url = '/api/servings';
+        const query = `search=${search}&offset=${offset}&limit=${limit}`;
 
-    dispatch(setShowHistoryBusy(true));
-    const successHandler = (success: ServingsResponse) => {
-        dispatch(setShowHistoryBusy(false));
-        if (offset === 0) {
-            dispatch(setHistoryServings(success));
-        } else {
-            dispatch(appendHistoryServings(success));
-        }
+        dispatch(setShowHistoryBusy(true));
+        const successHandler = (success: ServingsResponse) => {
+            dispatch(setShowHistoryBusy(false));
+            if (offset === 0) {
+                dispatch(setHistoryServings(success));
+            } else {
+                dispatch(appendHistoryServings(success));
+            }
+        };
+        const errorHandler = (err: Error) => {
+            forwardLoginIfUnauthorized(dispatch, err);
+            console.error(err);
+        };
+        await doGetRequest(url, query, successHandler, errorHandler);
     };
-    const errorHandler = (err: Error) => {
-        forwardLoginIfUnauthorized(dispatch, err);
-        console.error(err);
-    };
-    await doGetRequest(url, query, successHandler, errorHandler);
-};
 
-export const historyUpdateAsync = (payload: UpdateServing) => async (
-    dispatch: any
-) => {
-    const url = '/api/insert';
-    dispatch(setShowHistoryBusy(true));
-    const successHandler = (success: Serving) => {
-        dispatch(setShowHistoryBusy(false));
-        dispatch(updateHistoryServing(success));
+export const historyUpdateAsync =
+    (payload: UpdateServing) => async (dispatch: any) => {
+        const url = '/api/insert';
+        dispatch(setShowHistoryBusy(true));
+        const successHandler = (success: Serving) => {
+            dispatch(setShowHistoryBusy(false));
+            dispatch(updateHistoryServing(success));
+        };
+        const errorHandler = (err: Error) => {
+            forwardLoginIfUnauthorized(dispatch, err);
+            console.error(err);
+        };
+        await doPutRequest(url, payload, successHandler, errorHandler);
     };
-    const errorHandler = (err: Error) => {
-        forwardLoginIfUnauthorized(dispatch, err);
-        console.error(err);
-    };
-    await doPutRequest(url, payload, successHandler, errorHandler);
-};
 
 export const selectHistorySearch = (state: any) => state.history.search;
 export const selectHistoryShowBusy = (state: any) => state.history.showBusy;

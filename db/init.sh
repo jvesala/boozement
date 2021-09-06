@@ -7,6 +7,7 @@ psql -h boozement-postgres -U postgres -d boozement -f $BASEDIR/schema.sql
 psql -h boozement-postgres -U postgres -d boozement-integration -f $BASEDIR/schema.sql
 
 # Insert data from outside
-psql -h boozement-postgres -U postgres -d boozement -f $BASEDIR/../../dump.sql
+# Need to be run manually
 
-psql -h boozement-postgres -U postgres -d boozement -f $BASEDIR/updates.sql
+#psql -h boozement-postgres -U postgres -d boozement -f $BASEDIR/../../dump.sql
+#psql -h boozement-postgres -U postgres -d boozement -f $BASEDIR/updates.sql

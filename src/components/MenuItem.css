@@ -2,7 +2,7 @@
   display: inline-grid;
   justify-items: center;
   align-items: center;
-  background-image: url("/chalk.png");
+  background-image: url("../assets/chalk.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position-y: top;
