@@ -15,4 +15,3 @@ export const whoAmIAsync = () => async (dispatch: any) => {
     };
     await doGetRequest(url, {}, successHandler, errorHandler);
 };
-
