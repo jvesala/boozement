@@ -26,7 +26,7 @@ export const Footer = () => {
         <div className="Footer">
             <footer>
                 <div />
-                <div>&copy; Boozement 2020</div>
+                <div>&copy; Boozement 2021</div>
                 <div>
                     <button
                         className="flag flagEN"
