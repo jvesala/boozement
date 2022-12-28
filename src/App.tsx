@@ -28,12 +28,12 @@ export const App = () => {
             <Menu />
             <div className="content">
                 {user ? (
-                      <Routes>
-                        <Route path="/insert" element={<Insert/>} />
-                        <Route path="/active" element={<Active/>} />
-                        <Route path="/history" element={<History/>} />
-                        <Route path="/userdata" element={<Userdata/>} />
-                      </Routes>
+                    <Routes>
+                        <Route path="/insert" element={<Insert />} />
+                        <Route path="/active" element={<Active />} />
+                        <Route path="/history" element={<History />} />
+                        <Route path="/userdata" element={<Userdata />} />
+                    </Routes>
                 ) : (
                     <Login />
                 )}
