@@ -29,7 +29,7 @@ export const UserdataForm = () => {
     const [weightValid, setWeightValid] = useState(true);
     const [disabled, setDisabled] = useState(true);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     useEffect(() => {
         dispatch(userDataAsync());

@@ -32,7 +32,7 @@ export const History = () => {
     const offset = useSelector(selectHistoryOffset);
     const limit = useSelector(selectHistoryLimit);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     useEffect(() => {
         dispatch(historyServingsAsync(search, offset, limit));

@@ -9,30 +9,31 @@ import { Userdata } from './features/userdata/Userdata';
 import { selectUser } from './features/login/loginSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { whoAmIAsync } from './features/whoami/whoAmISlice';
 
 export const App = () => {
     const user = useSelector(selectUser);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
     useEffect(() => {
         dispatch(whoAmIAsync());
     }, [dispatch]);
+
+    //<Redirect exact from="/" to="/insert" />
 
     return (
         <div className="App">
             <Menu />
             <div className="content">
                 {user ? (
-                    <Switch>
-                        <Redirect exact from="/" to="/insert" />
-                        <Route path="/insert" component={Insert} />
-                        <Route path="/active" component={Active} />
-                        <Route path="/history" component={History} />
-                        <Route path="/userdata" component={Userdata} />
-                    </Switch>
+                      <Routes>
+                        <Route path="/insert" element={<Insert/>} />
+                        <Route path="/active" element={<Active/>} />
+                        <Route path="/history" element={<History/>} />
+                        <Route path="/userdata" element={<Userdata/>} />
+                      </Routes>
                 ) : (
                     <Login />
                 )}

@@ -24,7 +24,7 @@ export const Active = () => {
     const servings = useSelector(selectActiveServings);
     const totalUnits = useSelector(selectActiveTotalUnits);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     useEffect(() => {
         dispatch(activeServingsAsync('24'));

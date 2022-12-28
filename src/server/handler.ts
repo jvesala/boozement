@@ -4,11 +4,11 @@ import { Language } from '../app/localization';
 import { configureStoreWithState } from '../app/store';
 import * as React from 'react';
 import { App } from '../App';
-import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import { weightInKilos } from './calculator';
+import { Routes } from 'react-router-dom';
 
 export const tryCatchHandler = async (
     req: Request,
@@ -60,13 +60,13 @@ export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
     const updatedStore = configureStoreWithState(state);
     const application = React.createElement(App, {});
     const router = React.createElement(
-        StaticRouter,
+          Routes,
         { location: req.url },
         application
     );
     const provider = React.createElement(
         Provider,
-        { store: updatedStore },
+        { store: updatedStore, children: undefined },
         router
     );
     const component = renderToString(provider);

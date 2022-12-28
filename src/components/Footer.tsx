@@ -13,7 +13,7 @@ export const Footer = () => {
     const language: Language = useSelector(selectLanguage);
     const user = useSelector(selectUser);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const doLogout = () => {
         dispatch(logoutUserAsync());
