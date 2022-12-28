@@ -91,16 +91,6 @@
     "webpack-node-externals": "^3.0.0"
   },
   "prettier": {
-    "tabWidth": 4,
-    "singleQuote": true,
-    "endOfLine": "lf",
-    "overrides": [
-      {
-        "files": "*.json",
-        "options": {
-          "tabWidth": 4
-        }
-      }
-    ]
+    "singleQuote": true
   }
 }

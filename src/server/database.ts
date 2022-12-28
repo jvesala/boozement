@@ -4,96 +4,96 @@ import { Serving, ServingsResponse, User } from './domain';
 //import * as pg from 'pg-promise/typescript/pg-subset';
 
 export const initConnection = (connectionString: string) => {
-    const pgp: IMain = pgPromise({});
-    var types = pgp.pg.types;
-    types.setTypeParser(1184, (str) => str);
-    return { pgp, db: pgp(connectionString) };
+  const pgp: IMain = pgPromise({});
+  var types = pgp.pg.types;
+  types.setTypeParser(1184, (str) => str);
+  return { pgp, db: pgp(connectionString) };
 };
 
 const handleDbError = (methodName: string) => (error: any) => {
-    console.log(`PostgreSQL error in ${methodName}`, error);
-    throw error;
+  console.log(`PostgreSQL error in ${methodName}`, error);
+  throw error;
 };
 
 export const mapRowsToServices = (data: any[]) => {
-    return data.map((val) => {
-        return {
-            id: val.id,
-            userId: val.user_id,
-            date: DateTime.fromSQL(val.date).toUTC(),
-            type: val.type,
-            amount: val.amount,
-            units: parseFloat(val.units),
-        };
-    });
+  return data.map((val) => {
+    return {
+      id: val.id,
+      userId: val.user_id,
+      date: DateTime.fromSQL(val.date).toUTC(),
+      type: val.type,
+      amount: val.amount,
+      units: parseFloat(val.units),
+    };
+  });
 };
 
 export const mapRowsToServicesResponse = (search: string) => (data: any[]) => {
-    const first = data[0];
-    const totalCount = first ? parseInt(first.totalcount) : 0;
-    const totalUnits = first ? parseFloat(first.totalunits) : 0;
+  const first = data[0];
+  const totalCount = first ? parseInt(first.totalcount) : 0;
+  const totalUnits = first ? parseFloat(first.totalunits) : 0;
 
-    const servings = data.map((val) => {
-        return {
-            id: val.id,
-            userId: val.user_id,
-            date: DateTime.fromSQL(val.date).toUTC(),
-            type: val.type,
-            amount: val.amount,
-            units: parseFloat(val.units),
-        };
-    });
-    return { search, totalCount, totalUnits, servings };
+  const servings = data.map((val) => {
+    return {
+      id: val.id,
+      userId: val.user_id,
+      date: DateTime.fromSQL(val.date).toUTC(),
+      type: val.type,
+      amount: val.amount,
+      units: parseFloat(val.units),
+    };
+  });
+  return { search, totalCount, totalUnits, servings };
 };
 
 export const insertUser = async (db: any, user: User) => {
-    return db
-        .any(
-            'INSERT INTO users (email, password, gender, weight) VALUES (${email}, ${password}, ${gender}, ${weight}) RETURNING id',
-            user
-        )
-        .then((data: any[]) => data[0])
-        .catch(handleDbError('insertUser'));
+  return db
+    .any(
+      'INSERT INTO users (email, password, gender, weight) VALUES (${email}, ${password}, ${gender}, ${weight}) RETURNING id',
+      user
+    )
+    .then((data: any[]) => data[0])
+    .catch(handleDbError('insertUser'));
 };
 
 export const updateUser = async (db: any, user: User) => {
-    return db
-        .any(
-            'UPDATE users SET email = ${email}, password = ${password}, gender = ${gender}, weight = ${weight} WHERE id = ${id}',
-            user
-        )
-        .then((data: any[]) => data[0])
-        .catch(handleDbError('insertUser'));
+  return db
+    .any(
+      'UPDATE users SET email = ${email}, password = ${password}, gender = ${gender}, weight = ${weight} WHERE id = ${id}',
+      user
+    )
+    .then((data: any[]) => data[0])
+    .catch(handleDbError('insertUser'));
 };
 
 export const getUserById = async (
-    db: any,
-    id: string
+  db: any,
+  id: string
 ): Promise<User | null> => {
-    return db
-        .oneOrNone(
-            'SELECT id, email, password, gender, weight FROM users WHERE id = $1',
-            [id]
-        )
-        .catch(handleDbError('getUserById'));
+  return db
+    .oneOrNone(
+      'SELECT id, email, password, gender, weight FROM users WHERE id = $1',
+      [id]
+    )
+    .catch(handleDbError('getUserById'));
 };
 
 export const getUserByEmail = async (
-    db: any,
-    email: string
+  db: any,
+  email: string
 ): Promise<User | null> => {
-    return db
-        .oneOrNone(
-            'SELECT id, email, password, gender, weight FROM users WHERE email = $1',
-            [email]
-        )
-        .catch(handleDbError('getUserByEmail'));
+  return db
+    .oneOrNone(
+      'SELECT id, email, password, gender, weight FROM users WHERE email = $1',
+      [email]
+    )
+    .catch(handleDbError('getUserByEmail'));
 };
 
 export const insertServing = async (db: any, serving: Serving) => {
-    return db
-        .any(
-            `
+  return db
+    .any(
+      `
 WITH created_token AS (
   SELECT
     setweight(to_tsvector('simple', lower(\${type})), 'A') ||
@@ -106,28 +106,28 @@ INSERT INTO servings (user_id, date, type, amount, units, tokens)
   SELECT \${userId}, \${date}, \${type}, \${amount}, \${units}, tokens
   FROM created_token
 RETURNING id, user_id, date, type, amount, units`,
-            serving
-        )
-        .then(mapRowsToServices)
-        .then((data: any[]) => data[0])
-        .catch(handleDbError('insertServing'));
+      serving
+    )
+    .then(mapRowsToServices)
+    .then((data: any[]) => data[0])
+    .catch(handleDbError('insertServing'));
 };
 
 export const updateField = async (
-    db: any,
-    userId: string,
-    id: string,
-    field: string,
-    value: string
+  db: any,
+  userId: string,
+  id: string,
+  field: string,
+  value: string
 ): Promise<Serving> => {
-    return db
-        .tx(async (t: any) => {
-            await t.none(
-                'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId}',
-                { userId, id, field, value }
-            );
-            const result = await t.one(
-                `
+  return db
+    .tx(async (t: any) => {
+      await t.none(
+        'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId}',
+        { userId, id, field, value }
+      );
+      const result = await t.one(
+        `
 UPDATE servings
   SET tokens = setweight(to_tsvector('simple', lower(type)), 'A') ||
                setweight(to_tsvector('simple', to_char(date, 'YYYY:DD:MM')), 'B') ||
@@ -136,72 +136,72 @@ UPDATE servings
 WHERE id = \${id} AND user_id = \${userId}
 RETURNING id, user_id, date, type, amount, units
         `,
-                { userId, id }
-            );
-            return [{ ...result }];
-        })
-        .then(mapRowsToServices)
-        .then((data: any[]) => data[0])
-        .catch(handleDbError('insertServing'));
+        { userId, id }
+      );
+      return [{ ...result }];
+    })
+    .then(mapRowsToServices)
+    .then((data: any[]) => data[0])
+    .catch(handleDbError('insertServing'));
 };
 
 export const getServings = async (
-    db: any,
-    userId: string,
-    limit: number,
-    offset: number
+  db: any,
+  userId: string,
+  limit: number,
+  offset: number
 ): Promise<ServingsResponse> => {
-    return db
-        .any(
-            'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
-            { userId, limit, offset }
-        )
-        .then(mapRowsToServicesResponse(''))
-        .catch(handleDbError('getServings'));
+  return db
+    .any(
+      'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
+      { userId, limit, offset }
+    )
+    .then(mapRowsToServicesResponse(''))
+    .catch(handleDbError('getServings'));
 };
 
 export const getRecentServings = async (
-    db: any,
-    userId: string,
-    hours: number
+  db: any,
+  userId: string,
+  hours: number
 ): Promise<ServingsResponse> => {
-    return db
-        .any(
-            "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
-            { userId, hours }
-        )
-        .then(mapRowsToServicesResponse(''))
-        .catch(handleDbError('getRecentServings'));
+  return db
+    .any(
+      "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
+      { userId, hours }
+    )
+    .then(mapRowsToServicesResponse(''))
+    .catch(handleDbError('getRecentServings'));
 };
 
 export const searchServings = async (
-    db: any,
-    userId: string,
-    search: string,
-    limit: number,
-    offset: number
+  db: any,
+  userId: string,
+  search: string,
+  limit: number,
+  offset: number
 ): Promise<ServingsResponse> => {
-    const searchFormatted =
-        search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
-    return db
-        .any(
-            'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
-            { userId, searchFormatted, limit, offset }
-        )
-        .then(mapRowsToServicesResponse(search))
-        .catch(handleDbError('getServings'));
+  const searchFormatted =
+    search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
+  return db
+    .any(
+      'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
+      { userId, searchFormatted, limit, offset }
+    )
+    .then(mapRowsToServicesResponse(search))
+    .catch(handleDbError('getServings'));
 };
 
 export const searchSuggestion = async (
-    db: any,
-    limit: number,
-    search: string
+  db: any,
+  limit: number,
+  search: string
 ): Promise<String[]> => {
-    const searchFormatted =
-        search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
-    return db
-        .any(
-            `
+  const searchFormatted =
+    search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
+  return db
+    .any(
+      `
 WITH hits AS (
   SELECT type, '1' AS number FROM servings WHERE tokens @@ to_tsquery(\${searchFormatted})
 ),
@@ -209,7 +209,7 @@ grouped AS (
   SELECT type, count(number) FROM hits GROUP BY type ORDER BY count DESC
 )
 SELECT type FROM grouped LIMIT \${limit}`,
-            { searchFormatted, limit }
-        )
-        .catch(handleDbError('getServings'));
+      { searchFormatted, limit }
+    )
+    .catch(handleDbError('getServings'));
 };

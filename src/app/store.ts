@@ -5,12 +5,12 @@ import historyReducer from '../features/history/historySlice';
 import userdataSlice from '../features/userdata/userdataSlice';
 
 export const configureStoreWithState = (preloadedState: any) =>
-    configureStore({
-        reducer: {
-            login: loginReducer,
-            active: activeReducer,
-            history: historyReducer,
-            userdata: userdataSlice,
-        },
-        preloadedState,
-    });
+  configureStore({
+    reducer: {
+      login: loginReducer,
+      active: activeReducer,
+      history: historyReducer,
+      userdata: userdataSlice,
+    },
+    preloadedState,
+  });

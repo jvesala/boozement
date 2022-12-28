@@ -13,14 +13,14 @@ delete window.__PRELOADED_STATE__;
 const store = configureStoreWithState(preloadedState);
 
 store.subscribe(() => {
-    console.log('STATE', store.getState());
+  console.log('STATE', store.getState());
 });
 
 ReactDOM.hydrate(
-    <Provider store={store}>
-        <Router>
-            <App />
-        </Router>
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
+  document.getElementById('root')
 );

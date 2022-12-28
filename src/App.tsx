@@ -14,31 +14,31 @@ import { useEffect } from 'react';
 import { whoAmIAsync } from './features/whoami/whoAmISlice';
 
 export const App = () => {
-    const user = useSelector(selectUser);
+  const user = useSelector(selectUser);
 
-    const dispatch = useDispatch<any>();
-    useEffect(() => {
-        dispatch(whoAmIAsync());
-    }, [dispatch]);
+  const dispatch = useDispatch<any>();
+  useEffect(() => {
+    dispatch(whoAmIAsync());
+  }, [dispatch]);
 
-    //<Redirect exact from="/" to="/insert" />
+  //<Redirect exact from="/" to="/insert" />
 
-    return (
-        <div className="App">
-            <Menu />
-            <div className="content">
-                {user ? (
-                    <Routes>
-                        <Route path="/insert" element={<Insert />} />
-                        <Route path="/active" element={<Active />} />
-                        <Route path="/history" element={<History />} />
-                        <Route path="/userdata" element={<Userdata />} />
-                    </Routes>
-                ) : (
-                    <Login />
-                )}
-            </div>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="App">
+      <Menu />
+      <div className="content">
+        {user ? (
+          <Routes>
+            <Route path="/insert" element={<Insert />} />
+            <Route path="/active" element={<Active />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/userdata" element={<Userdata />} />
+          </Routes>
+        ) : (
+          <Login />
+        )}
+      </div>
+      <Footer />
+    </div>
+  );
 };

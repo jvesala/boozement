@@ -1,7 +1,7 @@
 import session from 'express-session';
 
 declare module 'express-session' {
-    export interface SessionData {
-        passport?: any;
-    }
+  export interface SessionData {
+    passport?: any;
+  }
 }

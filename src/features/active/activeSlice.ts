@@ -1,88 +1,88 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-    doGetRequest,
-    doPutRequest,
-    forwardLoginIfUnauthorized,
+  doGetRequest,
+  doPutRequest,
+  forwardLoginIfUnauthorized,
 } from '../../app/network';
 import { updateServingInServingsArrays } from '../history/historySlice';
 import {
-    RecentServingsResponse,
-    Serving,
-    UpdateServing,
+  RecentServingsResponse,
+  Serving,
+  UpdateServing,
 } from '../../server/domain';
 
 export const slice = createSlice({
-    name: 'active',
-    initialState: {
-        activeBac: '',
-        showBusy: true,
-        activeServings: [],
-        totalCount: 0,
-        totalUnits: 0,
-        editServing: undefined,
+  name: 'active',
+  initialState: {
+    activeBac: '',
+    showBusy: true,
+    activeServings: [],
+    totalCount: 0,
+    totalUnits: 0,
+    editServing: undefined,
+  },
+  reducers: {
+    updateActiveBac: (state, action) => {
+      state.activeBac = action.payload;
     },
-    reducers: {
-        updateActiveBac: (state, action) => {
-            state.activeBac = action.payload;
-        },
-        setShowActiveBusy: (state, action) => {
-            state.showBusy = action.payload;
-        },
-        setActiveServings: (state, action) => {
-            state.activeServings = action.payload.servings;
-            state.totalCount = action.payload.totalCount;
-            state.totalUnits = action.payload.totalUnits;
-        },
-        setActiveEditServing: (state, action) => {
-            state.editServing = action.payload;
-        },
-        updateActiveServing: (state, action) => {
-            state.activeServings = updateServingInServingsArrays(
-                state.activeServings as any,
-                action.payload
-            );
-        },
+    setShowActiveBusy: (state, action) => {
+      state.showBusy = action.payload;
     },
+    setActiveServings: (state, action) => {
+      state.activeServings = action.payload.servings;
+      state.totalCount = action.payload.totalCount;
+      state.totalUnits = action.payload.totalUnits;
+    },
+    setActiveEditServing: (state, action) => {
+      state.editServing = action.payload;
+    },
+    updateActiveServing: (state, action) => {
+      state.activeServings = updateServingInServingsArrays(
+        state.activeServings as any,
+        action.payload
+      );
+    },
+  },
 });
 
 export const {
-    updateActiveBac,
-    setShowActiveBusy,
-    setActiveServings,
-    setActiveEditServing,
-    updateActiveServing,
+  updateActiveBac,
+  setShowActiveBusy,
+  setActiveServings,
+  setActiveEditServing,
+  updateActiveServing,
 } = slice.actions;
 
 export const activeServingsAsync = (hours: any) => async (dispatch: any) => {
-    const url = '/api/recentServings';
-    const query = `hours=${hours}`;
-    dispatch(setShowActiveBusy(true));
-    const successHandler = (success: RecentServingsResponse) => {
-        dispatch(setShowActiveBusy(false));
-        dispatch(setActiveServings(success.servings));
-        dispatch(updateActiveBac(success.bac));
-    };
-    const errorHandler = (err: Error) => {
-        forwardLoginIfUnauthorized(dispatch, err);
-        console.error(err);
-    };
-    await doGetRequest(url, query, successHandler, errorHandler);
+  const url = '/api/recentServings';
+  const query = `hours=${hours}`;
+  dispatch(setShowActiveBusy(true));
+  const successHandler = (success: RecentServingsResponse) => {
+    dispatch(setShowActiveBusy(false));
+    dispatch(setActiveServings(success.servings));
+    dispatch(updateActiveBac(success.bac));
+  };
+  const errorHandler = (err: Error) => {
+    forwardLoginIfUnauthorized(dispatch, err);
+    console.error(err);
+  };
+  await doGetRequest(url, query, successHandler, errorHandler);
 };
 
 export const activeUpdateAsync =
-    (payload: UpdateServing) => async (dispatch: any) => {
-        const url = '/api/insert';
-        dispatch(setShowActiveBusy(true));
-        const successHandler = (success: Serving) => {
-            dispatch(setShowActiveBusy(false));
-            dispatch(updateActiveServing(success));
-        };
-        const errorHandler = (err: Error) => {
-            forwardLoginIfUnauthorized(dispatch, err);
-            console.error(err);
-        };
-        await doPutRequest(url, payload, successHandler, errorHandler);
+  (payload: UpdateServing) => async (dispatch: any) => {
+    const url = '/api/insert';
+    dispatch(setShowActiveBusy(true));
+    const successHandler = (success: Serving) => {
+      dispatch(setShowActiveBusy(false));
+      dispatch(updateActiveServing(success));
     };
+    const errorHandler = (err: Error) => {
+      forwardLoginIfUnauthorized(dispatch, err);
+      console.error(err);
+    };
+    await doPutRequest(url, payload, successHandler, errorHandler);
+  };
 
 export const selectActiveBac = (state: any) => state.active.activeBac;
 export const selectActiveShowBusy = (state: any) => state.active.showBusy;

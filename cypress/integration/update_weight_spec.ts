@@ -1,12 +1,12 @@
 describe('Update weight', () => {
-    it('Updates weight', () => {
-        cy.registerAndLogin();
+  it('Updates weight', () => {
+    cy.registerAndLogin();
 
-        cy.visit('/userdata');
+    cy.visit('/userdata');
 
-        cy.get('input[name=weight]').clear().type('100');
-        cy.get('button[type=submit]:nth(0)').click();
+    cy.get('input[name=weight]').clear().type('100');
+    cy.get('button[type=submit]:nth(0)').click();
 
-        cy.get('.UserdataForm .result').contains('Päivitetty');
-    });
+    cy.get('.UserdataForm .result').contains('Päivitetty');
+  });
 });
