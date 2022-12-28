@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import { weightInKilos } from './calculator';
-import { Routes } from 'react-router-dom';
+import { StaticRouter } from "react-router-dom/server";
 
 export const tryCatchHandler = async (
   req: Request,
@@ -58,7 +58,7 @@ export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
   const updatedStore = configureStoreWithState(state);
   const application = React.createElement(App, {});
   const router = React.createElement(
-    Routes,
+    StaticRouter,
     { location: req.url },
     application
   );
