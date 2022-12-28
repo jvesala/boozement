@@ -24,6 +24,8 @@ To run local PostgreSQL inside Docker, run the following
         -p 5432:5432 \
         postgres
 
+Run db-init script from db directory thereafter.
+
 Additionally, add following lines to `/etc/hosts`
 
     127.0.0.1 boozement-postgres
