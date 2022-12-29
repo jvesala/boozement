@@ -2,7 +2,7 @@
   "name": "boozement",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5005/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && npm run compile",
