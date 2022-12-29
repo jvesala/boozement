@@ -16,7 +16,7 @@
     "server": "nodemon build/server/main.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
     "cypress:open": "cypress open",
-    "heroku": "node build/server/main.js"
+    "flyio": "node build/server/main.js"
   },
   "engines": {
     "node": ">=18.12.1"

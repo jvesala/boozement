@@ -8,6 +8,7 @@ processes = []
 [env]
   PORT = "8080"
   DATABASE_URL = "postgres://boozement:cEQ2TxIAHbIA8fE@top2.nearest.of.boozement-db.internal:5432/boozement?sslmode=disable"
+  COOKIE_DOMAIN = "boozement.fly.dev"
 
 [experimental]
   allowed_public_ports = []

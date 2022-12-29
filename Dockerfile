@@ -21,7 +21,7 @@ ENV NODE_ENV production
 
 COPY . .
 
-RUN npm install -g concurrently && npm install && npm run build
+RUN npm install --production=false && npm run build
 FROM debian:bullseye
 
 LABEL fly_launch_runtime="nodejs"
@@ -33,4 +33,4 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV PATH /root/.volta/bin:$PATH
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "flyio" ]
