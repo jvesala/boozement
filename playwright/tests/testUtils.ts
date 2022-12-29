@@ -12,7 +12,8 @@ export const registerAndLogin = async (
   request: APIRequestContext
 ): Promise<LoggedInUser> => {
   const now = Date.now();
-  const email = `test.email.login+${now}@example.com`;
+  const random = Math.round(Math.random() * 1000000);
+  const email = `test.email.login+${now}-${random}@example.com`;
   const password = 'passwordPassword';
   const user: RegisterUser = {
     email,
@@ -25,6 +26,7 @@ export const registerAndLogin = async (
   });
 
   await page.goto('http://localhost:3000');
+  await page.click('button.flagFI');
   await page.fill('input[name=email]', email);
   await page.fill('input[name=password]', password);
   await expect(page.getByText(email)).not.toBeVisible();
