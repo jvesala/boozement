@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import { weightInKilos } from './calculator';
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouter } from 'react-router-dom/server';
 
 export const tryCatchHandler = async (
   req: Request,
