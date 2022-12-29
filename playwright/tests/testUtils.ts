@@ -1,5 +1,6 @@
 import { RegisterUser } from '../../src/server/domain';
-import { APIRequestContext } from '@playwright/test';
+import { APIRequestContext, Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 
 export type LoggedInUser = {
   email: string;
@@ -7,6 +8,7 @@ export type LoggedInUser = {
 };
 
 export const registerAndLogin = async (
+  page: Page,
   request: APIRequestContext
 ): Promise<LoggedInUser> => {
   const now = Date.now();
@@ -21,6 +23,14 @@ export const registerAndLogin = async (
   await request.post('http://localhost:3000/api/register', {
     data: user,
   });
+
+  await page.goto('http://localhost:3000');
+  await page.fill('input[name=email]', email);
+  await page.fill('input[name=password]', password);
+  await expect(page.getByText(email)).not.toBeVisible();
+  await page.getByRole('button', { name: 'Kirjaudu' }).click();
+  await expect(page.getByText(email)).toBeVisible();
+
   return {
     email,
     password,

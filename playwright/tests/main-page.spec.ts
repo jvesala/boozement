@@ -18,15 +18,7 @@ test.describe('Main page tests', () => {
   });
 
   test('Logs in to system', async ({ page, request }) => {
-    const { email, password } = await registerAndLogin(request);
-
+    await registerAndLogin(page, request);
     await expect(page).toHaveTitle(/Boozement/);
-    await page.click('button.flagEN');
-
-    await page.fill('input[name=email]', email);
-    await page.fill('input[name=password]', password);
-    await expect(page.getByText(email)).not.toBeVisible();
-    await page.getByRole('button', { name: 'Login' }).click();
-    await expect(page.getByText(email)).toBeVisible();
   });
 });
