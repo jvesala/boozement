@@ -11,11 +11,9 @@
     "prettier": "prettier --parser typescript --config package.json --write '**/*.ts*'",
     "compile:webpack": "webpack --config webpack.config.js",
     "compile:server": "tsc -p tsconfig-server.json",
-    "compile:cypress": "tsc --project cypress",
-    "compile": "concurrently \"npm run compile:webpack\" \"npm run compile:server\" \"npm run compile:cypress\"",
+    "compile": "concurrently \"npm run compile:webpack\" \"npm run compile:server\"",
     "server": "nodemon build/server/main.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
-    "cypress:open": "cypress open",
     "flyio": "node build/server/main.js"
   },
   "engines": {
@@ -79,7 +77,6 @@
     "@types/react-router-dom": "^5.3.3",
     "concurrently": "^7.6.0",
     "css-loader": "^6.7.3",
-    "cypress": "^12.2.0",
     "file-loader": "^6.0.0",
     "husky": "^8.0.2",
     "nodemon": "^2.0.4",
