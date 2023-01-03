@@ -21,8 +21,6 @@ export const App = () => {
     dispatch(whoAmIAsync());
   }, [dispatch]);
 
-  //<Redirect exact from="/" to="/insert" />
-
   return (
     <div className="App">
       <Menu />
