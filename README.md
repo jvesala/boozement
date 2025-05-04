@@ -12,7 +12,7 @@ React Hooks & Redux (with Redux Toolkit additions) on the clientside.
 
 PostgreSQL database (because of fulltext search support).
 
-Cypress for integration testing. 
+Playwright for integration testing. 
 
 ## PostgreSQL in Docker
 
@@ -62,11 +62,6 @@ If this were a real production project, I would `eject` from react scripts and h
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run cypress:open`
-
-Open Cypress UI to run graphical integration tests. I've been to lazy to scripts for headless running. 
-
 
 ## TODO
 
