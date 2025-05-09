@@ -14,7 +14,7 @@ export type RecentServingsResponse = {
   bac: string;
 };
 
-export type SuggestionsResponse = String[];
+export type SuggestionsResponse = string[];
 
 export type UserDataResponse = {
   weight: number;
@@ -25,8 +25,7 @@ export type WhoAmIResponse = {
   email: string;
 };
 
-export interface DateTimeFromStringC
-  extends t.Type<DateTime, string, unknown> {}
+export type DateTimeFromStringC = t.Type<DateTime, string, unknown>;
 
 export const DateTimeFromString: DateTimeFromStringC = new t.Type<
   DateTime,

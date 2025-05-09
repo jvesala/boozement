@@ -9,7 +9,7 @@ const alcoholInGramsInServing = (serving: Serving) =>
 
 export const weightInKilos = (weight: number) => weight / 1000;
 
-const genderFactor = (gender: String) => (gender === 'M' ? 0.75 : 0.66);
+const genderFactor = (gender: string) => (gender === 'M' ? 0.75 : 0.66);
 
 const burnRateInMillis = (weight: number) =>
   (0.1 * weightInKilos(weight)) / hourInMillis;

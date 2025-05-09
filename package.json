@@ -4,23 +4,18 @@
   "private": true,
   "proxy": "http://localhost:5005/",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && npm run compile",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "build": "tsc -b && vite build",
+    "test": "jest",
     "prettier": "prettier --parser typescript --config package.json --write '**/*.ts*'",
-    "compile:webpack": "webpack --config webpack.config.js",
-    "compile:server": "tsc -p tsconfig-server.json",
-    "compile": "concurrently \"npm run compile:webpack\" \"npm run compile:server\"",
     "server": "nodemon build/server/main.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
     "flyio": "node build/server/main.js"
   },
+  "type": "module",
   "engines": {
-    "node": ">=22.15.17"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "node": ">=22.15.0"
   },
   "browserslist": {
     "production": [
@@ -51,11 +46,11 @@
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
-    "react-scripts": "^5.0.1",
     "redux": "^5.0.1",
     "superagent": "^10.2.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.25.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -63,6 +58,7 @@
     "@types/body-parser": "^1.19.0",
     "@types/express": "^5.0.1",
     "@types/express-session": "^1.17.0",
+    "@types/jest": "^29.5.14",
     "@types/js-cookie": "^3.0.2",
     "@types/luxon": "^3.1.0",
     "@types/node": "^22.15.17",
@@ -70,15 +66,18 @@
     "@types/passport-local": "^1.0.34",
     "@types/react": "^19.1.3",
     "@types/react-dom": "^19.1.3",
+    "@types/superagent": "^8.1.9",
+    "@vitejs/plugin-react": "^4.4.1",
     "concurrently": "^9.1.2",
-    "css-loader": "^6.7.3",
-    "file-loader": "^6.0.0",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
-    "ts-loader": "^9.4.2",
     "typescript": "^5.8.3",
-    "webpack-cli": "^5.0.1",
-    "webpack-node-externals": "^3.0.0"
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5"
   },
   "prettier": {
     "singleQuote": true

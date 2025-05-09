@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import './PasswordForm.css';
-import { i18n, Language } from '../../app/localization';
+import { i18n, type Language } from '../../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
@@ -34,7 +34,7 @@ export const PasswordForm = () => {
       newPassword,
     };
     const url = '/api/password';
-    const successHandler = (_: any) => {
+    const successHandler = () => {
       setShowBusy(false);
       setPasswordResult(true);
       setPasswordError(false);

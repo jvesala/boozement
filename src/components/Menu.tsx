@@ -2,7 +2,7 @@ import './Menu.css';
 import MenuItem from './MenuItem';
 import { useSelector } from 'react-redux';
 import { selectLanguage, selectUser } from '../features/login/loginSlice';
-import { i18n, Language } from '../app/localization';
+import { i18n, type Language } from '../app/localization';
 
 export const Menu = () => {
   const language: Language = useSelector(selectLanguage);

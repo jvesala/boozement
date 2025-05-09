@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Language } from '../../app/localization';
+import type { Language } from '../../app/localization';
 import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
-import { User } from '../../server/domain';
 
 export type LoginState = {
   language: Language;
@@ -35,7 +34,7 @@ export const { loginUser, setShowLoggedOut, setLanguage } = slice.actions;
 
 export const logoutUserAsync = () => async (dispatch: any) => {
   const url = '/api/logout';
-  const successHandler = (_: User) => {
+  const successHandler = () => {
     dispatch(loginUser(undefined));
     dispatch(setShowLoggedOut(true));
   };

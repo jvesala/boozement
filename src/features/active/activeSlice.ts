@@ -6,7 +6,7 @@ import {
 } from '../../app/network';
 import { updateServingInServingsArrays } from '../history/historySlice';
 import {
-  RecentServingsResponse,
+  type RecentServingsResponse,
   Serving,
   UpdateServing,
 } from '../../server/domain';

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { doGetRequest, forwardLoginIfUnauthorized } from '../../app/network';
 import { weightInKilos } from '../../server/calculator';
-import { UserDataResponse } from '../../server/domain';
+import type { UserDataResponse } from '../../server/domain';
 
 export type UserdataState = {
   weight: string;

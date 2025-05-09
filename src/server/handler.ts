@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { getUserByEmail, getUserById } from './database';
-import { Language } from '../app/localization';
+import type { Language } from '../app/localization';
 import { configureStoreWithState } from '../app/store';
 import * as React from 'react';
 import { App } from '../App';

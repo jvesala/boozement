@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import './UserdataForm.css';
-import { i18n, Language } from '../../app/localization';
+import { i18n, type Language } from '../../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage, selectUser } from '../login/loginSlice';
 import { Busy } from '../../components/Busy';
@@ -44,7 +44,7 @@ export const UserdataForm = () => {
       weight: weight * 1000,
     };
     const url = '/api/userdata';
-    const successHandler = (_: any) => {
+    const successHandler = () => {
       setShowBusy(false);
       setUserdataResult(true);
       setUserdataError(false);

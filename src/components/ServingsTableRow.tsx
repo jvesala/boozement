@@ -1,7 +1,7 @@
 import React from 'react';
 import './ServingsTableRow.css';
 import { formatDateTimeWithLanguage } from '../app/date';
-import { Language } from '../app/localization';
+import type { Language } from '../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../features/login/loginSlice';
 import { DateTime } from 'luxon';
@@ -28,7 +28,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
 
   const dispatch = useDispatch();
 
-  const handleClick = (field: string) => (_e: any) => {
+  const handleClick = (field: string) => () => {
     dispatch(
       updateEditServingFunction({
         id,

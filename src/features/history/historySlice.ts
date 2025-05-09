@@ -4,8 +4,12 @@ import {
   doPutRequest,
   forwardLoginIfUnauthorized,
 } from '../../app/network';
-import { Serving, ServingsResponse, UpdateServing } from '../../server/domain';
-import { EditServing } from '../active/activeSlice';
+import {
+  Serving,
+  type ServingsResponse,
+  UpdateServing,
+} from '../../server/domain';
+import type { EditServing } from '../active/activeSlice';
 
 export type HistoryState = {
   search: string;

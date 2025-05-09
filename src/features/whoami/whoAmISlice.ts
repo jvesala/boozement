@@ -1,5 +1,5 @@
 import { doGetRequest, forwardLoginIfUnauthorized } from '../../app/network';
-import { WhoAmIResponse } from '../../server/domain';
+import type { WhoAmIResponse } from '../../server/domain';
 import { slice } from '../login/loginSlice';
 
 export const { loginUser } = slice.actions;

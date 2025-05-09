@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './InsertForm.css';
-import { i18n, Language } from '../../app/localization';
+import { i18n, type Language } from '../../app/localization';
 import { selectLanguage } from '../login/loginSlice';
 import {
   createDate,
@@ -18,7 +18,7 @@ import {
   doPostRequest,
   forwardLoginIfUnauthorized,
 } from '../../app/network';
-import { Serving, SuggestionsResponse } from '../../server/domain';
+import { Serving, type SuggestionsResponse } from '../../server/domain';
 import { Button } from '../../components/Button';
 
 export const InsertForm = () => {

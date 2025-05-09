@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import session from 'express-session';
 import passport from 'passport';
 
@@ -19,21 +19,21 @@ import { bacNow } from './calculator';
 import * as bcrypt from 'bcrypt';
 import { validateBody } from './validator';
 import {
-  RecentServingsResponse,
+  type RecentServingsResponse,
   RegisterUser,
   Serving,
-  SuggestionsResponse,
+  type SuggestionsResponse,
   UpdatePassword,
   UpdateServing,
   UpdateUserData,
   User,
-  UserDataResponse,
-  WhoAmIResponse,
+  type UserDataResponse,
+  type WhoAmIResponse,
 } from './domain';
 import { htmlHandler, tryCatchHandler } from './handler';
 
-const express = require('express');
-const bodyparser = require('body-parser');
+import express from 'express';
+import bodyparser from 'body-parser';
 
 const app = express();
 const port = process.env.PORT || 5005;
@@ -220,8 +220,8 @@ app.get(
     await tryCatchHandler(req, res, async () => {
       const user = await getUserById(db, req.session!.passport.user);
       const response: UserDataResponse = {
-        weight: user?.weight!,
-        gender: user?.gender!,
+        weight: user?.weight ?? 0,
+        gender: user?.gender ?? 'M',
       };
       res.send({ ...response });
     });
@@ -232,7 +232,7 @@ app.get('/api/whoami', isAuthenticated, async (req: Request, res: Response) => {
   await tryCatchHandler(req, res, async () => {
     const user = await getUserById(db, req.session!.passport.user);
     const response: WhoAmIResponse = {
-      email: user?.email!,
+      email: user?.email ?? '?',
     };
     res.send({ ...response });
   });

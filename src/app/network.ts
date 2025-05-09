@@ -3,7 +3,7 @@ import * as TE from 'fp-ts/lib/TaskEither';
 import { pipe } from 'fp-ts/lib/pipeable';
 import { loginUser } from '../features/login/loginSlice';
 
-const superagent = require('superagent');
+import superagent from 'superagent';
 
 const contentType = 'application/json;charset=utf-8';
 

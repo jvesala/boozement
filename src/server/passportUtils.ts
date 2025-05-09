@@ -1,6 +1,6 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import pgPromise from 'pg-promise';
 import * as pg from 'pg-promise/typescript/pg-subset';
 import { getUserByEmail, getUserById } from './database';
@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 
 const LocalStrategy = passportLocal.Strategy;
 
-export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
+export const initPassport = (db: pgPromise.IDatabase<object, pg.IClient>) => {
   passport.use(
     new LocalStrategy(
       {

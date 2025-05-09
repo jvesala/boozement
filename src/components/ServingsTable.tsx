@@ -1,6 +1,6 @@
 import React from 'react';
 import './ServingsTable.css';
-import { i18n, Language } from '../app/localization';
+import { i18n, type Language } from '../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../features/login/loginSlice';
 import { ServingsTableRow } from './ServingsTableRow';

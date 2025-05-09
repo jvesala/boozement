@@ -6,9 +6,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { configureStoreWithState } from './app/store';
 
-// @ts-ignore
+declare global {
+  interface Window {
+    __PRELOADED_STATE__: any;
+  }
+}
 const preloadedState = window.__PRELOADED_STATE__;
-// @ts-ignore
 delete window.__PRELOADED_STATE__;
 
 const store = configureStoreWithState(preloadedState);

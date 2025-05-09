@@ -1,11 +1,11 @@
-import pgPromise, { IMain } from 'pg-promise';
+import pgPromise, { type IMain } from 'pg-promise';
 import { DateTime } from 'luxon';
-import { Serving, ServingsResponse, User } from './domain';
+import { Serving, type ServingsResponse, User } from './domain';
 //import * as pg from 'pg-promise/typescript/pg-subset';
 
 export const initConnection = (connectionString: string) => {
   const pgp: IMain = pgPromise({});
-  var types = pgp.pg.types;
+  const types = pgp.pg.types;
   types.setTypeParser(1184, (str) => str);
   return { pgp, db: pgp(connectionString) };
 };
@@ -196,7 +196,7 @@ export const searchSuggestion = async (
   db: any,
   limit: number,
   search: string,
-): Promise<String[]> => {
+): Promise<string[]> => {
   const searchFormatted =
     search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
   return db

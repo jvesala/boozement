@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { Language } from './localization';
+import type { Language } from './localization';
 
 export const createDate = (date: string, time: string) => {
   return DateTime.fromISO(date + 'T' + time);

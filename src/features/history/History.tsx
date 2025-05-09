@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import './History.css';
-import { i18n, Language } from '../../app/localization';
+import { i18n, type Language } from '../../app/localization';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '../login/loginSlice';
 import {
