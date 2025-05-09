@@ -3,13 +3,21 @@ import { Language } from '../../app/localization';
 import { doPostRequest, forwardLoginIfUnauthorized } from '../../app/network';
 import { User } from '../../server/domain';
 
+export type LoginState = {
+  language: Language;
+  showLoggedOut: boolean;
+  username: string | undefined;
+};
+
+const initialState: LoginState = {
+  language: 'fi',
+  showLoggedOut: false,
+  username: undefined,
+};
+
 export const slice = createSlice({
   name: 'login',
-  initialState: {
-    language: 'fi' as Language,
-    showLoggedOut: false,
-    username: undefined,
-  },
+  initialState,
   reducers: {
     loginUser: (state, action) => {
       state.username = action.payload;

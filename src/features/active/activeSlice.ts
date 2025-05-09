@@ -11,16 +11,31 @@ import {
   UpdateServing,
 } from '../../server/domain';
 
+export type ActiveState = {
+  activeBac: string;
+  showBusy: boolean;
+  activeServings: any[];
+  totalCount: number;
+  totalUnits: number;
+  editServing?: EditServing;
+};
+
+export type EditServing = {
+  id: number;
+  field: string;
+};
+
+const initialState: ActiveState = {
+  activeBac: '',
+  showBusy: true,
+  activeServings: [],
+  totalCount: 0,
+  totalUnits: 0,
+};
+
 export const slice = createSlice({
   name: 'active',
-  initialState: {
-    activeBac: '',
-    showBusy: true,
-    activeServings: [],
-    totalCount: 0,
-    totalUnits: 0,
-    editServing: undefined,
-  },
+  initialState,
   reducers: {
     updateActiveBac: (state, action) => {
       state.activeBac = action.payload;
@@ -38,7 +53,7 @@ export const slice = createSlice({
     },
     updateActiveServing: (state, action) => {
       state.activeServings = updateServingInServingsArrays(
-        state.activeServings as any,
+        state.activeServings,
         action.payload,
       );
     },

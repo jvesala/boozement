@@ -3,12 +3,19 @@ import { doGetRequest, forwardLoginIfUnauthorized } from '../../app/network';
 import { weightInKilos } from '../../server/calculator';
 import { UserDataResponse } from '../../server/domain';
 
+export type UserdataState = {
+  weight: string;
+  gender: string;
+};
+
+const initialState: UserdataState = {
+  weight: '',
+  gender: '',
+};
+
 export const slice = createSlice({
   name: 'userdata',
-  initialState: {
-    weight: '',
-    gender: '',
-  },
+  initialState,
   reducers: {
     updateWeight: (state, action) => {
       state.weight = action.payload;

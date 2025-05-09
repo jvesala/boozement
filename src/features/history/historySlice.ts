@@ -5,19 +5,32 @@ import {
   forwardLoginIfUnauthorized,
 } from '../../app/network';
 import { Serving, ServingsResponse, UpdateServing } from '../../server/domain';
+import { EditServing } from '../active/activeSlice';
+
+export type HistoryState = {
+  search: string;
+  showBusy: boolean;
+  historyServings: any[];
+  totalCount: number;
+  totalUnits: number;
+  offset: number;
+  limit: number;
+  editServing?: EditServing;
+};
+
+const initialState: HistoryState = {
+  search: '',
+  showBusy: true,
+  historyServings: [],
+  totalCount: 0,
+  totalUnits: 0,
+  offset: 0,
+  limit: 100,
+};
 
 export const slice = createSlice({
   name: 'history',
-  initialState: {
-    search: '',
-    showBusy: true,
-    historyServings: [],
-    totalCount: 0,
-    totalUnits: 0,
-    editServing: undefined,
-    offset: 0,
-    limit: 100,
-  },
+  initialState,
   reducers: {
     updateHistorySearch: (state, action) => {
       state.historyServings = [];
@@ -112,7 +125,7 @@ export const selectHistoryLimit = (state: any) => state.history.limit;
 
 export default slice.reducer;
 
-export const updateServingInServingsArrays = (servings: [], updated: any) =>
+export const updateServingInServingsArrays = (servings: any[], updated: any) =>
   servings.map((serving) => {
     if ((serving as any).id === updated.id) {
       (serving as any).date = updated.date;
