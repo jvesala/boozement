@@ -7,7 +7,7 @@ export const validateBody =
   (type: t.Type<any>) => (req: Request, res: Response, next: NextFunction) => {
     const onLeft = (errors: t.Errors) => {
       console.log(
-        `Request payload validation failed for: ${type} with ${errors.length} errors!`
+        `Request payload validation failed for: ${type} with ${errors.length} errors!`,
       );
       console.log(req.body);
       console.log(JSON.stringify(errors));

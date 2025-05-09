@@ -95,7 +95,7 @@ describe('database.spec.ts', () => {
     it('returns undefined for non-existing user', async () => {
       const result = await getUserById(
         db,
-        'ffef775a-ffb3-454b-a4f1-c9883977415b'
+        'ffef775a-ffb3-454b-a4f1-c9883977415b',
       );
       expect(result).toEqual(null);
     });
@@ -136,28 +136,28 @@ describe('database.spec.ts', () => {
         String(servingUpdate.userId),
         String(servingUpdate.id),
         'date',
-        newDate.toISO()
+        newDate.toISO(),
       );
       await updateField(
         db,
         String(servingUpdate.userId),
         String(servingUpdate.id),
         'type',
-        'New Hipster Beer'
+        'New Hipster Beer',
       );
       await updateField(
         db,
         String(servingUpdate.userId),
         String(servingUpdate.id),
         'amount',
-        '111'
+        '111',
       );
       const result = await updateField(
         db,
         String(servingUpdate.userId),
         String(servingUpdate.id),
         'units',
-        '666'
+        '666',
       );
       expect(result).toEqual({
         id: servingUpdate.id,
@@ -186,7 +186,7 @@ describe('database.spec.ts', () => {
         db,
         'acf556cc-72ab-4a04-922b-829116ab7638',
         100,
-        0
+        0,
       );
       expect(result).toEqual({
         search: '',
@@ -223,7 +223,7 @@ describe('database.spec.ts', () => {
         db,
         'acf556cc-72ab-4a04-922b-829116ab7638',
         100,
-        0
+        0,
       );
       expect(result).toEqual({
         search: '',

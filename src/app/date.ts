@@ -15,7 +15,7 @@ export const formatDateTime = (dateTime: DateTime) => {
 
 export const formatDateTimeWithLanguage = (
   language: Language,
-  dateTime: DateTime
+  dateTime: DateTime,
 ) => {
   if (language === 'fi') {
     return dateTime.setLocale('fi').toLocaleString(DateTime.DATETIME_SHORT);

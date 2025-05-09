@@ -13,7 +13,7 @@ import { StaticRouter } from 'react-router-dom/server';
 export const tryCatchHandler = async (
   req: Request,
   res: Response,
-  fn: () => void
+  fn: () => void,
 ): Promise<void> => {
   try {
     console.log(`${req.method} ${req.url}`, req.body);
@@ -26,7 +26,7 @@ export const tryCatchHandler = async (
 
 const getLoggedInEmail = async (
   req: Request,
-  db: any
+  db: any,
 ): Promise<string | undefined> => {
   const uuid =
     req.session && req.session.passport ? req.session.passport.user : undefined;
@@ -60,12 +60,12 @@ export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
   const router = React.createElement(
     StaticRouter,
     { location: req.url },
-    application
+    application,
   );
   const provider = React.createElement(
     Provider,
     { store: updatedStore, children: undefined },
-    router
+    router,
   );
   const component = renderToString(provider);
   const preloadedState = JSON.stringify(state).replace(/</g, '\\u003c');
@@ -73,7 +73,7 @@ export const htmlHandler = (db: any) => async (req: Request, res: Response) => {
   const html = file
     .replace(
       'window.__PRELOADED_STATE__',
-      `window.__PRELOADED_STATE__ = ${preloadedState}`
+      `window.__PRELOADED_STATE__ = ${preloadedState}`,
     )
     .replace('YYY', component);
   res.send(html);

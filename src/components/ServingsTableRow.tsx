@@ -33,7 +33,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
       updateEditServingFunction({
         id,
         field,
-      })
+      }),
     );
   };
 
@@ -56,7 +56,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
     if (search !== '') {
       const regExp = new RegExp(
         '(' + search.split(' ').join(')|(') + ')',
-        'gi'
+        'gi',
       );
       const replacement = '<span class="highlight">$&</span>';
       return value.replace(regExp, replacement);
@@ -68,7 +68,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
   const setDate = () => {
     return {
       __html: highlight(
-        formatDateTimeWithLanguage(language, DateTime.fromISO(serving.date))
+        formatDateTimeWithLanguage(language, DateTime.fromISO(serving.date)),
       ),
     };
   };

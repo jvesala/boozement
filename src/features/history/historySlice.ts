@@ -41,13 +41,13 @@ export const slice = createSlice({
     appendHistoryServings: (state, action) => {
       state.historyServings = [].concat(
         ...state.historyServings,
-        ...action.payload.servings
+        ...action.payload.servings,
       );
     },
     updateHistoryServing: (state, action) => {
       state.historyServings = updateServingInServingsArrays(
         state.historyServings as any,
-        action.payload
+        action.payload,
       );
     },
   },

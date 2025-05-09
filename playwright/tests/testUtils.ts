@@ -9,7 +9,7 @@ export type LoggedInUser = {
 
 export const registerAndLogin = async (
   page: Page,
-  request: APIRequestContext
+  request: APIRequestContext,
 ): Promise<LoggedInUser> => {
   const now = Date.now();
   const random = Math.round(Math.random() * 1000000);

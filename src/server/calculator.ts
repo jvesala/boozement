@@ -20,7 +20,7 @@ const remainingAmount = (
   weight: number,
   startGrams: number,
   start: DateTime,
-  end: DateTime
+  end: DateTime,
 ) =>
   max(startGrams - burnRateInMillis(weight) * end.diff(start).milliseconds, 0);
 
@@ -37,7 +37,7 @@ export type GramsAt = {
 const calculateBacHistory = (
   user: User,
   now: DateTime,
-  servings: Serving[]
+  servings: Serving[],
 ) => {
   const endServing: Serving = {
     id: undefined,
@@ -60,13 +60,13 @@ const calculateBacHistory = (
             user.weight,
             lastEntry.grams,
             lastEntry.at,
-            next.date
+            next.date,
           ) + alcoholInGramsInServing(next),
         at: next.date,
       };
       return [...bacHistory, nextEntry];
     },
-    [startEntry]
+    [startEntry],
   );
   return gramHistory.map((entry) => {
     return gramsToBac(user, entry.grams);

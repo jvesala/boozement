@@ -39,7 +39,7 @@ export const slice = createSlice({
     updateActiveServing: (state, action) => {
       state.activeServings = updateServingInServingsArrays(
         state.activeServings as any,
-        action.payload
+        action.payload,
       );
     },
   },

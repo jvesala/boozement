@@ -204,7 +204,7 @@ export const InsertForm = () => {
           <div className="result">
             {i18n[language].insertForm.result(
               (result as any).type,
-              formatDateTime(createFromUtcString((result as any).date))
+              formatDateTime(createFromUtcString((result as any).date)),
             )}
           </div>
         ) : (

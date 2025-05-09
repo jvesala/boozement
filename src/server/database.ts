@@ -50,7 +50,7 @@ export const insertUser = async (db: any, user: User) => {
   return db
     .any(
       'INSERT INTO users (email, password, gender, weight) VALUES (${email}, ${password}, ${gender}, ${weight}) RETURNING id',
-      user
+      user,
     )
     .then((data: any[]) => data[0])
     .catch(handleDbError('insertUser'));
@@ -60,7 +60,7 @@ export const updateUser = async (db: any, user: User) => {
   return db
     .any(
       'UPDATE users SET email = ${email}, password = ${password}, gender = ${gender}, weight = ${weight} WHERE id = ${id}',
-      user
+      user,
     )
     .then((data: any[]) => data[0])
     .catch(handleDbError('insertUser'));
@@ -68,24 +68,24 @@ export const updateUser = async (db: any, user: User) => {
 
 export const getUserById = async (
   db: any,
-  id: string
+  id: string,
 ): Promise<User | null> => {
   return db
     .oneOrNone(
       'SELECT id, email, password, gender, weight FROM users WHERE id = $1',
-      [id]
+      [id],
     )
     .catch(handleDbError('getUserById'));
 };
 
 export const getUserByEmail = async (
   db: any,
-  email: string
+  email: string,
 ): Promise<User | null> => {
   return db
     .oneOrNone(
       'SELECT id, email, password, gender, weight FROM users WHERE email = $1',
-      [email]
+      [email],
     )
     .catch(handleDbError('getUserByEmail'));
 };
@@ -106,7 +106,7 @@ INSERT INTO servings (user_id, date, type, amount, units, tokens)
   SELECT \${userId}, \${date}, \${type}, \${amount}, \${units}, tokens
   FROM created_token
 RETURNING id, user_id, date, type, amount, units`,
-      serving
+      serving,
     )
     .then(mapRowsToServices)
     .then((data: any[]) => data[0])
@@ -118,13 +118,13 @@ export const updateField = async (
   userId: string,
   id: string,
   field: string,
-  value: string
+  value: string,
 ): Promise<Serving> => {
   return db
     .tx(async (t: any) => {
       await t.none(
         'UPDATE servings SET ${field~} = ${value} WHERE id = ${id} AND user_id = ${userId}',
-        { userId, id, field, value }
+        { userId, id, field, value },
       );
       const result = await t.one(
         `
@@ -136,7 +136,7 @@ UPDATE servings
 WHERE id = \${id} AND user_id = \${userId}
 RETURNING id, user_id, date, type, amount, units
         `,
-        { userId, id }
+        { userId, id },
       );
       return [{ ...result }];
     })
@@ -149,12 +149,12 @@ export const getServings = async (
   db: any,
   userId: string,
   limit: number,
-  offset: number
+  offset: number,
 ): Promise<ServingsResponse> => {
   return db
     .any(
       'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
-      { userId, limit, offset }
+      { userId, limit, offset },
     )
     .then(mapRowsToServicesResponse(''))
     .catch(handleDbError('getServings'));
@@ -163,12 +163,12 @@ export const getServings = async (
 export const getRecentServings = async (
   db: any,
   userId: string,
-  hours: number
+  hours: number,
 ): Promise<ServingsResponse> => {
   return db
     .any(
       "SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} and date >= NOW() - INTERVAL '${hours} HOURS' ORDER BY date DESC",
-      { userId, hours }
+      { userId, hours },
     )
     .then(mapRowsToServicesResponse(''))
     .catch(handleDbError('getRecentServings'));
@@ -179,14 +179,14 @@ export const searchServings = async (
   userId: string,
   search: string,
   limit: number,
-  offset: number
+  offset: number,
 ): Promise<ServingsResponse> => {
   const searchFormatted =
     search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
   return db
     .any(
       'SELECT id, user_id, date, type, amount, units, COUNT(id) OVER() AS totalCount, SUM(units) OVER() AS totalUnits FROM servings WHERE user_id = ${userId} AND tokens @@ to_tsquery(${searchFormatted}) ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}',
-      { userId, searchFormatted, limit, offset }
+      { userId, searchFormatted, limit, offset },
     )
     .then(mapRowsToServicesResponse(search))
     .catch(handleDbError('getServings'));
@@ -195,7 +195,7 @@ export const searchServings = async (
 export const searchSuggestion = async (
   db: any,
   limit: number,
-  search: string
+  search: string,
 ): Promise<String[]> => {
   const searchFormatted =
     search.trim().toLowerCase().replace(' ', ':* & ') + ':*';
@@ -209,7 +209,7 @@ grouped AS (
   SELECT type, count(number) FROM hits GROUP BY type ORDER BY count DESC
 )
 SELECT type FROM grouped LIMIT \${limit}`,
-      { searchFormatted, limit }
+      { searchFormatted, limit },
     )
     .catch(handleDbError('getServings'));
 };

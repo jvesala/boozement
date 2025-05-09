@@ -27,17 +27,17 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
               } else {
                 done(err, undefined);
               }
-            }
+            },
           );
         });
-      }
-    )
+      },
+    ),
   );
 
   passport.serializeUser<string>(
     (user: Express.User, done: (err: any, id?: string) => void) => {
       done(undefined, (user as any).id);
-    }
+    },
   );
 
   passport.deserializeUser<string>((id, done) => {
@@ -50,7 +50,7 @@ export const initPassport = (db: pgPromise.IDatabase<{}, pg.IClient>) => {
 export const isAuthenticated = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (req.isAuthenticated()) return next();
   else res.sendStatus(401);

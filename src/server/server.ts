@@ -57,7 +57,7 @@ app.use(
     cookie: {
       domain: cookieDomain,
     },
-  })
+  }),
 );
 
 const { db } = initConnection(databaseUrl);
@@ -80,7 +80,7 @@ app.post(
       (user as any).password = '*****';
       res.json(user);
     });
-  }
+  },
 );
 
 app.post('/api/logout', async (req: Request, res: Response) => {
@@ -108,7 +108,7 @@ app.post(
       await insertUser(db, newUser);
       res.json({});
     });
-  }
+  },
 );
 
 app.get(
@@ -124,7 +124,7 @@ app.get(
           user!.id!,
           search as string,
           parseInt(limit as string),
-          parseInt(offset as string)
+          parseInt(offset as string),
         );
         res.send(servings);
       } else {
@@ -132,12 +132,12 @@ app.get(
           db,
           user!.id!,
           parseInt(limit as string),
-          parseInt(offset as string)
+          parseInt(offset as string),
         );
         res.send(servings);
       }
     });
-  }
+  },
 );
 
 app.get(
@@ -149,14 +149,14 @@ app.get(
       const servings = await getRecentServings(
         db,
         user!.id!,
-        parseInt(req.query.hours as string)
+        parseInt(req.query.hours as string),
       );
       const reversed = [...servings.servings].reverse();
       const bac = bacNow(user!, reversed);
       const response: RecentServingsResponse = { servings, bac };
       res.send(response);
     });
-  }
+  },
 );
 
 app.get(
@@ -170,12 +170,12 @@ app.get(
         const suggestions: SuggestionsResponse = await searchSuggestion(
           db,
           parseInt(req.query.limit as string),
-          req.query.search as string
+          req.query.search as string,
         );
         res.send(suggestions);
       }
     });
-  }
+  },
 );
 
 app.post(
@@ -190,7 +190,7 @@ app.post(
       const result: Serving = await insertServing(db, body);
       res.json(result);
     });
-  }
+  },
 );
 
 app.put(
@@ -206,11 +206,11 @@ app.put(
         String(user!.id!),
         body.id,
         body.field,
-        body.value
+        body.value,
       );
       res.json(result);
     });
-  }
+  },
 );
 
 app.get(
@@ -225,7 +225,7 @@ app.get(
       };
       res.send({ ...response });
     });
-  }
+  },
 );
 
 app.get('/api/whoami', isAuthenticated, async (req: Request, res: Response) => {
@@ -250,7 +250,7 @@ app.put(
       await updateUser(db, user!);
       res.json({});
     });
-  }
+  },
 );
 
 app.post(
@@ -269,7 +269,7 @@ app.post(
         res.sendStatus(401);
       }
     });
-  }
+  },
 );
 
 app.use(express.static('./build/'));

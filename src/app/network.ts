@@ -14,18 +14,18 @@ const getBody = (r: any) => r.body;
 
 const handle = <T>(
   errorHandler: (err: Error) => void,
-  successHandler: (s: T) => void
+  successHandler: (s: T) => void,
 ) =>
   E.fold(
     (err: Error) => errorHandler(err),
-    (success: T) => successHandler(success)
+    (success: T) => successHandler(success),
   );
 
 export const doPostRequest = async <T>(
   url: string,
   payload: any,
   successHandler: (s: T) => void,
-  errorHandler: (err: Error) => void
+  errorHandler: (err: Error) => void,
 ) =>
   TE.tryCatch<Error, T>(
     () =>
@@ -35,14 +35,14 @@ export const doPostRequest = async <T>(
         .send(payload)
         .timeout(30000)
         .then(getBody),
-    (reason: any) => toError(reason)
+    (reason: any) => toError(reason),
   )().then((e) => pipe(e, handle(errorHandler, successHandler)));
 
 export const doPutRequest = async <T>(
   url: string,
   payload: any,
   successHandler: (s: T) => void,
-  errorHandler: (err: Error) => void
+  errorHandler: (err: Error) => void,
 ) =>
   TE.tryCatch<Error, T>(
     () =>
@@ -52,14 +52,14 @@ export const doPutRequest = async <T>(
         .send(payload)
         .timeout(30000)
         .then(getBody),
-    (reason: any) => toError(reason)
+    (reason: any) => toError(reason),
   )().then((e) => pipe(e, handle(errorHandler, successHandler)));
 
 export const doGetRequest = async <T>(
   url: string,
   query: any,
   successHandler: (s: T) => void,
-  errorHandler: (err: Error) => void
+  errorHandler: (err: Error) => void,
 ) =>
   TE.tryCatch<Error, T>(
     () =>
@@ -69,7 +69,7 @@ export const doGetRequest = async <T>(
         .query(query)
         .timeout(30000)
         .then(getBody),
-    (reason: any) => toError(reason)
+    (reason: any) => toError(reason),
   )().then((e) => pipe(e, handle(errorHandler, successHandler)));
 
 export const forwardLoginIfUnauthorized = (dispatch: any, err: Error) => {
