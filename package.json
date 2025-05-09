@@ -17,7 +17,7 @@
     "flyio": "node build/server/main.js"
   },
   "engines": {
-    "node": ">=18.12.1"
+    "node": ">=22.15.17"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,7 +44,7 @@
     "io-ts": "^2.2.7",
     "js-cookie": "^3.0.0",
     "luxon": "^3.1.1",
-    "passport": "^0.6.0",
+    "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg-promise": "^10.5.8",
     "react": "^18.2.0",
@@ -76,7 +76,6 @@
     "concurrently": "^7.6.0",
     "css-loader": "^6.7.3",
     "file-loader": "^6.0.0",
-    "husky": "^8.0.2",
     "nodemon": "^2.0.4",
     "prettier": "^3.5.3",
     "ts-loader": "^9.4.2",
