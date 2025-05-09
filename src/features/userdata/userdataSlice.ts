@@ -44,4 +44,4 @@ export const userDataAsync = () => async (dispatch: any) => {
 export const selectWeight = (state: any) => state.userdata.weight;
 export const selectGender = (state: any) => state.userdata.gender;
 
-export default slice.reducer;
+export default slice;

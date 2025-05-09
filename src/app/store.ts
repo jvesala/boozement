@@ -1,16 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
-import loginReducer from '../features/login/loginSlice';
-import activeReducer from '../features/active/activeSlice';
-import historyReducer from '../features/history/historySlice';
+import loginSlice from '../features/login/loginSlice';
+import activeSlice from '../features/active/activeSlice';
+import historySlice from '../features/history/historySlice';
 import userdataSlice from '../features/userdata/userdataSlice';
+
+import { combineSlices } from '@reduxjs/toolkit';
+
+const rootReducer = combineSlices(
+  loginSlice,
+  activeSlice,
+  historySlice,
+  userdataSlice,
+);
+export type RootState = ReturnType<typeof rootReducer>;
 
 export const configureStoreWithState = (preloadedState: any) =>
   configureStore({
-    reducer: {
-      login: loginReducer,
-      active: activeReducer,
-      history: historyReducer,
-      userdata: userdataSlice,
-    },
+    reducer: rootReducer,
     preloadedState,
   });

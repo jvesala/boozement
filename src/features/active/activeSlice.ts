@@ -106,4 +106,4 @@ export const selectActiveTotalCount = (state: any) => state.active.totalCount;
 export const selectActiveTotalUnits = (state: any) => state.active.totalUnits;
 export const selectActiveEditServing = (state: any) => state.active.editServing;
 
-export default slice.reducer;
+export default slice;

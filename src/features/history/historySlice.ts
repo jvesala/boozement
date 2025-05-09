@@ -123,7 +123,7 @@ export const selectHistoryEditServing = (state: any) =>
 export const selectHistoryOffset = (state: any) => state.history.offset;
 export const selectHistoryLimit = (state: any) => state.history.limit;
 
-export default slice.reducer;
+export default slice;
 
 export const updateServingInServingsArrays = (servings: any[], updated: any) =>
   servings.map((serving) => {

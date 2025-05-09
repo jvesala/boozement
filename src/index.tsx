@@ -1,4 +1,5 @@
-import ReactDOM from 'react-dom';
+import { hydrateRoot } from 'react-dom/client';
+
 import './index.css';
 import { App } from './App';
 import { Provider } from 'react-redux';
@@ -16,11 +17,12 @@ store.subscribe(() => {
   console.log('STATE', store.getState());
 });
 
-ReactDOM.hydrate(
+const domNode = document.getElementById('root')!;
+hydrateRoot(
+  domNode,
   <Provider store={store}>
     <Router>
       <App />
     </Router>
   </Provider>,
-  document.getElementById('root'),
 );
