@@ -40,7 +40,7 @@ export const DateTimeFromString: DateTimeFromStringC = new t.Type<
       const d = DateTime.fromISO(n);
       return d == null ? t.failure(u, c) : t.success(d);
     }),
-  (a) => a.toUTC().toISO()
+  (a) => a.toUTC().toISO() || ""
 );
 
 const IdType = t.union([t.string, t.undefined]);

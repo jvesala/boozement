@@ -86,7 +86,7 @@ export const ServingsTableRow: React.FC<ServingsTableRowProps> = ({
           <input
             type="text"
             name="date"
-            defaultValue={DateTime.fromISO(serving.date).toISO()}
+            defaultValue={DateTime.fromISO(serving.date).toISO() || undefined}
             onKeyUpCapture={onKeyup}
           />
         ) : (
