@@ -22,7 +22,6 @@
     ],
     "types": [
       "node",
-      "jest"
     ],
     "allowJs": false,
     "skipLibCheck": true,
