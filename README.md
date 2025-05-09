@@ -18,11 +18,7 @@ Playwright for integration testing.
 
 To run local PostgreSQL inside Docker, run the following
 
-    docker run -d \
-        --name postgres \
-        -e POSTGRES_HOST_AUTH_METHOD=trust \
-        -p 5432:5432 \
-        postgres
+    docker compose up -d
 
 Run db-init script from db directory thereafter.
 
